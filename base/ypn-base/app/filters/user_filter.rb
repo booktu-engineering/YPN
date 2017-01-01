@@ -22,21 +22,24 @@ module UserFilter
     end
   end
 
+
   class AdminOnly
     def self.before controller
-      if controller.request.headers['Authorization'].present?
-        begin
-        token = controller.request.headers["HTTP_AUTHORIZATION"]
-        user = Auth.decode token
-        if user && user.id.present? && user.role.present? && user.role > 4
-          controller.params[:user] = user
-        end
-        return controller.unauthorized_user
-        rescue StandardError => e
-          return controller.deformed_process e
-        end
+      if controller.current_user && controller.current_user['role'] > 3
+        return
       end
-      return controller.bad_request
+      e = StandardError.new('Only admin members are allowed to do this')
+      return controller.request_forbidden e
+    end
+  end
+
+  class PartyMemberOnly
+    def self.before controller
+      if controller.current_user && controller.current_user['role'] > 0
+      return
+      end
+    e = StandardError.new('You need to be a party member to do this')
+    return controller.request_forbidden e
     end
   end
 

@@ -12,7 +12,7 @@ describe 'Career service object' do
     it 'Apply method should successfully apply a user for a post' do
       career = Career.first
       user = User.last
-      body = { :user_id => user.id, :career_id =>  career.id, :key => career.key }
+      body = { :user_id => user.id, :id =>  career.id, :key => career.key }
       meta = career_service.apply body
       expect(meta.extra_info).not_to be_nil
     end

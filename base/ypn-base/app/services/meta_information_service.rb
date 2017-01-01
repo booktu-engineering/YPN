@@ -12,7 +12,7 @@ class MetaInformationService < BaseService
 
 
   def sponsor_party_member body
-    meta = self.model.new({ :user_id => body[:id], :key => 2 })
+    meta = self.model.new({ :user_id => body[:id], :key => 2, :extra_info => body[:extra] })
     if meta.valid?
       meta.save!
       return meta
@@ -22,8 +22,8 @@ class MetaInformationService < BaseService
 
 
 
-  def volunteer_for_ypn
-    meta = self.model.new({ :user_id => body[:id], :key => 3 })
+  def volunteer_for_ypn body
+    meta = self.model.new({ :user_id => body[:id], :key => 3, :extra_info => body[:extra] })
     if meta.valid?
       meta.save!
       return meta
@@ -33,13 +33,25 @@ class MetaInformationService < BaseService
 
 
 
-  def confirm_meta value
+  def fetch key
+    users = User.all
+    users = users.select do |user|
+            user.roles ||= []
+            user.roles.include? (key.to_s)
+            end
+    return users
+  end
+
+
+
+  def approve value
     meta = self.model.find_by(id: value.to_i)
     if meta
       meta.update({ status: true })
-      puts meta.inspect
-       user = User.find_by(id: meta.user_id)
+      user = User.find_by(id: meta.user_id)
       if user
+        user.roles ||= []
+        user.meta ||= {}
         user.roles << meta.key
         user.meta["#{meta.key}"] = meta.extra_info
         user.save!
@@ -47,7 +59,7 @@ class MetaInformationService < BaseService
       end
        raise StandardError.new('Sorry we could not find the user in subject')
     end
-    raise StandardError.new('Sorry we couldnt process this request')
+    raise StandardError.new('Sorry we couldnt find the specified application and hence couldnt go any further')
   end
 
   def apply_for_career body

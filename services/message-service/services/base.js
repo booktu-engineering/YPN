@@ -1,7 +1,11 @@
+import io from 'socket.io-client';
+import axios from 'axios';
+
 let data;
+let instance;
 
+/* eslint no-return-await: 0, prefer-const: 0, no-underscore-dangle: 0, no-console: 0 */
 
-/* eslint no-return-await: 0, prefer-const: 0, no-underscore-dangle: 0 */
 class BaseService {
   constructor(model) {
     this.model = model;
@@ -14,6 +18,7 @@ class BaseService {
     data = await this.model.create(body);
     return data;
   }
+
 
   fetchOne = async (key, value) => {
     this.__checkArguments(key, value);
@@ -33,6 +38,7 @@ class BaseService {
     return true;
   }
 
+
   updateOne = async (key, value, changes) => {
     this.__checkArguments(key, value);
     let ref = {};
@@ -40,6 +46,7 @@ class BaseService {
     data = await this.model.findAndUpdate(ref, changes);
     return data;
   }
+
 
   participate = async (key, value, userId) => {
     this.__checkArguments(key, value);
@@ -50,6 +57,7 @@ class BaseService {
     await data.save;
     return data;
   }
+
 
   leave = async (key, value, userId) => {
     this.__checkArguments(key, value);
@@ -62,10 +70,36 @@ class BaseService {
   }
 
 
+
+  __dispatchToNotificationServer = (body, username) => {
+    const socket = io('http://localhost:5000/base');
+    socket.to(`room-${username}`).emit('new notification', body);
+  }
+
+
+  __updateUser = async (body, access) => {
+    instance = axios.create({ baseURL: 'http://localhost:3000/', headers: { Authorization: access } });
+    instance.put('/user', body)
+      .then((response) => {
+        console.log(`Successfully updated ${response.data.data.user.username}`);
+      })
+      .catch(err => console.log(err));
+  };
+
+
+  __fetchUser = async (username, access) => {
+    try {
+      instance = axios.create({ baseURL: 'http://localhost:3000/', headers: { Authorization: access } });
+      const response = await instance.get(`/fetch/${username}`);
+      return response.data.user;
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+
   __checkArguments = (key, value) => {
     if (!key || !value || (typeof key) !== 'string') {
-      console.log(key)
-      console.log(value);
       this.__unprocessableEntity('Something might be wrong with the values you passed in');
     }
   }

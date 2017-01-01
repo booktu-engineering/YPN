@@ -3,7 +3,10 @@ require 'json'
 
 class ApplicationController < ActionController::API
   before_action  UserFilter::LoggedInOnly
-  attr_accessor :current_user
+  attr_accessor :current_user, :service
+
+
+  # errors and all of that
   def unproccessable_entity e
     e.message ||= 'Something went wrong trying to process this request'
     render json: { errors: e.message }, status: 422
@@ -18,11 +21,14 @@ class ApplicationController < ActionController::API
     render json: { errors: e.message }, status: 403
   end
 
+  def conflict e
+    render json: { errors: e.full_messages }, status: 409
+  end
+
   def deformed_process e
     e.message ||= 'Sorry, something went wrong trying to grant you access'
     render json: { errors: e.message }, status: 400
   end
-
 
 
   def mail_content destination, body

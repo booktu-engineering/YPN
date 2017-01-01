@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180517232449) do
+ActiveRecord::Schema.define(version: 20180522120559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20180517232449) do
     t.integer "key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "origin"
+    t.text "role"
   end
 
   create_table "meta_information_tables", force: :cascade do |t|
@@ -83,6 +85,10 @@ ActiveRecord::Schema.define(version: 20180517232449) do
     t.string "password"
     t.string "password_digest"
     t.integer "role"
+    t.string "membership_number"
+    t.string "nt_token"
+    t.integer "reset_password_count"
+    t.boolean "confirmed_email", default: false
   end
 
   add_foreign_key "posts", "users"

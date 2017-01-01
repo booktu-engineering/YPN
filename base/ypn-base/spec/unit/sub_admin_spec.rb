@@ -18,14 +18,14 @@ describe 'Sub Admin management unit tests' do
    it 'Add or remove remove member should add a member to a subadmin group' do
      sub_admin_group = SubAdminGroup.last
      body = { :id => sub_admin_group.id, :type => 'add', :user_id => 71}
-     data = sub_admin_service.change_member body
+     data = sub_admin_service.change body
      expect(data.members).to include('71')
    end
 
    it 'Add or remove members should delete a user from the group' do
      sub_admin_group = SubAdminGroup.last
      body = { :id => sub_admin_group.id, :type => 'remove', :user_id => 71}
-     data = sub_admin_service.change_member body
+     data = sub_admin_service.change body
      expect(data.members).not_to include('71')
    end
 
