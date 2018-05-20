@@ -1,45 +1,42 @@
 
 class UserController < ApplicationController
 
+  meta_information_service = MetaInformationService.new(MetaInformation)
+  user_service_object = UserService.new(User)
+
+
   def signup
-    @user = User.new(user_params)
-    if @user.valid?
-    @user.save
-    #generate jsonwebtoken
-    token = Auth.issue({ :user_id => @user[:id] })
-    render json: {user: @user, token: token}, status: 201
-    # send mail confirmation link by calling the mail service which is a separate api running independently;
-    puts "sending mail to #{@user.email}"
-    message = '<h3> Hello there this is an absolutely great time to sign up on booktu,
-                Here is a link to get things started <h3> '
-    body = {:subject =>  "Welcome to booktu", :message => message }
-    mail_content(@user[:email], body)
-    return
+    begin
+    data = user_service_object.signup(user_params)
+    render json: {data: data}, status: 201
+    rescue StandardError => e
+      unprocessable_entity e
     end
-    unproccessable_entity
   end
+
 
 
   def login
-    @user = User.find_by(email: login_params[:email]);
-    if(@user && @user.authenticate(login_params[:password]))
-    token = Auth.issue({ :user_id => @user[:id] })
-    render json: { user: @user, token: token }, status: 201
-    return
+    begin
+      data = user_service_object.login(login_params)
+      render json: {:data => data}, status: 200
+    rescue StandardError => e
+      unprocessable_entity e
     end
-    unproccessable_entity
   end
+
 
 
   def all
-    @users = User.all;
-    render json: {users: @users}, status: 200
+    data = user_service_object.fetch_all
+    render json: { data: data }, status: 200
   end
 
 
+
   def show
-    @user = User.find_by(id: params[:id])
-    if @user
+    @user = user_service_object.fetch_one('id', params[:id].to_i)
+    if @user.present?
     render json: {user: @user}, status: 200
     return
     end
@@ -47,9 +44,42 @@ class UserController < ApplicationController
   end
 
 
+
+  def follow
+    begin
+    relationship = user_service_object.follow(params)
+    render json: {data: relationship, status: "ok"}, status: 201
+    rescue StandardError => e
+      unprocessable_entity e
+    end
+  end
+
+
+
+  def fetch_users
+  data = user_service_object.fetch_users[params[:body]]
+  render json: { :data => data, :status => "ok" }, status: 200
+  end
+
+
+
+  def change_role
+    begin
+      data = user_service_object.change_role(params)
+      render json: { :data => data, :status => 'ok'}, status: 200
+    rescue StandardError => e
+      puts e.message
+      resource_not_found
+    end
+  end
+
+
   def logout
     render json: {:currentuser => nil }, status: 201
   end
+
+
+
 
 
   def update
@@ -74,16 +104,8 @@ class UserController < ApplicationController
   end
 
 
-  def follow
-    @user = User.where(id: params[:follower_id].to_i);
-    @followed_user = User.where(id: params[:followed_id].to_i);
-    if @user && @followed_user
-      Relationship.create!({ follower_id: params[:follower_id].to_i, followed_id: params[:followed_id].to_i });
-      render json: { user: @user, status: "ok"}, status: 201
-      return
-    end
-    resource_not_found
-  end
+  # This should be tokenized
+
 
 
   def timeline
@@ -104,6 +126,69 @@ class UserController < ApplicationController
   end
 
 
+
+
+  #we'd use keys to identify which kind of 10, 11, 12, 13
+  def apply_for_career
+    @meta = META_INFORMATION_SERVICE.create({ :user_id => params[:user_id], :key => 10 })
+  end
+
+#confirm_status only super admins should be able access this route,
+#only admin users should be able to access this route
+  def confirm_meta
+    @meta = MetaInformation.find_by({ id: params[:id] })
+    if @meta
+      @meta.update({ status: true })
+      @user = User.find_by({ id: @meta.user_id })
+      @user.meta[:keys] = @meta.key
+      @user.save!
+      render json: { :user => @user, status: 'ok'}, status: 200
+    end
+    unproccessable_entity
+  end
+
+
+  def create_sub_admin_group
+    @group = SubAdminGroup.new(sub_admin_params)
+    if @group.valid?
+      @group.save
+      render json: { :group => @user, status: 'ok'}, status: 200
+    end
+  end
+
+
+  def fetch_all_sub_admin_groups
+    @groups = SubAdminGroup.all
+    @groups.collect do |group|
+      group.members.collect do |member|
+        User.find_by(member.to_i)
+      end
+    end
+  end
+
+
+  def add_or_remove_member
+    @group = SubAdminGroup.find_by(id: params[:group_id].to_i)
+    @user = User.find_by(id: params[:user_id].to_i)
+    if @group && @user
+      url_query_object = Rack::Utils.parse_nested_query  request.query_string
+      type = url_query_object[:type]
+      if type === 'add'
+        if !@group.include?(@user.id)
+        @group.members << @user.id
+        end
+      elsif type == 'remove'
+        if @group.members.include?(@user.id)
+          @group.members.delete(@user.id)
+        end
+      end
+      @group.save
+      render json: { :group => @group }, status: 200
+    end
+    resource_not_found
+  end
+
+
   private
 
   def user_params
@@ -114,4 +199,18 @@ class UserController < ApplicationController
     params.require(:user).permit(:email, :password)
   end
 
+  def sub_admin_params
+    params.require(:group).permit(:name, :members)
+  end
+
 end
+
+# send mail confirmation link by calling the mail service which is a separate api running independently;
+# puts "sending mail to #{@user.email}"
+# message = '<h3> Hello there this is an absolutely great time to sign up on booktu,
+#             Here is a link to get things started <h3> '
+# body = {:subject =>  "Welcome to booktu", :message => message }
+# mail_content(@user[:email], body)
+# return
+#
+# unproccessable_entity

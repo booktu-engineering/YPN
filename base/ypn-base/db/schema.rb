@@ -10,10 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180512223702) do
+ActiveRecord::Schema.define(version: 20180517232449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "careers", force: :cascade do |t|
+    t.string "name"
+    t.integer "key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "meta_information_tables", force: :cascade do |t|
+    t.integer "user_id"
+    t.boolean "status"
+    t.integer "key"
+  end
+
+  create_table "meta_informations", force: :cascade do |t|
+    t.integer "user_id"
+    t.boolean "status"
+    t.integer "key"
+    t.jsonb "extra_info"
+  end
 
   create_table "posts", force: :cascade do |t|
     t.string "media"
@@ -34,18 +54,35 @@ ActiveRecord::Schema.define(version: 20180512223702) do
     t.integer "friend_id"
   end
 
+  create_table "rights", force: :cascade do |t|
+    t.string "name"
+    t.integer "key"
+  end
+
+  create_table "sub_admin_group_tables", force: :cascade do |t|
+    t.text "members", array: true
+    t.string "name"
+  end
+
+  create_table "sub_admin_groups", force: :cascade do |t|
+    t.string "name"
+    t.text "rights", array: true
+    t.text "members", array: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "firstname"
     t.string "lastname"
     t.string "dob"
     t.string "roles", array: true
-    t.string "meta"
+    t.jsonb "meta"
     t.integer "phone"
     t.string "lga"
     t.string "username"
     t.string "email"
     t.string "password"
     t.string "password_digest"
+    t.integer "role"
   end
 
   add_foreign_key "posts", "users"

@@ -1,6 +1,7 @@
 class User < ApplicationRecord
-  attr_reader :posts
-  validates_presence_of :username, :email, :password
+  # attr_reader :posts, :role
+  # after_initialize :assign_role
+  validates_presence_of :username, :email, :password, on: :create
   has_secure_password
 
   def timeline
@@ -26,6 +27,12 @@ class User < ApplicationRecord
     data.each do |relationship|
       arr.push(User.find_by(id: relationship.followed_id))
     end
+  end
+
+#make sure the defaut value of role is user, so that everyone begins the application being a user
+  private
+  def assign_role
+    self.role ||= 0
   end
 
 end
