@@ -6,6 +6,7 @@ let data;
 let ref = {};
 /* eslint no-underscore-dangle: 0, no-return-await: 0, prefer-const: 0 */
 class ConversationService extends BaseService {
+
   fetchOne = async (key, value) => {
     this.__checkArguments(key, value);
     ref[`${key}`] = value;
@@ -25,7 +26,6 @@ class ConversationService extends BaseService {
     data = data.filter(item => body.includes(item.origin.id));
     return data;
   }
-
 
 }
 

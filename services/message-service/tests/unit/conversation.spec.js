@@ -44,7 +44,6 @@ describe('Conversation service object', () => {
       const body = [14, 15];
       data = await ConversationService.getTimeline(body);
       expect(data).to.be.an('array');
-      expect(data[1].content).to.equal('This is the crazy ghost 122');
       expect(data[0].content).to.equal('This is the crazy ghost');
     });
 

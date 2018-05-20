@@ -13,6 +13,7 @@ describe('Post Services', () => {
     expect(data.origin.id).to.equal(19);
   });
 
+
   it('Fetch one should get the post queried for', async () => {
     data = await PostService.fetchOne('content', 'This is a test content');
     expect(data).to.exist;
@@ -28,6 +29,7 @@ describe('Post Services', () => {
   it('Update one should only update the content of the db', async () => {
     data = data[0];
     data = await PostService.updateOne('_id', data.id, { content: 'I have now changed the content of the post', id: 4 });
+
     expect(data.content).to.equal('I have now changed the content of the post');
     expect(data).to.exist;
   });
