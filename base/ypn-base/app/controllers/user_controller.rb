@@ -1,16 +1,19 @@
 
 class UserController < ApplicationController
+  skip_before_action UserFilter::LoggedInOnly, only: [:signup, :login]
+  before_action :check_for_null_input, only: [:signup, :login, :update]
+
 
   meta_information_service = MetaInformationService.new(MetaInformation)
-  user_service_object = UserService.new(User)
-
+  USER_SERVICE_OBJECT = UserService.new(User)
 
   def signup
     begin
-    data = user_service_object.signup(user_params)
+    data = USER_SERVICE_OBJECT.signup(user_params)
     render json: {data: data}, status: 201
     rescue StandardError => e
-      unprocessable_entity e
+      puts e
+      unproccessable_entity e
     end
   end
 
@@ -18,58 +21,34 @@ class UserController < ApplicationController
 
   def login
     begin
-      data = user_service_object.login(login_params)
+      data = USER_SERVICE_OBJECT.login(login_params)
       render json: {:data => data}, status: 200
     rescue StandardError => e
-      unprocessable_entity e
+      request_forbidden e
     end
   end
 
 
-
-  def all
-    data = user_service_object.fetch_all
-    render json: { data: data }, status: 200
-  end
+####  Protected routes #######
 
 
-
+#logged in routes
   def show
-    @user = user_service_object.fetch_one('id', params[:id].to_i)
-    if @user.present?
-    render json: {user: @user}, status: 200
+    @user = USER_SERVICE_OBJECT.fetch_one('id', params[:id].to_i)
+    if @user
+    render json: {data: @user}, status: 200
     return
     end
     resource_not_found
   end
 
 
-
   def follow
     begin
-    relationship = user_service_object.follow(params)
+    relationship = USER_SERVICE_OBJECT.follow(params)
     render json: {data: relationship, status: "ok"}, status: 201
     rescue StandardError => e
       unprocessable_entity e
-    end
-  end
-
-
-
-  def fetch_users
-  data = user_service_object.fetch_users[params[:body]]
-  render json: { :data => data, :status => "ok" }, status: 200
-  end
-
-
-
-  def change_role
-    begin
-      data = user_service_object.change_role(params)
-      render json: { :data => data, :status => 'ok'}, status: 200
-    rescue StandardError => e
-      puts e.message
-      resource_not_found
     end
   end
 
@@ -80,33 +59,28 @@ class UserController < ApplicationController
 
 
 
-
-
   def update
-    @user = User.find_by(username: params[:username])
-    if @user
-    @user.update(params[:user])
-    render json: {user: @user}, status: 201
-    return
+    begin
+    user = USER_SERVICE_OBJECT.update_one('id', current_user['id'].to_i, user_params)
+    render json: {:data => user}, status: 201
+    rescue StandardError => e
+    unproccessable_entity e
     end
-    resource_not_found
   end
 
 
   def destroy
-    @user = User.find_by(username: params[:username]);
-    if @user
-      @user.destroy
-      render json: {ok: true}, status: 204
-      return
+    begin
+      status = USER_SERVICE_OBJECT.delete_one?('id', current_user['id'].to_i)
+      if status
+        render json: {ok: true}, status: 204
+        return
+      end
+      raise StandardError.new('That didnt go through successfully')
+    rescue StandardError => e
+      deformed_process e
     end
-    resource_not_found
   end
-
-
-  # This should be tokenized
-
-
 
   def timeline
     begin
@@ -124,6 +98,44 @@ class UserController < ApplicationController
     render json: {:error => e.message}, status: 404
     end
   end
+
+#external api
+  def fetch_users
+  data = user_service_object.fetch_users[params[:body]]
+  render json: { :data => data, :status => "ok" }, status: 200
+  end
+
+
+#admin only routes
+  def change_role
+    begin
+      data = user_service_object.change_role(params)
+      render json: { :data => data, :status => 'ok'}, status: 200
+    rescue StandardError => e
+      puts e.message
+      resource_not_found
+    end
+  end
+
+  def all
+    data = user_service_object.fetch_all
+    render json: { data: data }, status: 200
+  end
+
+
+
+
+
+
+
+#logged in and admin
+
+
+  # This should be tokenized
+
+
+
+
 
 
 
@@ -201,6 +213,25 @@ class UserController < ApplicationController
 
   def sub_admin_params
     params.require(:group).permit(:name, :members)
+  end
+
+  def check_for_null_input
+    if params['user']
+      data = params['user']
+      culprit = ''
+      valid = true
+      data.each do |key, value|
+        if value.length < 1
+          valid = false
+          culprit = key
+        end
+      end
+      if !valid
+        e = StandardError.new("#{culprit} is empty or invalid, please check")
+      return  unproccessable_entity e
+      end
+    end
+    return
   end
 
 end

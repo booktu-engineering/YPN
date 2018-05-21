@@ -30,11 +30,11 @@ RSpec.describe 'User service object', type: :unit do
   describe 'Follow methods' do
     it 'Follow methods should create a relationship between users' do
       user_one_id = User.last.id
-      user_two_id = User.first.id
-      body = { :follower_id => user_one_id, :followed_id =>  user_two_id }
+      user_two_id = User.first
+      body = { :id => user_one_id, :current_user =>  user_two_id }
       data = user_service.follow(body)
-      expect(data[:data][:follower_id]).not_to be_nil
-      expect(data[:data][:followed_id]).not_to be_nil
+      expect(data[:follower_id]).not_to be_nil
+      expect(data[:followed_id]).not_to be_nil
     end
   end
 

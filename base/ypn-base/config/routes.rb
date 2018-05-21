@@ -4,8 +4,9 @@ Rails.application.routes.draw do
   get "/profile/:id", to: 'user#show'
   post '/signup', to: 'user#signup'
   post '/login', to: 'user#login'
-  get '/user/:id', to: 'user#show'
-  post '/follow/:follower_id/:followed_id', to: 'user#follow';
+  post '/follow/:id', to: 'user#follow'
+  put '/user', to: 'user#update'
+  delete '/user', to: 'user#destroy'
   get '/:id/timeline',  to: 'user#timeline';
 
   resources :users do

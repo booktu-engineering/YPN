@@ -19,18 +19,18 @@ class UserService < BaseService
     token = Auth.issue({ :user_id => user[:id] })
     return { user: user, token: token }
     end
-    raise StandardError.new('Sorry we could not find any user like that')
+    raise StandardError.new('Sorry, those credentials dont match')
   end
 
 
 
   def follow body
-    user = self.model.where(id: body[:follower_id].to_i);
-    followed_user = self.model.where(id: body[:followed_id].to_i);
-    relationship = Relationship.where({ follower_id: body[:follower_id].to_i, followed_id: body[:followed_id].to_i })
+    user = self.model.where(id: body[:current_user][:id].to_i);
+    followed_user = self.model.where(id: body[:id].to_i);
+    relationship = Relationship.where({ follower_id: body[:current_user][:id].to_i, followed_id: body[:id].to_i })
     if user && followed_user && !relationship.present?
-      relationship = Relationship.create!({ follower_id: body[:follower_id].to_i, followed_id: body[:followed_id].to_i });
-      return { :data => relationship }
+      relationship = Relationship.create!({ follower_id: body[:current_user][:id].to_i, followed_id: body[:id].to_i });
+      return relationship
     end
     raise StandardError.new('Sorry we couldnt find any user like that')
   end

@@ -24,7 +24,7 @@ class BaseService
     data = self.model.find_by(query)
     if data.present?
       data.destroy
-      true
+      return true
     end
     false
   end
@@ -33,7 +33,8 @@ class BaseService
     query = generate_query(key, value)
     data = self.model.find_by(query)
     if data.present?
-      @data.update(changes)
+      data.update(changes)
+      return data
     end
   end
 
