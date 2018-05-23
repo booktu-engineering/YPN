@@ -6,7 +6,7 @@ class UserService < BaseService
     user = self.model.new(body)
     if user.valid?
     user.save
-    token = Auth.issue({ :user_id => user[:id] })
+    token = generate_token user
     return { user: user, token: token }
     end
     raise ArgumentError.new('Please pass in the right values')
@@ -17,7 +17,7 @@ class UserService < BaseService
   def login body
     user = self.model.find_by(email: body[:email]);
     if(user && user.authenticate(body[:password]))
-    token = Auth.issue({ :user_id => user[:id] })
+    token = generate_token user
     return { user: user, token: token }
     end
     raise StandardError.new('Sorry, those credentials dont match')
@@ -148,7 +148,11 @@ class UserService < BaseService
     raise StandardError.new('Sorry, we couldnt find that user')
   end
 
-
+  def generate_token body
+    data = { id: body.id, role: body.role, username: body.username, lastname: body.lastname, email: body.email, firstname: body.firstname, nt_token: body.nt_token }
+    data = Auth.issue data
+    return data
+  end
 
   def timeline
     begin

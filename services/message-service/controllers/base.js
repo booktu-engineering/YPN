@@ -35,14 +35,14 @@ class BaseController {
 
    fetchOne = (req, res, next) => {
      this.__wrapInTryCatch(async () => {
-       data = await this.service.fetchOne('id', parseInt(req.params.id));
+       data = await this.service.fetchOne('_id', req.params.id);
        this.__responseOkay(res, data);
      }, next);
    };
 
      updateOne = (req, res, next) => {
        this.__wrapInTryCatch(async () => {
-         data = await this.service.updateOne('id', parseInt(req.params.id), req.body);
+         data = await this.service.updateOne('_id', req.params.id, req.body);
          this.__responseOkay(res, data);
        }, next);
      };
@@ -56,8 +56,22 @@ class BaseController {
 
      deleteOne = (req, res, next) => {
        this.__wrapInTryCatch(async () => {
-         data = await this.service.deleteOne('id', parseInt(req.params.id));
+         data = await this.service.deleteOne('_id', req.params.id);
          this.__successfulDelete(res);
+       }, next);
+     }
+
+     participate = (req, res, next) => {
+       this.__wrapInTryCatch(async () => {
+         data = await this.service.participate('_id', req.params.id, req.user);
+         this.__responseOkay(res, data);
+       }, next);
+     }
+
+     leave = (req, res, next) => {
+       this.__wrapInTryCatch(async () => {
+         data = await this.service.leave('_id', req.params.id, req.user);
+         this.__responseOkay(res, data)
        }, next);
      }
 }

@@ -37,7 +37,8 @@ class UserController < ApplicationController
   def render_user
     data = service.fetch user_params
     if data
-      render json: { :data => data }, :status => 200
+      token = service.generate_token data
+      render json: { :data => data, :friends => data.friends, :token => token }, :status => 200
       return
     end
     resource_not_found

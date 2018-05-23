@@ -3,6 +3,7 @@ import axios from 'axios';
 
 let data;
 let instance;
+let err;
 
 /* eslint no-return-await: 0, prefer-const: 0, no-underscore-dangle: 0, no-console: 0 */
 
@@ -27,6 +28,7 @@ class BaseService {
     return await this.model.findOne(ref);
   }
 
+
   fetchAll = async () => await this.model.find({});
 
 
@@ -38,37 +40,52 @@ class BaseService {
     return true;
   }
 
+  archiveOne = async (key, value) => {
+    return await this.updateOne(key, value, { archived: true });
+  }
+
 
   updateOne = async (key, value, changes) => {
     this.__checkArguments(key, value);
     let ref = {};
     ref[`${key}`] = value;
-    data = await this.model.findAndUpdate(ref, changes);
+    data = await this.model.findOne(ref);
+    Object.keys(changes).forEach((item) => {
+      if (Object.keys(data._doc).includes(`${item}`)) {
+        data[`${item}`] = changes[`${item}`];
+      }
+    });
+    data = await data.save();
     return data;
   }
 
 
-  participate = async (key, value, userId) => {
+
+  participate = async (key, value, user) => {
+    let ref = {};
+    this.__checkArguments(key, value);
+    ref[`${key}`] = value;
+    data = await this.model.findOne(ref);
+    if (!data.members.map(item => item.id).includes(user.id)) {
+      data.members.push(user);
+      data = await data.save();
+      return data;
+    }
+    err = new Error('You joined this already');
+    err.status = 409;
+    throw err;
+  }
+
+
+  leave = async (key, value, user) => {
     this.__checkArguments(key, value);
     let ref = {};
     ref[`${key}`] = value;
     data = await this.model.findOne(ref);
-    data.members.push(userId);
-    await data.save;
+    data.members = data.members.filter(item => item.id !== user.id);
+    data = await data.save();
     return data;
   }
-
-
-  leave = async (key, value, userId) => {
-    this.__checkArguments(key, value);
-    let ref = {};
-    ref[`${key}`] = value;
-    data = await this.model.findOne(ref);
-    data.members = data.members.filter(item => item !== userId);
-    await data.save;
-    return data;
-  }
-
 
 
   __dispatchToNotificationServer = (body, username) => {
@@ -90,8 +107,8 @@ class BaseService {
   __fetchUser = async (username, access) => {
     try {
       instance = axios.create({ baseURL: 'http://localhost:3000/', headers: { Authorization: access } });
-      const response = await instance.get(`/fetch/${username}`);
-      return response.data.user;
+      const response = await instance.post('/fetch', { user: { username } });
+      return response.data;
     } catch (e) {
       console.log(e.message);
     }

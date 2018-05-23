@@ -1,13 +1,15 @@
-import 'babel-polyfill'
-import jwt from 'jsonwebtoken'
+import 'babel-polyfill';
+import jwt from 'jsonwebtoken';
 import PostModel from '../models/post';
 import BaseService from './base';
+import ConversationService from './conversation-service';
 
 const keyx = '6df7e61ce8cfc31f2c4f000fa5fcf7c0fb4c2395ea10818e2eb5e94efd008b022bae771d8fa30a4dc37dd06ed851554b5aa40e7b40dfb39acbc7a4282520c20a'
 let ref = {};
 let data;
 let nt_token;
 let notifications;
+
 /* eslint no-useless-constructor: 0, no-return-await: 0, no-underscore-dangle: 0, object-curly-newline: 0, prefer-const: 0, max-len: 0, arrow-body-style: 0, camelcase: 0 */
 class PostServiceObject extends BaseService {
   updateOne = async (key, value, changes) => {
@@ -47,7 +49,10 @@ class PostServiceObject extends BaseService {
     return body;
   }
 
-
+  getTimeline = async (username, access) => {
+    data = await this.__fetchUser(username, access);
+    return await ConversationService.getTimeline(data.friends);
+  }
 }
 
 const PostService = new PostServiceObject(PostModel);

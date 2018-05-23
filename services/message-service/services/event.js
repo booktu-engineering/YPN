@@ -5,24 +5,48 @@ import BaseService from './base';
 /* eslint no-underscore-dangle: 0, prefer-const: 0 */
 let ref = {};
 let data;
-let res;
+let err = new Error()
 
+/* eslint no-useless-constructor: 0 */
 class EventServiceBase extends BaseService {
-  attendEvent = async (key, value, userId) => {
+
+  attendEvent = async (key, value, user) => {
     this.__checkArguments(key, value);
     ref[`${key}`] = value;
     data = await this.model.findOne(ref);
-    data.members.push(userId);
-    await data.save;
+    if (!data.members.map(item => item.id).includes(user.id)) {
+      data.members.push(user);
+      data = await data.save();
+      return data;
+    }
+    err = new Error('You joined this already');
+    err.status = 409;
+    throw err;
+  }
+
+  fetchAllSync = async (role) => {
+    data = await this.fetchAll();
+    if (role && role < 3) return data.filter(e => e.valid);
     return data;
   }
 
-  leaveEvent = async (key, value, userId) => {
+  leaveEvent = async (key, value, user) => {
     this.__checkArguments(key, value);
     ref[`${key}`] = value;
     data = await this.model.findOne(ref);
-    data.members = data.members.filter(item => item !== userId);
-    await data.save;
+    data.members = data.members.filter(item => item.id !== user.id);
+    data = await data.save();
+    return data;
+  }
+
+  fetchEventsForUser = async (id) => {
+    data = await this.model.find({});
+    data = data.map((event) => {
+      const members = event.members.map(item => item.id).filter(item => item);
+      if (members.includes(id) || event.origin.id === id) return event;
+      return null;
+    });
+    data = data.filter(item => item);
     return data;
   }
 

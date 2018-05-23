@@ -19,7 +19,7 @@ class ConversationService extends BaseService {
   }
 
   getTimeline = async (body) => {
-    if (body.constructor !== Array || body.length < 1) {
+    if (body.constructor !== Array) {
       this.__unprocessableEntity();
     }
     data = await Post.find({ type: 1 });

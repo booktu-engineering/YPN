@@ -7,24 +7,44 @@ const eventSchema = new mongoose.Schema({
     trim: true,
     required: true
   },
+
   startDate: {
     type: Date,
     required: true,
     trim: true
   },
+
   endDate: {
     type: Date,
     required: true,
     trim: true
   },
+
   members: {
-    type: [{ type: Number }]
+    type: []
   },
+
   details: {
     type: Object,
     default: {},
     required: true
+  },
+
+  valid: {
+    type: Boolean,
+    default: false
+  },
+
+  origin: {
+    type: Object,
+    required: true
+  },
+  archived: {
+    type: Boolean,
+    default: false
   }
+}, {
+  timestamps: true
 });
 
 const Event = mongoose.model('Event', eventSchema);

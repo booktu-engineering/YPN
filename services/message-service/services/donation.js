@@ -16,7 +16,6 @@ class DonationServiceBase extends BaseService {
     }
 
     __sanitizeInput = (body) => {
-      console.log(body)
       if (!body || !body.id || body.constructor !== Object || !body.amount || body.amount.constructor !== Number || !body.referenceID || !body.date || body.date.constructor === Date || !body.user || body.user.constructor !== Object || !body.user.name) {
         let e = new Error('Sorry thats an invalid donation');
         e.status = 422;
@@ -29,7 +28,6 @@ class DonationServiceBase extends BaseService {
       data = { ...data, status: data.getStatus() };
       return data;
     }
-
 }
 
 const DonationService = new DonationServiceBase(Donation);

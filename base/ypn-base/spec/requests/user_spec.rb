@@ -9,6 +9,7 @@ RSpec.describe 'Users Api', type: :request do
         post '/signup', :params => { :user => valid_params }
         body = JSON.parse(response.body)
         expect(body['data']['user']['username']).to eq('hasstrup')
+
         expect(response).to have_http_status(201)
       end
     end

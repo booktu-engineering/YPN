@@ -12,16 +12,21 @@ const postSchema = new mongoose.Schema({
   },
   destination: {
     type: mongoose.Schema.Types.ObjectId,
-    refs: 'Conversation',
     default: null
   },
+  likes: [],
   type: {
     type: Number,
     required: true
   },
   media: {
     type: String,
+  },
+  link: {
+    type: String
   }
+}, {
+  timestamps: true
 });
 
 const Post = mongoose.model('Post', postSchema);

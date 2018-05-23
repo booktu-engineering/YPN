@@ -7,7 +7,7 @@ RSpec.describe 'User service object', type: :unit do
 
     it 'sign up should return a valid sign up method' do
       begin
-      user1 = { :username => "Hasstrupezekiel", :password => '12346', :email => 'Onosetale32@gmail.com'}
+      user1 = { :username => "Hasstrupezekiel", :password => '12346', :email => 'Onosetale32@gmail.com', role: 1}
       data = user_service.signup(user1)
       expect(data[:user][:username]).to eq("Hasstrupezekiel")
       expect(data[:user][:email]).to eq("Onosetale32@gmail.com")
