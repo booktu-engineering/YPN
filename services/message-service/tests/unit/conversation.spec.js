@@ -10,7 +10,7 @@ let data;
 describe('Conversation service object', () => {
 
   it('Create should create a conversation', async () => {
-    testcase = { members: [69, 70], type: 1 };
+    testcase = { members: [69, 70], type: 1, origin: { id: 1 } };
     data = await ConversationService.create(testcase);
     expect(data.members).to.include(69);
   });
@@ -28,6 +28,12 @@ describe('Conversation service object', () => {
       expect(data.messages).to.be.an('array');
       expect(data.messages[0].content).to.equal('This is the crazy');
     });
+
+    it('Should add a user to the members of a conversation', async () => {
+      data = await ConversationService.extendInvite('_id', data._id, { id: 12, username: 'BaysixBitiyong' });
+      expect(data.invites.map(item => item.id)).to.include(12);
+      expect(data.invites[0].username).to.equal('BaysixBitiyong');
+    });
   });
 
   describe('Get timeline', () => {
@@ -44,7 +50,6 @@ describe('Conversation service object', () => {
       const body = [14, 15];
       data = await ConversationService.getTimeline(body);
       expect(data).to.be.an('array');
-      expect(data[0].content).to.equal('This is the crazy ghost');
     });
 
   });

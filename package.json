@@ -1,0 +1,22 @@
+{
+  "name": "YPN",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:rails": "cd base/ypn-base && rails s",
+    "test:rails": "cd base/ypn-base && rspec -fd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hasstrup/YPN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hasstrup/YPN/issues"
+  },
+  "homepage": "https://github.com/Hasstrup/YPN#readme"
+}

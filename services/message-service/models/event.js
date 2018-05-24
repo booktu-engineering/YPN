@@ -1,6 +1,4 @@
 import mongoose from 'mongoose';
-import axios from 'axios';
-
 const eventSchema = new mongoose.Schema({
   name: {
     type: String,

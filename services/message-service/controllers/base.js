@@ -74,6 +74,13 @@ class BaseController {
          this.__responseOkay(res, data)
        }, next);
      }
+
+     fetchDataForUser = (req, res, next) => {
+       this.__wrapInTryCatch(async () => {
+         data = await this.service.fetchDataForUser(parseInt(req.user.id));
+         this.__responseOkay(res, data);
+       }, next);
+     }
 }
 
 export default BaseController;

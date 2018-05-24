@@ -129,6 +129,20 @@ __dispatchError = (err, req, res, next) => {
     data = await decodeToken(token);
     return data;
   }
+
+  noPermissions = (message, next) => {
+    const m = message ? message : 'You do not have permissions to do this'
+    err = new Error(m);
+    err.status = 401;
+    return next(err);
+  };
+
+  notFound= (message, next) => {
+    const m = message ? message : 'We couldnt find any such resource';
+    err = new Error(m);
+    err.status = 404;
+    return next(err);
+  }
 }
 
 const BaseMiddleware = new BaseMiddlewareBase();

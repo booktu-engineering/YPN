@@ -12,7 +12,55 @@ export const validEvent = {
   details: {
     location: 'Surulere, ',
     dressCode: 'Black and white',
-    rsvp: 'Call 08171708574'
+    rsvp: 'Call 08171708574',
   }
+}
+
+export const validConversation = {
+  members: [{ id: 12, name: 'Hasstrup Ezekiel' }, { id: 13, name: 'Tope Ukay' }]
+}
+
+export const validTownHall = {
+  startDate: Date.now(),
+  endDate: Date.now(),
+  members: [{ id: 12 }],
+  focus: {
+    name: 'Baysix biti',
+    meta: {
+      office: 'Vice President Candidate'
+    }
+  },
+  details: {
+    inclusion: {
+      name: 'BaysixBitiyong'
+    }
+  }
+}
+
+export const invalidTownHall = {
+  name: 'Invalid Conversation'
+}
+
+export const messages = {
+  group: [
+    {
+      content: 'I generally think things could be a bit better if you think it through',
+      type: 2,
+      origin: {
+        id: 15,
+        name: 'Ezekiel Hasstrup',
+        username: 'hasstrupezekiel'
+      }
+    },
+    {
+      content: 'Well maybe not exactly sha @hasstrupezekiel',
+      type: 2,
+      origin: {
+        id: 15,
+        name: 'Chisom Ekwuribe',
+        username: 'chisomekwuribe'
+      }
+    }
+  ]
 }
 export default testtoken

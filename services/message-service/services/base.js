@@ -114,6 +114,17 @@ class BaseService {
     }
   };
 
+  fetchDataForUser = async (id) => {
+    data = await this.model.find({});
+    data = data.map((key) => {
+      const members = key.members.map(item => item.id).filter(item => item);
+      if (members.includes(id) || key.origin.id === id) return key;
+      return null;
+    });
+    data = data.filter(item => item);
+    return data;
+  }
+
 
   __checkArguments = (key, value) => {
     if (!key || !value || (typeof key) !== 'string') {
