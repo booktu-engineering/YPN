@@ -31,6 +31,16 @@ class EventControllerBase extends BaseController {
       this.__responseOkay(res, data);
     }, next);
   }
+
+  fetchAll = (req, res, next) => {
+    this.__wrapInTryCatch(async () => {
+      data = await this.service.fetchAll();
+      if (req.user.role > 3) return this.__responseOkay(res, data);
+      data = data.filter(item => !(item.archived === false));
+      return this.__responseOkay(res, data);
+    }, next);
+  }
+
 }
 
 const EventController = new EventControllerBase(EventService);

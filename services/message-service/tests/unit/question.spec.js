@@ -9,7 +9,7 @@ let responses
 describe('Question Service - Polls, Surveys, Questionaiires and elections', () => {
   describe('Polls unit tests', () => {
     it('Create should automatically create a unit with type 3', async () => {
-      data = { title: 'A test poll', type: 2, questions: [{ question: 'Who would you rather go for ?', options: ['Free Education', 'Goodlucj Jonathan', 'Princess Diana'] }] };
+      data = { title: 'A test poll', type: 2, questions: [{ question: 'Who would you rather go for ?', options: ['Free Education', 'Goodlucj Jonathan', 'Princess Diana'] }], meta: { type: 'Opinion' } };
       data = await QuestionService.createSync(data);
       expect(data.type).to.equal(2);
       expect(data.questions['0']).to.equal('Who would you rather go for ?');
@@ -24,7 +24,7 @@ describe('Question Service - Polls, Surveys, Questionaiires and elections', () =
     });
 
     it('Respond should vote for a specfic option (Second vote)', async () => {
-      data = { id: data.id, responses: [{ 0: 'Princess Diana'}], user: { name: 'Chisom Ekwuribe', id: 2}, reasons: { 0: 'She was truly amazing'}}
+      data = { id: data.id, responses: [{ 0: 'Princess Diana' }], user: { name: 'Chisom Ekwuribe', id: 2}, reasons: { 0: 'She was truly amazing' } };
       data = await QuestionService.respond(data);
       expect(data.options['0']['Princess Diana']).to.equal(1);
       expect(data.responses[1].user.name).to.equal('Chisom Ekwuribe');
@@ -34,7 +34,7 @@ describe('Question Service - Polls, Surveys, Questionaiires and elections', () =
       results = await QuestionService.fetchResults('_id', data._id);
       expect(results).to.be.an('object');
       expect(results['0'].question).to.equal('Who would you rather go for ?');
-    })
+    });
   });
 
   describe('Elections service object', () => {

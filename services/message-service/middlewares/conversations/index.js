@@ -14,7 +14,6 @@ class ConvoMiddlewareBase extends BaseMiddlewareBase {
       return next(err);
     }
     if (parseInt(req.query.type) > 1) {
-      console.log(req.user.role)
       if (req.user.role > 3) return next();
 
       err = new Error('You do not have permissions to do that');

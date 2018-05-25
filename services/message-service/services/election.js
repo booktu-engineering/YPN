@@ -20,12 +20,11 @@ class QuestionServiceBase extends BaseService {
       });
       obj.options[`${index}`] = ref;
     });
-    obj.type = body.type;
-    data = await this.create(obj);
+    obj = { ...body, ...obj }
+    data = await  this.create(obj);
     return data;
   }
 
-  // the response has to come with someth
   respond = async (response) => {
     data = await this.model.findById(response.id);
     if (data && response.responses && response.responses.constructor === Array) {
@@ -36,8 +35,6 @@ class QuestionServiceBase extends BaseService {
           data.options[`${opt[0]}`][`${opt[1]}`] += 1;
         }
       });
-      // console.log(options);
-      // data.options = options;
       const userResponse = {};
       const ref = {};
       userResponse.user = response.user;
@@ -49,7 +46,7 @@ class QuestionServiceBase extends BaseService {
         userResponse.reasons.push(ref);
         data.responses.push(userResponse);
       }
-      const dataX = await this.model.findByIdAndUpdate(data._id, {$set: { options: data.options, responses: data.responses } });
+      const dataX = await this.model.findByIdAndUpdate(data._id, { $set: { options: data.options, responses: data.responses } });
       return data;
     }
     this.__notFoundError();
@@ -71,7 +68,7 @@ class QuestionServiceBase extends BaseService {
               dt.reason = res.reasons[0][`${index}`];
               return dt;
             }}).filter(item => item);
-          results[`${index}`].response = response
+          results[`${index}`].response = response;
         }
       });
       return results;

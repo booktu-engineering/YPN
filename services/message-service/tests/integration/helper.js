@@ -63,4 +63,116 @@ export const messages = {
     }
   ]
 }
+
+export const validPoll = {
+  title: 'This is a test Poll',
+  questions: [{ question: 'Which issue is the most pressing', options: [ 'Education', 'Business', 'Princess Diana', 'Good light'] }],
+  meta: {
+    type: 'Opinion'
+  }
+}
+
+export const validElection = {
+
+  title: 'Party Elections',
+  questions: [
+    {
+      question: 'Vice President',
+      options: ['Hasstrup Ezekiel', 'Tunde Ednut', 'Chisom Daniel']
+    },
+    {
+      question: 'President',
+      options: ['Emeka Stanley', 'Toyin Toyin', 'DareDevil Ramsey']
+    },
+    {
+      question: 'Party Chairman',
+      options: ['Kingsley Badman', 'Seni Suleyman', 'We Move']
+    },
+    {
+      question: 'Party Secretary',
+      options: ['Baysix', 'Skidaddle Daddy', 'Seni Suleyman']
+    },
+    {
+      question: 'Party PRO',
+      options: ['Major Famous Baba', 'Seni Suleyman', 'David Lanre Messan', 'C Edwin']
+    }
+  ],
+  meta: {
+    type: 'Party'
+  }
+}
+
+export const ElectionResponse1 = {
+  responses: [
+    {
+      0: 'Hasstrup Ezekiel'
+    },
+    {
+      1: 'Emeka Stanley'
+    },
+    {
+      2: 'Seni Suleyman'
+    },
+    {
+      3: 'Skidaddle Daddy'
+    },
+    {
+      4: 'C Edwin'
+    }
+  ],
+  reasons: [
+    {
+      0: 'Hasstrup is actually amazing'
+    },
+    {
+      1: 'Emeka Stanley is the best guy I ever saw'
+    },
+    {
+      2: 'Seni Suleyman is obviously the best'
+    },
+    {
+      3: 'Skidaddle Daddy my daddy daddy'
+    },
+    {
+      4: 'Lmao this man and his fresh range'
+    }
+  ]
+};
+
+export const ElectionResponse2 = {
+  responses: [
+    {
+      0: 'Chisom Daniel'
+    },
+    {
+      1: 'Emeka Stanley'
+    },
+    {
+      2: 'We Move'
+    },
+    {
+      3: 'Baysix'
+    },
+    {
+      4: 'C Edwin'
+    }
+  ],
+  reasons: [
+    {
+      0: 'Chisom seems like a nice chap'
+    },
+    {
+      1: 'Emeka Stanley has a strong vision for the association, I stan'
+    },
+    {
+      2: 'We Move for life!!!!'
+    },
+    {
+      3: 'Baysix has a nice vision, You understand now?'
+    },
+    {
+      4: 'Looool this guy and his crazy range'
+    }
+  ]
+}
 export default testtoken

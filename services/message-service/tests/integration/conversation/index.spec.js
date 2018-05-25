@@ -91,7 +91,6 @@ describe('Conversation Endpoints', () => {
 
     it('Should create a successful townhall with the focus', async () => {
       res = await request(app).post('/api/v1/convos/?type=3').set('Authorization', otherToken).send(validTownHall);
-      console.log(res.body)
       expect(res.statusCode).to.equal(201);
       expect(res.body.data.focus.id).to.equal(validTownHall.focus.id);
     });

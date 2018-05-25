@@ -66,6 +66,12 @@ export class BaseMiddlewareBase {
   }
 
 
+  appendType = (req, res, next) => {
+    req.body.type = req.query.type;
+    return next();
+  }
+
+
   __ensureUser = async (req, res, next) => {
     payload = await this.__decodeToken(req.headers.authorization);
     req.user = payload;

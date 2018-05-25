@@ -15,8 +15,7 @@ class ConversationService extends BaseService {
       const messages = await data.getMessages();
       return { ...data._doc, messages };
     }
-    return null
-    // throw an error here for null object
+    return null;
   }
 
   getTimeline = async (body) => {
@@ -38,7 +37,7 @@ class ConversationService extends BaseService {
         data = await data.save();
         return data;
       }
-      else if (data.invites.map(item => item.id).includes(user.id)) return data
+      else if (data.invites.map(item => item.id).includes(user.id)) return data;
       data.invites.push(user);
       data = await data.save();
       return data;

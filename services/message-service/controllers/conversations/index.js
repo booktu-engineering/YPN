@@ -20,6 +20,13 @@ class ConversationControllerBase extends BaseController {
     }, next);
   }
 
+  deleteOne = (req, res, next) => {
+    this.__wrapInTryCatch(async () => {
+      data = await this.service.archiveOne('_id', req.params.id);
+      this.__responseOkay(res, data);
+    }, next);
+  }
+
 }
 
 const ConversationController = new ConversationControllerBase(ConversationService);
