@@ -3,34 +3,54 @@ import mongoose from 'mongoose';
 const donationSchema = new mongoose.Schema({
   target: {
     type: Number,
-    required: true
   },
+
   startDate: {
     type: Date,
-    required: true
   },
+
   endDate: {
     type: Date,
-    required: true
   },
+
   description: {
     type: String,
     required: true
   },
+
   amount: {
     type: Number,
     default: 0
   },
+
   title: {
     type: String,
     trim: true,
     required: true
   },
+
+  type: {
+    type: Number,
+    required: true
+  },
+
   origin: {},
+
   valid: {
     type: Boolean,
     default: false
   },
+
+
+  archived: {
+    type: Boolean,
+    default: false
+  },
+
+  meta: {
+    type: Object
+  },
+
   references: []
 });
 

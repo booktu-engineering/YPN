@@ -71,6 +71,11 @@ export class BaseMiddlewareBase {
     return next();
   }
 
+  appendUser = (req, res, next) => {
+    req.body.user = req.user;
+    return next();
+  }
+
 
   __ensureUser = async (req, res, next) => {
     payload = await this.__decodeToken(req.headers.authorization);

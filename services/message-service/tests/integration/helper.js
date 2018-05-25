@@ -175,4 +175,45 @@ export const ElectionResponse2 = {
     }
   ]
 }
+
+// export const PartyDonation = {
+//   target: 500000,
+//   startDate: Date.now(),
+//   description: 'I thought it will be nice to make a few good donations',
+//   type: 1,
+//   title: 'Donation for the IJAROGBE Constituency',
+// }
+
+export const PartyDonation = {
+  target: 500000,
+  description: 'I thought it will be nice to make a few good donations',
+  type: 1,
+  title: 'Donation for the IJAROGBE Constituency',
+  meta: {
+    type: 3,
+    location: 'Ijarogbe'
+  }
+}
+
+export const CandidateDonation = {
+  target: 500000,
+  startDate: Date.now(),
+  endDate: Date.now(),
+  description: 'Help me win the presidency in this state',
+  type: 2,
+  title: 'Donation for Ayotunde Campaign',
+  meta: {
+    user: {
+      name: 'Hasstrup Ezekiel',
+      post: 'Ekiti State Vice President',
+      id: 1
+    }
+  }
+}
+
+export const Donation1 = {
+  amount: 50000,
+  referenceID: '12345XXX12344',
+  date: Date.now()
+}
 export default testtoken

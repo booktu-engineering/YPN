@@ -68,8 +68,8 @@ describe('Questions EndPoints', () => {
     it('Fetch results of an election should show the results of an election', async () => {
       res = await request(app).get(`/api/v1/questions/results/${data._id}`).set('Authorization', token);
       expect(res.statusCode).to.equal(200);
-      expect(res.body.data['0'].response.length).to.not.equal(1)
+      expect(res.body.data['0'].response.length).to.not.equal(1);
     });
-  })
+  });
 
 })

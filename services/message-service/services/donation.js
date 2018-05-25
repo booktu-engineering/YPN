@@ -16,7 +16,7 @@ class DonationServiceBase extends BaseService {
     }
 
     __sanitizeInput = (body) => {
-      if (!body || !body.id || body.constructor !== Object || !body.amount || body.amount.constructor !== Number || !body.referenceID || !body.date || body.date.constructor === Date || !body.user || body.user.constructor !== Object || !body.user.name) {
+      if (!body || !body.id || body.constructor !== Object || !body.amount || body.amount.constructor !== Number || !body.referenceID || !body.date || body.date.constructor === Date || !body.user || body.user.constructor !== Object) {
         let e = new Error('Sorry thats an invalid donation');
         e.status = 422;
         throw e;
@@ -25,7 +25,9 @@ class DonationServiceBase extends BaseService {
 
     fetchOneSync = async (key, value) => {
       data = await this.fetchOne(key, value);
-      data = { ...data, status: data.getStatus() };
+      if (data) {
+        data = { ...data._doc, status: data.getStatus() };
+      }
       return data;
     }
 }

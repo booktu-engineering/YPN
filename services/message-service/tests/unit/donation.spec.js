@@ -18,13 +18,14 @@ describe('Donation Service', () => {
         role: 2,
         avatar: 'String',
         id: 1
-      }
+      },
+      type: 3
     }
     data = await DonationService.create(mock);
   });
 
   it('Donation should add the donation to the current campaign', async () => {
-    mock = { id: data.id, amount: 10000, referenceID: '1233000', date: Date.now(), user: { name: 'Chisom Ekwuribe', id: 2} }
+    mock = { id: data.id, amount: 10000, referenceID: '1233000', date: Date.now(), user: { name: 'Chisom Ekwuribe', id: 2 } }
     data = await DonationService.donate(mock);
     expect(data.amount).to.equal(10000);
     expect(data.references.length).to.equal(1);
