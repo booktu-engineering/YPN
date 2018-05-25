@@ -11,11 +11,12 @@ const mediaSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  internalMedia: {
-    type: String,
-    required: true,
+  images: {
+    type: Array,
+    default: [],
     trim: true
-  }
+  },
+  origin: {}
 }, {
   timestamps: true
 })

@@ -216,4 +216,10 @@ export const Donation1 = {
   referenceID: '12345XXX12344',
   date: Date.now()
 }
+
+export const validMedia = {
+  title: `Party's 15 year birthday`,
+  description: 'Here are some pictures from our third year anniversary',
+  images: [ 'test.jpg', 'another-test.jpg']
+}
 export default testtoken
