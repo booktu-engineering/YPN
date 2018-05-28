@@ -10,15 +10,15 @@ let data;
 describe('Conversation service object', () => {
 
   it('Create should create a conversation', async () => {
-    testcase = { members: [69, 70], type: 1, origin: { id: 1 } };
+    testcase = { members: [{ id: 69, email: 'hasstrup.ezekiel@gmail.com', username: 'HasstrupTheBigMan'}, { id: 70, email: 'Hellopaperstack@gmail.com', username: 'Paperstack' }], type: 1, origin: { id: 1 } };
     data = await ConversationService.create(testcase);
-    expect(data.members).to.include(69);
+    expect(data.members.length).to.equal(2);
   });
 
   describe('Fetch messages for conversation', () => {
     before(async () => {
-      const message1 = { content: 'This is the crazy', type: 2, destination: data._id, origin: { id: 12, name: 'Hasstrup Ezekiel' } };
-      const message2 = { content: 'This is the crazy again', type: 2, destination: data._id, origin: { id: 13, name: 'Toyin Ezekiel' } };
+      const message1 = { content: 'This is the crazy', type: 2, destination: data._id, origin: { id: 70, name: 'Hasstrup Ezekiel', username: 'Paperstack',  } };
+      const message2 = { content: 'This is the crazy again', type: 2, destination: data._id, origin: { id: 69, name: 'Toyin Ezekiel', username: 'Hasstrupezekiel' } };
       await PostService.create(message1);
       await PostService.create(message2);
     });

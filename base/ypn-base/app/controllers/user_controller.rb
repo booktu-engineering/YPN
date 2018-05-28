@@ -66,6 +66,16 @@ class UserController < ApplicationController
     end
   end
 
+  def new_party_member
+    begin
+      data = service.new_party_member params
+      render json: { :data => data, :status => 'ok'}, :status => 200
+    rescue StandardError => e
+      unproccessable_entity e
+    end
+
+  end
+
 
 
   def confirm_mail
@@ -78,10 +88,11 @@ class UserController < ApplicationController
   end
 
 
+
   def show
     @user = service.fetch_one('id', params[:id].to_i)
     if @user
-    render json: {data: @user}, status: 200
+    render json: {data: @user, friends: @user.friends, followers: @user.followers}, status: 200
     return
     end
     resource_not_found
@@ -98,12 +109,13 @@ class UserController < ApplicationController
 
   def follow
     begin
-    relationship = service.follow(params)
+    relationship = service.follow params
     render json: {data: relationship, status: "ok"}, status: 201
     rescue StandardError => e
       unproccessable_entity e
     end
   end
+
 
 
   def logout
@@ -163,13 +175,11 @@ class UserController < ApplicationController
 
 
 
-  #we'd use keys to identify which kind of 10, 11, 12, 13
-
 
   private
 
   def user_params
-    params.require(:user).permit(:username, :password, :firstname, :lastname, :lga, :phone, :email)
+    params.require(:user).permit(:username, :password, :firstname, :lastname, :lga, :phone, :email, :nt_token, :role)
   end
 
   def login_params
@@ -186,7 +196,7 @@ class UserController < ApplicationController
       culprit = ''
       valid = true
       data.each do |key, value|
-        if value.length < 1
+        if value.to_s.length < 1
           valid = false
           culprit = key
         end

@@ -2,6 +2,7 @@ class MetaController < ApplicationController
   before_action :align_params
   skip_before_action :align_params, :only => [:confirm]
   before_action UserFilter::PartyMemberOnly
+  skip_before_action UserFilter::PartyMemberOnly, :only => [:volunteer]
 
   def initialize
     @service = MetaInformationService.new(MetaInformation)

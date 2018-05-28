@@ -1,15 +1,19 @@
 var app = require('express')()
 var Mailer = require('./mailer')
 var bodyParser = require('body-parser')
+var cors = require('cors');
+
+app.use(cors());
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json())
 
 app.post('/sendmail', (req, res) => {
   try {
-    if (Mailer.dispatch(req.body)) {
+    console.log(req.body)
+    if (Mailer.dispatch(req.body, parseInt(req.query.key))) {
       res.json({ sent: true }).status(200);
-      return
+      return;
     }
     res.json({ error: 'Something went wrong'}).status(500)
   }

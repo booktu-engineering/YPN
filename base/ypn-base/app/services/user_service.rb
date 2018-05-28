@@ -1,12 +1,14 @@
+require 'net/http'
+require 'json'
 
 class UserService < BaseService
 
   def signup body
-    puts body
     user = self.model.new(body)
     if user.valid?
     user.save
     token = generate_token user
+    send_confirm_email user.id
     return { user: user, token: token }
     end
     raise ArgumentError.new('Please pass in the right values')
@@ -33,11 +35,22 @@ class UserService < BaseService
 
 
   def follow body
-    user = self.model.where(id: body[:current_user][:id].to_i);
-    followed_user = self.model.where(id: body[:id].to_i);
+    user = self.model.find_by(id: body[:current_user][:id].to_i);
+    followed_user = self.model.find_by(id: body[:id].to_i);
     relationship = Relationship.where({ follower_id: body[:current_user][:id].to_i, followed_id: body[:id].to_i })
     if user && followed_user && !relationship.present?
+      if (body[:type] && body[:type] === '1')
+        relationship.destroy
+        return relationship
+      end
       relationship = Relationship.create!({ follower_id: body[:current_user][:id].to_i, followed_id: body[:id].to_i });
+      body = { :destination => followed_user.email, :subject => "#{user.username} followed you on YPN", :firstname => user.firstname,  :lastname => user.lastname, :username => user.username }
+      notification = { :destination => followed_user.username, :message => "#{user.username} followed you", :type => 10, time: DateTime.now }
+      nt_token = update_notification_token(followed_user, notification)
+      puts nt_token
+      new_notification = { **notification, :nt_token => nt_token }
+      payload = { :mail => body, :notification => new_notification, :key => 3}
+      dispatch_notification payload
       return relationship
     end
     raise StandardError.new('Sorry we couldnt find any user like that')
@@ -70,9 +83,7 @@ class UserService < BaseService
   def new_party_member body
     data = self.model.find_by(id: body[:id].to_i)
     if data && data.role === 0
-      #generate new private id
       id = generate_member_id
-      puts id
       data.update({ :membership_number => id, role: 1 })
       return data
     end
@@ -125,9 +136,9 @@ class UserService < BaseService
       payload = { :id => data.id, :reset_password_count => data.reset_password_count }
       token = Auth.issue payload
       link = "http://localhost:3000/reset/password/?tk=#{token}"
-      message = " <h5> Hello #{data.username}, You requested to change your password, Here's the link to do that  <br/> #{link}</h5>"
-      subject = " Reset your password"
-      # dispatch_email data.email, message, subject
+      body = { :destination => data.email, :subject => 'Reset Your Password', :link => link, :username => data[:username] }
+      payload = { :notification => { :destination => data.username }, :key => 2, :mail => body }
+      dispatch_notification payload
       return token
     end
     raise StandardError.new('Sorry, we couldnt find that user')
@@ -139,17 +150,17 @@ class UserService < BaseService
     if data
       payload = { :id => data.id }
       token = Auth.issue payload
-      link = "http://localhost:3000/confirm/email/?tk=#{token}"
-      message = " <h5> Hello, <br/> Welcome to Youth Party Nigeria! <br/> You might want to confirm your email to enjoy certain privileges, Here's the link to do that  <br/> #{link}</h5>"
-      subject = " Reset your password"
-      # dispatch_email data.email, message, subject
+      link = "http://localhost:3000/confirm/mail/?tk=#{token}"
+      body = { :destination => data.email, :subject => 'Welcome to Youth Party Nigeria', :link => link, :username => data[:username] }
+      payload = { :key => 1, :mail => body, :notification => { :destination => data.username }}
+      dispatch_notification payload
       return token
     end
     raise StandardError.new('Sorry, we couldnt find that user')
   end
 
   def generate_token body
-    data = { id: body.id, role: body.role, username: body.username, lastname: body.lastname, email: body.email, firstname: body.firstname, nt_token: body.nt_token }
+    data = { id: body.id, role: body.role, username: body.username, lastname: body.lastname, email: body.email, firstname: body.firstname, nt_token: body.nt_token, meta: body.meta }
     data = Auth.issue data
     return data
   end
@@ -180,6 +191,28 @@ def generate_member_id
     str = "#{str}#{arr[index]}"
   end
   return str
+end
+
+
+def update_notification_token user, notification
+  reference = Auth.decode user.nt_token
+  reference = reference[0]
+  reference["notifications"] << notification
+  content = { :notifications => reference["notifications"] }
+  n_token = Auth.issue content
+  user.nt_token = n_token
+  user.save!
+  return n_token
+end
+
+def dispatch_notification body
+  uri = URI.parse("http://localhost:5000/receive/")
+  http = Net::HTTP.new(uri.host, uri.port);
+  header = {'Content-Type': 'application/json'}
+  request = Net::HTTP::Post.new(uri.request_uri, header)
+  request.body = body.to_json
+  http.request(request)
+  return
 end
 
 

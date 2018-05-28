@@ -31,9 +31,9 @@ class ApplicationController < ActionController::API
   end
 
 
-  def mail_content destination, body
+  def mail_content destination, body, key
     puts body
-    uri=URI.parse('http://localhost:3500/sendmail')
+    uri=URI.parse("http://localhost:3500/sendmail/?key=#{key}")
     http = Net::HTTP.new(uri.host, uri.port);
     header = {'Content-Type': 'application/json'}
     request = Net::HTTP::Post.new(uri.request_uri, header)

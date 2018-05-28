@@ -28,8 +28,8 @@ describe('Post EndPoints', () => {
     data = res.body.data;
     res = await request(app).get(`/api/v1/posts/${data._id}`);
     expect(res.statusCode).to.equal(200);
-    expect(res.body.data).to.be.an('object');
-    expect(res.body.data).to.have.property('origin');
+    expect(res.body.data.data).to.be.an('object');
+    expect(res.body.data.data).to.have.property('origin');
   });
 
 
@@ -46,7 +46,6 @@ describe('Post EndPoints', () => {
     expect(res.body.data.content).to.equal('I changed the content to something amazing');
     expect(res.body.data.media).to.not.equal('Blah Blah');
   });
-
 
   it('Delete one should delete a specific post with the right access', async () => {
     res = await request(app).delete(`/api/v1/posts/${data._id}`).set('Authorization', token);

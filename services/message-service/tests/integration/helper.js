@@ -1,5 +1,5 @@
 const testtoken = 'eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MTg0Nywicm9sZSI6MSwidXNlcm5hbWUiOiJIYXNzdHJ1cGV6ZWtpZWwiLCJsYXN0bmFtZSI6bnVsbCwiZW1haWwiOiJPbm9zZXRhbGUzMkBnbWFpbC5jb20iLCJmaXJzdG5hbWUiOm51bGwsIm50X3Rva2VuIjoiZXlKaGJHY2lPaUpJVXpJMU5pSjkuVzEwLjRNY01sLUtwVXVqandialk5STBXYVUta2g3cXlBN0ZDdVh3NERtSlZGOGcifQ.nbfD4pTbXQP6p9-JEHkeKkvmuPnOa1zfix3V4-QBqBI'
-
+export const nt_token = 'eyJhbGciOiJIUzI1NiJ9.eyJub3RpZmljYXRpb25zIjpbXX0.WEkYvEtxW5GXGby8O5-zMcqSDdMx9tFn5gCTXAa7KI8'
 export const validPost = {
   content: 'Hello there this is pretty nice post',
   type: 0

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   post '/send/reset/password', to: 'user#send_reset_password'
   get '/reset/password', to: 'user#reset_password'
   get '/confirm/mail', to: 'user#confirm_mail'
+  get '/party/member/new/:id', to: 'user#new_party_member'
 
   resources :users do
     resources :posts

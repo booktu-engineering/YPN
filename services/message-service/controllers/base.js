@@ -28,7 +28,7 @@ class BaseController {
 
    create = (req, res, next) => {
      this.__wrapInTryCatch(async () => {
-       data = await this.service.create(req.body);
+       data = await this.service.create(req.body, req.headers.authorization);
        this.__resourceCreated(res, data);
      }, next);
    }

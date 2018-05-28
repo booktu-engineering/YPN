@@ -6,26 +6,49 @@ const postSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+
   origin: {
     type: Object,
     required: true
   },
+
   destination: {
     type: mongoose.Schema.Types.ObjectId,
     default: null
   },
-  likes: [],
+
+  likes: {
+    type: Object,
+    default: { count: 0, data: [] }
+  },
+
+  referenceObject: {
+    type: Object,
+    default: null
+  },
+
+  referenceID: {
+    type: mongoose.Schema.Types.ObjectId,
+    default: null
+  },
+
   type: {
     type: Number,
     required: true
   },
+
+
   media: {
     type: String,
   },
+
+
   link: {
     type: String
   }
-}, {
+},
+
+{
   timestamps: true
 });
 

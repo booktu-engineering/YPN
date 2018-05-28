@@ -27,7 +27,7 @@ class AdminController < ApplicationController
 
   def new_group
     begin
-      group = service.create(sub_admin_params)
+      group = service.create sub_admin_params
       render json: { :data => group, status: 'ok'}, status: 201
     rescue StandardError => e
       unproccessable_entity e
@@ -68,7 +68,7 @@ class AdminController < ApplicationController
 
   private
   def sub_admin_params
-    params.require(:group).permit(:name, :members, :rights)
+    params.require(:group).permit(:name, :members => [], :rights => [])
   end
 
 end

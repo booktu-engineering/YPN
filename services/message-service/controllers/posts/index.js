@@ -2,6 +2,7 @@ import PostService from '../../services/post-service';
 import BaseController from '../base';
 
 let data
+let comments;
 /* eslint no-underscore-dangle: 0 */
 class PostControllerBase extends BaseController {
   getTimeline = (req, res, next) => {
@@ -11,6 +12,22 @@ class PostControllerBase extends BaseController {
       this.__responseOkay(res, data);
     }, next);
   }
+
+  like = (req, res, next) => {
+    this.__wrapInTryCatch(async () => {
+      const { user } = req;
+      data = await this.service.like('_id', req.params.id, user, parseInt(req.query.type));
+      this.__responseOkay(res, data);
+    }, next);
+  }
+
+  fetchOne = (req, res, next) => {
+    this.__wrapInTryCatch(async () => {
+      data = await this.service.fetchOne('_id', req.params.id);
+      comments = await this.service.fetchComments(data);
+      this.__responseOkay(res, { data, comments });
+    }, next);
+  };
 }
 
 const PostsController = new PostControllerBase(PostService);

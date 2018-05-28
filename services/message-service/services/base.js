@@ -88,29 +88,40 @@ class BaseService {
   }
 
 
-  __dispatchToNotificationServer = (body, username) => {
-    const socket = io('http://localhost:5000/base');
-    socket.to(`room-${username}`).emit('new notification', body);
-  }
+  // __dispatchToNotificationServer = (body, username) => {
+  //   const socket = io('http://localhost:5000/base');
+  //   socket.to(`room-${username}`).emit('new notification', body);
+  // }
 
 
   __updateUser = async (body, access) => {
     instance = axios.create({ baseURL: 'http://localhost:3000/', headers: { Authorization: access } });
     instance.put('/user', body)
       .then((response) => {
-        console.log(`Successfully updated ${response.data.data.user.username}`);
+        console.log(`Successfully updated ${response.data.data.username}`);
       })
-      .catch(err => console.log(err));
+      .catch((err) => {
+        console.log(err.message);
+        return null;
+      });
   };
 
+  __dispatchToNotificationServer = async (mail, notification, key) => {
+    instance = axios.create({ baseURL: 'http://localhost:5000/' });
+    instance.post('/receive', { mail, notification, key })
+      .then(() => {
+        console.log('Successfully dispatched notification');
+      });
+  }
 
   __fetchUser = async (username, access) => {
     try {
-      instance = axios.create({ baseURL: 'http://localhost:3000/', headers: { Authorization: access } });
+      instance = await axios.create({ baseURL: 'http://localhost:3000/', headers: { Authorization: access } });
       const response = await instance.post('/fetch', { user: { username } });
       return response.data;
     } catch (e) {
-      console.log(e.message);
+      console.log(e)
+      return null
     }
   };
 

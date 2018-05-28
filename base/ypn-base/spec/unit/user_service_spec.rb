@@ -7,10 +7,10 @@ RSpec.describe 'User service object', type: :unit do
 
     it 'sign up should return a valid sign up method' do
       begin
-      user1 = { :username => "Hasstrupezekiel", :password => '12346', :email => 'Onosetale32@gmail.com', role: 1}
+      user1 = { :username => "Hasstrupezekiel", :password => '12346', :email => 'Hasstrup.ezekiel@gmail.com', role: 1}
       data = user_service.signup(user1)
       expect(data[:user][:username]).to eq("Hasstrupezekiel")
-      expect(data[:user][:email]).to eq("Onosetale32@gmail.com")
+      expect(data[:user][:email]).to eq("Hasstrup.ezekiel@gmail.com")
     rescue StandardError => e
       expect(e).to be_nil
       end
@@ -19,7 +19,7 @@ RSpec.describe 'User service object', type: :unit do
 
     it 'Log in method should sign in a valid user' do
       begin
-        data = user_service.login({ email: "Onosetale32@gmail.com", password: "12346" })
+        data = user_service.login({ email: "Hasstrup.ezekiel@gmail.com", password: "12346" })
         expect(data[:token]).not_to be_nil
         expect(data[:user][:username]).to eq("Hasstrupezekiel")
       rescue StandardError => e

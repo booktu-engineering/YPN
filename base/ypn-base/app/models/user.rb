@@ -29,11 +29,12 @@ class User < ApplicationRecord
 
 
   def followers
-    Relationship.where(followed_id: self.id)
+    data = Relationship.where(followed_id: self.id)
     arr = []
     data.each do |relationship|
-      arr.push(User.find_by(id: relationship.followed_id))
+      arr.push(User.find_by(id: relationship.follower_id))
     end
+    return arr
   end
 
 
@@ -45,7 +46,7 @@ class User < ApplicationRecord
   end
 
   def append_token
-    payload = []
+    payload = { :notifications => []}
     token = Auth.issue payload
     self.nt_token = token
   end

@@ -20,4 +20,5 @@ router.put('/:id', PostMiddleware.__ensureAuthorization, PostMiddleware.__ensure
 // should delete the post
 router.delete('/:id', PostMiddleware.__ensureAuthorization, PostMiddleware.__ensureUser, PostMiddleware.revokeAccess, PostController.deleteOne, PostMiddleware.__dispatchError);
 
+router.put('/like/:id', PostMiddleware.__ensureAuthorization, PostMiddleware.__ensureUser, PostController.like, PostMiddleware.__dispatchError)
 export default router
