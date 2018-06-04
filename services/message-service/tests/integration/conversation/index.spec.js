@@ -18,7 +18,6 @@ describe('Conversation Endpoints', () => {
     user = await decodeToken(token);
   });
   describe('Normal Conversations - specified with type 0', () => {
-
     it('Should successfully create a message log between two or more party members', async () => {
       res = await request(app).post('/api/v1/convos/?type=1').send(validConversation).set('Authorization', token);
       data = res.body.data;

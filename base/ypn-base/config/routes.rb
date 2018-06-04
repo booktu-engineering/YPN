@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   post '/apply/sponsor', to: 'meta#sponsor'
   get'/application/:key', to: 'meta#fetch'
   post '/fetch', to: 'user#render_user'
-  post '/send/reset/password', to: 'user#send_reset_password'
+  post '/send/reset/password/:id', to: 'user#send_reset_password'
   get '/reset/password', to: 'user#reset_password'
   get '/confirm/mail', to: 'user#confirm_mail'
   get '/party/member/new/:id', to: 'user#new_party_member'

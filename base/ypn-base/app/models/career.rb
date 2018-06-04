@@ -6,11 +6,11 @@ class Career < ApplicationRecord
     data = MetaInformation.all.select do |item|
             keys.include? (item.key)
           end
-    puts self.id
     meta = data.select do |item|
         item.extra_info['career']['id'] === self.id
         end
     meta = meta.collect do |item|
+      puts item.user_id
       return User.where(id: item.user_id.to_i)
     end
     return meta

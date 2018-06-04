@@ -22,7 +22,7 @@ class ConversationService extends BaseService {
     if (body.constructor !== Array) {
       this.__unprocessableEntity();
     }
-    data = await Post.find({ type: 1 });
+    data = await Post.find({ type: 0 });
     data = data.filter(item => body.includes(item.origin.id));
     return data;
   }
