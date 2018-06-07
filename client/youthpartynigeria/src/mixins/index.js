@@ -1,6 +1,6 @@
 import { Dimensions } from 'react-native'
 
-const { width } = Dimensions.get('window')
+export const { width, height } = Dimensions.get('window')
 
 export const bigButton = {
   height: 45,
@@ -28,3 +28,24 @@ export const inputStyle = {
   width: width * 0.7,
   borderBottomColor: '#B3B6B7'
 }
+
+export const formContainer = {
+  height: 50,
+  marginBottom: 50
+}
+
+export const formLabel = {
+  fontSize: 12,
+  color: '#2F2E2E',
+  fontWeight: '500'
+}
+
+export const formHolder = {
+  height: height / 4,
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop: 40,
+  marginBottom: 25
+}
+
+export const defaultGreen = '#82BE30'
