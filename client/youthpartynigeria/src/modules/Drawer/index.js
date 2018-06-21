@@ -43,4 +43,8 @@ const Drawer = ({ currentUser, navigator }) => (
   </View>
 )
 
+Drawer.navigatorStyle = {
+  statusBarHidden: true
+}
+
 export default Drawer

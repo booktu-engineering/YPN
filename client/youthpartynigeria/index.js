@@ -10,12 +10,12 @@ class StartApp {
   }
 
   start = () => {
-    // AsyncStorage.getItem('userToken')
-    // .then((token) => {
-    //   if(token) return this.navigator.startLoggedIn()
-    //   this.navigator.startLoggedOut();
-    // })
-    this.navigator.startLoggedIn();
+    AsyncStorage.getItem('userToken')
+    .then((token) => {
+      if(token) return this.navigator.startLoggedIn()
+      this.navigator.startLoggedOut();
+    })
+    // this.navigator.startLoggedIn();
   }
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles, { width } from './styles'
 
 const LandingComponent = ({ navigator }) => (
@@ -15,7 +15,7 @@ const LandingComponent = ({ navigator }) => (
     {/* Button Stack */}
     <View style={styles.buttonStack}>
       <View style={styles.bigButtonBlue}>
-        <Text style={styles.buttonText} onPress={() => { navigator.push({ screen: 'Verify.Component' })}}> SIGN UP WITH FACEBOOK </Text>
+        <Text style={styles.buttonText} onPress={() => { navigator.push({ screen: 'Login.Component' })}}> LOG IN </Text>
       </View>
       <View style={styles.bigButton}>
         <Text style={styles.buttonText} onPress={() => { navigator.push({ screen: 'SignUp.Component', title: 'Registration' })}}> SIGN UP WITH EMAIL </Text>

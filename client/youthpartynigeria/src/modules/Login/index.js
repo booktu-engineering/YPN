@@ -1,7 +1,8 @@
-import { View, Text, Image, TextInput } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
 import styles from './styles';
+import { navigatorObject } from '../../navigation/'
 
 
 const LoginComponent = ({ navigator }) => {
@@ -18,7 +19,7 @@ const LoginComponent = ({ navigator }) => {
       <View style={styles.formHolder}>
         <LoginForm />
       </View>
-      <BigButton content='LOGIN' />
+      <BigButton navigator={navigator} content='LOGIN' />
       {/* Login/ Reset password Section */}
       <View style={styles.container}>
         <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row' }}>
@@ -52,11 +53,11 @@ const LoginForm = () => { // eslint-disable-line
 };
 
 
-const BigButton = ({ content }) => {
+const BigButton = ({ content, navigator }) => {
   return (
-    <View style={ styles.buttonContainer }>
+    <TouchableOpacity style={styles.buttonContainer} onPress={() => navigatorObject.startLoggedIn()}>
       <Text style={styles.buttonContent}>{ content }</Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 
