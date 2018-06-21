@@ -21,4 +21,7 @@ router.put('/:id', PostMiddleware.__ensureAuthorization, PostMiddleware.__ensure
 router.delete('/:id', PostMiddleware.__ensureAuthorization, PostMiddleware.__ensureUser, PostMiddleware.revokeAccess, PostController.deleteOne, PostMiddleware.__dispatchError);
 
 router.put('/like/:id', PostMiddleware.__ensureAuthorization, PostMiddleware.__ensureUser, PostController.like, PostMiddleware.__dispatchError)
+
+// do something here.
+router.get('/all/:id')
 export default router
