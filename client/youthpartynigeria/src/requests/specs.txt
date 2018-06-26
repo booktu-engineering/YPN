@@ -1,0 +1,26 @@
+this file will contain all the requests to be written
+
+1 Sign Up --- Post request to the sign up Endpoint
+2 Log In
+3 - Forgot Password
+4 - Get timeline
+5 - Get posts of a user
+6 Get Conversations 
+7 Start Conversation
+8 Send a message to conversation
+8 Add Gallery
+9 Get Galleries
+10 Get Profile of user
+11 Get list of followers
+12 Get list of following
+13 Follow a user
+14 Share a post
+15 Create a career
+17 Apply for career
+18 add/See all/see one elected officials
+19 add/see all/see one run for office
+20 add/see all/see one sponsored candidates
+15 Add/see all/see one a donation campaign
+16 Add an elected official
+17 Add/see all/see one EventS
+18 respond to Event
