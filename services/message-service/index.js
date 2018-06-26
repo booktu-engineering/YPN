@@ -9,8 +9,10 @@ console.log('Here we go')
 const PORT = process.env.PORT || 3400
 const app = express();
 
-mongoose.connect(`mongodb://localhost/ypn-${process.env.NODE_ENV}`, {
-});
+// mongoose.connect(`mongodb://localhost/ypn-${process.env.NODE_ENV}`, {
+// });
+
+mongoose.connect(`mongodb://<Base>:<Hasstrup1234>@ds219051.mlab.com:19051/youthpartynigeria`);
 
 app
   .use(logger('dev'))

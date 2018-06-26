@@ -84,6 +84,4 @@ test:
 #
 production:
   <<: *default
-  database: ypn-base_production
-  username: ypn-base
-  password: <%= ENV['YPN-BASE_DATABASE_PASSWORD'] %>
+  url: postgres://nwriynmmaalkar:1edd494d9d448e6fc83e4ff90f3f5d728a068085eace9ed84f52cdb0061f7049@ec2-54-228-180-236.eu-west-1.compute.amazonaws.com:5432/d8jfug9fca5dnn
