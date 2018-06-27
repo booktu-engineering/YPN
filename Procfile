@@ -1,1 +1,1 @@
-web: rails -s 
+web: RAILS_ENV=Prodcution rails -s 
