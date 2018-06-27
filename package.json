@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:rails": "cd base/ypn-base && rails s",
-    "start:service": "cd services/message-service && npm run start:dev",
+    "start:service": "babel-node services/message-service/index.js",
     "test:rails": "cd base/ypn-base && rspec -fd"
   },
   "repository": {
