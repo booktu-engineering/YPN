@@ -1,1 +1,1 @@
-web: cd base/ypn-base && bundle exec rails -s 
+web: cd base/ypn-base && bundle install && bundle exec rails -s 
