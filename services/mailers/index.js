@@ -24,5 +24,5 @@ app.post('/sendmail', (req, res) => {
 
 
 app.listen(3500, () => {
-  console.log('Mailer service is listening at 3000')
+  console.log('Mailer service is listening at 3500')
 })

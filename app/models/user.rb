@@ -2,8 +2,9 @@ class User < ApplicationRecord
   # attr_reader :posts, :role
   # after_initialize :assign_role
   validates_presence_of :username, :email, :password, on: :create
-  # validates :username, uniqueness: { message: 'Sorry the username is already taken'}, on: :create
-  # validates :email, uniqueness: { message: 'Sorry the email is taken'}, :on => :create
+  # uniqueness of username now available. 
+  validates :username, uniqueness: { message: 'Sorry the username is already taken'}, on: :create
+  validates :email, uniqueness: { message: 'Sorry the email is taken'}, :on => :create
   has_secure_password
   after_initialize :append_token
   after_initialize :assign_role

@@ -206,13 +206,14 @@ def update_notification_token user, notification
 end
 
 def dispatch_notification body
-  uri = URI.parse("http://localhost:5000/receive/")
-  http = Net::HTTP.new(uri.host, uri.port);
-  header = {'Content-Type': 'application/json'}
-  request = Net::HTTP::Post.new(uri.request_uri, header)
-  request.body = body.to_json
-  http.request(request)
-  return
+  # uri = URI.parse("http://localhost:5000/receive/")
+  # http = Net::HTTP.new(uri.host, uri.port);
+  # header = {'Content-Type': 'application/json'}
+  # request = Net::HTTP::Post.new(uri.request_uri, header)
+  # request.body = body.to_json
+  # http.request(request)
+  # return
+  puts "Remember to change this when the mailer service starts"
 end
 
 

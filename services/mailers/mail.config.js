@@ -8,6 +8,16 @@ const sender =   {
         }
       };
 
-const transporter = nodemailer.createTransport(sender);
+const smtpConfig = {
+  host: 'smtp.booktu.org',
+  port: 465,
+  secure: true,
+  auth: {
+    user: 'info@booktu.org',
+    pass: 'infobooktu'
+  }
+}
 
-module.exports = sender;
+const transporter = nodemailer.createTransport(smtpConfig);
+
+module.exports = smtpConfig;

@@ -2,8 +2,6 @@ var nodemailer = require('nodemailer');
 var senderConfigs = require('./mail.config.js');
 var templates = require('./templates/temps');
 
-console.log(senderConfigs)
-
 const transporter = nodemailer.createTransport(senderConfigs);
 
 const Mailer = {
