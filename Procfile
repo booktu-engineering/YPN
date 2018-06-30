@@ -1,1 +1,1 @@
-web: cd base/ypn-base && bundle config --delete frozen && bundle update && bundle install && bundle exec rails -s 
+web: RAILS_ENV=production rails s
