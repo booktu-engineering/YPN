@@ -29,7 +29,9 @@ import DonationPhaseTwo from '../modules/Donations/screens/phase-two';
 import Conversations from '../modules/Conversation';
 import ShowConversation from '../modules/ShowConversation';
 import ConversationLog from '../modules/ConversationLog';
+import configureStore from '../store';
 
+const { Provider, store } = configureStore();
 
 export default class Navigator {
   constructor() {
@@ -37,10 +39,10 @@ export default class Navigator {
   }
 
   __registerScreens = () => {
-    Navigation.registerComponent('Login.Component', () => LoginComponent);
+    Navigation.registerComponent('Login.Component', () => LoginComponent, store, Provider);
     Navigation.registerComponent('Reset.Password', () => ResetPasswordComponent);
     Navigation.registerComponent('Landing.Component', () => LandingComponent);
-    Navigation.registerComponent('SignUp.Component', () => SignUpComponent);
+    Navigation.registerComponent('SignUp.Component', () => SignUpComponent, store, Provider);
     Navigation.registerComponent('Verify.Component', () => VerifyComponent);
     Navigation.registerComponent('Declare.Interest', () => DeclareInterestComponent);
     Navigation.registerComponent('Home', () => HomeComponent);
