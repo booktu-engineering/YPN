@@ -4,7 +4,6 @@ import logger from 'morgan';
 import bodyParser from 'body-parser'
 import indexRouter from './routes/'
 
-console.log('Here we go')
 
 const PORT = process.env.PORT || 3400
 const app = express();

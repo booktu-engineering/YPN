@@ -1,5 +1,8 @@
 import io from 'socket.io-client';
 import axios from 'axios';
+import configuration from './config';
+
+const config = configuration()
 
 let data;
 let instance;
@@ -89,13 +92,13 @@ class BaseService {
 
 
   // __dispatchToNotificationServer = (body, username) => {
-  //   const socket = io('http://localhost:5000/base');
+  //   const socket = io('config.notificationUrl/base');
   //   socket.to(`room-${username}`).emit('new notification', body);
   // }
 
 
   __updateUser = async (body, access) => {
-    instance = axios.create({ baseURL: 'http://localhost:3000/', headers: { Authorization: access } });
+    instance = axios.create({ baseURL: config.baseUrl, headers: { Authorization: access } });
     instance.put('/user', body)
       .then((response) => {
         console.log(`Successfully updated ${response.data.data.username}`);
@@ -107,7 +110,7 @@ class BaseService {
   };
 
   __dispatchToNotificationServer = async (mail, notification, key) => {
-    instance = axios.create({ baseURL: 'http://localhost:5000/' });
+    instance = axios.create({ baseURL: config.notificationUrl });
     instance.post('/receive', { mail, notification, key })
       .then(() => {
         console.log('Successfully dispatched notification');
@@ -116,7 +119,7 @@ class BaseService {
 
   __fetchUser = async (username, access) => {
     try {
-      instance = await axios.create({ baseURL: 'http://localhost:3000/', headers: { Authorization: access } });
+      instance = await axios.create({ baseURL: config.baseUrl, headers: { Authorization: access } });
       const response = await instance.post('/fetch', { user: { username } });
       return response.data;
     } catch (e) {

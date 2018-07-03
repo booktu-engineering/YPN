@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import jwt from 'jsonwebtoken';
 import PostModel from '../models/post';
 import BaseService from './base';

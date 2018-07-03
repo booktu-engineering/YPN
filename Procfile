@@ -1,1 +1,1 @@
-web: npm  run start:service
+web: npm run start:service
