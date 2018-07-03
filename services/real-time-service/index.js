@@ -47,8 +47,9 @@ io.on('connection', (socket) => {
 
 app.post('/receive', NotificationHandler);
 
-server.listen(5000, () => {
-  console.log('Real time service is now listening on port 5000')
+const port = process.env.PORT || 5000
+server.listen(port, () => {
+  console.log(`Notification Service is listening on ${port}`)
 });
 
 export default { io, messageIO }

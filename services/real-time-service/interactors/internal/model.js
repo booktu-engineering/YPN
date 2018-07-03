@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-mongoose.connect('mongodb://localhost/ypn-posts', {
+mongoose.connect('mongodb://base:Hasstrup1234@ds219051.mlab.com:19051/youthpartynigeria', {
 });
 
 const postSchema = new mongoose.Schema({

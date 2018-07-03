@@ -1,7 +1,7 @@
 import axios from 'axios';
 import PostModel from './model'
 
-const url = `http://localhost:3900/api/posts`
+const url = `https://ypn-node-service.herokuapp.com/api/posts`
 
 class PostServiceBase {
 
