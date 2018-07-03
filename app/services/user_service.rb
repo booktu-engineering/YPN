@@ -84,8 +84,9 @@ class UserService < BaseService
     data = self.model.find_by(id: body[:id].to_i)
     if data && data.role === 0
       id = generate_member_id
-      data.update({ :membership_number => id, role: 1 })
-      return data
+      user = data.update({ :membership_number => id, role: 1 })
+      token = generate_token user
+      return { :data => user, :token => token }
     end
     raise StandardError.new('Sorry this request is invalid')
   end
