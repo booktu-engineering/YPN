@@ -1,1 +1,1 @@
-web: cd services/mailers && npm install && node index
+web: cd services/real-time-service && npm install && npm start
