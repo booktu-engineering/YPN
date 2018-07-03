@@ -2,27 +2,25 @@ var nodemailer = require('nodemailer');
 var senderConfigs = require('./mail.config.js');
 var templates = require('./templates/temps');
 
-console.log(senderConfigs)
 
 const transporter = nodemailer.createTransport(senderConfigs);
 
 const Mailer = {
 
 dispatch:  (body, key) => {
-    console.log(key)
     let message = fetchStructure(body, key)
     const { destination, subject } = body
     let mailOptions = {
-      from: '"Hasstrup Ezekiel" <noreply@YPN.com>', // sender address
+      from: '"Youth Party" <noreply@youthpartyng.com>', // sender address
       to: destination, // list of receivers
       subject: subject, // Subject line
       text: message, // plain text body
       html: message // html body
   };
 
-   transporter.sendMail(mailOptions, (error, info) => {
-     if (error) {
-       console.log(error.message)
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error.message)
        return false;
      }
      console.log('message sent');

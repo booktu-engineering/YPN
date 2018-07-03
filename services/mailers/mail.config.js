@@ -1,10 +1,12 @@
 var nodemailer = require('nodemailer');
 
 const sender =   {
-          service: 'gmail',
-          auth: {
-              user: 'hasstrup.ezekiel@gmail.com', // generated ethereal user
-              pass:   'Onosetale33'// generated ethereal password
+        host: 'send.one.com',
+        port: 465,
+        secure: true,
+        auth: {
+          user: 'noreply@youthpartyng.com',
+          pass: 'noreply123'
         }
       };
 
