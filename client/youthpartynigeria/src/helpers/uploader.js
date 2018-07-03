@@ -38,3 +38,13 @@ const SendToCloudinary = (data, key) => {
   }
   return images;
 }
+
+
+export const dispatchNotification = (navigator) => (message) => {
+  navigator.showInAppNotification({
+    screen: 'App.notification',
+    passProps: {
+      message
+    }
+  })
+}

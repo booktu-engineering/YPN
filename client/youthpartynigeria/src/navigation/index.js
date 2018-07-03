@@ -30,6 +30,7 @@ import Conversations from '../modules/Conversation';
 import ShowConversation from '../modules/ShowConversation';
 import ConversationLog from '../modules/ConversationLog';
 import configureStore from '../store';
+import NotificationScreen from '../mixins/notification';
 
 const { Provider, store } = configureStore();
 
@@ -42,15 +43,16 @@ export default class Navigator {
     Navigation.registerComponent('Login.Component', () => LoginComponent, store, Provider);
     Navigation.registerComponent('Reset.Password', () => ResetPasswordComponent);
     Navigation.registerComponent('Landing.Component', () => LandingComponent);
+    Navigation.registerComponent('App.notification', () => NotificationScreen);
     Navigation.registerComponent('SignUp.Component', () => SignUpComponent, store, Provider);
     Navigation.registerComponent('Verify.Component', () => VerifyComponent);
     Navigation.registerComponent('Declare.Interest', () => DeclareInterestComponent);
-    Navigation.registerComponent('Home', () => HomeComponent);
+    Navigation.registerComponent('Home', () => HomeComponent, store, Provider);
     Navigation.registerComponent('Chat.Component', () => ChatComponent);
     Navigation.registerComponent('Post.Component', () => PostComponent);
     Navigation.registerComponent('Profile.Component', () => ProfileComponent);
     Navigation.registerComponent('More.Component', () => MoreComponent);
-    Navigation.registerComponent('Drawer', () => Drawer);
+    Navigation.registerComponent('Drawer', () => Drawer, store, Provider);
     Navigation.registerComponent('Home.Nav', () => HomeNav);
     Navigation.registerComponent('Events.Screen', () => EventComponent);
     Navigation.registerComponent('Show.Event', () => ShowEvent);
