@@ -135,7 +135,7 @@ class UserService < BaseService
     if data
       payload = { :id => data.id, :reset_password_count => data.reset_password_count }
       token = Auth.issue payload
-      link = "http://localhost:3000/reset/password/?tk=#{token}"
+      link = "https://ypn-base.herokuapp.com/reset/password/?tk=#{token}"
       body = { :destination => data.email, :subject => 'Reset Your Password', :link => link, :username => data[:username] }
       payload = { :notification => { :destination => data.username }, :key => 2, :mail => body }
       dispatch_notification payload
@@ -150,7 +150,7 @@ class UserService < BaseService
     if data
       payload = { :id => data.id }
       token = Auth.issue payload
-      link = "http://localhost:3000/confirm/mail/?tk=#{token}"
+      link = "https://ypn-base.herokuapp.com/confirm/mail/?tk=#{token}"
       body = { :destination => data.email, :subject => 'Welcome to Youth Party Nigeria', :link => link, :username => data[:username] }
       payload = { :key => 1, :mail => body, :notification => { :destination => data.username }}
       dispatch_notification payload
@@ -206,13 +206,13 @@ def update_notification_token user, notification
 end
 
 def dispatch_notification body
-  # uri = URI.parse("http://localhost:5000/receive/")
-  # http = Net::HTTP.new(uri.host, uri.port);
-  # header = {'Content-Type': 'application/json'}
-  # request = Net::HTTP::Post.new(uri.request_uri, header)
-  # request.body = body.to_json
-  # http.request(request)
-  # return
+  uri = URI.parse("https://ypn-notification-api.herokuapp.com/receive/")
+  http = Net::HTTP.new(uri.host, uri.port);
+  header = {'Content-Type': 'application/json'}
+  request = Net::HTTP::Post.new(uri.request_uri, header)
+  request.body = body.to_json
+  http.request(request)
+  return
   puts "Remember to change this when the mailer service starts"
 end
 
