@@ -1,1 +1,1 @@
-web: npm run start:service
+web: cd services/mailers && npm install && node index
