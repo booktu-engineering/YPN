@@ -8,7 +8,6 @@ class UserService < BaseService
     if user.valid?
     user.save
     token = generate_token user
-    send_confirm_email user.id
     return { user: user, token: token }
     end
     raise ArgumentError.new('Hey that input might be wrong, or the username or email taken :(')
@@ -50,8 +49,7 @@ class UserService < BaseService
       puts nt_token
       new_notification = { **notification, :nt_token => nt_token }
       payload = { :mail => body, :notification => new_notification, :key => 3}
-      dispatch_notification payload
-      return relationship
+      return {:relationship => relationship, :payload => payload }
     end
     raise StandardError.new('Sorry we couldnt find any user like that')
   end
@@ -147,19 +145,6 @@ class UserService < BaseService
   end
 
 
-  def send_confirm_email id
-    data = self.model.find_by(id: id.to_i)
-    if data
-      payload = { :id => data.id }
-      token = Auth.issue payload
-      link = "https://ypn-base.herokuapp.com/confirm/mail/?tk=#{token}"
-      body = { :destination => data.email, :subject => 'Welcome to Youth Party Nigeria', :link => link, :username => data[:username] }
-      payload = { :key => 1, :mail => body, :notification => { :destination => data.username }}
-      dispatch_notification payload
-      return token
-    end
-    raise StandardError.new('Sorry, we couldnt find that user')
-  end
 
   def generate_token body
     data = { id: body.id, role: body.role, username: body.username, lastname: body.lastname, email: body.email, firstname: body.firstname, nt_token: body.nt_token, meta: body.meta }

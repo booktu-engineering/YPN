@@ -13,6 +13,7 @@ class UserController < ApplicationController
     begin
     data = service.signup(user_params)
     render json: {data: data}, status: 201
+    send_confirm_email data[:user].id
     rescue StandardError, ActiveRecord::RecordInvalid => e
       if e.class === ActiveRecord::RecordInvalid
         return conflict e
@@ -56,6 +57,21 @@ class UserController < ApplicationController
   end
 
 
+  def send_confirm_email id
+    data = User.find_by(id: id.to_i)
+    if data
+      payload = { :id => data.id }
+      token = Auth.issue payload
+      link = "https://ypn-base.herokuapp.com/confirm/mail/?tk=#{token}"
+      body = { :destination => data.email, :subject => 'Welcome to Youth Party Nigeria', :link => link, :username => data[:username] }
+      payload = { :key => 1, :mail => body, :notification => { :destination => data.username }}
+      dispatch_notification payload
+      return token
+    end
+    raise StandardError.new('Sorry, we couldnt find that user')
+  end
+
+
 
   def reset_password
     begin
@@ -65,6 +81,7 @@ class UserController < ApplicationController
       unproccessable_entity e
     end
   end
+
 
   def new_party_member
     begin
@@ -109,8 +126,9 @@ class UserController < ApplicationController
 
   def follow
     begin
-    relationship = service.follow params
-    render json: {data: relationship, status: "ok"}, status: 201
+    data = service.follow params
+    render json: {data: data[:relationship], status: "ok"}, status: 201
+    dispatch_notification data[:payload]
     rescue StandardError => e
       unproccessable_entity e
     end
