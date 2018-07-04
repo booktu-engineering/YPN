@@ -1,6 +1,7 @@
 class AdminController < ApplicationController
   attr_accessor :service
   before_action UserFilter::AdminOnly
+  skip_before_action UserFilter::AdminOnly, only: [:all]
 
   def initialize
     @service = SubAdminService.new(SubAdminGroup)
