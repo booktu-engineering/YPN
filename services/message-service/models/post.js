@@ -38,14 +38,10 @@ const postSchema = new mongoose.Schema({
   },
 
 
-  media: {
-    type: String,
-  },
+  media: [],
 
 
-  link: {
-    type: String
-  }
+  links: []
 },
 
 {
