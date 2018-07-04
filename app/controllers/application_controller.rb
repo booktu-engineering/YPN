@@ -8,6 +8,7 @@ class ApplicationController < ActionController::API
 
   # errors and all of that
   def unproccessable_entity e
+    puts e
     e.message ||= 'Something went wrong trying to process this request'
     render json: { errors: e.message }, status: 422
   end

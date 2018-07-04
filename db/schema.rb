@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180630153813) do
+ActiveRecord::Schema.define(version: 20180701174051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20180630153813) do
     t.string "dob"
     t.string "roles", array: true
     t.jsonb "meta"
-    t.integer "phone"
+    t.string "phone"
     t.string "lga"
     t.string "username"
     t.string "email"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20180630153813) do
     t.boolean "confirmed_email", default: false
     t.string "ward"
     t.string "avatar"
+    t.string "state"
   end
 
   add_foreign_key "posts", "users"

@@ -11,7 +11,7 @@ class UserService < BaseService
     send_confirm_email user.id
     return { user: user, token: token }
     end
-    raise ArgumentError.new('Please pass in the right values')
+    raise ArgumentError.new('Hey that input might be wrong, or the username or email taken :(')
   end
 
 
@@ -22,7 +22,7 @@ class UserService < BaseService
     token = generate_token user
     return { user: user, token: token }
     end
-    raise StandardError.new('Sorry, those credentials dont match')
+    raise StandardError.new("Sorry, that's an invalid username/password combination")
   end
 
 
@@ -84,7 +84,8 @@ class UserService < BaseService
     data = self.model.find_by(id: body[:id].to_i)
     if data && data.role === 0
       id = generate_member_id
-      user = data.update({ :membership_number => id, role: 1 })
+      data.update({ :membership_number => id, role: 1 })
+      user = self.model.find_by(id: body[:id].to_i)
       token = generate_token user
       return { :data => user, :token => token }
     end
@@ -209,12 +210,12 @@ end
 def dispatch_notification body
   uri = URI.parse("https://ypn-notification-api.herokuapp.com/receive/")
   http = Net::HTTP.new(uri.host, uri.port);
+  http.use_ssl = true
   header = {'Content-Type': 'application/json'}
   request = Net::HTTP::Post.new(uri.request_uri, header)
   request.body = body.to_json
   http.request(request)
   return
-  puts "Remember to change this when the mailer service starts"
 end
 
 
