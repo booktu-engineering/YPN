@@ -13,6 +13,14 @@ class PostControllerBase extends BaseController {
     }, next);
   }
 
+  fetchAllPosts = (req, res, next) => {
+    this.__wrapInTryCatch(async () => {
+      const { user, access } = req;
+      data = await this.service.fetchAllPosts(req.params.id)
+      this.__responseOkay(res, data);
+    }, next);
+  }
+
   like = (req, res, next) => {
     this.__wrapInTryCatch(async () => {
       const { user } = req;

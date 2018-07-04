@@ -121,6 +121,11 @@ class PostServiceObject extends BaseService {
     return data;
   }
 
+  fetchAllPosts = async (id) => {
+    data = await this.model.find({ 'origin.id': parseInt(id) })
+    return data;
+  }
+
   fetchComments = async (data) => {
     data = await this.model.find({ referenceID: data._id });
     return data;
