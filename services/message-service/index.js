@@ -8,10 +8,10 @@ import indexRouter from './routes/'
 const PORT = process.env.PORT || 3400
 const app = express();
 
-mongoose.connect(`mongodb://localhost/ypn-dev`, {
-});
+// mongoose.connect(`mongodb://localhost/ypn-dev`, {
+// });
 
-// mongoose.connect(`mongodb://base:Hasstrup1234@ds219051.mlab.com:19051/youthpartynigeria`);
+mongoose.connect(`mongodb://base:Hasstrup1234@ds219051.mlab.com:19051/youthpartynigeria`);
 
 app
   .use(logger('dev'))
