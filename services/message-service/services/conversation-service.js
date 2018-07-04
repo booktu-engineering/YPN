@@ -23,6 +23,7 @@ class ConversationService extends BaseService {
       this.__unprocessableEntity();
     }
     data = await Post.find({ type: 1 });
+    console.log(body)
     data = data.filter(item => body.includes(item.origin.id));
     return data;
   }
