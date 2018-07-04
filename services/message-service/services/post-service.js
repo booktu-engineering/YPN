@@ -96,9 +96,8 @@ class PostServiceObject extends BaseService {
 
   getTimeline = async (username, access) => {
     data = await this.__fetchUser(username, access);
-    console.log(data)
     body = data.friends.map(item => item.id);
-    body.push(data.id);
+    body.push(data.data.id);
     return await ConversationService.getTimeline(body);
   }
 
