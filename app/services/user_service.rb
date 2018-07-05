@@ -147,7 +147,7 @@ class UserService < BaseService
 
 
   def generate_token body
-    data = { id: body.id, role: body.role, username: body.username, lastname: body.lastname, email: body.email, firstname: body.firstname, nt_token: body.nt_token, meta: body.meta }
+    data = { id: body.id, role: body.role, username: body.username, lastname: body.lastname, email: body.email, firstname: body.firstname, avatar: body.avatar, nt_token: body.nt_token, meta: body.meta }
     data = Auth.issue data
     return data
   end
