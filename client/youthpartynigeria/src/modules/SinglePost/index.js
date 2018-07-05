@@ -8,7 +8,7 @@ import { width } from '../../mixins';
 import MediaHandler from './media/';
 import iterator from '../iterator'
 
-let imageUrl = 'https://pmcdeadline2.files.wordpress.com/2017/06/david-vintiner_donald-glover_3450-copy.jpg?crop=726px%2C0px%2C2962px%2C1984px&resize=446%2C299'
+let imageUrl = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png'
 
 
   const Data1 = {
@@ -28,17 +28,22 @@ const Data2 = {
   ]
 }
 
-const SinglePost = () => (
+const mockText = 'It is now ndisputable that e people f Nigeria are united. I believe in an urgent restoration of active and particiatory democracy '
+const SinglePost = ({ data }) => (
   <View style={styles.base}>
     <View style={styles.mainContent}>
       {/* this should render the users avatar and all of that */}
-      <Image style={{ height: 50, width: 50, borderRadius: 25, position: 'absolute', top: 20, left: 15}} source={{ uri: imageUrl }}/>
+      <Image style={{ height: 50, width: 50, borderRadius: 25, position: 'absolute', top: 20, left: 15}} source={{ uri: ( data.origin && data.origin.avatar ? data.origin.avatar : imageUrl ) }}/>
       { /* this should render the post and the content within */}
       <View style={{ flexDirection: 'column', alignSelf: 'flex-end', paddingLeft: 50, paddingTop: 20, position: 'relative', }}>
-        <Text style={{ fontSize: 13, fontWeight: '700'}}> John Phillips </Text>
-        <Text style={{ alignSelf: 'flex-end', fontSize: 10, position: 'absolute', top: 20, right: 13, color: '#D0D3D4', fontWeight: '600' }}> 10 mins </Text>
-        <Text style={{ width: width * 0.7, fontSize: 12, marginTop: 10, marginBottom: 12,  color: '#797D7F', fontWeight: '500' }}>It is now ndisputable that e people f Nigeria are united. I believe in an urgent restoration of active and particiatory democracy </Text>
-      {/* <MediaHandler data={Data1}/>*/}
+        <Text style={{ fontSize: 13, fontWeight: '700'}}> { data.origin ? `${data.origin.firstname} ${data.origin.lastname}` : 'John Phillips' } </Text>
+        <Text style={{ alignSelf: 'flex-end', fontSize: 10, position: 'absolute', top: 20, right: 13, color: '#D0D3D4', fontWeight: '600' }}> { data ? `${data.createdAt}` : '10 mins'} </Text>
+        <Text style={{ width: width * 0.7, fontSize: 12, marginTop: 10, marginBottom: 12,  color: '#797D7F', fontWeight: '500' }}> { data.content ? `${data.content}` : `${mockText}`}</Text>
+        {
+          data.links || data.media ?
+          <MediaHandler data={data}/>
+          : null
+        }
     </View>
   </View>
     <ButtonStack />

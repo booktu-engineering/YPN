@@ -6,18 +6,29 @@ import { defaultGreen } from '../../mixins/';
 import { multiplePosts } from '../SinglePost/';
 import { fetchTimeline } from '../../actions/thunks/posts';
 import { NotificationIcon, SearchIcon, LeftNav } from '../IconRegistry/'
+import { dispatchNotification } from '../../helpers/uploader';
+
+let nav;
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.registerButtons();
+    nav = this.props.navigator;
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this))
   }
 
+  onNavigatorEvent = (e) => {
+    if (e.id === 'didAppear') return this.fetchTimeLine()
+  }
   componentDidMount = () => {
     // fetch the data here
-    if(this.props.data) return;
+    dispatchNotification(this.props.navigator)(`Hey, ${this.props.user.firstname}! what do you have to share?`)
+    if (this.props.data) return;
     this.props.dispatch(fetchTimeline(this.props.navigator))
   }
+
+fetchTimeLine = () => this.props.dispatch(fetchTimeline(this.props.navigator))
 
 // registering the buttons
 NotificationIco = () => <NotificationIcon navigator={this.props.navigator} />
@@ -33,7 +44,10 @@ LeftButton = () => <LeftNav navigator={this.props.navigator} />
   render = () => {
     return (
       <View style={{ flex: 1 }}>
-        { multiplePosts([ 1,2,3,4])({ navigator: this.props.navigator })}
+        {  this.props.data ?
+          multiplePosts([...this.props.data].reverse())({ navigator: this.props.navigator }) :
+          multiplePosts([ 1,2,3,4])({ navigator: this.props.navigator })
+        }
       </View>
     )
   }
@@ -68,8 +82,10 @@ Home.navigatorButtons = {
 
 const mapStateToProps = (state) => {
   return {
-    data: state.posts.timeline
+    data: state.posts.timeline,
+    user: state.users.current
   }
 }
 
+export const HomeNavigator = () => nav;
 export default connect(mapStateToProps)(Home);

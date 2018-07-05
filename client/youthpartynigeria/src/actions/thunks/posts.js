@@ -14,7 +14,7 @@ export const fetchTimeline = (navigator) => async (dispatch) => {
       'Authorization': token
     }})
     .then((response) => {
-      console.log(response);
+      console.log(response.data)
       dispatch({
         type: 'TIMELINE_GOTTEN',
         payload: response.data.data
@@ -29,4 +29,24 @@ export const fetchTimeline = (navigator) => async (dispatch) => {
   }
 }
 
-export const DOthis = {};
+export const sendPost = (data) => (navigator) => async (dispatch) => {
+  // dispatch processing job
+  const token = await AsyncStorage.getItem("#!@#$%");
+  return axios.request({
+    method: 'post',
+    data,
+    url: `${config.postUrl}/posts`,
+    headers: {
+      'Authorization': token
+    }
+  }).then((response) => {
+    console.log(response);
+    navigator.switchToTab({
+      tabIndex: 0
+    })
+  })
+  .catch((err) => {
+    if(err.message) return console.log(err.message)
+    console.log(err.response.data)
+  })
+}

@@ -49,7 +49,7 @@ export default class Navigator {
     Navigation.registerComponent('Declare.Interest', () => DeclareInterestComponent);
     Navigation.registerComponent('Home', () => HomeComponent, store, Provider);
     Navigation.registerComponent('Chat.Component', () => ChatComponent);
-    Navigation.registerComponent('Post.Component', () => PostComponent);
+    Navigation.registerComponent('Post.Component', () => PostComponent, store, Provider);
     Navigation.registerComponent('Profile.Component', () => ProfileComponent);
     Navigation.registerComponent('More.Component', () => MoreComponent);
     Navigation.registerComponent('Drawer', () => Drawer, store, Provider);

@@ -11,11 +11,12 @@ const SignUpThunk = (body) => (navigator) => (dispatch) => {
   dispatch({ type: 'PROCESSING_CONTENT' });
   return axios.post(`${config.baseUrl}/signup`, body)
     .then((response) => {
-      AsyncStorage.setItem("#!@#$%", response.data.data.token);
-    })
-    .then((response) => {
       dispatch({ type: 'USER_SIGN_UP', payload: response.data.data.user })
-      navigatorObject.startLoggedIn();
+      AsyncStorage.setItem("#!@#$%", response.data.data.token)
+      .then(() => {
+        navigatorObject.startLoggedIn();
+        dispatchNotification(navigator)(`Welcome to YPN! ${response.data.data.user.firstname}`)
+      })
     })
     .catch((err) => {
        // console the error for now
@@ -34,12 +35,13 @@ const LogInThunk = (body) => (navigator) => (dispatch) => {
   dispatch({ type: 'PROCESSING_CONTENT' });
   return axios.post(`${config.baseUrl}/login`, body)
     .then((response) => {
+      console.log(response.data)
       dispatch({ type: 'USER_LOGGED_IN', payload: response.data.data.user })
       // cache the token - and move after then
       AsyncStorage.setItem("#!@#$%", response.data.data.token)
         .then(() => {
-          navigatorObject.startLoggedIn();
           dispatchNotification(navigator)(`Welcome back! ${response.data.data.user.firstname}`)
+          navigatorObject.startLoggedIn();
         })})
     .catch((err) => {
           dispatchNotification(navigator)(err.response.data.errors);

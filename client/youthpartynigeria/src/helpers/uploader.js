@@ -16,31 +16,33 @@ export const SingleUpload = () => {
 
 export const MultipleUpload = () => {
   return ImagePicker.openPicker({
-    multiple: true
+    multiple: true,
+    maxFiles: 4
   })
-  .then(images => SendToCloudinary(images, 'multiple'))
+  .then(images => {
+    return images
+  })
   .catch((e) => {
-    throw e
+    console.log(e)
   })
 }
 
-const SendToCloudinary = (data, key) => {
+export const SendToCloudinary = async (data, key) => {
   let images = [];
   RNCloudinary.init(config.cloudinaryKey, config.cloudinarySecret, config.cloud);
   if(!key) return RNCloudinary.UploadImage(data.path)
 
 
-  // upload multiple images
-  for (let image of data) {
-    RNCloudinary.uploadImage(image.path)
-    .then(response => images.push(response.secure_url))
-    .catch(e => { throw e })
+  for (let i = 0; i < data.length; i++) {
+    const url = await RNCloudinary.UploadImage(data[i].path)
+    images.push(url)
   }
-  return images;
+  return images
 }
 
 
 export const dispatchNotification = (navigator) => (message) => {
+  console.log(navigator)
   navigator.showInAppNotification({
     screen: 'App.notification',
     passProps: {
