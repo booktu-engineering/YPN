@@ -1,41 +1,44 @@
 import React, { Component } from 'react';
 import Screen from '../../mixins/screen';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
-import { CustomHeader } from '../ShowConversation/'
-import { height, width, defaultGreen } from '../../mixins/'
+import { CustomHeader } from '../ShowConversation/';
+import { height, width, defaultGreen } from '../../mixins/';
 import MessageLog from '../Log';
 import { messages } from './messages';
 import { CameraIcon, SendIcon } from '../IconRegistry';
 
 class ConversationLog extends Screen {
   constructor(props) {
-    super(props, 'A.Test.Screen')
+    super(props, 'A.Test.Screen');
     this.state = {
       messages: []
-    }
+    };
   }
 
 
   componentDidMount = () => {
-        this.setState({
-          messages: messages.normal
-        })
-      }
+    this.setState({
+      messages: messages.normal
+    });
+  }
 
   render = () => (
     <View style={{ height, width }}>
-      <CustomHeader navigator={this.props.navigator} data={{ origin: { name: 'Women Empowerment' }}} />
-      <View style={{ height: height * 0.78, width}}>
-        <MessageLog data={messages.normal} origin={messages.origin}/>
+      <CustomHeader navigator={this.props.navigator} data={this.props.data} />
+      <View style={{ height: height * 0.78, width }}>
+        <MessageLog data={messages.normal} origin={messages.origin} />
       </View>
       <InputButton />
-  </View>
+    </View>
   )
 }
 
 
 const InputButton = () => (
-  <View style={{ height: height * 0.07, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,}}>
+  <View style={{
+ height: height * 0.07, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
+}}
+  >
     <TextInput
       style={{
         minHeight: height * 0.06,
@@ -47,8 +50,8 @@ const InputButton = () => (
       }}
       placeholder="Type a message"
       placeholderTextColor="#D0D3D4"
-      multiline={true}
-      />
+      multiline
+    />
     <TouchableOpacity
       style={{
         height: height * 0.07,
@@ -56,8 +59,8 @@ const InputButton = () => (
         justifyContent: 'center',
         alignItems: 'center'
       }}
-      >
-      <CameraIcon size={24} style={{}} color={`${defaultGreen}`}/>
+    >
+      <CameraIcon size={24} style={{}} color={`${defaultGreen}`} />
     </TouchableOpacity>
     { /* send button */}
     <TouchableOpacity
@@ -68,16 +71,16 @@ const InputButton = () => (
         alignItems: 'center',
         backgroundColor: defaultGreen
       }}
-      >
-      <SendIcon size={25} color="white"/>
+    >
+      <SendIcon size={25} color="white" />
     </TouchableOpacity>
 
   </View>
-)
+);
 
 
 ConversationLog.navigatorStyle = {
-    navBarHidden: true
-}
+  navBarHidden: true
+};
 
 export default ConversationLog;

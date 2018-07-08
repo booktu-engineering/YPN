@@ -1,43 +1,49 @@
 import React, { Component } from 'react';
+import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { defaultGreen, height, width } from '../../mixins/';
 import { multiplePosts } from '../SinglePost/';
 import { MultipleEvents } from '../SingleEvent';
+import { BackIcon } from '../IconRegistry/';
+import { startPersonalConversation } from '../../actions/thunks/conversations';
 
+const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
 
-const uri = 'https://menhairstylist.com/wp-content/uploads/2017/07/dreads-in-man-bun-black-men-hairstyles.jpg';
-let nav;
-class ProfileComponent extends Component {
-static navigatorStyle = {
-  navBarBackgroundColor: defaultGreen,
-  statusBarTextColorScheme: 'light',
-  navBarNoBorder: true
-}
+class ShowUser extends Component {
+  static navigatorStyle = {
+    navBarBackgroundColor: defaultGreen,
+    statusBarTextColorScheme: 'light',
+    navBarNoBorder: true
+  }
 
-static navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'ShowNav',
-      component: 'Left.Button'
-    }
-  ]
-}
+  static navigatorButtons = {
+    leftButtons: [
+      {
+        id: 'ShowNav',
+        component: 'SU.Back.Button'
+      }
+    ]
+  }
 
-constructor(props) {
-  super(props);
-  this.state = {
-    viewEvents: false
-  };
-  console.log(this.props);
-  nav = this.props.navigator;
+  constructor(props) {
+    super(props);
+    this.state = { viewEvents: false };
+    Navigation.registerComponent('SU.Back.Button', () => this.backIcon);
+    this.props.navigator.toggleTabs({ to: 'hidden', animated: true });
+  }
+
+  backIcon = () => <BackIcon navigator={this.props.navigator} />
+
+handleInitMessage = () => {
+  this.props.dispatch(startPersonalConversation([this.props.target])(this.props.navigator));
 }
 
   render = () => (
     <View style={{ flex: 1 }}>
       <View style={{ height: height * 0.07, backgroundColor: defaultGreen }} />
       <DisplayBio user={this.props.target} />
-
+      <ButtonStack user={this.props.target} handleMessage={this.handleInitMessage} />
       { /* That barrieer thing */}
       <View style={{
  height: height * 0.05, width, flexDirection: 'row', flexWrap: 'nowrap'
@@ -60,13 +66,16 @@ constructor(props) {
           <Text style={{ fontSize: 12.3, fontWeight: '600', color: !this.state.viewEvents ? '#626567' : defaultGreen }}> Recent Events </Text>
         </TouchableOpacity>
       </View>
-      <View style={{ height: height * 0.6 }}>
-        { this.state.viewEvents ? MultipleEvents([1, 2, 3])() : multiplePosts([1, 2, 3])({ height: height * 0.3 })}
-      </View>
+      {
+            this.props.posts ?
+              <View style={{ height: height * 0.6 }}>
+                { this.state.viewEvents ? MultipleEvents([1, 2, 3])() : multiplePosts([...this.props.posts])({ height: height * 0.3, navigator: this.props.navigator, dispatch: this.props.dispatch })}
+              </View>
+            : null
+          }
     </View>
   )
 }
-
 
 const DisplayBio = ({ user }) => (
   <View style={{ height: height * 0.2, width, marginBottom: 5 }}>
@@ -102,7 +111,7 @@ const DisplayBio = ({ user }) => (
   </View>
 );
 
-const ButtonStack = ({ user }) => (
+const ButtonStack = ({ user, handleMessage }) => (
   <View style={{
  width, height: height * 0.08, paddingRight: 16, paddingLeft: 16, flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around'
 }}>
@@ -118,18 +127,21 @@ const ButtonStack = ({ user }) => (
     >
       <Text style={{ fontSize: 11, color: '#979A9A' }}><Text style={{ fontWeight: '600', color: '#626567' }}> { `${user.friends.length}`} </Text>Following </Text>
     </TouchableOpacity>
-    <TouchableOpacity style={{
+    <TouchableOpacity
+      style={{
  height: height * 0.04, alignItems: 'center', justifyContent: 'center', width: width * 0.27, backgroundColor: defaultGreen, borderRadius: 3
 }}
+      onPress={handleMessage}
     >
       <Text style={{ fontSize: 11, color: '#fff' }}> Message </Text>
     </TouchableOpacity>
   </View>
 );
 
-
 const mapStateToProps = state => ({
-  target: state.users.current
+  target: state.users.target,
+  user: state.users.current,
+  posts: state.posts.target
 });
-export const ProfileNavigator = () => nav;
-export default connect(mapStateToProps)(ProfileComponent);
+
+export default connect(mapStateToProps)(ShowUser);
