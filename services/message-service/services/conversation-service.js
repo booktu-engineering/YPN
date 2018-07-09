@@ -6,7 +6,6 @@ let data;
 let ref = {};
 /* eslint no-underscore-dangle: 0, no-return-await: 0, prefer-const: 0 */
 class ConversationService extends BaseService {
-
   fetchOne = async (key, value) => {
     this.__checkArguments(key, value);
     ref[`${key}`] = value;
@@ -23,8 +22,13 @@ class ConversationService extends BaseService {
       this.__unprocessableEntity();
     }
     data = await Post.find({ type: 1 });
-    console.log(body)
+    console.log(body);
     data = data.filter(item => body.includes(item.origin.id));
+    return data;
+  }
+
+  getSpecific = async (type) => {
+    data = await this.model.find({ type: parseInt(type) });
     return data;
   }
 
@@ -37,15 +41,13 @@ class ConversationService extends BaseService {
         data.invites.push(user);
         data = await data.save();
         return data;
-      }
-      else if (data.invites.map(item => item.id).includes(user.id)) return data;
+      } else if (data.invites.map(item => item.id).includes(user.id)) return data;
       data.invites.push(user);
       data = await data.save();
       return data;
     }
     return null;
   }
-
 }
 
 const ConversationServiceObject = new ConversationService(ConversationModel);
