@@ -15,7 +15,6 @@ export const fetchTimeline = navigator => async (dispatch) => {
       }
     })
       .then((response) => {
-        console.log(response.data);
         dispatch({
           type: 'TIMELINE_GOTTEN',
           payload: response.data.data
@@ -25,7 +24,6 @@ export const fetchTimeline = navigator => async (dispatch) => {
         dispatchNotification(navigator)(err.response.data.error);
       });
   } catch (err) {
-    console.log(err);
     dispatchNotification(navigator)(err.message);
   }
 };

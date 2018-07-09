@@ -1,29 +1,48 @@
 import React from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, ScrollView } from 'react-native';
 import { height, width } from '../../mixins/';
 import { formatDate } from '../../helpers/uploader';
 
-const MessageLog = ({ data, origin }) => (
+const MessageLog = ({ data, origin, extraData }) => (
   <FlatList
+    inverted
     data={data}
     renderItem={({ item }) => <MessageComponent origin={origin} data={item} />}
     style={{
-      flex: 1,
+      height: height * 0.78,
+      width,
       paddingRight: 10,
       paddingLeft: 10,
       paddingTop: 15,
     }}
-    initialScrollIndex={(data.length - 6)}
+    getItemLayout={(item, index) => ({ index, height: height * 0.07, offset: 0 })}
+    keyExtractor={(item, index) => item._id}
+    extraData={extraData}
   />
 );
 
-const MessageComponent = ({ data, origin }) => (
+//
+// const MessageLog = ({ data, origin }) => {
+//   const messages = data.map(data => <MessageComponent data={data} origin={origin} />);
+//   return (
+//     <ScrollView
+//       style={{
+//         flex: 1
+//       }}
+//     >
+//       { messages }
+//     </ScrollView>
+//   );
+// };
+
+
+export const MessageComponent = ({ data, origin }) => (
   <View
     style={{
       minHeight: height * 0.07,
       minWidth: width * 0.8,
-      backgroundColor: (data.origin._id === origin._id ? '#D5F5E3' : '#E8F8F5'),
-      alignSelf: (data.origin._id === origin._id ? 'flex-end' : 'flex-start'),
+      backgroundColor: (data.origin.id === origin.id ? '#D5F5E3' : '#E8F8F5'),
+      alignSelf: (data.origin.id === origin.id ? 'flex-end' : 'flex-start'),
       paddingTop: 5,
       borderRadius: 5,
       paddingRight: 10,

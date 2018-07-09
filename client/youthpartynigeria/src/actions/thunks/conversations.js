@@ -24,7 +24,12 @@ export const fetchAllConversations = navigator => async (dispatch) => {
           a[`${b._id}`] = b.messages || [];
           return a;
         }, {});
+        const activitymap = response.data.data.reduce((a, b) => {
+          a[`${b._id}`] = 0;
+          return a;
+        }, {});
         dispatch({ type: 'CREATE_REGISTRY', payload: registry });
+        dispatch({ type: 'CREATE_ACTIVITY_MAP', payload: activitymap });
       })
       .catch((error) => {
         dispatchNotification(navigator)('Something went wrong');
@@ -90,8 +95,6 @@ export const updateConversation = id => navigator => (dispatch, getState) => axi
   }
 })
   .then((response) => {
-    // so the messages will definitely come from the api at once.
-    // You can access the messages in the conversation from response.data.data.messages
     dispatch({ type: 'CONVERSATION_RECEIVED', payload: response.data.data });
     return response.data.data.messages;
   })
@@ -103,17 +106,13 @@ export const fetchConversation = target => (dispatch, getState) => getState().co
 
 export const incomingMessage = data => (dispatch, getState) => {
   // data is the new message object
+  console.log(data);
   const registry = getState().convos.registry;
-  /*
-    fix the registry to have the new guy, essentially push in the new message object
-    so think about if the registry was like this before the new message
-    {
-      conversationID1: [ { message1 }, { message2 }]
-    }
-    what this does is to just push the new message inside the value of conversationID1.
-  */
-  registry[`${data.destination}`] = [...registry[`${data.destination}`], data];
+  const activityMap = getState().convos.activityMap;
+  registry[`${data.destination}`] = [data, ...registry[`${data.destination}`]];
+  activityMap[`${data.destination}`] += 1;
   dispatch({ type: 'UPDATE_REGISTRY', payload: registry });
+  dispatch({ type: 'UPDATE_ACTIVITY', payload: activityMap });
 };
 
 export const JoinConversation = id => navigator => async (dispatch) => {

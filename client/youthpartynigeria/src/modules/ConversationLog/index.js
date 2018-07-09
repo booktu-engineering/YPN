@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import Screen from '../../mixins/screen';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import { CustomHeader } from '../ShowConversation/';
 import { height, width, defaultGreen } from '../../mixins/';
 import config from '../../config/';
-import MessageLog from '../Log';
+import { MessageComponent } from '../Log';
 import { updateConversation, incomingMessage, sendMessage, LeaveConversation } from '../../actions/thunks/conversations';
 import { CameraIcon, SendIcon } from '../IconRegistry';
 import { dispatchNotification } from '../../helpers/uploader';
@@ -52,31 +52,48 @@ class ConversationLog extends Screen {
       origin: this.props.user,
       type: 2,
       // destination here is the id of the conversation
-      destination: this.props.data._id
+      destination: this.props.data._id,
+      // data.now
+      createdAt: Date.now()
     };
-    /* pass in the auth token of the current user, because the notification server might be needing it to create the db.
-      PLEASE DONT FORGET TO PASS THE TOKEN. IT IS VERY VERY IMPORTANT.
-    */
-    // this might not be good, but yeah
-    this.state.messages.push(message);
+    const messages = [message, ...this.state.messages];
+    this.setState({ messages });
     this.props.dispatch(sendMessage({ ...message, token: this.props.token }, this.socket)(this.props.navigator));
   }
 
   registerEvents = () => {
     this.socket.on('incoming-message', (data) => {
+      const messages = [data, ...this.state.messages];
+      this.setState({ messages });
       this.props.dispatch(incomingMessage(data));
     });
   }
 
+  deets = () => this.props.registry[`${this.props.data._id}`].reverse()
+
   render = () => (
-    <View style={{ height, width }}>
+    <View style={{ height, width, paddingBottom: 8 }}>
       <CustomHeader navigator={this.props.navigator} data={this.props.data} />
-      <View style={{ height: height * 0.7, width }}>
-        { this.state.messages.length ?
-          <MessageLog data={this.state.messages} origin={this.props.user} />
-         : null
+      { this.state.messages.length ?
+        <FlatList
+          inverted
+          onLayout={() => { this.flatlistRef.scrollToEnd({ animated: true }); }}
+          ref={(ref) => { this.flatlistRef = ref; }}
+          data={this.state.messages}
+          renderItem={({ item }) => <MessageComponent origin={this.props.user} data={item} />}
+          style={{
+            height: height * 0.78,
+            width,
+            paddingRight: 10,
+            paddingLeft: 10,
+            paddingTop: 15,
+          }}
+          getItemLayout={(item, index) => ({ index, height: height * 0.07, offset: 0 })}
+          keyExtractor={(item, index) => item._id}
+          extraData={this.state}
+        />
+         : <View style={{ height: height * 0.78 }} />
       }
-      </View>
       <InputButton handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
     </View>
   )
@@ -86,6 +103,7 @@ class ConversationLog extends Screen {
 const InputButton = ({ handleChange, handleSubmit }) => (
   <View style={{
  height: height * 0.08, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
+
 }}
   >
     <TextInput
@@ -115,7 +133,7 @@ const InputButton = ({ handleChange, handleSubmit }) => (
     { /* send button */}
     <TouchableOpacity
       style={{
-        height: height * 0.07,
+        height: height * 0.085,
         width: width * 0.15,
         justifyContent: 'center',
         alignItems: 'center',
@@ -138,7 +156,8 @@ const mapStateToProps = state => ({
   logs: state.convos.logs,
   registry: state.convos.registry,
   user: state.users.current,
-  token: state.users.token
+  token: state.users.token,
+  activity: state.convos.activityMap
 });
 
 export default connect(mapStateToProps)(ConversationLog);

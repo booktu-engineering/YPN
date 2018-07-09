@@ -8,13 +8,19 @@ export default (state = {}, action) => {
     case 'CREATE_REGISTRY':
       return { ...state, registry: action.payload };
 
+    case 'CREATE_ACTIVITY_MAP':
+      return { ...state, activityMap: action.payload };
+
     case 'UPDATE_REGISTRY':
-      console.log(action.payload);
       return { ...state, registry: action.payload };
+
+    case 'UPDATE_ACTIVITY':
+      console.log(action.payload);
+      return { ...state, activityMap: action.payload };
 
     case 'CONVERSATION_RECEIVED':
       const obj = {};
-      obj[`${action.payload._id}`] = action.payload.messages;
+      obj[`${action.payload._id}`] = action.payload.messages.reverse();
       return { ...state, registry: { ...state.registry, ...obj } };
 
     default:
