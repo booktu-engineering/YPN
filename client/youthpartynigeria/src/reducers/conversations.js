@@ -8,10 +8,15 @@ export default (state = {}, action) => {
     case 'CREATE_REGISTRY':
       return { ...state, registry: action.payload };
 
+    case 'UPDATE_REGISTRY':
+      console.log(action.payload);
+      return { ...state, registry: action.payload };
+
     case 'CONVERSATION_RECEIVED':
       const obj = {};
       obj[`${action.payload._id}`] = action.payload.messages;
       return { ...state, registry: { ...state.registry, ...obj } };
+
     default:
       return state;
   }

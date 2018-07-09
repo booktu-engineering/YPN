@@ -4,6 +4,7 @@ import Screen from '../../mixins/screen';
 import { height, width, defaultGreen, bigButton, buttonText } from '../../mixins';
 import { withNavigation, BackIcon, NotificationIcon } from '../IconRegistry';
 
+const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
 
 class ShowConversation extends Screen {
   constructor(props) {
@@ -44,7 +45,7 @@ export const CustomHeader = ({ navigator, data }) => (
  width: width * 0.8, maxHeight: height * 0.2, flexDirection: 'row', flexWrap: 'nowrap'
 }}
     >
-      <Image style={{ height: 52, width: 52, borderRadius: 26 }} source={{ uri: 'https://www.graphic.com.gh/images/2017/MAY/may29/right.png' }} />
+      <Image style={{ height: 52, width: 52, borderRadius: 26 }} source={{ uri: generateUri(data.members.filter(item => item.id !== data.origin.id)) }} />
       <View style={{
  maxWidth: width * 0.8, maxHeight: height * 0.2, paddingRight: 20, justifyContent: 'center'
 }}
@@ -52,7 +53,7 @@ export const CustomHeader = ({ navigator, data }) => (
         <Text style={{
  fontSize: 18, fontWeight: '600', color: 'white', marginBottom: 5
 }}
-        > { data.origin.name }
+        > { data.title ? data.title : generateNames(data.members.filter(item => item.id !== data.origin.id)) }
         </Text>
       </View>
     </View>
@@ -64,8 +65,20 @@ export const CustomHeader = ({ navigator, data }) => (
 );
 
 
-const generateName = ({ members }) => {
+const generateNames = (members) => {
+  let string = members.reduce((a, b) => `${a} ${b.firstname} ${b.lastname}, `, '');
+  string = string.trim().slice(0, (string.length - 2));
+  if (string.length > 18) {
+    string = string.slice(0, string.length - 8);
+    string = `${string}...`;
+  }
+  return string;
+};
 
+const generateUri = (members) => {
+  const position = Math.floor(Math.random() * members.length);
+  const avatar = members[position].avatar ? members[position].avatar : uri;
+  return avatar;
 };
 
 

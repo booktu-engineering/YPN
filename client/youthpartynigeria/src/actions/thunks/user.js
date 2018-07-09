@@ -11,6 +11,7 @@ const SignUpThunk = (body) => (navigator) => (dispatch) => {
   return axios.post(`${config.baseUrl}/signup`, body)
     .then((response) => {
       dispatch({ type: 'USER_SIGN_UP', payload: response.data.data.user });
+      dispatch({ type: 'INSERT_TOKEN', payload: response.data.data.token });
       AsyncStorage.setItem('#!@#$%', response.data.data.token)
         .then(() => {
           navigatorObject.startLoggedIn();
@@ -22,7 +23,7 @@ const SignUpThunk = (body) => (navigator) => (dispatch) => {
       navigator.showInAppNotification({
         screen: 'App.notification',
         passProps: {
-          message: err.response.data.errors
+          message: err.response ? err.response.data.errors : 'Oops, something went terribly wrong. try again?'
         }
       });
     });
@@ -35,6 +36,7 @@ const LogInThunk = (body) => (navigator) => (dispatch) => {
   return axios.post(`${config.baseUrl}/login`, body)
     .then((response) => {
       dispatch({ type: 'USER_LOGGED_IN', payload: response.data.data.user });
+      dispatch({ type: 'INSERT_TOKEN', payload: response.data.data.token });
       // cache the token - and move after then
       AsyncStorage.setItem('#!@#$%', response.data.data.token)
         .then(() => {
@@ -43,13 +45,13 @@ const LogInThunk = (body) => (navigator) => (dispatch) => {
         });
     })
     .catch((err) => {
-      dispatchNotification(navigator)(err.response.data.errors);
+      const error = err.response ? err.response.data.errors : 'Hey, something went wrong, try again?';
+      dispatchNotification(navigator)(error);
     });
 };
 
 
 export const fetchUserThunk = (id) => (navigator) => async (dispatch) => {
-  console.log(id);
   const token = await AsyncStorage.getItem('#!@#$%');
   axios.request({
     method: 'get',
@@ -60,13 +62,11 @@ export const fetchUserThunk = (id) => (navigator) => async (dispatch) => {
   })
     .then((response) => {
     // we get a user
-      console.log(response.data.data);
       dispatch({ type: 'FETCHED_USER', payload: { ...response.data.data, followers: response.data.followers, friends: response.data.friends } });
       navigator.push({ screen: 'Show.User' });
       dispatch(fetchUsersPosts(response.data.data));
     })
     .catch((err) => {
-      console.log(err);
       dispatchNotification(navigator)('Sorry we couldnt get the user requested');
     });
 };

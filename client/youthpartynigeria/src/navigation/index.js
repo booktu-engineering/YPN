@@ -68,7 +68,7 @@ export default class Navigator {
     Navigation.registerComponent('DonationPT', () => DonationPhaseTwo);
     Navigation.registerComponent('Convo.Component', () => Conversations);
     Navigation.registerComponent('Show.Convo', () => ShowConversation);
-    Navigation.registerComponent('Convo.Log', () => ConversationLog);
+    Navigation.registerComponent('Convo.Log', () => ConversationLog, store, Provider);
     Navigation.registerComponent('Show.User', () => ShowUser, store, Provider);
   }
 

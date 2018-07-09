@@ -21,10 +21,10 @@ export const fetchAllConversations = navigator => async (dispatch) => {
         dispatch({ type: 'ALL_CONVERSATIONS_RECEIVED', payload: response.data.data });
         // create a registry
         const registry = response.data.data.reduce((a, b) => {
-          a[`${b._id}`] = b.messages;
+          a[`${b._id}`] = b.messages || [];
           return a;
         }, {});
-        dispatch({ type: 'CREATE_REGISTRY', registry });
+        dispatch({ type: 'CREATE_REGISTRY', payload: registry });
       })
       .catch((error) => {
         dispatchNotification(navigator)('Something went wrong');
@@ -34,12 +34,12 @@ export const fetchAllConversations = navigator => async (dispatch) => {
   }
 };
 
-export const startPersonalConversation = users => navigator => async (dispatch) => {
+export const startPersonalConversation = users => navigator => async (dispatch, getState) => {
   // you want to check that the message already exists in state
   let target;
   const targets = users.map(item => item.id);
-  targets.push(store.getState().users.current.id);
-  const messages = store.getState().convos.logs;
+  targets.push(getState().users.current.id);
+  const messages = getState().convos.logs;
   if (!messages || !messages.length) return await createNewConversation(users)(navigator)(dispatch);
   // you want to make sure the members are in the array;
   let filtered = messages.filter(item => item.type === 1 && item.members.length === targets.length);
@@ -56,8 +56,8 @@ export const startPersonalConversation = users => navigator => async (dispatch) 
   });
   // dispatch the conversation;
   if (target) {
-    store.dispatch({ type: 'CONVERSATION_RECEIVED', payload: target[0] });
-    return navigator.push({ screen: 'Convo.Log', passProps: { target: target[0] } });
+    target.members = users;
+    return navigator.push({ screen: 'Convo.Log', passProps: { data: target } });
   }
   return await createNewConversation(users)(navigator)(dispatch);
 };
@@ -72,38 +72,49 @@ export const createNewConversation = members => navigator => async (dispatch) =>
       Authorization: token
     }
   }).then((response) => {
-    store.dispatch({ type: 'CONVERSATION_RECEIVED', payload: response.data.data });
+    dispatch({ type: 'CONVERSATION_RECEIVED', payload: response.data.data });
     return navigator.push({ screen: 'Convo.Log', passProps: { target: response.data.dataHassHdd } });
   })
     .catch((err) => {
-      console.log(err);
       dispatchNotification(navigator)('Something went wrong, Try again maybe?');
       navigator.pop();
     });
 };
 
 
-export const updateConversation = (id, navigator) => {
-  axios.request({
-    method: 'get',
-    url: `${config.postUrl}/convos/${id}`
+export const updateConversation = id => navigator => (dispatch, getState) => axios.request({
+  method: 'get',
+  url: `${config.postUrl}/convos/${id}`,
+  headers: {
+    Authorization: getState().users.token
+  }
+})
+  .then((response) => {
+    // so the messages will definitely come from the api at once.
+    // You can access the messages in the conversation from response.data.data.messages
+    dispatch({ type: 'CONVERSATION_RECEIVED', payload: response.data.data });
+    return response.data.data.messages;
   })
-    .then((response) => {
-      store.dispatch({ type: 'CONVERSATION_UPDATED', payload: response.data.data });
-    })
-    .catch((err) => {
-    // console.log(err)
-      dispatchNotification(navigator)('Something went wrong, couldnt fetch the messages');
-    });
+  .catch(() => {
+    dispatchNotification(navigator)('Something went wrong, couldnt fetch the messages');
+  });
+
+export const fetchConversation = target => (dispatch, getState) => getState().convos.registry[`${target.destination}`] || [];
+
+export const incomingMessage = data => (dispatch, getState) => {
+  // data is the new message object
+  const registry = getState().convos.registry;
+  /*
+    fix the registry to have the new guy, essentially push in the new message object
+    so think about if the registry was like this before the new message
+    {
+      conversationID1: [ { message1 }, { message2 }]
+    }
+    what this does is to just push the new message inside the value of conversationID1.
+  */
+  registry[`${data.destination}`] = [...registry[`${data.destination}`], data];
+  dispatch({ type: 'UPDATE_REGISTRY', payload: registry });
 };
-
-
-export const fetchConversation = (target) => {
-  const { logs } = store.getState().convos;
-  const convo = logs.filter(item => item.id === target.id);
-  return convo.messages;
-};
-
 
 export const JoinConversation = id => navigator => async (dispatch) => {
   // this assumes that the fella is joining a conversation like debate and all of dat
@@ -117,7 +128,7 @@ export const JoinConversation = id => navigator => async (dispatch) => {
     navigator.push({ screen: '', passProps: { target: response.data.data } });
   })
     .catch((err) => {
-      console.log(err); // remember to remove this when the app goes into production
+      // remember to remove this when the app goes into production
       if (err.response.status && err.response.status === 401) {
         dispatchNotification(navigator)('Oops! Looks like you dont have permissions to join this conversation :(');
         return navigator.pop();
@@ -136,6 +147,9 @@ export const LeaveConversation = id => navigator => async (dispatch) => {
   return axios.request({
     method: 'put',
     url: `${config.postUrl}/convos/leave/${id}`,
+    headers: {
+      Authorization: token
+    }
   }).then(() => {
     // success he/she has left the conversation
     dispatchNotification(navigator)('Conversation Left. Thanks for nothing.');
@@ -145,12 +159,11 @@ export const LeaveConversation = id => navigator => async (dispatch) => {
   });
 };
 
-export const sendMessage = (body, socket) => navigator => async (dispatch) => {
+export const sendMessage = (body, socket) => navigator => (dispatch, getState) => {
   // there has to be type and destination
   if (!body.type && !body.destination) return dispatchNotification(navigator)('Sorry, you need to send in the right message');
-  dispatch({ type: 'INCOMING_MESSAGE', payload: body });
-  // add the origin, since it will be saved to the db directly
-  body.origin = store.getState().users.current;
-  // push the message into the conversation Identifier
-  return socket.emit(`new-message-${socket.id}`, body);
+  dispatch(incomingMessage(body));
+  // add the origin, since it might be saved to the db directly
+  body.origin = getState().users.current;
+  return socket.emit('new-message', body);
 };

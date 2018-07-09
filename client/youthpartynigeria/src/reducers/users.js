@@ -9,6 +9,9 @@ export default (state = {}, action) => {
     case 'FETCHED_USER':
       return { ...state, target: action.payload };
 
+    case 'INSERT_TOKEN':
+      return { ...state, token: action.payload };
+
     default:
       return state;
   }

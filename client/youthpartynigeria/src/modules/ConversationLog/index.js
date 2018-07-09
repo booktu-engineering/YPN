@@ -1,42 +1,91 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import io from 'socket.io-client';
 import Screen from '../../mixins/screen';
 import { View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { CustomHeader } from '../ShowConversation/';
 import { height, width, defaultGreen } from '../../mixins/';
+import config from '../../config/';
 import MessageLog from '../Log';
-import { messages } from './messages';
+import { updateConversation, incomingMessage, sendMessage, LeaveConversation } from '../../actions/thunks/conversations';
 import { CameraIcon, SendIcon } from '../IconRegistry';
+import { dispatchNotification } from '../../helpers/uploader';
 
 class ConversationLog extends Screen {
   constructor(props) {
     super(props, 'A.Test.Screen');
     this.state = {
-      messages: []
+      messages: [],
+      content: ''
     };
+    /* essentially what this means is that the
+     * guy is connecting to a namespace and will join
+     *  a room with this name, make sure you pass the id of the conversation, so
+     *   that the user can be connected to this room and would receive messages from
+     *   others in this conversation in real time.
+     *   the socket url should look like this `https://ypn-notification-api/conversation`
+     *   if not it wont connect to the right name space.
+     *   */
+    this.socket = io(`${config.realTimeUrl}conversation`, { query: { convoID: this.props.data._id } });
+    // register all the events that will be shared in the room
+    this.registerEvents();
   }
 
 
   componentDidMount = () => {
-    this.setState({
-      messages: messages.normal
+    /* initially fetch the conversation from the state in the redux store */
+    const messages = this.props.registry[`${this.props.data._id}`];
+    this.setState({ messages });
+    // async call to update the registry
+    this.props.dispatch(updateConversation(this.props.data._id)(this.props.navigator))
+      .then((data) => { this.setState({ messages: data }); });
+  }
+
+  handleChange = content => this.setState({ content })
+
+  handleSubmit = () => {
+    if (this.state.content.length < 1) return dispatchNotification(this.props.navigator)(`Hey ${this.props.user.firstname}, you have to say something`);
+    // prepare the message // it should like the posts
+    const message = {
+      content: this.state.content,
+      // origin is the current user of the db
+      origin: this.props.user,
+      type: 2,
+      // destination here is the id of the conversation
+      destination: this.props.data._id
+    };
+    /* pass in the auth token of the current user, because the notification server might be needing it to create the db.
+      PLEASE DONT FORGET TO PASS THE TOKEN. IT IS VERY VERY IMPORTANT.
+    */
+    // this might not be good, but yeah
+    this.state.messages.push(message);
+    this.props.dispatch(sendMessage({ ...message, token: this.props.token }, this.socket)(this.props.navigator));
+  }
+
+  registerEvents = () => {
+    this.socket.on('incoming-message', (data) => {
+      this.props.dispatch(incomingMessage(data));
     });
   }
 
   render = () => (
     <View style={{ height, width }}>
       <CustomHeader navigator={this.props.navigator} data={this.props.data} />
-      <View style={{ height: height * 0.78, width }}>
-        <MessageLog data={messages.normal} origin={messages.origin} />
+      <View style={{ height: height * 0.7, width }}>
+        { this.state.messages.length ?
+          <MessageLog data={this.state.messages} origin={this.props.user} />
+         : null
+      }
       </View>
-      <InputButton />
+      <InputButton handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
     </View>
   )
 }
 
 
-const InputButton = () => (
+const InputButton = ({ handleChange, handleSubmit }) => (
   <View style={{
- height: height * 0.07, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
+ height: height * 0.08, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
 }}
   >
     <TextInput
@@ -48,6 +97,7 @@ const InputButton = () => (
         fontSize: 14,
         fontWeight: '500',
       }}
+      onChangeText={(text) => { handleChange(text); }}
       placeholder="Type a message"
       placeholderTextColor="#D0D3D4"
       multiline
@@ -71,6 +121,7 @@ const InputButton = () => (
         alignItems: 'center',
         backgroundColor: defaultGreen
       }}
+      onPress={() => { handleSubmit(); }}
     >
       <SendIcon size={25} color="white" />
     </TouchableOpacity>
@@ -83,4 +134,11 @@ ConversationLog.navigatorStyle = {
   navBarHidden: true
 };
 
-export default ConversationLog;
+const mapStateToProps = state => ({
+  logs: state.convos.logs,
+  registry: state.convos.registry,
+  user: state.users.current,
+  token: state.users.token
+});
+
+export default connect(mapStateToProps)(ConversationLog);
