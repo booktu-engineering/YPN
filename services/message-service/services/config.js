@@ -1,11 +1,11 @@
 const prodConfig = {
   baseUrl: 'https://ypn-base.herokuapp.com/',
-  notificationUrl: 'https://ypn-notification-api.herokuapp.com'
+  notificationUrl: 'https://ypn-notification-api.herokuapp.com/'
 }
 
 const devConfig = {
   baseUrl: 'http://localhost:3000/',
-  notificationUrl: 'http://localhost:5000/'
+  notificationUrl: 'https://ypn-notification-api.herokuapp.com/'
 }
 
 export default () => {
