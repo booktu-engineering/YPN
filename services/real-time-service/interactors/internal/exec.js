@@ -1,13 +1,12 @@
 import axios from 'axios';
-import PostModel from './model'
+import PostModel from './model';
 
-const url = `https://ypn-node-service.herokuapp.com/api/posts`
+const url = 'https://ypn-node-service.herokuapp.com/api/v1/posts';
 
 class PostServiceBase {
-
   constructor(model, fetcher) {
     if (!model) {
-      throw new Error('Please send in the right model')
+      throw new Error('Please send in the right model');
     }
     this.model = model;
     this.fetcher = fetcher;
@@ -21,15 +20,22 @@ class PostServiceBase {
   }
 
   externalCreate = (data) => {
-    return this.fetcher.request({ method: 'post', url, data })
+    axios.request({
+      url,
+      data,
+      method: 'post',
+      headers: {
+        Authorization: data.token
+      }
+    })
       .then(() => {
-        console.log('External service successfully created the message');
+        console.log('Data created from the external api');
       })
       .catch(() => {
-        console.log('Something went wrong trying to create it');
+      // some message got lost in the db
+        console.log('Yo the external service couldnt create the guy');
       });
   }
-
 }
 
 const PostService = new PostServiceBase(PostModel, axios);

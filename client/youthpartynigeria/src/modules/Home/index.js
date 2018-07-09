@@ -1,54 +1,62 @@
 import React, { Component } from 'react';
 import { Navigation } from 'react-native-navigation';
-import { View, Text, ScrollView } from 'react-native';
-import EvilIcon from 'react-native-vector-icons/EvilIcons'
-import Ionicon from 'react-native-vector-icons/Ionicons'
+import { connect } from 'react-redux';
+import { View } from 'react-native';
 import { defaultGreen } from '../../mixins/';
-import SinglePost from '../SinglePost/'
-// Navs
+import { multiplePosts } from '../SinglePost/';
+import { fetchTimeline } from '../../actions/thunks/posts';
+import { NotificationIcon, SearchIcon, LeftNav } from '../IconRegistry/';
+import { dispatchNotification } from '../../helpers/uploader';
+
 let nav;
-const LeftNav = (props) => <EvilIcon name="navicon" color="white" size={28} onPress={() => { nav.toggleDrawer({ side: 'left', animated: true }) }}/>
-//
 
-const NotificationIcon = () => (
-  <View style={{ flex: 1 }}>
-    <View style={{ height: 15, width: 15, alignItems:'center', borderRadius: 7.5, backgroundColor: 'red', position:'absolute', zIndex: 2, left: 15, top: -5 }}>
-      <Text style={{ fontSize: 10, position: 'relative', right: 1, color: 'white', textAlign: 'center', fontWeight: '700' }}> 6 </Text>
-    </View>
-    <Ionicon name="ios-notifications-outline" color="white" size={25} />
-  </View>
-);
+class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.registerButtons();
+    nav = this.props.navigator;
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+  }
 
-const SearchIcon = () => <Ionicon name="ios-search-outline" color="white" size={25} />
-
-Navigation.registerComponent('Left.Button', () => LeftNav)
-Navigation.registerComponent('Search.Button', () => SearchIcon)
-Navigation.registerComponent('Notif.Button', () => NotificationIcon);
-
-// you sh
-const Home = (props) => {
-  const { navigator } = props;
-  this.props = props
-  nav = navigator;
-  this.props = props;
-  this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   onNavigatorEvent = (e) => {
-    if(e.id === 'willDisappear') console.log(e)
-  };
+    if (e.id === 'didAppear') return this.fetchTimeLine();
+  }
+  componentDidMount = () => {
+    // fetch the data here
+    dispatchNotification(this.props.navigator)(`Hey, ${this.props.user.firstname}! what do you have to share?`);
+    if (this.props.data) return;
+    this.props.dispatch(fetchTimeline(this.props.navigator));
+  }
 
-  return (
-    <ScrollView style={{ flex: 1 }}>
-      <SinglePost />
-      <SinglePost />
-    </ScrollView>
-  );
+fetchTimeLine = () => this.props.dispatch(fetchTimeline(this.props.navigator))
+
+// registering the buttons
+NotificationIco = () => <NotificationIcon navigator={this.props.navigator} />
+SearchIco = () => <SearchIcon navigator={this.props.navigator} />
+LeftButton = () => <LeftNav navigator={this.props.navigator} />
+
+  registerButtons = () => {
+    Navigation.registerComponent('Left.Button', () => this.LeftButton);
+    Navigation.registerComponent('Search.Button', () => this.SearchIco);
+    Navigation.registerComponent('Notif.Button', () => this.NotificationIco);
+  }
+
+  render = () => (
+    <View style={{ flex: 1 }}>
+      { this.props.data ?
+          multiplePosts([...this.props.data].reverse())({ navigator: this.props.navigator, dispatch: this.props.dispatch }) :
+          multiplePosts([1, 2, 3, 4])({ navigator: this.props.navigator, dispatch: this.props.dispatch })
+        }
+    </View>
+  )
 }
+
 
 Home.navigatorStyle = {
   navBarBackgroundColor: defaultGreen,
   statusBarTextColorScheme: 'light',
   preferredContentSize: { height: 2000 }
-}
+};
 
 
 Home.navigatorButtons = {
@@ -68,6 +76,12 @@ Home.navigatorButtons = {
       component: 'Search.Button'
     },
   ]
-}
+};
+
+const mapStateToProps = state => ({
+  data: state.posts.timeline,
+  user: state.users.current
+});
+
 export const HomeNavigator = () => nav;
-export default Home;
+export default connect(mapStateToProps)(Home);

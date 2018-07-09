@@ -1,11 +1,23 @@
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import React from 'react';
+import React, { Component } from 'react';
 import styles from './styles';
 import { navigatorObject } from '../../navigation/'
+import userActions from '../../actions/thunks/user';
+
+const { LogInThunk } = userActions;
 
 
-const LoginComponent = ({ navigator }) => {
+
+class LoginContainer extends Component {
+  state = {}
+  handleChange = (value, name) => this.setState({ [name]: value });
+  handleSubmit = () => this.props.dispatch(LogInThunk(this.state)(this.props.navigator))
+  render = () => <LoginComponent navigator={this.props.navigator} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+}
+
+const LoginComponent = ({ navigator, handleSubmit, handleChange }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.imageContainer}>
@@ -17,9 +29,9 @@ const LoginComponent = ({ navigator }) => {
       </View>
       { /* Place holder for the form */}
       <View style={styles.formHolder}>
-        <LoginForm />
+        <LoginForm  handleChange={handleChange} />
       </View>
-      <BigButton navigator={navigator} content='LOGIN' />
+      <BigButton  handleSubmit={handleSubmit} navigator={navigator} content='LOGIN' />
       {/* Login/ Reset password Section */}
       <View style={styles.container}>
         <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row' }}>
@@ -34,18 +46,21 @@ const LoginComponent = ({ navigator }) => {
   );
 };
 
-const LoginForm = () => { // eslint-disable-line
+const LoginForm = ({ handleChange }) => { // eslint-disable-line
   return (
     <View style={{ flex: 1 }}>
       { /* form body starts here */}
       <View style={styles.formContainer}>
-        <Text style={styles.formLabel}> USERNAME</Text>
-        <TextInput style={styles.formItem} />
+        <Text style={styles.formLabel}> EMAIL </Text>
+        <TextInput style={styles.formItem} onChangeText={(text) => handleChange(text, 'email')} />
       </View>
 
       <View style={styles.formContainer}>
         <Text style={styles.formLabel}> PASSWORD</Text>
-        <TextInput style={styles.formItem} />
+        <TextInput style={styles.formItem}
+          secureTextEntry={true}
+          onChangeText={(text) => handleChange(text, 'password')}
+          />
       </View>
       { /* form body ends here here */}
     </View>
@@ -53,15 +68,15 @@ const LoginForm = () => { // eslint-disable-line
 };
 
 
-const BigButton = ({ content, navigator }) => {
+const BigButton = ({ content, handleSubmit }) => {
   return (
-    <TouchableOpacity style={styles.buttonContainer} onPress={() => navigatorObject.startLoggedIn()}>
+    <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
       <Text style={styles.buttonContent}>{ content }</Text>
     </TouchableOpacity>
   )
 }
 
-LoginComponent.navigatorStyle = {
+LoginContainer.navigatorStyle = {
   navBarHidden: true
 }
-export default LoginComponent
+export default connect()(LoginContainer)

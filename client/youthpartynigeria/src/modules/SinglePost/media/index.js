@@ -13,8 +13,10 @@ class MediaHandler extends Component {
   }
 
   componentDidMount() {
-    if (this.props.data.mediaType === 1) return this.setState({ images: this.props.data.images })
-    if (this.props.data.mediaType === 2) {
+    if (this.props.data.media.length > 0 ) return this.setState({ images: this.props.data.media })
+    const links = this.props.data.links.filter(item => item.length > 0);
+    console.log(links)
+    if (links.length > 0) {
       LinkPreview.getPreview(this.props.data.links[0])
       .then(data => {
        this.setState({ data })
@@ -30,7 +32,7 @@ class MediaHandler extends Component {
     ) : null )
  }
 
-  RenderSingleItem = (data) => data.map((uri, index) => <View key={index} style={{ maxHeight: height * 0.3, width: width * 0.34, backgroundColor: '#E5E7E9', marginRight: 3, marginBottom: 3 }}><Image style={{ height: this.__calculateHeight(data), width: width * 0.34 }} source={{ uri }}/></View>)
+  RenderSingleItem = (data) => data.map((uri, index) => <View key={index} style={{ maxHeight: height * 0.3, width: width * 0.34, backgroundColor: '#E5E7E9', marginRight: 3, marginBottom: 3 }}><Image style={{ height: this.__calculateHeight(data), width: width * 0.34 }} source={{ uri: uri[0] }}/></View>)
 
  renderLink = (link, abort) => {
    this.request = LinkPreview.getPreview
@@ -41,9 +43,6 @@ class MediaHandler extends Component {
    })
 
  }
-
-
-
 
 
 __calculateHeight = (data) => {
