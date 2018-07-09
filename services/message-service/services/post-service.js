@@ -97,6 +97,7 @@ class PostServiceObject extends BaseService {
   getTimeline = async (username, access) => {
     data = await this.__fetchUser(username, access);
     body = data.friends.map(item => item.id);
+    body.push(data.id);
     return await ConversationService.getTimeline(body);
   }
 
@@ -118,6 +119,11 @@ class PostServiceObject extends BaseService {
       data.likes.data = data.likes.data.filter(item => item.id !== user.id);
     }
     data = await data.save();
+    return data;
+  }
+
+  fetchAllPosts = async (id) => {
+    data = await this.model.find({ 'origin.id': parseInt(id) })
     return data;
   }
 
