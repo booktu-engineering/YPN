@@ -7,28 +7,34 @@ import { multipleCandidates } from '../../SingleCandidates/candidate';
 
 
 class DonationMultiple extends Screen {
-  constructor(props){
+  constructor(props) {
     super(props, 'DM.Back.Button');
-
   }
 
-  render = () => <DonationMultipleComponent props={this.props}/>
+  render = () => <DonationMultipleComponent props={this.props} />
 }
 
-const DonationMultipleComponent = ({ props }) =>  {
-  let renderItem = () => {
-    if (props.category === 'Candidate') return multipleCandidates([1,2,3,4,5,6,7])({ navigator: props.navigator, indicator: true });
-    if (props.category === 'Project') return composedProjects([1,2,3,4,5,6,7])({ ...data[0], navigator: props.navigator });
-    if (props.category === 'Party') return composedProjects([1,2,3,4,5,6,7])({ ...data[1], navigator: props.navigator });
+const DonationMultipleComponent = ({ props }) => {
+  const renderItem = () => {
+    if (props.category === 1) return multipleCandidates([1, 2, 3, 4, 5, 6, 7])({ navigator: props.navigator, indicator: true });
+    if (props.category === 2) return composedProjects([1, 2, 3, 4, 5, 6, 7])({ ...data[0], navigator: props.navigator });
+    if (props.category === 3) return composedProjects([1, 2, 3, 4, 5, 6, 7])({ ...data[1], navigator: props.navigator });
     return null;
-  }
+  };
   return (
     <View style={{ height, width, paddingTop: 10 }}>
       { /* this should render the text nicely */}
-      <View style={{ height: height * 0.06, width, flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', marginBottom: 8, alignItems: 'center', paddingLeft: 10, paddingRight: 10 }}>
-        <View style={{ height: 2, width: width * 0.28, backgroundColor: '#B3B6B7' }}></View>
-        <Text style={{ fontSize: 15, fontWeight: '600', color: '#B3B6B7', marginRight: 5, marginLeft: 5 }}> { `${props.level} ${props.category}`} </Text>
-        <View style={{ height: 2, width: width * 0.28, backgroundColor: '#B3B6B7' }}></View>
+      <View style={{
+ height: height * 0.06, width, flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', marginBottom: 8, alignItems: 'center', paddingLeft: 10, paddingRight: 10
+}}
+      >
+        <View style={{ height: 2, width: width * 0.28, backgroundColor: '#B3B6B7' }} />
+        <Text style={{
+ fontSize: 15, fontWeight: '600', color: '#B3B6B7', marginRight: 5, marginLeft: 5
+}}
+        > { `${props.level} ${props.category}`}
+        </Text>
+        <View style={{ height: 2, width: width * 0.28, backgroundColor: '#B3B6B7' }} />
       </View>
       { /* this should render the gird */}
       <View style={{ height: height * 0.9 }}>
@@ -36,8 +42,8 @@ const DonationMultipleComponent = ({ props }) =>  {
       </View>
       { /* Button text */}
     </View>
-  )
-}
+  );
+};
 
 DonationMultiple.navigatorButtons = {
   leftButtons: [
@@ -46,13 +52,13 @@ DonationMultiple.navigatorButtons = {
       component: 'DM.Back.Button'
     }
   ]
-}
+};
 
 
 DonationMultiple.navigatorStyle = {
   navBarBackgroundColor: defaultGreen,
   navBarTextColor: '#ffffff',
-   statusBarTextColorScheme: 'light',
-}
+  statusBarTextColorScheme: 'light',
+};
 
 export default DonationMultiple;

@@ -63,9 +63,9 @@ export default class Navigator {
     Navigation.registerComponent('Open.Position', () => OpenPositions);
     Navigation.registerComponent('Show.Position', () => ShowPosition);
     Navigation.registerComponent('Gallery.Component', () => Gallery);
-    Navigation.registerComponent('Donation.Component', () => Donation);
-    Navigation.registerComponent('DonationM.Component', () => DonationMultiple);
-    Navigation.registerComponent('DonationPT', () => DonationPhaseTwo);
+    Navigation.registerComponent('Donation.Component', () => Donation, store, Provider);
+    Navigation.registerComponent('DonationM.Component', () => DonationMultiple, store, Provider);
+    Navigation.registerComponent('DonationPT', () => DonationPhaseTwo, store, Provider);
     Navigation.registerComponent('Convo.Component', () => Conversations);
     Navigation.registerComponent('Show.Convo', () => ShowConversation);
     Navigation.registerComponent('Convo.Log', () => ConversationLog, store, Provider);
