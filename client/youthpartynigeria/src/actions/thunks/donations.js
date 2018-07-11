@@ -13,6 +13,7 @@ export const fetchAllDonations = navigator => (dispatch, getState) => axios.requ
     dispatch({ type: 'ALL_DONATIONS_RECEIVED', payload: response.data.data });
   })
   .catch((err) => {
+    console.log(err);
     dispatchNotification(navigator)('Oops something went wrong');
     navigator.pop();
   });
@@ -20,11 +21,16 @@ export const fetchAllDonations = navigator => (dispatch, getState) => axios.requ
 export const filterThroughDonations = query => navigator => (dispatch, getState) => {
   const donations = getState().donations.all;
   const target = donations.filter(donation => donation.type === query.type && donation.meta.level === query.level);
-  return navigator.showModal({
+  if (!target.length) {
+    dispatchNotification(navigator)('No donations matching that currently. Check back will you?');
+    return navigator.pop();
+  }
+  return navigator.push({
     title: 'Donations',
     screen: 'DonationM.Component',
     passProps: {
-      ...query, target, level: query.level, category: query.type
+      ...query,
+      target
     }
   });
 };

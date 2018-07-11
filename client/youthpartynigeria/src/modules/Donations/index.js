@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import connect from 'react-redux';
+import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { fetchAllDonations, filterThroughDnoations } from '../../actions/thunks/donations';
+import { fetchAllDonations, filterThroughDonations } from '../../actions/thunks/donations';
 import { BackIcon } from '../IconRegistry';
 import { height, width, DisplayRadios, defaultGreen, bigButton, buttonText } from '../../mixins';
-
+import { dispatchNotification } from '../../helpers/uploader';
 
 class DonationScreen extends Component {
   constructor(props) {
@@ -20,6 +20,15 @@ class DonationScreen extends Component {
     };
   }
 
+  componentDidMount = () => {
+    if (!this.props.donations) return this.props.dispatch(fetchAllDonations(navigator));
+  }
+
+  componentWillUnmount = () => {
+    this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
+    this.props.navigator.toggleTabs({ to: 'shown', animated: true });
+  }
+
   _pushToState = (value) => {
     const levels = ['Federal', 'State', 'Local'];
     const categories = ['Party', 'Candidate', 'Project'];
@@ -27,16 +36,29 @@ class DonationScreen extends Component {
     this.setState({ category: value });
   }
 
-  componentDidMount = () => {
 
-  }
+    navigate = () => {
+      if (!this.props.donations || !this.props.donations.length) {
+        dispatchNotification(navigator)('Hey, seems like there are no donations available for now');
+        return navigator.pop();
+      }
+      /* eslint max-len: 0 */
+      const query = { type: this.generateTrueCategory(), level: this.state.level, category: this.state.category };
+      this.props.dispatch(filterThroughDonations(query)(this.props.navigator));
+    }
 
-  navigate = () => this.props.navigator.showModal({ title: 'Donations', screen: 'DonationM.Component', passProps: { ...this.state } });
-
-  componentWillUnmount = () => {
-    this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
-    this.props.navigator.toggleTabs({ to: 'shown', animated: true });
-  }
+    generateTrueCategory = () => {
+      switch (this.state.category) {
+        case 'Party':
+          return 1;
+        case 'Candidate':
+          return 2;
+        case 'Project':
+          return 3;
+        default:
+          return 1;
+      }
+    }
 
   backIcon = () => <BackIcon navigator={this.props.navigator} />
 
@@ -124,5 +146,8 @@ DonationScreen.navigatorStyle = {
   navBarNoBorder: true
 };
 
+const mapStateToProps = state => ({
+  donations: state.donations.all
+});
 
-export default DonationScreen;
+export default connect(mapStateToProps)(DonationScreen);

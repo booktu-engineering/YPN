@@ -4,6 +4,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { defaultGreen, height, width } from '../../mixins/';
 import { multiplePosts } from '../SinglePost/';
 import { MultipleEvents } from '../SingleEvent';
+import { fetchUsersPosts } from '../../actions/thunks/posts';
 
 
 const uri = 'https://menhairstylist.com/wp-content/uploads/2017/07/dreads-in-man-bun-black-men-hairstyles.jpg';
@@ -27,12 +28,21 @@ static navigatorButtons = {
 constructor(props) {
   super(props);
   this.state = {
-    viewEvents: false
+    viewEvents: false,
+    posts: []
   };
   console.log(this.props);
   nav = this.props.navigator;
+  this.props.navigator.setOnNavigatorEvent(this.handleEvent.bind(this));
 }
 
+
+  handleEvent = () => {
+    this.props.dispatch(fetchUsersPosts(this.props.target))
+      .then((posts) => {
+        this.setState({ posts });
+      });
+  }
   render = () => (
     <View style={{ flex: 1 }}>
       <View style={{ height: height * 0.07, backgroundColor: defaultGreen }} />
@@ -61,7 +71,7 @@ constructor(props) {
         </TouchableOpacity>
       </View>
       <View style={{ height: height * 0.6 }}>
-        { this.state.viewEvents ? MultipleEvents([1, 2, 3])() : multiplePosts([1, 2, 3])({ height: height * 0.3 })}
+        { this.state.viewEvents ? MultipleEvents([1, 2, 3])() : multiplePosts(this.state.posts)({ height: height * 0.3 })}
       </View>
     </View>
   )

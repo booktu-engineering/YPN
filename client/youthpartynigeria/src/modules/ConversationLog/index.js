@@ -18,16 +18,7 @@ class ConversationLog extends Screen {
       messages: [],
       content: ''
     };
-    /* essentially what this means is that the
-     * guy is connecting to a namespace and will join
-     *  a room with this name, make sure you pass the id of the conversation, so
-     *   that the user can be connected to this room and would receive messages from
-     *   others in this conversation in real time.
-     *   the socket url should look like this `https://ypn-notification-api/conversation`
-     *   if not it wont connect to the right name space.
-     *   */
     this.socket = io(`${config.realTimeUrl}conversation`, { query: { convoID: this.props.data._id } });
-    // register all the events that will be shared in the room
     this.registerEvents();
   }
 
@@ -48,14 +39,11 @@ class ConversationLog extends Screen {
     // prepare the message // it should like the posts
     const message = {
       content: this.state.content,
-      // origin is the current user of the db
       origin: this.props.user,
       type: 2,
-      // destination here is the id of the conversation
       destination: this.props.data._id,
-      // data.now
       createdAt: Date.now()
-    };
+    }; 4;
     const messages = [message, ...this.state.messages];
     this.setState({ messages });
     this.props.dispatch(sendMessage({ ...message, token: this.props.token }, this.socket)(this.props.navigator));

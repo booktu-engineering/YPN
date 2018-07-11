@@ -2,6 +2,7 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import config from '../../config';
 import { dispatchNotification } from '../../helpers/uploader';
+import { fetchFollowersForUser } from './user';
 
 export const fetchTimeline = navigator => async (dispatch) => {
   try {
@@ -15,10 +16,8 @@ export const fetchTimeline = navigator => async (dispatch) => {
       }
     })
       .then((response) => {
-        dispatch({
-          type: 'TIMELINE_GOTTEN',
-          payload: response.data.data
-        });
+        dispatch({ type: 'TIMELINE_GOTTEN', payload: response.data.data });
+        if (!response.data.data.length) return dispatch(fetchFollowersForUser(navigator));
       })
       .catch((err) => {
         dispatchNotification(navigator)(err.response.data.error);
@@ -63,6 +62,7 @@ export const fetchUsersPosts = target => async (dispatch) => {
       type: 'TARGET_POSTS_GOTTEN',
       payload: response.data.data
     });
+    return response.data.data;
   })
     .catch((err) => {
       console.log(err);

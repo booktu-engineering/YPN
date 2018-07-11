@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { defaultGreen } from '../../mixins/';
 import { multiplePosts } from '../SinglePost/';
 import { fetchTimeline } from '../../actions/thunks/posts';
@@ -45,7 +45,9 @@ LeftButton = () => <LeftNav navigator={this.props.navigator} />
     <View style={{ flex: 1 }}>
       { this.props.data ?
           multiplePosts([...this.props.data].reverse())({ navigator: this.props.navigator, dispatch: this.props.dispatch }) :
-          multiplePosts([1, 2, 3, 4])({ navigator: this.props.navigator, dispatch: this.props.dispatch })
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="small" color={`${defaultGreen}`} />
+          </View>
         }
     </View>
   )

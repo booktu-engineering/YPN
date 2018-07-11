@@ -19,7 +19,6 @@ const SignUpThunk = (body) => (navigator) => (dispatch) => {
         });
     })
     .catch((err) => {
-      // console the error for now
       navigator.showInAppNotification({
         screen: 'App.notification',
         passProps: {
@@ -29,6 +28,54 @@ const SignUpThunk = (body) => (navigator) => (dispatch) => {
     });
 };
 
+
+export const fetchFollowersForUser = (navigator) => (dispatch, getState) => axios.request({
+  method: 'get',
+  url: `${config.baseUrl}/users/`,
+  headers: {
+    Authorization: getState().users.token
+  }
+}).then((response) => {
+  navigator.showModal({
+    screen: 'Follow.User',
+    passProps: {
+      data: response.data.data
+    }
+  });
+})
+  .catch((err) => {
+    dispatchNotification(navigator)("We tried to get you some friends. Didn't work out. Try again?");
+    navigator.pop();
+  });
+
+
+export const fetchAllRelationshipsOfUser = () => (dispatch, getState) => axios.request({
+  method: 'get',
+  url: `${config.baseUrl}/profile/${getState().users.current.id}`,
+  headers: {
+    Authorization: getState().users.token
+  }
+})
+  .then((response) => {
+    dispatch({ type: 'FETCHED_ALL_RELATIONSHIPS', payload: { friends: response.data.friends, followers: response.data.followers } });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+
+export const followUser = (data) => (navigator) => (dispatch, getState) => axios.request({
+  method: 'post',
+  url: `${config.baseUrl}/follow/${data.id}`,
+  headers: {
+    Authorization: getState().users.token
+  }
+}).then((response) => {
+  dispatchNotification(navigator)(`Awesome, You have just followed ${data.firstname}`);
+})
+  .catch((response) => {
+    dispatchNotification(navigator)(`Awesome, You have just followed ${data.firstname}`);
+  });
 
 const LogInThunk = (body) => (navigator) => (dispatch) => {
   // render an activity indicator here
@@ -42,6 +89,7 @@ const LogInThunk = (body) => (navigator) => (dispatch) => {
         .then(() => {
           dispatchNotification(navigator)(`Welcome back! ${response.data.data.user.firstname}`);
           navigatorObject.startLoggedIn();
+          dispatch(fetchAllRelationshipsOfUser());
         });
     })
     .catch((err) => {
@@ -61,13 +109,39 @@ export const fetchUserThunk = (id) => (navigator) => async (dispatch) => {
     }
   })
     .then((response) => {
-    // we get a user
-      dispatch({ type: 'FETCHED_USER', payload: { ...response.data.data, followers: response.data.followers, friends: response.data.friends } });
-      navigator.push({ screen: 'Show.User' });
+      dispatch({
+        type: 'FETCHED_USER',
+        payload: {
+          ...response.data.data,
+          followers: response.data.followers,
+          friends: response.data.friends
+        }
+      });
+      navigator.push({
+        screen: 'Show.User',
+        passProps: {
+          id
+        }
+      });
       dispatch(fetchUsersPosts(response.data.data));
     })
     .catch((err) => {
       dispatchNotification(navigator)('Sorry we couldnt get the user requested');
+    });
+};
+
+export const updateUser = async (id, navigator) => {
+  const token = await AsyncStorage.getItem('#!@#$%');
+  return axios.request({
+    method: 'get',
+    url: `${config.baseUrl}/profile/${id}`,
+    headers: {
+      Authorization: token
+    }
+  })
+    .then((response) => ({ ...response.data.data, followers: response.data.followers, friends: response.data.friends })).catch((err) => {
+      dispatchNotification(navigator)('Sorry, something went wrong');
+      navigator.pop();
     });
 };
 

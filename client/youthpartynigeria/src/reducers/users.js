@@ -12,6 +12,8 @@ export default (state = {}, action) => {
     case 'INSERT_TOKEN':
       return { ...state, token: action.payload };
 
+    case 'FETCHED_ALL_RELATIONSHIPS':
+      return { ...state, followers: action.payload.followers, friends: action.payload.friends };
     default:
       return state;
   }

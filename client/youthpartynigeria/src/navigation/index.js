@@ -24,14 +24,15 @@ import OpenPositions from '../modules/OpenPositions';
 import ShowPosition from '../modules/ShowPosition';
 import Gallery from '../modules/Gallery';
 import Donation from '../modules/Donations';
-import DonationMultiple from '../modules/Donations/screens/phase-one';
-import DonationPhaseTwo from '../modules/Donations/screens/phase-two';
+import DonationMultipleCOMPONENT from '../modules/Donations/screens/phase-one';
+import DonationPhaseTwoCOMPONENT from '../modules/Donations/screens/phase-two';
 import Conversations from '../modules/Conversation';
 import ShowConversation from '../modules/ShowConversation';
 import ConversationLog from '../modules/ConversationLog';
 import configureStore from '../store';
 import NotificationScreen from '../mixins/notification';
 import ShowUser from '../modules/ShowUser';
+import FollowUser from '../modules/SingleUser/follow';
 
 const { Provider, store } = configureStore();
 
@@ -64,12 +65,13 @@ export default class Navigator {
     Navigation.registerComponent('Show.Position', () => ShowPosition);
     Navigation.registerComponent('Gallery.Component', () => Gallery);
     Navigation.registerComponent('Donation.Component', () => Donation, store, Provider);
-    Navigation.registerComponent('DonationM.Component', () => DonationMultiple, store, Provider);
-    Navigation.registerComponent('DonationPT', () => DonationPhaseTwo, store, Provider);
+    Navigation.registerComponent('DonationPT', () => DonationPhaseTwoCOMPONENT, store, Provider);
     Navigation.registerComponent('Convo.Component', () => Conversations);
     Navigation.registerComponent('Show.Convo', () => ShowConversation);
     Navigation.registerComponent('Convo.Log', () => ConversationLog, store, Provider);
     Navigation.registerComponent('Show.User', () => ShowUser, store, Provider);
+    Navigation.registerComponent('Follow.User', () => FollowUser, store, Provider);
+    Navigation.registerComponent('DonationM.Component', () => DonationMultipleCOMPONENT, store, Provider);
   }
 
   startLoggedOut = () => {
