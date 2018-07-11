@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Hasstrup/YPN#readme",
   "dependencies": {
+    "react-native-cloudinary-x": "^1.0.3",
     "react-native-datepicker": "^1.7.2"
   }
 }

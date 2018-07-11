@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, Image } from 'react-native';
 import Composer from '../iterator/';
-import { height, width, defaultGreen } from '../../mixins/'
+import { height, width, defaultGreen } from '../../mixins/';
 
-const SingleProject = (props) => (
+const SingleProject = props => (
   <TouchableOpacity
     style={{
       height: height * 0.15,
@@ -17,17 +17,29 @@ const SingleProject = (props) => (
       borderBottomWidth: 0.3,
       alignItems: 'center'
     }}
-    onPress = {() => props.obj.navigator.push({ screen: 'DonationPT', title: 'Donations', passProps: {...props.obj, category: 'Project/Party'} })}
+    onPress={() => props.obj.navigator.push({ screen: 'DonationPT', title: 'Donations', passProps: { ...props.data, category: 'Project/Party' } })}
+  >
+    <View style={{
+ height: height * 0.05, width: width * 0.5, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center'
+}}
     >
-    <View style={{ height: height * 0.05, width: width * 0.5, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center' }}>
-      <Image style={{ height: 60, width: 60, borderRadius: 30, marginRight: 8, }} source={{ uri: props.obj.avatar }}/>
-      <View style={{ height: height * 0.06}}>
-        <Text style={{ fontSize: 14, fontWeight: '600', color: '#7B7D7D', marginBottom: 5 }}> { props.obj.name } </Text>
-        <Text style={{ fontSize: 12, fontWeight: '500', color: defaultGreen }}> { props.obj.location } </Text>
+      <Image
+        style={{
+ height: 60, width: 60, borderRadius: 30, marginRight: 8,
+}}
+        source={{ uri: 'https://qz.com/wp-content/uploads/2017/06/19575061_1355575787863484_8238479006744169542_o.jpg?quality=80&strip=all&w=1200' }}
+      />
+      <View style={{ height: height * 0.06 }}>
+        <Text style={{
+ fontSize: 14, fontWeight: '600', color: '#7B7D7D', marginBottom: 5
+}}
+        > { props.data.title }
+        </Text>
+        <Text style={{ fontSize: 12, fontWeight: '500', color: defaultGreen }}> { props.data.meta.location } </Text>
       </View>
     </View>
   </TouchableOpacity>
-)
+);
 
 export const data = [
   {
@@ -40,6 +52,6 @@ export const data = [
     location: 'Kaduna, Kaduna State',
     name: 'Youth Party Nigeria'
   }
-]
+];
 
-export const composedProjects = Composer(SingleProject)
+export const composedProjects = Composer(SingleProject);
