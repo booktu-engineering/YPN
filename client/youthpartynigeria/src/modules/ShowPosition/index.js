@@ -12,13 +12,20 @@ const personUri = 'https://menhairstylist.com/wp-content/uploads/2017/07/dreads-
     const { navigator } =  this.props
     navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
-  }
-  componentDidMount = () => {
-    Navigation.registerComponent('Sp.Back.Button', () => this.backIcon)
+    navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'nacvxx', 
+          component: 'Back.Button', 
+          passProps: {
+            navigator
+          }
+        }
+      ]
+    })
   }
 
-  backIcon = () => <BackIcon navigator={this.props.navigator} />
-
+  
 render () {
   return (
     <View style={{ flex: 1}}>

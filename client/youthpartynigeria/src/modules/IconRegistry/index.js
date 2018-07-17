@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import { Navigation } from 'react-native-navigation';
 import EvilIcon from 'react-native-vector-icons/EvilIcons'
 import Ionicon from 'react-native-vector-icons/Ionicons'
+import { fetchFollowersForUser } from '../../actions/thunks/user';
+
 
 export const LeftNav = props => <EvilIcon name="navicon" color="white" size={28} onPress={() => { props.navigator.toggleDrawer({ side: 'left', animated: true }) }}/>
 //
@@ -16,10 +18,14 @@ export const NotificationIcon = ({ navigator }) => (
   </TouchableOpacity>
 );
 
-export const SearchIcon = () => <Ionicon name="ios-search-outline" color="white" size={25} />
+export const SearchIcon = ({ navigator, dispatch }) => <TouchableOpacity style={{ flex: 1 }} onPress={() => { if(!navigator || !dispatch) return null; dispatch(fetchFollowersForUser(navigator)) }}><Ionicon name="ios-search-outline" color="white" size={25} /></TouchableOpacity>
 
 export const CameraIcon = ({ color, size, style }) => <Ionicon name="ios-camera-outline" style={style} color={color} size={size} />
-export const BackIcon = (props) => <Ionicon name="ios-arrow-back-outline" color="white" size={25} onPress={() => props.navigator.pop()}/>
+export const BackIcon = (props) => (
+  <TouchableOpacity style={{ flex: 1 }} onPress={() => { if(props.modal) return props.navigator.dismissModal({ animation: 'slide-down'}); props.navigator.pop() }}> 
+    <Ionicon name="ios-arrow-back-outline" color="white" size={25}/>
+   </TouchableOpacity>
+)
 
 export const SendIcon = ({ color, size }) => <Ionicon name="ios-send" color={color} size={size} />
 

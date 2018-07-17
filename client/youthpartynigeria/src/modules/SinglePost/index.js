@@ -66,7 +66,7 @@ const SinglePost = ({ data, obj }) => (
         </Text>
         {
           data.links || data.media ?
-            <MediaHandler data={data} />
+            <MediaHandler data={data} navigator={obj.navigator} />
           : null
         }
       </View>

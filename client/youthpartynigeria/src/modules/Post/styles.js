@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   },
   largeInput: {
     width: width * 0.85,
+    height: height * 0.15,
     color: '#979A9A',
     fontSize: 13,
     fontWeight: '500',

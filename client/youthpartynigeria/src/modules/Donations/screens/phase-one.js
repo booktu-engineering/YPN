@@ -12,6 +12,17 @@ class DonationMultiple extends Component {
   constructor(props) {
     super(props);
     Navigation.registerComponent('DM.Back.Button', () => this.__backIcon)
+    this.props.navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'product', 
+          component: 'Back.Button', 
+          passProps: {
+            navigator: this.props.navigator
+          }
+        }
+      ]
+    })
   }
 
   __backIcon = () => <BackIcon navigator={this.props.navigator} />
@@ -44,15 +55,6 @@ render = () => {
   );
 }
 }
-
-DonationMultiple.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'DMBACK',
-      component: 'DM.Back.Button'
-    }
-  ]
-};
 
 
 DonationMultiple.navigatorStyle = {

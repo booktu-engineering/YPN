@@ -21,20 +21,6 @@ const MessageLog = ({ data, origin, extraData }) => (
   />
 );
 
-//
-// const MessageLog = ({ data, origin }) => {
-//   const messages = data.map(data => <MessageComponent data={data} origin={origin} />);
-//   return (
-//     <ScrollView
-//       style={{
-//         flex: 1
-//       }}
-//     >
-//       { messages }
-//     </ScrollView>
-//   );
-// };
-
 
 export const MessageComponent = ({ data, origin }) => (
   <View

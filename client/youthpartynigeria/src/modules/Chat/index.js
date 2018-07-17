@@ -11,6 +11,17 @@ class ChatContainer extends Component {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.handleVisibility);
+    this.props.navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'Back.button', 
+          component: 'Back.Button', 
+          passProps: {
+            navigator: this.props.navigator
+          }
+        }
+      ]
+    });
   }
   componentDidMount = () => this.props.dispatch(fetchAllConversations(this.props.navigator));
   handleVisibility = (e) => {
@@ -19,7 +30,7 @@ class ChatContainer extends Component {
   render = () => (
     <View style={{ flex: 1 }}>
       { this.props.logs ?
-        <ChatComponent navigator={this.props.navigator} data={this.props.logs} user={this.props.user} /> : null
+        <ChatComponent navigator={this.props.navigator} data={this.props.logs.reverse()} user={this.props.user} /> : null
         }
     </View>
   )
@@ -40,14 +51,6 @@ ChatContainer.navigatorStyle = {
   statusBarTextColorScheme: 'light'
 };
 
-ChatContainer.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'showNav',
-      component: 'Left.Button'
-    }
-  ]
-};
 
 const mapStateToProps = state => ({
   registry: state.convos.registry,

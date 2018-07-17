@@ -4,6 +4,7 @@ export default (state = {}, action) => {
       return { ...state, current: action.payload };
 
     case 'USER_LOGGED_IN':
+      console.log(action.payload)
       return { ...state, current: action.payload };
 
     case 'FETCHED_USER':

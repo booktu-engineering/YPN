@@ -15,8 +15,10 @@ export default (state = {}, action) => {
       return { ...state, registry: action.payload };
 
     case 'UPDATE_ACTIVITY':
-      console.log(action.payload);
       return { ...state, activityMap: action.payload };
+
+    case 'SPECIFIC_CONVERSATIONS_GOTTEN':
+      return { ...state, specific: action.payload };
 
     case 'CONVERSATION_RECEIVED':
       const obj = {};

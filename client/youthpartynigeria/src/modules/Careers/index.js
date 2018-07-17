@@ -11,6 +11,17 @@ class Careers extends Component {
     const { navigator } =  this.props
     navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
+    this.props.navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'Back.button', 
+          component: 'Back.Button', 
+          passProps: {
+            navigator
+          }
+        }
+      ]
+    });
   }
   componentDidMount = () => {
     Navigation.registerComponent('C.Back.Button', () => this.backIcon)
@@ -23,27 +34,19 @@ class Careers extends Component {
     this.props.navigator.toggleTabs({ to: 'shown', animated: true });
   }
 
-  render = () => <RenderCareers />
+  render = () => <RenderCareers navigator={this.props.navigator}/>
 }
 
 
-const RenderCareers = () => (
+const RenderCareers = ({ navigator }) => (
   <View style={{ height: height * 1.8 }}>
     <Selectors keys={['Vacancies', 'Voluntary']}/>
     <View style={{ height: height * 0.9, width }}>
       <TinySelectors keys={['Federal']}/>
-      { ComposedCareers([1,2,3,4,5,6,7])({ navigator: this.props.navigator })}
+      { ComposedCareers([1,2,3,4,5,6,7])({ navigator })}
     </View>
 </View>
 )
 
-Careers.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'C.Nav',
-      component: 'C.Back.Button'
-    }
-  ]
-}
 
 export default Careers

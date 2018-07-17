@@ -32,7 +32,7 @@ class ShowConversation extends Screen {
   )
 }
 
-export const CustomHeader = ({ navigator, data }) => (
+export const CustomHeader = ({ navigator, data, user }) => (
   <View style={{
  height: height * 0.15, width, backgroundColor: defaultGreen, flexDirection: 'row', flexWrap: 'nowrap', paddingRight: 15, paddingLeft: 15, justifyContent: 'space-between', alignItems: 'center'
 }}>
@@ -45,7 +45,7 @@ export const CustomHeader = ({ navigator, data }) => (
  width: width * 0.8, maxHeight: height * 0.2, flexDirection: 'row', flexWrap: 'nowrap'
 }}
     >
-      <Image style={{ height: 52, width: 52, borderRadius: 26 }} source={{ uri: generateUri(data.members.filter(item => item.id !== data.origin.id)) }} />
+      <Image style={{ height: 52, width: 52, borderRadius: 26 }} source={{ uri: generateUri(data.members.filter(item => item.id !== user.id)) }} />
       <View style={{
  maxWidth: width * 0.8, maxHeight: height * 0.2, paddingRight: 20, justifyContent: 'center'
 }}
@@ -53,7 +53,7 @@ export const CustomHeader = ({ navigator, data }) => (
         <Text style={{
  fontSize: 18, fontWeight: '600', color: 'white', marginBottom: 5
 }}
-        > { data.title ? data.title : generateNames(data.members.filter(item => item.id !== data.origin.id)) }
+        > { data.topic ? data.topic : generateNames(data.members.filter(item => item.id !== user.id)) }
         </Text>
       </View>
     </View>

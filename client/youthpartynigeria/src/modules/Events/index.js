@@ -20,11 +20,26 @@ class EventScreen extends Component {
     const { navigator } =  this.props
     navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
-  }
-
-  componentDidMount = () => {
-    Navigation.registerComponent('E.Back.Button', () => this.backIcon)
-    Navigation.registerComponent('E.Search.Button', () => this.searchIcon)
+    this.props.navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'back.button', 
+          component: 'Back.Button', 
+          passProps: {
+            navigator: this.props.navigator
+          }
+        }
+      ],
+      rightButtons: [
+        {
+          id: 'back.back.search', 
+          component: 'Search.Button',
+          passProps: {
+            navigator: this.props.navigator
+          }
+        }
+      ]
+    })
   }
 
   componentWillUnmount = () => {
@@ -40,25 +55,5 @@ class EventScreen extends Component {
 render = () => <EventComponent navigator={this.props.navigator}/>
 }
 
-EventScreen.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'Back.Nav',
-      component: 'E.Back.Button',
-      passProps: {
-        nav
-      }
-    }
-  ],
-  rightButtons: [
-    {
-      id: 'E.Search.Nav',
-      component: 'Search.Button',
-      passProps: {
-        nav
-      }
-    }
-  ]
-}
 
 export default EventScreen

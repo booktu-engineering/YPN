@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+const url = 'https://ypn-base.herokuapp.com/'
 let response;
 
 // Basic functions
@@ -17,10 +17,11 @@ const wrapInTryCatch = async (func) => {
 
 
 // call this function with the data that you want to send to the api . this function re
-const SignUpUserReq = async (data) => {
+const SignUpUserReq = async (data, navigator) => {
   try {
   if(!data) throw new Error('Hey man you need to send some data to the server')
-  response = await axios.post(url, data)
+  response = await axios.post(`${url}/signup`, data)
+  response  
   return response;
 } catch (err) {
     return { error: true, err }
@@ -42,7 +43,7 @@ const fetchPosts = async (token, id) => {
   return wrapInTryCatch(async () => {
     // fix the headers in axios -- dont forget this;
     const path = id ? `all/${id}` : '/'
-    response = axios.get(`${baseUrl}/${path}`)
+    response = axios.get(`${baseUrl}/${path}` )
     return response
   })
 }
@@ -72,3 +73,20 @@ const fetchConversations = async () => {
 }
 
 const 
+
+
+const mockApiRequest = (data) => {
+  setTimeout(() => {
+    return data
+  }, 3000)
+}
+
+onSubmit = () => {
+  mockApiRequest(this.state.data)
+  .then(() => {
+
+  })
+  .catch({
+
+  })
+}

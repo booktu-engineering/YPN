@@ -10,7 +10,17 @@ class Gallery extends Component {
     const { navigator } =  this.props
     navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
-    Navigation.registerComponent('GG.Back.Button', () => this.backIcon)
+    navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'Back.Nav.G',
+          component: 'Back.Button', 
+          passProps: {
+            navigator
+          }
+        }
+      ]
+    })
     this.state = {
       uri: '',
       zIndex: -1,
@@ -123,13 +133,5 @@ const ImageRenderer = ({ title, data, showImage }) => (
   </View>
 )
 
-Gallery.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'Back.Nav.G',
-      component: 'GG.Back.Button'
-    }
-  ]
-}
 
 export default Gallery;

@@ -10,7 +10,17 @@ class CandidateScreen extends Component {
     const { navigator } =  this.props
     navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
-    Navigation.registerComponent('Cc.Back.Button', () => this.backIcon)
+    this.props.navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'Back.button', 
+          component: 'Back.Button', 
+          passProps: {
+            navigator: this.props.navigator
+          }
+        }
+      ]
+    });
   }
 
 
@@ -53,13 +63,6 @@ const RenderCandidate = ({ navigator  }) => (
   </View>
 )
 
-CandidateScreen.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'Back.Nav',
-      component: 'Cc.Back.Button'
-    }
-  ]
-}
+
 
 export default CandidateScreen;

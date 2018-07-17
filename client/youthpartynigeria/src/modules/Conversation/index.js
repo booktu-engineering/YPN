@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View } from 'react-native';
-import Screen from '../../mixins/screen';
-import { TinySelectors, height, width } from '../../mixins';
+import { TinySelectors, height, width, LoadingScreen } from '../../mixins';
 import { ConversationObjects } from '../SingleConversation';
+import { dispatchNotification } from '../../helpers/uploader';
+import { fetchConversations } from '../../actions/thunks/conversations';
 
-class Conversations extends Screen {
-  constructor(props){
-    super(props, 'CON.Back.Button', 'CON.search.button')
+class Conversations extends Component {
+  constructor(props) {
+    super(props);
+    this.props.navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'Back.Button.C',
+          component: 'Back.Button', 
+          passProps: {
+            navigator: this.props.navigator
+          }
+        }
+      ],
+      rightButtons: [
+        {
+          id: 'Search.Button',
+          component: 'Search.Button', 
+          passProps: {
+            navigator: this.props.navigator
+          }
+        }
+      ]
+    });
+  }
+
+  componentDidMount() {
+    if(!this.props.target); return this.props.dispatch(fetchConversations(2, this.props.navigator));
   }
 
   componentWillUnmount = () => {
@@ -14,7 +40,13 @@ class Conversations extends Screen {
     this.props.navigator.toggleTabs({ to: 'shown', animated: true });
   }
 
-  render = () => <ConversationList navigator={this.props.navigator}/>
+  render = () => (
+    <View style={{ flex: 1}}> 
+    {
+      this.props.target ? <ConversationList data={this.props.target} dispatch={this.props.dispatch} navigator={this.props.navigator}/> : <LoadingScreen />
+    }
+    </View>
+  ) 
 }
 
 const ConversationList = (props) => (
@@ -22,22 +54,14 @@ const ConversationList = (props) => (
     <View style={{ maxHeight: height * 0.04, width, paddingRight: 15 }}>
       <TinySelectors keys={['Live']} />
     </View>
-    { ConversationObjects([1,2,3,4,4,56,6,6])({ navigator: props.navigator})}
+    { ConversationObjects([...props.data])({ navigator: props.navigator, dispatch: props.dispatch })}
   </View>
-)
+);
 
-Conversations.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'Back.Button.C',
-      component: 'CON.Back.Button'
-    }
-  ],
-  rightButtons: [
-    {
-      id: 'Search.Button',
-      component: 'CON.search.button'
-    }
-  ]
-}
-export default Conversations;
+const mapStateToProps = (state) => {
+  return {
+    target: state.convos.specific
+  };
+};
+
+export default connect(mapStateToProps)(Conversations);

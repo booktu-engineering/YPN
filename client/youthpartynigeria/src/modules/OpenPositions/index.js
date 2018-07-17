@@ -11,6 +11,14 @@ class OpenPosition extends Component {
     const { navigator } =  this.props;
     navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
+    navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'Back.Nav',
+      component: 'Back.Button'
+        }
+      ]
+    })
   }
 
   componentDidMount = () => {
@@ -28,13 +36,5 @@ const RenderPosition = ({ nav, data }) => (
     { data.definition ? composedCandidates([1,2,3,4,5,6,7,8])({ navigator: nav}) : composedPositions([1,2,3,4,5,6,7,8,9,10, 11, 12, 13, 14, 15])({ navigator: nav }) }
   </View>
 )
-OpenPosition.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'Back.Nav',
-      component: 'OS.Back.Button'
-    }
-  ],
-}
 
 export default OpenPosition

@@ -1,98 +1,97 @@
 import React from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Screen from '../../../mixins/screen';
 import { height, width, defaultGreen, bigButton, buttonText } from '../../../mixins/';
 
 class DonationPhaseTwo extends Screen {
   constructor(props) {
     super(props, 'DPT.Back.Button');
+    this.props.navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'back.button.t', 
+          component: 'Back.Button', 
+          passProps: {
+            navigator: this.props.navigator
+          }
+        }
+      ]
+    })
   }
 
-  render = () => <DonationPhaseTwoComponent data={this.props} />
+  state = {}
+
+  handleChange = (text) => this.setState({ amount: text })
+
+  handleSubmit = () => {
+    this.props.navigator.push({ screen: 'Pay.Component', title: `${this.props.title}`, passProps: { 
+      destination: this.props._id, 
+      amount: this.state.amount
+    }})
+  }
+
+  render = () => <DonationPhaseTwoComponent data={this.props} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
 }
 
-const DonationPhaseTwoComponent = ({ data }) => (
+const DonationPhaseTwoComponent = ({ data, navigator, handleChange, handleSubmit }) => (
   <View style={{
- flex: 1, justifyContent: 'space-around', backgroundColor: '#F4F6F6', paddingLeft: width * 0.11
+ height: height * 0.9, width, justifyContent: 'space-around', backgroundColor: '#F4F6F6', paddingLeft: width * 0.11,
+ paddingBottom: 20
 }}>
-    { /* The Amount */}
-    <View style={{ height: height * 0.12, width }}>
-      <Text style={{
- fontSize: 18, fontWeight: '500', color: '#626567', marginBottom: 18, alignSelf: 'center', position: 'relative', right: width * 0.1
-}}
-      > Amount
-      </Text>
-      <View style={{
- minHeight: height * 0.09, width, flexDirection: 'row', flexWrap: 'nowrap', paddingLeft: width * 0.02
-}}
-      >
-        <View style={{
- height: height * 0.06, width: width * 0.12, backgroundColor: defaultGreen, justifyContent: 'center', paddingRight: 3, marginBottom: 25, alignItems: 'center', borderLeftRadius: 5,
-}}
-        > <Text style={{
- fontSize: 19, textAlign: 'center', fontWeight: '700', color: 'white'
-}}
-        > N
-        </Text>
+  <AnimatedComponent data={data}/>
+    <View style={{ height: height * 0.1, width }}>
+      <Text style={{ fontSize: 18, fontWeight: '500', color: '#626567', marginBottom: 18, alignSelf: 'center', position: 'relative', right: width * 0.1}}>Amount</Text>
+      <View style={{minHeight: height * 0.09, width, flexDirection: 'row', flexWrap: 'nowrap', paddingLeft: width * 0.02}}>
+        <View style={{ height: height * 0.06, width: width * 0.12, backgroundColor: defaultGreen, justifyContent: 'center', paddingRight: 3, marginBottom: 25, alignItems: 'center', borderLeftRadius: 5}}> 
+        <Text style={{fontSize: 19, textAlign: 'center', fontWeight: '700', color: 'white'}}>N</Text>
         </View>
-        <TextInput
-          style={{
- height: height * 0.06, width: width * 0.65, backgroundColor: 'white', color: '#B3B6B7', fontSize: 13, marginLeft: -5, fontWeight: '500', paddingLeft: 20, borderWidth: 0.65, borderColor: '#38393950', borderRadius: 2
-}}
-        />
+        <TextInput onChangeText={handleChange} style={{ height: height * 0.06, width: width * 0.65, backgroundColor: 'white', color: '#B3B6B7', fontSize: 13, marginLeft: -5, fontWeight: '500', paddingLeft: 20, borderWidth: 0.65, borderColor: '#38393950', borderRadius: 2}}/>
       </View>
     </View>
     { /* Render the target */}
-    <View style={{ height: height * 0.2, width, marginBottom: 5 }}>
-      <Text style={{
- fontSize: 16, marginBottom: 15, color: '#383939', fontWeight: '600'
-}}
-      > { data.category }
-      </Text>
+    <View style={{ height: height * 0.14, position: 'relative', top: -10,  width, marginBottom: 5 }}>
+      <Text style={{ fontSize: 16, marginBottom: 15, color: '#383939', fontWeight: '600'}}>{ data.category }</Text>
       <Target data={data} />
     </View>
     { /* The button at the end */}
-    <TouchableOpacity style={{ ...bigButton, position: 'absolute', bottom: 70 }}>
-      <Text style={{ ...buttonText }}> CONFIRM </Text>
+    <TouchableOpacity  onPress={() => { handleSubmit() }} style={{ ...bigButton, position: 'absolute', bottom: 20 }}>
+      <Text style={{ ...buttonText }}>CONFIRM</Text>
     </TouchableOpacity>
   </View>
 );
 
 const Target = ({ data }) => (
-  <View style={{
- height: height * 0.18, width, flexDirection: 'row', flexWrap: 'nowrap',
-}}>
-    <Image
-      style={{
- height: 40, width: 40, borderRadius: 20, marginRight: 10
-}}
-      source={{ uri: '' }}
-    />
+  <View style={{ height: height * 0.18, width, flexDirection: 'row', flexWrap: 'nowrap'}}>
+    <Image style={{ height: 40, width: 40, borderRadius: 20, marginRight: 10}} source={{ uri: '' }}/>
     <View style={{ height: height * 0.15, maxWidth: width * 0.5 }}>
-      <Text style={{
- fontSize: 14, fontWeight: '600', color: '#373838', marginBottom: 5
-}}
-      > { data.title }
-      </Text>
-      <Text style={{
- fontSize: 14, fontWeight: '600', color: defaultGreen, marginBottom: 5
-}}
-      > { data.role ? data.role : data.location }
-      </Text>
-      {
-        data.role ? <Text style={{ fontWeight: '500', fontSize: 12, color: '#B3B6B7' }}> { data.location }</Text> : null
+      <Text style={{ fontSize: 14, fontWeight: '600', color: '#373838', marginBottom: 5}}>{ data.title }</Text>
+      <Text style={{ fontSize: 14, fontWeight: '600', color: defaultGreen, marginBottom: 5}}>{ data.role ? data.role : data.location }</Text>
+        {
+        data.role ? <Text style={{ fontWeight: '500', fontSize: 12, color: '#B3B6B7' }}>{ data.location }</Text> : null
       }
     </View>
   </View>
 );
 
-DonationPhaseTwo.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'D2.Button',
-      component: 'DPT.Back.Button'
-    }
-  ]
-};
+const AnimatedComponent = ({ data }) => {
+  const fill = Math.round((data.amount / data.target) * 100)
+  return (
+    <View style={{ height: height * 0.13, width, marginBottom: 15, alignItems: 'center',  paddingRight: 60 }}>
+      <AnimatedCircularProgress
+        size={140}
+        width={10}
+        fill={fill}
+        tintColor="#82BE30"
+        backgroundColor="#F0BA00">
+        {
+          (fill) => (
+        <Text style={{ fontSize: 25, color: '#82BE30'}}>{ `${Math.ceil(fill)}%` }</Text>
+        )}
+        </AnimatedCircularProgress>
+    </View>
+  )
+}
+
 
 export default DonationPhaseTwo;

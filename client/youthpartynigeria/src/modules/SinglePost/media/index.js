@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { height, width } from '../../../mixins/'
 import LinkPreview from 'react-native-link-preview'
 
@@ -17,7 +17,8 @@ class MediaHandler extends Component {
     const links = this.props.data.links.filter(item => item.length > 0);
     console.log(links)
     if (links.length > 0) {
-      LinkPreview.getPreview(this.props.data.links[0])
+      this.setState({ target: links[0]})
+      LinkPreview.getPreview(links[0])
       .then(data => {
        this.setState({ data })
       })
@@ -59,13 +60,13 @@ __truncateText = (text) => {
  previewLink = () => {
    const { data } =  this.state
    return data ? (
-     <View style={{ borderWidth: 1, width: width * 0.65, maxHeight: height * 0.25, borderRadius : 5, borderColor: '#F2F3F4'}}>
+     <TouchableOpacity onPress={() => { this.props.navigator.showModal({ screen: 'Web.Page',  title: this.state.target, passProps: { source: this.state.target }})}} style={{ borderWidth: 1, width: width * 0.65, maxHeight: height * 0.25, borderRadius : 5, borderColor: '#F2F3F4'}}>
        <Image source={{ uri: data.images[0] }} style={{ height: height * 0.1, width: width * 0.65 }} />
        <View style={{ borderTopWidth: 0.5, borderTopColor: '#F2F3F4', paddingLeft: 10, paddingTop: 5, paddingBottom: 10, backgroundColor: '#ECF0F1' }}>
          <Text style={{ fontSize: 13, color: '#171717', fontWeight: '600', marginBottom: 5 }}> {data.title} </Text>
          <Text style={{ fontSize: 11, width: width * 0.62 }}> {`${this.__truncateText(data.description)}...`} </Text>
        </View>
-   </View>
+   </TouchableOpacity>
  ) : null
  }
 

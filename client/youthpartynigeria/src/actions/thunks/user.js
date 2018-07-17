@@ -8,12 +8,14 @@ import { fetchUsersPosts } from './posts';
 /* eslint arrow-parens: 0 */
 const SignUpThunk = (body) => (navigator) => (dispatch) => {
   dispatch({ type: 'PROCESSING_CONTENT' });
-  return axios.post(`${config.baseUrl}/signup`, body)
+  return axios.post(`${config.baseUrl}/signup`, { ...body })
     .then((response) => {
       dispatch({ type: 'USER_SIGN_UP', payload: response.data.data.user });
       dispatch({ type: 'INSERT_TOKEN', payload: response.data.data.token });
-      AsyncStorage.setItem('#!@#$%', response.data.data.token)
+      AsyncStorage.setItem('#!@#$%', response.data.data.token);
+      AsyncStorage.setItem('#!@#$%ID', response.data.data.user.id.toString())
         .then(() => {
+          navigatorObject.registerOtherScreens();
           navigatorObject.startLoggedIn();
           dispatchNotification(navigator)(`Welcome to YPN! ${response.data.data.user.firstname}`);
         });
@@ -77,6 +79,7 @@ export const followUser = (data) => (navigator) => (dispatch, getState) => axios
     dispatchNotification(navigator)(`Awesome, You have just followed ${data.firstname}`);
   });
 
+
 const LogInThunk = (body) => (navigator) => (dispatch) => {
   // render an activity indicator here
   dispatch({ type: 'PROCESSING_CONTENT' });
@@ -85,9 +88,11 @@ const LogInThunk = (body) => (navigator) => (dispatch) => {
       dispatch({ type: 'USER_LOGGED_IN', payload: response.data.data.user });
       dispatch({ type: 'INSERT_TOKEN', payload: response.data.data.token });
       // cache the token - and move after then
-      AsyncStorage.setItem('#!@#$%', response.data.data.token)
+      AsyncStorage.setItem('#!@#$%', response.data.data.token);
+      AsyncStorage.setItem('#!@#$%ID', response.data.data.user.id.toString())
         .then(() => {
           dispatchNotification(navigator)(`Welcome back! ${response.data.data.user.firstname}`);
+          navigatorObject.registerOtherScreens();
           navigatorObject.startLoggedIn();
           dispatch(fetchAllRelationshipsOfUser());
         });
@@ -130,6 +135,7 @@ export const fetchUserThunk = (id) => (navigator) => async (dispatch) => {
     });
 };
 
+
 export const updateUser = async (id, navigator) => {
   const token = await AsyncStorage.getItem('#!@#$%');
   return axios.request({
@@ -145,6 +151,7 @@ export const updateUser = async (id, navigator) => {
     });
 };
 
+
 export const followUserThunk = (target) => (navigator) => async () => {
   const token = await AsyncStorage.getItem('#!@#$%');
   return axios.request({
@@ -159,9 +166,25 @@ export const followUserThunk = (target) => (navigator) => async () => {
       dispatchNotification(navigator)(`Nice. You have just followed ${target.firstname}`);
     })
     .catch((err) => {
-      console.log(err);
       dispatchNotification(navigator)("Oops, something went wrong and we couldn't complete that action.");
     });
 };
+
+export const newPartyMember = (navigator) => (dispatch, getState) => {
+  return axios.request({
+    method: 'get', 
+    url: `${config.baseUrl}/party/member/new/${getState().users.current.id}`,
+    headers: {
+      Authorization: getState().users.token
+    }
+  }).then(() => {
+    dispatchNotification(navigator)(`Welcome to Youth Party Nigeria! ${getState().users.current.firstname}`)
+    navigator.pop();
+  })
+  .catch(() => {
+    dispatchNotification(navigator)(`Something went wrong sadly. Are you a party member already ${getState().users.current.firstname}?`)
+    navigator.pop();
+  })
+}
 
 export default { SignUpThunk, LogInThunk };

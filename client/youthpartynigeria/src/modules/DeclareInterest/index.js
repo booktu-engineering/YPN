@@ -6,24 +6,26 @@ import { navigatorObject } from '../../navigation/'
 import data from './mocks'
 
 /* eslint object-curly-newline: 0, max-len: 0 */
-const DeclareInterest = () => (
-  <View style={{ flex: 1 }}>
-    <View style={{ height: height * 0.15, backgroundColor: defaultGreen, marginBottom: 15 }}>
-      <Text style={{ textAlign: 'center', color: 'white', fontSize: 20, marginBottom: 10, fontWeight: '600' }}> Interests </Text>
-      <Text style={{ textAlign: 'center', fontSize: 14, fontWeight: '400', color: 'white', width: width * 0.7, alignSelf: 'center'}}> Scroll and select at least 3 categories you are interested in to customize your feed </Text>
+const DeclareInterest = ({ navigator }) => {
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={{ height: height * 0.15, backgroundColor: defaultGreen, marginBottom: 15 }}>
+        <Text style={{ textAlign: 'center', color: 'white', fontSize: 20, marginBottom: 10, fontWeight: '600' }}> Interests </Text>
+        <Text style={{ textAlign: 'center', fontSize: 14, fontWeight: '400', color: 'white', width: width * 0.7, alignSelf: 'center'}}> Scroll and select at least 3 categories you are interested in to customize your feed </Text>
+      </View>
+  
+      {/* render the checkboxes */}
+      <View style={{ height: height * 0.6, flexDirection: 'row', flexWrap: 'wrap', alignSelf: 'center', position: 'relative', right: -25 , marginBottom: 10 }}>
+        { CheckBoxRender(data) }
+      </View>
+      {/* End of check box render/ begin big button  */}
+  
+      <View style={{ ...bigButton }}>
+        <Text style={{ ...buttonText }} onPress={() => navigatorObject.startLoggedIn()}> FINISH </Text>
+      </View>
     </View>
-
-    {/* render the checkboxes */}
-    <View style={{ height: height * 0.6, flexDirection: 'row', flexWrap: 'wrap', alignSelf: 'center', position: 'relative', right: -25 , marginBottom: 10 }}>
-      { CheckBoxRender(data) }
-    </View>
-    {/* End of check box render/ begin big button  */}
-
-    <View style={{ ...bigButton }}>
-      <Text style={{ ...buttonText }} onPress={() => navigatorObject.startLoggedIn()}> FINISH </Text>
-    </View>
-  </View>
-)
+  )
+}
 
 const CheckBoxRender = args => args.map(i => <View style={{ width: width * 0.5, marginBottom: 10 }}> <CheckBoxSingle title={i.title} /> </View>)
 

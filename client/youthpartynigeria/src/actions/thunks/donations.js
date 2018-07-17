@@ -51,9 +51,10 @@ export const fetchDonation = id => navigator => (dispatch, getState) => axios.re
     navigator.pop();
   });
 
-export const makeADonation = donation => navigator => (dispatch, getState) =>
+export const makeADonation = donation => navigator => (dispatch, getState) => {
   // the donation itself should contain the paystack referenceID and the amount and todays date,
-  axios.request({
+  console.log(donation)
+  return axios.request({
     method: 'put',
     url: `${config.postUrl}/donations/donate/${donation.destination}`,
     data: donation,
@@ -61,9 +62,13 @@ export const makeADonation = donation => navigator => (dispatch, getState) =>
       Authorization: getState().users.token
     }
   })
-    .then(() => {
+    .then((response) => {
+      console.log(response)
       dispatchNotification(navigator)('Thank you for contributing. Great Job!');
+      navigator.pop()
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err.response)
       dispatchNotification(navigator)('Oh wow that didnt go well. Not to worry, we thank you for contributing.');
     });
+  }

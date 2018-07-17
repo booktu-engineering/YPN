@@ -1,17 +1,31 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { defaultGreen, height, width, bigButton, buttonText   } from '../../mixins/'
 import styles from './styles';
 import { sendPost } from '../../actions/thunks/posts';
 import { MultipleUpload, SendToCloudinary, dispatchNotification } from '../../helpers/uploader';
 import { CameraIcon } from '../IconRegistry/'
-// import { withNavigation, BackIcon } from '../IconRegistry/'
-'https://medium.com/s/story/sleep-your-way-to-the-top-debf3fd215c6'
+
+
 let nav;
-const uri = 'https://menhairstylist.com/wp-content/uploads/2017/07/dreads-in-man-bun-black-men-hairstyles.jpg'
+const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
 
  class PostContainer extends Component {
+   constructor(props) {
+     super(props)
+     this.props.navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'showNav',
+          component: 'Left.Button', 
+          passProps: {
+              navigator: this.props.navigator
+          }
+        }
+      ]
+    })
+   }
    state = { type: 1, links: '',}
 
    handleMediaUpload = () => {
@@ -61,9 +75,10 @@ const PostComponent = ({ navigator, handleMediaUpload, handleChange, user, handl
   nav = navigator
   return (
     <View style={{ flex: 1, backgroundColor: '#F4F6F7', paddingLeft: 25, paddingTop: 20 }}>
-      { /* View containing Image and name */}
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
+    { /* View containing Image and name */}
       <View style={{ flexDirection: 'row', height: height * 0.08, width: width * 0.35, marginBottom: 15 }}>
-        <Image source={{ uri }} style={{ height: 52, width: 52, borderRadius: 26, marginRight: 5 }}/>
+        <Image source={{ uri: user.avatar || uri }} style={{ height: 52, width: 52, borderRadius: 26, marginRight: 5 }}/>
         <Text style={{ fontSize: 14, fontWeight: '500', alignSelf: 'center', color: '#404040' }}> {`${user.firstname} ${user.lastname}`} </Text>
     </View>
     { /* render the large input  */}
@@ -93,6 +108,7 @@ const PostComponent = ({ navigator, handleMediaUpload, handleChange, user, handl
      <TouchableOpacity style={{ ...bigButton, width: width * 0.8, position: 'relative', left: -10 }} onPress={handleSubmit}>
        <Text style={{ ...buttonText }}> POST </Text>
      </TouchableOpacity>
+    </KeyboardAvoidingView>
     </View>
   );
 }

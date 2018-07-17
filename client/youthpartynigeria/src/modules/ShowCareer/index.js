@@ -13,10 +13,17 @@ class ShowCareer extends Component {
     const { navigator } =  this.props
     navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
-  }
-
-  componentDidMount = () => {
-    Navigation.registerComponent('Sc.Back.Button', () => this.backIcon)
+    navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'nacv', 
+          component: 'Back.Button', 
+          passProps: {
+            navigator
+          }
+        }
+      ]
+    })
   }
 
   backIcon = () => <BackIcon navigator={this.props.navigator} />
@@ -77,13 +84,5 @@ const RenderCareer = () => (
   </View>
 )
 
-ShowCareer.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'Sc.back.nav',
-      component: 'Sc.Back.Button'
-    }
-  ]
-}
 
 export default ShowCareer

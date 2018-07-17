@@ -1,5 +1,8 @@
 /* eslint-disable no-underscore-dangle, no-unused-vars */
 import React from 'react';
+import  Icon  from 'react-native-vector-icons/Ionicons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import Evil from 'react-native-vector-icons/EvilIcons'
 import { Navigation } from 'react-native-navigation';
 import LoginComponent from '../modules/Login/';
 import ResetPasswordComponent from '../modules/Reset-Password';
@@ -15,7 +18,7 @@ import MoreComponent from '../modules/More';
 import Drawer from '../modules/Drawer';
 import HomeNav from '../modules/NavBars/home';
 import EventComponent from '../modules/Events';
-import { BackIcon, SearchIcon } from '../modules/IconRegistry/';
+import { BackIcon, SearchIcon, NotificationIcon, LeftNav } from '../modules/IconRegistry/';
 import ShowEvent from '../modules/ShowEvent';
 import CareersComponent from '../modules/Careers';
 import ShowCareer from '../modules/ShowCareer';
@@ -33,28 +36,50 @@ import configureStore from '../store';
 import NotificationScreen from '../mixins/notification';
 import ShowUser from '../modules/ShowUser';
 import FollowUser from '../modules/SingleUser/follow';
+import Membership from '../modules/Payments/index';
+import Pay from '../modules/Payments/pay';
+import WebPage from '../modules/WebView/';
+import ShowUsers from '../modules/ShowUsers';
 
 const { Provider, store } = configureStore();
+let homeIcon; 
+let chatIcon;
+let postIcon; 
+let moreIcon;
+let profileIcon
+
 
 export default class Navigator {
   constructor() {
+    Icon.getImageSource('ios-home-outline', 20, 'white').then((icon) => homeIcon = icon);
+    Icon.getImageSource('ios-chatboxes-outline', 20, 'white').then((icon) => chatIcon = icon);
+    MaterialIcon.getImageSource('add', 20, 'white').then((icon) => postIcon = icon);
+    Icon.getImageSource('ios-menu', 20, 'white').then((icon) => moreIcon = icon);
+    Evil.getImageSource('user', 20, 'white').then((icon) => profileIcon = icon);
     this.__registerScreens();
   }
 
   __registerScreens = () => {
+    Navigation.registerComponent('Back.Button', () => BackIcon);
+    Navigation.registerComponent('Search.Button', () => SearchIcon);
+    Navigation.registerComponent('Notif.Button', () => NotificationIcon);
+    Navigation.registerComponent('Left.Button', () => LeftNav);
+    Navigation.registerComponent('App.notification', () => NotificationScreen);
     Navigation.registerComponent('Login.Component', () => LoginComponent, store, Provider);
     Navigation.registerComponent('Reset.Password', () => ResetPasswordComponent);
     Navigation.registerComponent('Landing.Component', () => LandingComponent);
-    Navigation.registerComponent('App.notification', () => NotificationScreen);
     Navigation.registerComponent('SignUp.Component', () => SignUpComponent, store, Provider);
     Navigation.registerComponent('Verify.Component', () => VerifyComponent);
     Navigation.registerComponent('Declare.Interest', () => DeclareInterestComponent);
-    Navigation.registerComponent('Home', () => HomeComponent, store, Provider);
-    Navigation.registerComponent('Chat.Component', () => ChatComponent, store, Provider);
-    Navigation.registerComponent('Post.Component', () => PostComponent, store, Provider);
-    Navigation.registerComponent('Profile.Component', () => ProfileComponent, store, Provider);
+  }
+
+  registerOtherScreens = (storex = store) => {
+    Navigation.registerComponent('Home', () => HomeComponent, storex, Provider);
+    Navigation.registerComponent('Chat.Component', () => ChatComponent, storex, Provider);
+    Navigation.registerComponent('Post.Component', () => PostComponent, storex, Provider);
+    Navigation.registerComponent('Profile.Component', () => ProfileComponent, storex, Provider);
     Navigation.registerComponent('More.Component', () => MoreComponent);
-    Navigation.registerComponent('Drawer', () => Drawer, store, Provider);
+    Navigation.registerComponent('Drawer', () => Drawer, storex, Provider);
     Navigation.registerComponent('Home.Nav', () => HomeNav);
     Navigation.registerComponent('Events.Screen', () => EventComponent);
     Navigation.registerComponent('Show.Event', () => ShowEvent);
@@ -64,14 +89,19 @@ export default class Navigator {
     Navigation.registerComponent('Open.Position', () => OpenPositions);
     Navigation.registerComponent('Show.Position', () => ShowPosition);
     Navigation.registerComponent('Gallery.Component', () => Gallery);
-    Navigation.registerComponent('Donation.Component', () => Donation, store, Provider);
-    Navigation.registerComponent('DonationPT', () => DonationPhaseTwoCOMPONENT, store, Provider);
-    Navigation.registerComponent('Convo.Component', () => Conversations);
+    Navigation.registerComponent('Donation.Component', () => Donation, storex, Provider);
+    Navigation.registerComponent('DonationPT', () => DonationPhaseTwoCOMPONENT, storex, Provider);
+    Navigation.registerComponent('Convo.Component', () => Conversations, storex, Provider);
     Navigation.registerComponent('Show.Convo', () => ShowConversation);
-    Navigation.registerComponent('Convo.Log', () => ConversationLog, store, Provider);
-    Navigation.registerComponent('Show.User', () => ShowUser, store, Provider);
-    Navigation.registerComponent('Follow.User', () => FollowUser, store, Provider);
-    Navigation.registerComponent('DonationM.Component', () => DonationMultipleCOMPONENT, store, Provider);
+    Navigation.registerComponent('Convo.Log', () => ConversationLog, storex, Provider);
+    Navigation.registerComponent('Show.User', () => ShowUser, storex, Provider);
+    Navigation.registerComponent('Follow.User', () => FollowUser, storex, Provider);
+    Navigation.registerComponent('DonationM.Component', () => DonationMultipleCOMPONENT, storex, Provider);
+    Navigation.registerComponent('Membership.Component', () => Membership, storex, Provider);
+    Navigation.registerComponent('Pay.Component', () => Pay, storex, Provider)
+    Navigation.registerComponent('Web.Page', () => WebPage )
+    Navigation.registerComponent('Show.Users', () => ShowUsers)
+
   }
 
   startLoggedOut = () => {
@@ -82,32 +112,37 @@ export default class Navigator {
     });
   }
 
-  startLoggedIn = (props) => {
+  startLoggedIn = () => {
     Navigation.startTabBasedApp({
       tabs: [
         {
           screen: 'Home',
           label: 'Home',
-          title: 'Home'
+          title: 'Home',
+          icon: homeIcon
         },
         {
           screen: 'Chat.Component',
           label: 'Chat',
-          title: 'Chat'
+          title: 'Chat', 
+          icon: chatIcon
         },
         {
           screen: 'Post.Component',
           label: 'Post',
-          title: 'New Post'
+          title: 'New Post', 
+          icon: postIcon
         },
         {
           screen: 'Profile.Component',
           label: 'Profile',
-          title: 'Profile'
+          title: 'Profile', 
+          icon: profileIcon
         },
         {
           screen: 'More.Component',
-          label: 'More'
+          label: 'More', 
+          icon: moreIcon
         },
       ],
       tabsStyle: {

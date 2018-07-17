@@ -137,9 +137,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-cloudinary')
+    compile project(':react-native-svg')
     compile project(':react-native-link-preview')
     compile project(':react-native-image-crop-picker')
-    compile project(':react-native-vector-icons')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-navigation')
     compile fileTree(dir: "libs", include: ["*.jar"])

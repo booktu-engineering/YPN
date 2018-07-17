@@ -78,10 +78,10 @@ export const createNewConversation = members => navigator => async (dispatch) =>
     }
   }).then((response) => {
     dispatch({ type: 'CONVERSATION_RECEIVED', payload: response.data.data });
-    return navigator.push({ screen: 'Convo.Log', passProps: { target: response.data.dataHassHdd } });
+    return navigator.push({ screen: 'Convo.Log', passProps: { target: response.data.data } });
   })
     .catch((err) => {
-      dispatchNotification(navigator)('Something went wrong, Try again maybe?');
+      dispatchNotification(navigator)('Awesome then, check your logs!');
       navigator.pop();
     });
 };
@@ -106,25 +106,25 @@ export const fetchConversation = target => (dispatch, getState) => getState().co
 
 export const incomingMessage = data => (dispatch, getState) => {
   // data is the new message object
-  console.log(data);
-  const registry = getState().convos.registry;
-  const activityMap = getState().convos.activityMap;
+  const { registry } = getState().convos;
+  const { activityMap } = getState().convos;
   registry[`${data.destination}`] = [data, ...registry[`${data.destination}`]];
   activityMap[`${data.destination}`] += 1;
   dispatch({ type: 'UPDATE_REGISTRY', payload: registry });
   dispatch({ type: 'UPDATE_ACTIVITY', payload: activityMap });
 };
 
-export const JoinConversation = id => navigator => async (dispatch) => {
+export const JoinConversation = id => navigator => (dispatch, getState) => {
   // this assumes that the fella is joining a conversation like debate and all of dat
-  const token = await AsyncStorage.getItem('#!@#$%');
   return axios.request({
     method: 'put',
-    url: `${config.postUrl}/convos/join/${id}`
+    url: `${config.postUrl}/convos/join/${id}`,
+    headers: {
+      Authorization: getState().users.token
+    }
   }).then((response) => {
-    // that means he is allowed to join the conversation
     dispatch({ type: 'CONVERSATION_RECEIVED', payload: response.data.data });
-    navigator.push({ screen: '', passProps: { target: response.data.data } });
+    navigator.push({ screen: 'Convo.Log', passProps: { target: response.data.data } });
   })
     .catch((err) => {
       // remember to remove this when the app goes into production
@@ -132,8 +132,30 @@ export const JoinConversation = id => navigator => async (dispatch) => {
         dispatchNotification(navigator)('Oops! Looks like you dont have permissions to join this conversation :(');
         return navigator.pop();
       }
+      if (err.response && err.response.status === 409) {
+        dispatchNotification(navigator)("Looks like you've joined this conversation already, Please check your log") 
+        return navigator.switchToTab({ tabIndex: 1 });
+      }
       dispatchNotification(navigator)('Hey, looks like something went wrong, try again?');
       return navigator.pop();
+    });
+};
+
+export const fetchConversations = (type, navigator) => (dispatch, getState) => {
+  return axios.request({
+    method: 'get',
+    url: `${config.postUrl}/convos/type/${type}`,
+    headers: {
+      Authorization: getState().users.token
+    }
+  })
+    .then((response) => {
+      console.log(response.data.data)
+      dispatch({ type: 'SPECIFIC_CONVERSATIONS_GOTTEN', payload: response.data.data });
+    })
+    .catch(() => {
+      dispatchNotification(navigator)('Something went wrong, try again?');
+      navigator.pop();
     });
 };
 
@@ -152,8 +174,7 @@ export const LeaveConversation = id => navigator => async (dispatch) => {
   }).then(() => {
     // success he/she has left the conversation
     dispatchNotification(navigator)('Conversation Left. Thanks for nothing.');
-  }).catch((err) => {
-    console.log(err); // doing this for now
+  }).catch(() => {
     dispatchNotification(navigator)('Sorry, that didnt quite work out. Try again?');
   });
 };

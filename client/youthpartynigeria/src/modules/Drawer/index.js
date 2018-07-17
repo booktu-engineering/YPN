@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { LogOut } from '../../helpers/init';
 import { height, width } from '../../mixins/';
 
 const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
+
 
 const Drawer = ({ currentUser, navigator, current }) => (
   <View style={{ height }}>
@@ -32,9 +34,9 @@ alignItems: 'center'
  height: height * 0.75, backgroundColor: '#F2F3F4', paddingTop: 20, alignItems: 'flex-start', paddingLeft: 50
 }}
     >
-      <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
+      <TouchableOpacity onPress={() => { navigator.showModal({ screen: 'Membership.Component', title: 'Become a party member' })}} style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Membership </Text>
-      </View>
+      </TouchableOpacity>
       <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Groups </Text>
       </View>
@@ -50,9 +52,9 @@ alignItems: 'center'
       <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Settings </Text>
       </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
+      <TouchableOpacity onPress={() => LogOut()} style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Logout </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   </View>
 );

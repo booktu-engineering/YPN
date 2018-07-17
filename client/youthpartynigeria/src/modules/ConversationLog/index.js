@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import Screen from '../../mixins/screen';
-import { View, Text, TouchableOpacity, TextInput, FlatList } from 'react-native';
-import { CustomHeader } from '../ShowConversation/';
+import { View, KeyboardAvoidingView, TouchableOpacity, TextInput, FlatList } from 'react-native';
+import { CustomHeader } from '../ShowConversation';
 import { height, width, defaultGreen } from '../../mixins/';
 import config from '../../config/';
 import { MessageComponent } from '../Log';
@@ -20,6 +20,7 @@ class ConversationLog extends Screen {
     };
     this.socket = io(`${config.realTimeUrl}conversation`, { query: { convoID: this.props.data._id } });
     this.registerEvents();
+    // this.textInput = React.createRef();
   }
 
 
@@ -35,6 +36,7 @@ class ConversationLog extends Screen {
   handleChange = content => this.setState({ content })
 
   handleSubmit = () => {
+    this.textInput.setNativeProps({ text: '' })
     if (this.state.content.length < 1) return dispatchNotification(this.props.navigator)(`Hey ${this.props.user.firstname}, you have to say something`);
     // prepare the message // it should like the posts
     const message = {
@@ -43,7 +45,7 @@ class ConversationLog extends Screen {
       type: 2,
       destination: this.props.data._id,
       createdAt: Date.now()
-    }; 4;
+    };
     const messages = [message, ...this.state.messages];
     this.setState({ messages });
     this.props.dispatch(sendMessage({ ...message, token: this.props.token }, this.socket)(this.props.navigator));
@@ -60,8 +62,9 @@ class ConversationLog extends Screen {
   deets = () => this.props.registry[`${this.props.data._id}`].reverse()
 
   render = () => (
-    <View style={{ height, width, paddingBottom: 8 }}>
-      <CustomHeader navigator={this.props.navigator} data={this.props.data} />
+    <View style={{ height, width, paddingBottom: 15 }} behavior="padding">
+      <CustomHeader navigator={this.props.navigator} data={this.props.data} user={this.props.user} />
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding"> 
       { this.state.messages.length ?
         <FlatList
           inverted
@@ -80,9 +83,55 @@ class ConversationLog extends Screen {
           keyExtractor={(item, index) => item._id}
           extraData={this.state}
         />
-         : <View style={{ height: height * 0.78 }} />
+         : <View style={{ height: height * 0.74}} />
       }
-      <InputButton handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
+      <View style={{
+ height: (this.state.messages.length ? height * 0.08 : height * 1.0), width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
+}}
+behavior="height"
+  >
+    <TextInput
+      style={{
+        height: height * 0.06,
+        paddingLeft: 10,
+        width: width * 0.7,
+        color: '#7B7D7D',
+        fontSize: 14,
+        fontWeight: '500',
+      }}
+      onChangeText={(text) => { this.handleChange(text); }}
+      placeholder="Type a message"
+      ref={(ref) => { this.textInput = ref; }} 
+      placeholderTextColor="#D0D3D4"
+      multiline
+    />
+    <TouchableOpacity
+      style={{
+        height: height * 0.07,
+        width: width * 0.15,
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+      <CameraIcon size={24} style={{}} color={`${defaultGreen}`} />
+    </TouchableOpacity>
+    { /* send button */}
+    <TouchableOpacity
+      style={{
+        height: height * 0.085,
+        width: width * 0.15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: defaultGreen
+      }}
+      onPress={() => { this.handleSubmit(); }}
+    >
+      <SendIcon size={25} color="white" />
+    </TouchableOpacity>
+
+  </View>
+
+      </KeyboardAvoidingView>
     </View>
   )
 }
@@ -91,8 +140,8 @@ class ConversationLog extends Screen {
 const InputButton = ({ handleChange, handleSubmit }) => (
   <View style={{
  height: height * 0.08, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
-
 }}
+behavior="height"
   >
     <TextInput
       style={{

@@ -19,21 +19,22 @@ class ShowUser extends Component {
     navBarNoBorder: true
   }
 
-  static navigatorButtons = {
-    leftButtons: [
-      {
-        id: 'ShowNav',
-        component: 'SU.Back.Button'
-      }
-    ]
-  }
-
-
   constructor(props) {
     super(props);
     this.state = { viewEvents: false };
     Navigation.registerComponent('SU.Back.Button', () => this.backIcon);
     this.props.navigator.toggleTabs({ to: 'hidden', animated: true });
+    this.props.navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'idd', 
+          component: 'Back.Button', 
+          passProps: {
+            navigator: this.props.navigator
+          }
+        }
+      ]
+    })
     this.state = {
       message: 'Follow',
       target: false,
@@ -46,13 +47,14 @@ class ShowUser extends Component {
     // map the followers
     if (!this.props.target) return this.__getTheUser();
     this.setState({ target: this.props.target });
+    this.__fetchPostsForUser()
     if (this.props.posts) this.setState({ posts: this.props.posts });
     this.__setUpFollowers();
   }
 
   __setUpFollowers = () => {
     const friends = this.props.friends.map(item => item.id) || [];
-    if (friends.includes(this.state.target.id)) return this.setState({ message: 'Message' });
+    if (friends.includes(this.props.target.id)) return this.setState({ message: 'Message' });
   }
 
   __getTheUser = () => {
@@ -65,6 +67,13 @@ class ShowUser extends Component {
             this.setState({ posts });
           });
       });
+  }
+
+  __fetchPostsForUser = () => {
+    this.props.dispatch(fetchUsersPosts(this.props.target))
+    .then((posts) => {
+      this.setState({ posts })
+    })
   }
   componentWillUnmount = () => {
     this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
@@ -85,7 +94,7 @@ class ShowUser extends Component {
           <View style={{ height: height * 0.07, backgroundColor: defaultGreen }} />
 
           <DisplayBio user={this.state.target} />
-          <ButtonStack user={this.state.target} handleMessage={this.handleInitMessage} message={this.state.message} />
+          <ButtonStack user={this.state.target} handleMessage={this.handleInitMessage} message={this.state.message} navigator={this.props.navigator}/>
           { /* That barrieer thing */}
           <View style={{
    height: height * 0.05, width, flexDirection: 'row', flexWrap: 'nowrap'
@@ -109,9 +118,9 @@ class ShowUser extends Component {
             </TouchableOpacity>
           </View>
           {
-              this.state.posts.length ?
+             this.state.posts.length ?
                 <View style={{ height: height * 0.6 }}>
-                  { this.state.viewEvents ? MultipleEvents([1, 2, 3])() : multiplePosts([...this.props.posts])({ height: height * 0.3, navigator: this.props.navigator, dispatch: this.props.dispatch })}
+                  { this.state.viewEvents ? MultipleEvents([1, 2, 3])() : multiplePosts([...this.state.posts ])({ height: height * 0.3, navigator: this.props.navigator, dispatch: this.props.dispatch })}
                 </View>
               : null
             }
@@ -140,9 +149,9 @@ const DisplayBio = ({ user }) => (
         <Text style={{
  fontSize: 17, fontWeight: '600', marginBottom: 5, color: '#363636'
 }}
-        > {`${user.firstname} ${user.lastname}`}
+        > {`${user.firstname || ''} ${user.lastname || ''}`}
         </Text>
-        <Text style={{ fontSize: 12, fontWeight: '600', color: '#909497' }}>{` Ward ${user.ward} | Surulere ${user.lga}`} </Text>
+        <Text style={{ fontSize: 12, fontWeight: '600', color: '#909497' }}>{` Ward ${user.ward || ''} | Surulere ${user.lga || ''}`} </Text>
       </View>
     </View>
     { /* Render the bio */}
@@ -154,19 +163,21 @@ const DisplayBio = ({ user }) => (
   </View>
 );
 
-const ButtonStack = ({ user, handleMessage, message }) => (
+const ButtonStack = ({ user, handleMessage, message, navigator }) => (
   <View style={{
  width, height: height * 0.08, paddingRight: 16, paddingLeft: 16, flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around'
 }}>
     <TouchableOpacity style={{
  height: height * 0.04, width: width * 0.27, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#D0D3D4', borderRadius: 3
 }}
+onPress={() => { user && user.followers ? navigator.push({ screen: 'Show.Users', title: 'Followers', passProps: { data: user.followers }}) : null }}
     >
       <Text style={{ fontSize: 11, color: '#979A9A' }}><Text style={{ fontWeight: '600', color: '#626567' }}> { `${user && user.followers ? user.followers.length : 0}`} </Text>Followers </Text>
     </TouchableOpacity>
     <TouchableOpacity style={{
  height: height * 0.04, alignItems: 'center', justifyContent: 'center', width: width * 0.27, borderWidth: 1, borderColor: '#D0D3D4', borderRadius: 3
 }}
+onPress={() => { user && user.friends ? navigator.push({ screen: 'Show.Users', title: 'Friends', passProps: { data: user.friends }}) : null }}
     >
       <Text style={{ fontSize: 11, color: '#979A9A' }}><Text style={{ fontWeight: '600', color: '#626567' }}> { `${user && user.friends ? user.friends.length : 0}`} </Text>Following </Text>
     </TouchableOpacity>

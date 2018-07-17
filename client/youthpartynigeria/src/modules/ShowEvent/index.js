@@ -11,17 +11,29 @@ class ShowEvent extends Component {
     const { navigator } =  this.props
     navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
+    navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'nacv', 
+          component: 'Back.Button', 
+          passProps: {
+            navigator
+          }
+        }
+      ], 
+      rightButtons: [
+        {
+          id: 'searchButton', 
+          component: 'Search.Button', 
+          passProps: {
+            navigator
+          }
+        }
+      ]
+    })
   }
 
-  componentDidMount = () => {
-    Navigation.registerComponent('Ev.Back.Button', () => this.backIcon)
-    Navigation.registerComponent('Ev.Search.Button', () => this.searchIcon)
-  }
-
-  // componentWillUnmount = () => {
-  //   this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
-  //   this.props.navigator.toggleTabs({ to: 'shown', animated: true });
-  // }
+ 
 
   backIcon = () => <BackIcon navigator={this.props.navigator} />
   searchIcon = () => <SearchIcon navigator={this.props.navigator} />
@@ -67,19 +79,5 @@ const ButtonStack = () => (
     </TouchableOpacity>
   </View>
 )
-ShowEvent.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'Back.Nav',
-      component: 'Ev.Back.Button'
-    }
-  ],
-  rightButtons: [
-    {
-      id: 'E.Search.Nav',
-      component: 'Ev.Search.Button'
-    }
-  ]
-}
 
 export default ShowEvent

@@ -3,9 +3,11 @@ package com.youthpartynigeria;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.rncloudinary.RNCloudinaryPackage;
+import com.horcrux.svg.SvgPackage;
 import io.linkpreview.RNReactNativeLinkPreviewPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.reactnativenavigation.NavigationReactPackage;
 import com.facebook.react.ReactNativeHost;
@@ -28,9 +30,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
+            new RNCloudinaryPackage(),
+            new SvgPackage(),
             new RNReactNativeLinkPreviewPackage(),
             new PickerPackage(),
-            new VectorIconsPackage(),
             new LinearGradientPackage(),
             new NavigationReactPackage()
       );

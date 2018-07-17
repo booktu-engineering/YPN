@@ -18,10 +18,21 @@ class LoginContainer extends Component {
 }
 
 const LoginComponent = ({ navigator, handleSubmit, handleChange }) => {
+  navigator.setButtons({
+    leftButtons: [
+      {
+        id: 'Login.bav', 
+        component: 'Back.Button', 
+        passProps: {
+          navigator
+        }
+      }
+    ]
+  })
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.imageContainer}>
-        <Image style={{ flex: 1 }} source={{ uri: 'https://images.unsplash.com/photo-1525896967401-bee10dc2276d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f3df2a8c993701d7b2127b3779da2575&auto=format&fit=crop&w=1094&q=80' }} />
+        <Image style={{ flex: 1 }} source={{ uri: 'https://images.unsplash.com/photo-1461155264347-f1450307af27?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f5c7db13e13c0a358c5ecc7d8342a811&auto=format&fit=crop&w=2850&q=80' }} />
         <LinearGradient colors={['transparent', '#13131390']} locations={[0, 0.9]} style={styles.textDrop}>
           <Text style={styles.header1}> Welcome to Youth Party </Text>
           <Text style={styles.header2}> Seeking to serve and unite Nigerians </Text>
@@ -77,6 +88,7 @@ const BigButton = ({ content, handleSubmit }) => {
 }
 
 LoginContainer.navigatorStyle = {
-  navBarHidden: true
+  navBarHidden: true,
+  statusBarTextColorScheme: 'light'
 }
 export default connect()(LoginContainer)

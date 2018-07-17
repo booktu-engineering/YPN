@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dimensions, View, Text, TouchableOpacity } from 'react-native'
+import { Dimensions, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native'
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export const { width, height } = Dimensions.get('window')
@@ -164,3 +164,9 @@ export class DisplayRadios extends Component {
     )
   }
 }
+
+export const LoadingScreen = () => (
+  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  <ActivityIndicator size="small" color={`${defaultGreen}`} />
+</View>
+)

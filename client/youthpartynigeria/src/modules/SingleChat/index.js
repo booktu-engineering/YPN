@@ -6,8 +6,8 @@ import Composer from '../iterator';
 const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
 
 const generateNameFromMembers = (members) => {
-  let string = members.reduce((a, b) => `${a} ${b.firstname} ${b.lastname}, `, '');
-  string = string.trim().slice(0, (string.length - 2));
+  let string = members.reduce((a, b) => `${a} ${b.firstname || ''} ${b.lastname || ''}`, '');
+  string = string.trim().slice(0, (string.length - 1));
   if (string.length > 18) {
     string = string.slice(0, string.length - 8);
     string = `${string}...`;
@@ -22,7 +22,7 @@ const generateUri = (members) => {
 };
 
 const SingleChat = ({ data, obj }) => {
-  const title = data.title ? data.title : generateNameFromMembers(data.members.filter(item => item.id !== obj.user.id));
+  const title = data.topic ? data.topic : generateNameFromMembers(data.members.filter(item => item.id !== obj.user.id));
   return (
     <TouchableOpacity
       style={{

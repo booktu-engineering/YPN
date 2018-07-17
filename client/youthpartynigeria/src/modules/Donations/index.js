@@ -14,6 +14,17 @@ class DonationScreen extends Component {
     Navigation.registerComponent('Do.Back.Button', () => this.backIcon);
     navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
+    navigator.setButtons({
+      leftButtons: [
+        {
+        id: 'button.back', 
+        component: 'Back.Button',
+        passProps: {
+          navigator
+        }
+      }
+      ]
+    })
     this.state = {
       category: null,
       level: null
@@ -132,15 +143,6 @@ const DonationComponent = ({ pushUpToState, navigate }) => (
   </View>
 );
 
-
-DonationScreen.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'Do.Back.Nav',
-      component: 'Do.Back.Button'
-    }
-  ]
-};
 
 DonationScreen.navigatorStyle = {
   navBarNoBorder: true
