@@ -20,15 +20,13 @@ class ConversationLog extends Screen {
     };
     this.socket = io(`${config.realTimeUrl}conversation`, { query: { convoID: this.props.data._id } });
     this.registerEvents();
-    // this.textInput = React.createRef();
+    // this.textInput = CReact.createRef();
   }
 
 
   componentDidMount = () => {
-    /* initially fetch the conversation from the state in the redux store */
     const messages = this.props.registry[`${this.props.data._id}`];
     this.setState({ messages });
-    // async call to update the registry
     this.props.dispatch(updateConversation(this.props.data._id)(this.props.navigator))
       .then((data) => { this.setState({ messages: data }); });
   }
@@ -36,7 +34,7 @@ class ConversationLog extends Screen {
   handleChange = content => this.setState({ content })
 
   handleSubmit = () => {
-    this.textInput.setNativeProps({ text: '' })
+    this.setState({ content: '' })
     if (this.state.content.length < 1) return dispatchNotification(this.props.navigator)(`Hey ${this.props.user.firstname}, you have to say something`);
     // prepare the message // it should like the posts
     const message = {
@@ -62,7 +60,7 @@ class ConversationLog extends Screen {
   deets = () => this.props.registry[`${this.props.data._id}`].reverse()
 
   render = () => (
-    <View style={{ height, width, paddingBottom: 15 }} behavior="padding">
+    <View style={{ height: height * 0.97, width , justifyContent: 'space-around' }} behavior="padding">
       <CustomHeader navigator={this.props.navigator} data={this.props.data} user={this.props.user} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding"> 
       { this.state.messages.length ?
@@ -71,10 +69,9 @@ class ConversationLog extends Screen {
           onLayout={() => { this.flatlistRef.scrollToEnd({ animated: true }); }}
           ref={(ref) => { this.flatlistRef = ref; }}
           data={this.state.messages}
-          renderItem={({ item }) => <MessageComponent origin={this.props.user} data={item} />}
+          renderItem={({ item }) => <MessageComponent origin={this.props.user} data={item} user={this.props.user} />}
           style={{
-            height: height * 0.78,
-            width,
+            flex: 1,
             paddingRight: 10,
             paddingLeft: 10,
             paddingTop: 15,
@@ -83,18 +80,18 @@ class ConversationLog extends Screen {
           keyExtractor={(item, index) => item._id}
           extraData={this.state}
         />
-         : <View style={{ height: height * 0.74}} />
+         : <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding"></KeyboardAvoidingView>
       }
       <View style={{
- height: (this.state.messages.length ? height * 0.08 : height * 1.0), width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
+ height: height * 0.08, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
 }}
-behavior="height"
+behavior="padding"
   >
     <TextInput
       style={{
         height: height * 0.06,
         paddingLeft: 10,
-        width: width * 0.7,
+        width: width * 0.8,
         color: '#7B7D7D',
         fontSize: 14,
         fontWeight: '500',
@@ -104,11 +101,12 @@ behavior="height"
       ref={(ref) => { this.textInput = ref; }} 
       placeholderTextColor="#D0D3D4"
       multiline
+      value={this.state.content}
     />
     <TouchableOpacity
       style={{
         height: height * 0.07,
-        width: width * 0.15,
+        width: width * 0.05,
         justifyContent: 'center',
         alignItems: 'center'
       }}
@@ -122,15 +120,14 @@ behavior="height"
         width: width * 0.15,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: defaultGreen
+        backgroundColor: defaultGreen, 
+        marginLeft: 5
       }}
       onPress={() => { this.handleSubmit(); }}
     >
       <SendIcon size={25} color="white" />
     </TouchableOpacity>
-
   </View>
-
       </KeyboardAvoidingView>
     </View>
   )
@@ -156,6 +153,7 @@ behavior="height"
       placeholder="Type a message"
       placeholderTextColor="#D0D3D4"
       multiline
+      editable
     />
     <TouchableOpacity
       style={{

@@ -43,7 +43,7 @@ class Conversations extends Component {
   render = () => (
     <View style={{ flex: 1}}> 
     {
-      this.props.target ? <ConversationList data={this.props.target} dispatch={this.props.dispatch} navigator={this.props.navigator}/> : <LoadingScreen />
+      this.props.target ? <ConversationList data={this.props.target} dispatch={this.props.dispatch} navigator={this.props.navigator}/> : <View style={{ flex: 1}} />
     }
     </View>
   ) 

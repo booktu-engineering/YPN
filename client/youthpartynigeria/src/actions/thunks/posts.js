@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import config from '../../config';
-import { dispatchNotification } from '../../helpers/uploader';
+import { dispatchNotification, StartProcess, EndProcess } from '../../helpers/uploader';
 import { fetchFollowersForUser } from './user';
 
 export const fetchTimeline = navigator => async (dispatch) => {
@@ -29,6 +29,7 @@ export const fetchTimeline = navigator => async (dispatch) => {
 
 export const sendPost = data => navigator => async (dispatch) => {
   // dispatch processing job
+  StartProcess(navigator)
   const token = await AsyncStorage.getItem('#!@#$%');
   return axios.request({
     method: 'post',
@@ -38,12 +39,13 @@ export const sendPost = data => navigator => async (dispatch) => {
       Authorization: token
     }
   }).then((response) => {
-    console.log(response);
+    EndProcess(navigator)
     navigator.switchToTab({
       tabIndex: 0
     });
   })
     .catch((err) => {
+      EndProcess(navigator);
       if (err.message) return console.log(err.message);
       console.log(err.response.data);
     });

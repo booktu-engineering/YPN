@@ -1,7 +1,7 @@
 import axios from 'axios'
-
+import { StartProcess } from '../../helpers/uploader';
 const PayWithPayStack = (navigator) => (data) => (dispatch) => {
-    console.log(data);
+    StartProcess(navigator);
     return axios.request({
         url: 'https://api.paystack.co/charge',
         method: 'post',

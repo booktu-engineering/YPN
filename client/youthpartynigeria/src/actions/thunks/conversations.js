@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import config from '../../config/';
-import { dispatchNotification } from '../../helpers/uploader';
+import { dispatchNotification, StartProcess, EndProcess } from '../../helpers/uploader';
 import configureStore from '../../store';
 
 const { store } = configureStore();
@@ -40,6 +40,7 @@ export const fetchAllConversations = navigator => async (dispatch) => {
 };
 
 export const startPersonalConversation = users => navigator => async (dispatch, getState) => {
+  StartProcess(navigator);
   // you want to check that the message already exists in state
   let target;
   const targets = users.map(item => item.id);
@@ -62,6 +63,7 @@ export const startPersonalConversation = users => navigator => async (dispatch, 
   // dispatch the conversation;
   if (target) {
     target.members = users;
+    EndProcess(navigator);
     return navigator.push({ screen: 'Convo.Log', passProps: { data: target } });
   }
   return await createNewConversation(users)(navigator)(dispatch);
@@ -78,9 +80,11 @@ export const createNewConversation = members => navigator => async (dispatch) =>
     }
   }).then((response) => {
     dispatch({ type: 'CONVERSATION_RECEIVED', payload: response.data.data });
+    EndProcess(navigator);
     return navigator.push({ screen: 'Convo.Log', passProps: { target: response.data.data } });
   })
     .catch((err) => {
+      EndProcess(navigator);
       dispatchNotification(navigator)('Awesome then, check your logs!');
       navigator.pop();
     });
@@ -116,6 +120,7 @@ export const incomingMessage = data => (dispatch, getState) => {
 
 export const JoinConversation = id => navigator => (dispatch, getState) => {
   // this assumes that the fella is joining a conversation like debate and all of dat
+  StartProcess(navigator);
   return axios.request({
     method: 'put',
     url: `${config.postUrl}/convos/join/${id}`,
@@ -124,24 +129,29 @@ export const JoinConversation = id => navigator => (dispatch, getState) => {
     }
   }).then((response) => {
     dispatch({ type: 'CONVERSATION_RECEIVED', payload: response.data.data });
+    EndProcess(navigator);
     navigator.push({ screen: 'Convo.Log', passProps: { target: response.data.data } });
   })
     .catch((err) => {
       // remember to remove this when the app goes into production
       if (err.response.status && err.response.status === 401) {
+        EndProcess(navigator);
         dispatchNotification(navigator)('Oops! Looks like you dont have permissions to join this conversation :(');
         return navigator.pop();
       }
       if (err.response && err.response.status === 409) {
+        EndProcess(navigator);
         dispatchNotification(navigator)("Looks like you've joined this conversation already, Please check your log") 
         return navigator.switchToTab({ tabIndex: 1 });
       }
+      EndProcess(navigator);
       dispatchNotification(navigator)('Hey, looks like something went wrong, try again?');
       return navigator.pop();
     });
 };
 
 export const fetchConversations = (type, navigator) => (dispatch, getState) => {
+  StartProcess(navigator);
   return axios.request({
     method: 'get',
     url: `${config.postUrl}/convos/type/${type}`,
@@ -150,10 +160,11 @@ export const fetchConversations = (type, navigator) => (dispatch, getState) => {
     }
   })
     .then((response) => {
-      console.log(response.data.data)
+      EndProcess(navigator);
       dispatch({ type: 'SPECIFIC_CONVERSATIONS_GOTTEN', payload: response.data.data });
     })
     .catch(() => {
+      EndProcess(navigator);
       dispatchNotification(navigator)('Something went wrong, try again?');
       navigator.pop();
     });

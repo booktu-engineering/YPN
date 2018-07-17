@@ -39,7 +39,6 @@ export const SendToCloudinary = async (data, key) => {
 
 
 export const dispatchNotification = navigator => (message) => {
-  console.log(navigator);
   navigator.showInAppNotification({
     screen: 'App.notification',
     passProps: {
@@ -47,3 +46,13 @@ export const dispatchNotification = navigator => (message) => {
     }
   });
 };
+
+export const StartProcess = navigator => {
+  navigator.showLightBox({
+    screen: 'Process.Indicator',
+  })
+}
+
+export const EndProcess = navigator => {
+  navigator.dismissLightBox();
+}

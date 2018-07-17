@@ -54,7 +54,7 @@ class More extends Component {
           </TouchableOpacity>
           <TouchableOpacity>
           <Ionicon name="ios-megaphone" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -28 }}/>
-            <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Constitution </Text>
+            <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Town Hall </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.navigate('Candidate.Screen', 'Candidates')}>
           <Ionicon name="ios-flag-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -28 }}/>

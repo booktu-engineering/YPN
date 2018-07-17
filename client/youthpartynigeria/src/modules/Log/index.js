@@ -16,13 +16,13 @@ const MessageLog = ({ data, origin, extraData }) => (
       paddingTop: 15,
     }}
     getItemLayout={(item, index) => ({ index, height: height * 0.07, offset: 0 })}
-    keyExtractor={(item, index) => item._id}
+    keyExtractor={(item) => item._id}
     extraData={extraData}
   />
 );
 
 
-export const MessageComponent = ({ data, origin }) => (
+export const MessageComponent = ({ data, origin, user }) => (
   <View
     style={{
       minHeight: height * 0.07,
@@ -42,7 +42,10 @@ export const MessageComponent = ({ data, origin }) => (
  height: 15, maxWidth: width * 0.8, flexDirection: 'row', flexWrap: 'nowrap', marginBottom: 5, justifyContent: 'space-between'
 }}
     >
-      <Text style={{ fontSize: 13, fontWeight: '500', color: '#B3B6B7', }}> { `${data.origin.firstname} ${data.origin.lastname}` }</Text>
+      <Text style={{ fontSize: 13, fontWeight: '500', color: '#B3B6B7', }}> { 
+        data.origin.id !== user.id ?  
+        `${data.origin.firstname || ''} ${data.origin.lastname || ''}` : 
+        '' }</Text>
       <Text style={{ fontSize: 13, fontWeight: '500', color: '#B3B6B7', }}> { formatDate(data.createdAt) }</Text>
     </View>
     <Text style={{

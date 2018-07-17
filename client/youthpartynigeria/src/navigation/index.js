@@ -40,6 +40,7 @@ import Membership from '../modules/Payments/index';
 import Pay from '../modules/Payments/pay';
 import WebPage from '../modules/WebView/';
 import ShowUsers from '../modules/ShowUsers';
+import ProcessIndicator from '../modules/ProcessIndicator';
 
 const { Provider, store } = configureStore();
 let homeIcon; 
@@ -71,6 +72,7 @@ export default class Navigator {
     Navigation.registerComponent('SignUp.Component', () => SignUpComponent, store, Provider);
     Navigation.registerComponent('Verify.Component', () => VerifyComponent);
     Navigation.registerComponent('Declare.Interest', () => DeclareInterestComponent);
+    Navigation.registerComponent('Process.Indicator', () => ProcessIndicator);
   }
 
   registerOtherScreens = (storex = store) => {
@@ -101,7 +103,6 @@ export default class Navigator {
     Navigation.registerComponent('Pay.Component', () => Pay, storex, Provider)
     Navigation.registerComponent('Web.Page', () => WebPage )
     Navigation.registerComponent('Show.Users', () => ShowUsers)
-
   }
 
   startLoggedOut = () => {

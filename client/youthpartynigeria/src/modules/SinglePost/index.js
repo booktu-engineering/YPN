@@ -53,7 +53,7 @@ const SinglePost = ({ data, obj }) => (
  flexDirection: 'column', alignSelf: 'flex-end', paddingLeft: 50, paddingTop: 20, position: 'relative',
 }}
       >
-        <Text style={{ fontSize: 13, fontWeight: '700' }}> { data.origin ? `${data.origin.firstname} ${data.origin.lastname}` : 'John Phillips' } </Text>
+        <Text style={{ fontSize: 13, fontWeight: '700' }}> { data.origin ? `${data.origin.firstname || ''} ${data.origin.lastname || ''}` : 'John Phillips' } </Text>
         <Text style={{
  alignSelf: 'flex-end', fontSize: 10, position: 'absolute', top: 20, right: 13, color: '#D0D3D4', fontWeight: '600'
 }}

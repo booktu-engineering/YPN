@@ -15,7 +15,7 @@ class ChatContainer extends Component {
       leftButtons: [
         {
           id: 'Back.button', 
-          component: 'Back.Button', 
+          component: 'Left.Button', 
           passProps: {
             navigator: this.props.navigator
           }

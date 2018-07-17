@@ -23,7 +23,6 @@ export default async (token, navigator) => {
       navigator.startLoggedIn();
     })
     .catch((err) => {
-      console.log(err);
       navigator.startLoggedOut();
     })
 }

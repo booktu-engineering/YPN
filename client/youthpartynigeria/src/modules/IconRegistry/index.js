@@ -23,7 +23,7 @@ export const SearchIcon = ({ navigator, dispatch }) => <TouchableOpacity style={
 export const CameraIcon = ({ color, size, style }) => <Ionicon name="ios-camera-outline" style={style} color={color} size={size} />
 export const BackIcon = (props) => (
   <TouchableOpacity style={{ flex: 1 }} onPress={() => { if(props.modal) return props.navigator.dismissModal({ animation: 'slide-down'}); props.navigator.pop() }}> 
-    <Ionicon name="ios-arrow-back-outline" color="white" size={25}/>
+    <Ionicon name="ios-arrow-back-outline" color="white" size={30}/>
    </TouchableOpacity>
 )
 

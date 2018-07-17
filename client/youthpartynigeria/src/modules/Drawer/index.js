@@ -47,6 +47,9 @@ alignItems: 'center'
         <Text style={{ fontSize: 15, fontWeight: '600' }}> About us </Text>
       </View>
       <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
+        <Text style={{ fontSize: 15, fontWeight: '600' }}> Constitution </Text>
+      </View>
+      <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Contact us </Text>
       </View>
       <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>

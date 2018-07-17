@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '../../config';
-import { dispatchNotification } from '../../helpers/uploader';
+import { dispatchNotification,EndProcess } from '../../helpers/uploader';
 
 export const fetchAllDonations = navigator => (dispatch, getState) => axios.request({
   url: `${config.postUrl}/donations/`,
@@ -46,14 +46,13 @@ export const fetchDonation = id => navigator => (dispatch, getState) => axios.re
   .then((response) => {
     navigator.push({ screen: 'DonationPT', passProps: { data: response.data.data } });
   })
-  .catch((err) => {
+  .catch(() => {
     dispatchNotification(navigator)('Hey, that did not work out, try again?');
     navigator.pop();
   });
 
 export const makeADonation = donation => navigator => (dispatch, getState) => {
   // the donation itself should contain the paystack referenceID and the amount and todays date,
-  console.log(donation)
   return axios.request({
     method: 'put',
     url: `${config.postUrl}/donations/donate/${donation.destination}`,
@@ -62,13 +61,14 @@ export const makeADonation = donation => navigator => (dispatch, getState) => {
       Authorization: getState().users.token
     }
   })
-    .then((response) => {
-      console.log(response)
+    .then(() => {
+      EndProcess(navigator)
       dispatchNotification(navigator)('Thank you for contributing. Great Job!');
-      navigator.pop()
+      navigator.pop();
     })
-    .catch((err) => {
-      console.log(err.response)
-      dispatchNotification(navigator)('Oh wow that didnt go well. Not to worry, we thank you for contributing.');
+    .catch(() => {
+      EndProcess(navigator);
+      dispatchNotification(navigator)('Thank you for contributing.');
+      navigator.pop();
     });
   }
