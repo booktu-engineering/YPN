@@ -124,7 +124,8 @@ class PostServiceObject extends BaseService {
 
   fetchAllPosts = async (id) => {
     data = await this.model.find({ 'origin.id': parseInt(id) })
-    return data;
+    data = data.filter(post => !post.destination)
+    return data.reverse();
   }
 
   fetchComments = async (data) => {
