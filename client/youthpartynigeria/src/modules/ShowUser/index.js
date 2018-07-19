@@ -23,7 +23,6 @@ class ShowUser extends Component {
     super(props);
     this.state = { viewEvents: false };
     Navigation.registerComponent('SU.Back.Button', () => this.backIcon);
-    this.props.navigator.toggleTabs({ to: 'hidden', animated: true });
     this.props.navigator.setButtons({
       leftButtons: [
         {
@@ -199,5 +198,9 @@ const mapStateToProps = state => ({
   followers: state.users.followers || [],
   friends: state.users.friends || []
 });
+
+ShowUser.navigatorStyle = {
+  tabBarHidden: true
+}
 
 export default connect(mapStateToProps)(ShowUser);

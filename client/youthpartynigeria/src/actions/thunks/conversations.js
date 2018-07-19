@@ -136,16 +136,16 @@ export const JoinConversation = id => navigator => (dispatch, getState) => {
       // remember to remove this when the app goes into production
       if (err.response.status && err.response.status === 401) {
         EndProcess(navigator);
-        dispatchNotification(navigator)('Oops! Looks like you dont have permissions to join this conversation :(');
+        dispatchNotification(navigator)('You do not have permissions to join this conversation');
         return navigator.pop();
       }
       if (err.response && err.response.status === 409) {
         EndProcess(navigator);
-        dispatchNotification(navigator)("Looks like you've joined this conversation already, Please check your log") 
+        dispatchNotification(navigator)("You've joined this conversation already, Please check your log") 
         return navigator.switchToTab({ tabIndex: 1 });
       }
       EndProcess(navigator);
-      dispatchNotification(navigator)('Hey, looks like something went wrong, try again?');
+      dispatchNotification(navigator)('Something went wrong, try again?');
       return navigator.pop();
     });
 };
@@ -186,7 +186,7 @@ export const LeaveConversation = id => navigator => async (dispatch) => {
     // success he/she has left the conversation
     dispatchNotification(navigator)('Conversation Left. Thanks for nothing.');
   }).catch(() => {
-    dispatchNotification(navigator)('Sorry, that didnt quite work out. Try again?');
+    dispatchNotification(navigator)('Sorry, something went wrong. Try again?');
   });
 };
 

@@ -64,16 +64,26 @@ const SinglePost = ({ data, obj }) => (
 }}
         > { data.content ? `${data.content}` : `${mockText}`}
         </Text>
-        {
-          data.links || data.media ?
-            <MediaHandler data={data} navigator={obj.navigator} />
-          : null
-        }
+         { renderMedia(data, obj.navigator)}
       </View>
     </View>
     <ButtonStack />
   </View>
 );
+
+const renderMedia = (data, navigator) => {
+  if (data.media && data.media.length > 0) {
+    const media = data.media.filter(item => item.constructor === Array);
+    if (!media.length) return null;
+    return (
+      <MediaHandler data={data} navigator={navigator} />
+    );
+  }
+  if (data.links && data.links.length > 0) {
+    return <MediaHandler data={data} navigator={navigator} />
+  }
+  return null;
+}
 
 
 const ButtonStack = () => {

@@ -14,7 +14,7 @@ export const fetchAllDonations = navigator => (dispatch, getState) => axios.requ
   })
   .catch((err) => {
     console.log(err);
-    dispatchNotification(navigator)('Oops something went wrong');
+    dispatchNotification(navigator)('Something went wrong');
     navigator.pop();
   });
 
@@ -22,7 +22,7 @@ export const filterThroughDonations = query => navigator => (dispatch, getState)
   const donations = getState().donations.all;
   const target = donations.filter(donation => donation.type === query.type && donation.meta.level === query.level);
   if (!target.length) {
-    dispatchNotification(navigator)('No donations matching that currently. Check back will you?');
+    dispatchNotification(navigator)('No donations matching that currently. Thanks you');
     return navigator.pop();
   }
   return navigator.push({
@@ -47,12 +47,13 @@ export const fetchDonation = id => navigator => (dispatch, getState) => axios.re
     navigator.push({ screen: 'DonationPT', passProps: { data: response.data.data } });
   })
   .catch(() => {
-    dispatchNotification(navigator)('Hey, that did not work out, try again?');
+    dispatchNotification(navigator)('Something went wrong, try again?');
     navigator.pop();
   });
 
 export const makeADonation = donation => navigator => (dispatch, getState) => {
   // the donation itself should contain the paystack referenceID and the amount and todays date,
+  console.log(donation);
   return axios.request({
     method: 'put',
     url: `${config.postUrl}/donations/donate/${donation.destination}`,
@@ -66,7 +67,8 @@ export const makeADonation = donation => navigator => (dispatch, getState) => {
       dispatchNotification(navigator)('Thank you for contributing. Great Job!');
       navigator.pop();
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err.response);
       EndProcess(navigator);
       dispatchNotification(navigator)('Thank you for contributing.');
       navigator.pop();

@@ -8,7 +8,6 @@ class Gallery extends Component {
   constructor(props){
     super(props);
     const { navigator } =  this.props
-    navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
     navigator.setButtons({
       leftButtons: [
@@ -133,5 +132,8 @@ const ImageRenderer = ({ title, data, showImage }) => (
   </View>
 )
 
+Gallery.navigatorStyle = {
+  tabBarHidden: true
+}
 
 export default Gallery;

@@ -39,15 +39,16 @@ export const sendPost = data => navigator => async (dispatch) => {
       Authorization: token
     }
   }).then((response) => {
-    EndProcess(navigator)
+    EndProcess(navigator);
     navigator.switchToTab({
       tabIndex: 0
     });
   })
     .catch((err) => {
       EndProcess(navigator);
+      console.log(err.response);
       if (err.message) return console.log(err.message);
-      console.log(err.response.data);
+     
     });
 };
 

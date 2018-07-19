@@ -8,7 +8,7 @@ import { BackIcon, SearchIcon } from '../IconRegistry';
 let nav
 
 const EventComponent = ({ navigator }) =>  (
-    <View style={{ minHeight: height}}>
+    <View style={{ flex: 1 }}>
       <Selectors keys={['Events', 'Town Hall']}/>
       <TinySelectors keys={[ 'Federal', 'Time']} />
       { MultipleEvents([1,2,3,4,5,6,7])({ navigator, screen: 'Show.Event'})}
@@ -18,7 +18,6 @@ class EventScreen extends Component {
   constructor(props) {
     super(props)
     const { navigator } =  this.props
-    navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
     this.props.navigator.setButtons({
       leftButtons: [
@@ -55,5 +54,8 @@ class EventScreen extends Component {
 render = () => <EventComponent navigator={this.props.navigator}/>
 }
 
+EventScreen.navigatorStyle = {
+  tabBarHidden: true
+}
 
 export default EventScreen

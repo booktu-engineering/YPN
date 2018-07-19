@@ -11,7 +11,7 @@ export const LeftNav = props => <EvilIcon name="navicon" color="white" size={28}
 
 export const NotificationIcon = ({ navigator }) => (
   <TouchableOpacity style={{ flex: 1 }}>
-    <View style={{ height: 15, width: 15, alignItems:'center', borderRadius: 7.5, backgroundColor: 'red', position:'absolute', zIndex: 2, left: 15, top: -5 }}>
+    <View style={{ height: 15, width: 15, alignItems:'center', borderRadius: 7.5, backgroundColor: '#F4D03F', position:'absolute', zIndex: 2, left: 15, top: -5 }}>
       <Text style={{ fontSize: 10, position: 'relative', right: 1, color: 'white', textAlign: 'center', fontWeight: '700' }}> 6 </Text>
     </View>
     <Ionicon name="ios-notifications-outline" color="white" size={25} />

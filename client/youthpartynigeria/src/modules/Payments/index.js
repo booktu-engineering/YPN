@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { height, width, defaultGreen, bigButton, buttonText } from '../../mixins/';
-
+import { dispatchNotification } from '../../helpers/uploader';
 
 class MemberShipContainer extends Component {
     constructor (props) {
@@ -30,6 +30,15 @@ class MemberShipContainer extends Component {
             ]
         })
     }
+
+    handlePress = () => {
+        if(parseInt(this.props.user.role) > 0) {
+            this.props.navigator.dismissModal({ animated: true });
+           return  dispatchNotification(this.props.navigator)("You're already a party member, Subscribe next month!");
+        }
+        this.props.navigator.push({ screen: 'Pay.Component', title: 'Subscribe'})
+
+    }
     render = () => {
         return (
         <View style={{ flex: 1, marginBottom: 15 }}> 
@@ -40,7 +49,7 @@ class MemberShipContainer extends Component {
         </View>
             <RenderCreditCard />
             <ListOfBenefits />
-            <TouchableOpacity style={{ ...bigButton, position: 'absolute', bottom: 45 }} onPress={() => { this.props.navigator.push({ screen: 'Pay.Component', title: 'Subscribe'})}}> 
+            <TouchableOpacity style={{ ...bigButton, position: 'absolute', bottom: 45 }} onPress={() => { this.handlePress()}}> 
                 <Text style={{ ...buttonText }}> PAY MEMBERSHIP FEE </Text>
             </TouchableOpacity>
         </View>
@@ -93,4 +102,10 @@ MemberShipContainer.navigatorStyle = {
     navBarNoBorder: true
   };
 
-  export default connect()(MemberShipContainer);
+  const mapStateToProps = (state) => {
+      return {
+          user: state.users.current
+      }
+  }
+
+  export default connect(mapStateToProps)(MemberShipContainer);

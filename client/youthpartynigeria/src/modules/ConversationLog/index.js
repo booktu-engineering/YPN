@@ -60,7 +60,7 @@ class ConversationLog extends Screen {
   deets = () => this.props.registry[`${this.props.data._id}`].reverse()
 
   render = () => (
-    <View style={{ height: height * 0.97, width , justifyContent: 'space-around' }} behavior="padding">
+    <View style={{ flex: 1, justifyContent: 'space-around' }} behavior="padding">
       <CustomHeader navigator={this.props.navigator} data={this.props.data} user={this.props.user} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding"> 
       { this.state.messages.length ?
@@ -184,7 +184,8 @@ behavior="height"
 
 
 ConversationLog.navigatorStyle = {
-  navBarHidden: true
+  navBarHidden: true,
+  tabBarHidden: true
 };
 
 const mapStateToProps = state => ({

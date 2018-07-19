@@ -46,7 +46,9 @@ class Home extends Component {
   }
 
   onNavigatorEvent = (e) => {
-    if (e.id === 'didAppear') return this.fetchTimeLine();
+    if (e.id === 'didAppear') {
+      return this.fetchTimeLine();
+    } 
   }
   componentDidMount = () => {
     dispatchNotification(this.props.navigator)(`Hey, ${this.props.user.firstname}! what do you have to share?`);
@@ -60,7 +62,7 @@ fetchTimeLine = () => this.props.dispatch(fetchTimeline(this.props.navigator))
   render = () => (
     <View style={{ flex: 1 }}>
       { this.props.data ?
-          multiplePosts([...this.props.data].reverse())({ navigator: this.props.navigator, dispatch: this.props.dispatch }) :
+          multiplePosts([...this.props.data].reverse())({ navigator: this.props.navigator, dispatch: this.props.dispatch, refresh: this.fetchTimeLine }) :
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="small" color={`${defaultGreen}`} />
           </View>
@@ -72,6 +74,7 @@ fetchTimeLine = () => this.props.dispatch(fetchTimeline(this.props.navigator))
 
 Home.navigatorStyle = {
   navBarBackgroundColor: defaultGreen,
+  tabBarHidden: false,
   statusBarTextColorScheme: 'light',
   preferredContentSize: { height: 2000 }
 };

@@ -14,7 +14,8 @@ class ProfileComponent extends Component {
 static navigatorStyle = {
   navBarBackgroundColor: defaultGreen,
   statusBarTextColorScheme: 'light',
-  navBarNoBorder: true
+  navBarNoBorder: true,
+  tabBarHidden: false,
 }
 
 

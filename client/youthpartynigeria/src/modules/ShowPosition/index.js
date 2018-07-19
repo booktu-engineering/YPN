@@ -10,7 +10,6 @@ const personUri = 'https://menhairstylist.com/wp-content/uploads/2017/07/dreads-
   constructor(props) {
     super(props);
     const { navigator } =  this.props
-    navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
     navigator.setButtons({
       leftButtons: [
@@ -97,4 +96,8 @@ ShowPosition.navigatorButtons = {
     }
   ]
 };
-export default ShowPosition
+
+ShowPosition.navigatorStyle = {
+  tabBarHidden: true
+}
+export default ShowPosition;

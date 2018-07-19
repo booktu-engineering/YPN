@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import RNPaystack from 'react-native-paystack';
 import { connect } from 'react-redux'
-import { View, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native'; 
+import { View, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native'; 
 import { CreditCardInput } from "react-native-credit-card-input";
 import { dispatchNotification } from '../../helpers/uploader';
 import { bigButton, buttonText } from '../../mixins/';
@@ -12,6 +12,7 @@ class Pay extends Component {
 
     constructor(props){
         super(props)
+        // this.props.navigator.toggleTabs({ to: 'hidden', animated: true })
         this.props.navigator.setButtons({
             leftButtons: [
                 {
@@ -58,7 +59,7 @@ class Pay extends Component {
     handleDonationNavigation = () => this.props.dispatch(makeADonation({ 
         referenceID: this.state.reference || '1234', 
         destination: this.props.destination,
-        amount: this.props.amount, 
+        amount: parseInt(this.props.amount), 
         date: Date.now()
      })(this.props.navigator));
 
@@ -77,7 +78,7 @@ class Pay extends Component {
 
     render = () => {
         return (
-        <View style={{ flex: 1, paddingTop: 15 }}> 
+        <ScrollView keyboardDismissMode="on-drag" style={{ flex: 1, paddingTop: 15 }}> 
         <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'space-around' }} behavior="padding" >
         <CreditCardInput
         onChange={this._handleChange}
@@ -96,7 +97,7 @@ class Pay extends Component {
             <Text style={{ ...buttonText }}>Pay</Text>
         </TouchableOpacity>   
         </KeyboardAvoidingView>
-        </View>
+        </ScrollView>
         )
     }
 }
@@ -105,6 +106,10 @@ const mapStateToProps = (state) => {
     return {
         user: state.users.current
     }
+}
+
+Pay.navigatorStyle = {
+    tabBarHidden: true
 }
 
 export default connect(mapStateToProps)(Pay)

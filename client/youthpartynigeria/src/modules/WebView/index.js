@@ -7,7 +7,6 @@ class WebPage extends Component {
     constructor(props) {
         super(props)
         const { navigator } =  this.props
-        navigator.toggleTabs({ to: 'hidden', animated: true });
         navigator.setDrawerEnabled({ side: 'left', enabled: false });
         this.props.navigator.setButtons({
           leftButtons: [
@@ -38,4 +37,7 @@ WebPage.navigatorStyle = {
     statusBarTextColorScheme: 'light',
   };
   
+  WebPage.navigatorStyle = {
+    tabBarHidden: true
+  }
 export default WebPage

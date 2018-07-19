@@ -22,10 +22,13 @@ class ChatContainer extends Component {
         }
       ]
     });
+
   }
   componentDidMount = () => this.props.dispatch(fetchAllConversations(this.props.navigator));
   handleVisibility = (e) => {
-    if (e.id === 'didAppear') return this.props.dispatch(fetchAllConversations(this.props.navigator));
+    if (e.id === 'didAppear') {
+      return this.props.dispatch(fetchAllConversations(this.props.navigator));
+    }
   }
   render = () => (
     <View style={{ flex: 1 }}>
@@ -48,7 +51,8 @@ const ChatComponent = ({ navigator, data, user }) => {
 // remember to refactor this component
 ChatContainer.navigatorStyle = {
   navBarBackgroundColor: defaultGreen,
-  statusBarTextColorScheme: 'light'
+  statusBarTextColorScheme: 'light',
+  tabBarHidden: false
 };
 
 

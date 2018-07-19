@@ -9,7 +9,6 @@ class ShowEvent extends Component {
   constructor(props) {
     super(props)
     const { navigator } =  this.props
-    navigator.toggleTabs({ to: 'hidden', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
     navigator.setButtons({
       leftButtons: [
@@ -79,5 +78,9 @@ const ButtonStack = () => (
     </TouchableOpacity>
   </View>
 )
+
+ShowEvent.navigatorStyle = {
+  tabBarHidden: true
+}
 
 export default ShowEvent

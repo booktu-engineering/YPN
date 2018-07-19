@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Screen from '../../../mixins/screen';
 import { height, width, defaultGreen, bigButton, buttonText } from '../../../mixins/';
 
-class DonationPhaseTwo extends Screen {
+class DonationPhaseTwo extends Component {
   constructor(props) {
     super(props, 'DPT.Back.Button');
     this.props.navigator.setButtons({

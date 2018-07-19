@@ -9,7 +9,9 @@ class Careers extends Component {
   constructor(props) {
     super(props)
     const { navigator } =  this.props
-    navigator.toggleTabs({ to: 'hidden', animated: true });
+    this.props.navigator.setStyle({
+      tabBarHidden: true
+    });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
     this.props.navigator.setButtons({
       leftButtons: [

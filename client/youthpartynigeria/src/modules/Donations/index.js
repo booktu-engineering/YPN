@@ -12,7 +12,9 @@ class DonationScreen extends Component {
     super(props);
     const { navigator } = this.props;
     Navigation.registerComponent('Do.Back.Button', () => this.backIcon);
-    navigator.toggleTabs({ to: 'hidden', animated: true });
+    this.props.navigator.setStyle({
+      tabBarHidden: true
+    });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
     navigator.setButtons({
       leftButtons: [
@@ -80,29 +82,9 @@ render = () => <DonationComponent navigate={this.navigate} pushUpToState={value 
 const DonationComponent = ({ pushUpToState, navigate }) => (
   <View style={{ flex: 1 }}>
     <View style={{
- height: height * 0.2, width, backgroundColor: defaultGreen, flexDirection: 'row', paddingLeft: 35, marginBottom: 20, flexWrap: 'nowrap', alignItems: 'center'
+ height: height * 0.12, width, backgroundColor: defaultGreen, flexDirection: 'row', paddingLeft: 35, marginBottom: 20, flexWrap: 'nowrap', alignItems: 'center'
 }}
     >
-      <View style={{
- width: width * 0.4, height: height * 0.1, borderRightWidth: 1, borderColor: 'white'
-}}
-      >
-        <Text style={{
- fontSize: 13, fontWeight: '600', color: 'white', marginBottom: 10
-}}
-        >  Goal
-        </Text>
-        <Text style={{ fontSize: 22, fontWeight: '600', color: 'white' }}> N1,000,000 </Text>
-      </View>
-      {/* total donations */}
-      <View style={{ width: width * 0.4, height: height * 0.1, paddingLeft: 20 }}>
-        <Text style={{
- fontSize: 13, fontWeight: '600', color: 'white', marginBottom: 10
-}}
-        >  Total Donation
-        </Text>
-        <Text style={{ fontSize: 22, fontWeight: '600', color: 'white' }}> N1,000,000 </Text>
-      </View>
     </View>
     { /* Render the radio buttons */}
     <View style={{ height: height * 0.6, width }}>
@@ -137,7 +119,7 @@ const DonationComponent = ({ pushUpToState, navigate }) => (
       </View>
     </View>
     { /* the button */}
-    <TouchableOpacity style={{ ...bigButton, position: 'absolute', bottom: 1 }} onPress={() => navigate()}>
+    <TouchableOpacity style={{ ...bigButton, position: 'absolute', bottom: 30 }} onPress={() => navigate()}>
       <Text style={{ ...buttonText }}> PROCEED </Text>
     </TouchableOpacity>
   </View>
@@ -145,7 +127,8 @@ const DonationComponent = ({ pushUpToState, navigate }) => (
 
 
 DonationScreen.navigatorStyle = {
-  navBarNoBorder: true
+  navBarNoBorder: true, 
+  tabBarHidden: true
 };
 
 const mapStateToProps = state => ({

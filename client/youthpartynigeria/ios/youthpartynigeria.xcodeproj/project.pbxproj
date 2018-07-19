@@ -1706,7 +1706,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = youthpartynigeria;
-				PROVISIONING_PROFILE = "5174900e-8ff4-479d-baf5-ebf105a1b961";
+				PROVISIONING_PROFILE = "7bb7eb27-3c10-4d2f-89d7-f72c873707e2";
 				PROVISIONING_PROFILE_SPECIFIER = "Hasstrup wildcard profile";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1744,7 +1744,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = youthpartynigeria;
-				PROVISIONING_PROFILE = "5174900e-8ff4-479d-baf5-ebf105a1b961";
+				PROVISIONING_PROFILE = "7bb7eb27-3c10-4d2f-89d7-f72c873707e2";
 				PROVISIONING_PROFILE_SPECIFIER = "Hasstrup wildcard profile";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

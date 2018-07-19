@@ -26,7 +26,7 @@ const SignUpThunk = (body) => (navigator) => (dispatch) => {
       navigator.showInAppNotification({
         screen: 'App.notification',
         passProps: {
-          message: err.response ? err.response.data.errors : 'Oops, something went terribly wrong. try again?'
+          message: err.response ? err.response.data.errors : 'Something went terribly wrong. try again?'
         }
       });
     });
@@ -106,7 +106,7 @@ const LogInThunk = (body) => (navigator) => (dispatch) => {
     })
     .catch((err) => {
       EndProcess(navigator);
-      const error = err.response ? err.response.data.errors : 'Hey, something went wrong, try again?';
+      const error = err.response ? err.response.data.errors : 'Something went wrong, try again?';
       dispatchNotification(navigator)(error);
     });
 };
@@ -180,7 +180,7 @@ export const followUserThunk = (target) => (navigator) => async () => {
     })
     .catch((err) => {
       EndProcess(navigator);
-      dispatchNotification(navigator)("Oops, something went wrong and we couldn't complete that action.");
+      dispatchNotification(navigator)("Something went wrong and we couldn't complete that action.");
     });
 };
 
@@ -198,7 +198,7 @@ export const newPartyMember = (navigator) => (dispatch, getState) => {
   })
     .catch(() => {
       EndProcess(navigator);
-      dispatchNotification(navigator)(`Something went wrong sadly. Are you a party member already ${getState().users.current.firstname}?`)
+      dispatchNotification(navigator)(`Something went wrong. Are you a party member already, ${getState().users.current.firstname}?`)
       navigator.pop();
     });
 };
