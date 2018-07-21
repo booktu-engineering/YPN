@@ -73,6 +73,7 @@ export default class Navigator {
     Navigation.registerComponent('Verify.Component', () => VerifyComponent);
     Navigation.registerComponent('Declare.Interest', () => DeclareInterestComponent);
     Navigation.registerComponent('Process.Indicator', () => ProcessIndicator);
+    Navigation.registerComponent('Web.Page', () => WebPage )
   }
 
   registerOtherScreens = (storex = store) => {
@@ -101,7 +102,6 @@ export default class Navigator {
     Navigation.registerComponent('DonationM.Component', () => DonationMultipleCOMPONENT, storex, Provider);
     Navigation.registerComponent('Membership.Component', () => Membership, storex, Provider);
     Navigation.registerComponent('Pay.Component', () => Pay, storex, Provider)
-    Navigation.registerComponent('Web.Page', () => WebPage )
     Navigation.registerComponent('Show.Users', () => ShowUsers)
   }
 

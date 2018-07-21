@@ -32,12 +32,10 @@ render = () => (
     
 }
 
-WebPage.navigatorStyle = {
-    navBarBackgroundColor: defaultGreen,
-    statusBarTextColorScheme: 'light',
-  };
   
   WebPage.navigatorStyle = {
-    tabBarHidden: true
+    tabBarHidden: true,
+    navBarBackgroundColor: defaultGreen,
+    statusBarTextColorScheme: 'light',
   }
 export default WebPage

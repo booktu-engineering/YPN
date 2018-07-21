@@ -16,7 +16,8 @@ class ShowUser extends Component {
   static navigatorStyle = {
     navBarBackgroundColor: defaultGreen,
     statusBarTextColorScheme: 'light',
-    navBarNoBorder: true
+    navBarNoBorder: true,
+    tabBarHidden: true
   }
 
   constructor(props) {
@@ -199,8 +200,5 @@ const mapStateToProps = state => ({
   friends: state.users.friends || []
 });
 
-ShowUser.navigatorStyle = {
-  tabBarHidden: true
-}
 
 export default connect(mapStateToProps)(ShowUser);
