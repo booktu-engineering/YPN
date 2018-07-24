@@ -4,6 +4,7 @@ import { View, Text, FlatList, ScrollView, Image, TouchableOpacity } from 'react
 import { BackIcon } from '../IconRegistry';
 import { height, width } from '../../mixins'
 
+console.log('yay')
 class Gallery extends Component {
   constructor(props){
     super(props);

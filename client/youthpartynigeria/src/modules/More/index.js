@@ -67,7 +67,7 @@ class More extends Component {
         </View>
         { /* Second  grid */}
         <View style={{ height: height * 0.1, width, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-around' }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => this.navigate('Elections.Screen', 'Elections')}>
           <Ionicon name="ios-checkmark-circle-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -11 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Elections </Text>
           </TouchableOpacity>

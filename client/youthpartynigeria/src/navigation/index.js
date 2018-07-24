@@ -41,6 +41,9 @@ import Pay from '../modules/Payments/pay';
 import WebPage from '../modules/WebView/';
 import ShowUsers from '../modules/ShowUsers';
 import ProcessIndicator from '../modules/ProcessIndicator';
+import ElectionScreen from '../modules/Elections/';
+import VotingScreen from '../modules/Elections/screens/index';
+
 
 const { Provider, store } = configureStore();
 let homeIcon; 
@@ -73,7 +76,7 @@ export default class Navigator {
     Navigation.registerComponent('Verify.Component', () => VerifyComponent);
     Navigation.registerComponent('Declare.Interest', () => DeclareInterestComponent);
     Navigation.registerComponent('Process.Indicator', () => ProcessIndicator);
-    Navigation.registerComponent('Web.Page', () => WebPage )
+    Navigation.registerComponent('Web.Page', () => WebPage);
   }
 
   registerOtherScreens = (storex = store) => {
@@ -101,8 +104,10 @@ export default class Navigator {
     Navigation.registerComponent('Follow.User', () => FollowUser, storex, Provider);
     Navigation.registerComponent('DonationM.Component', () => DonationMultipleCOMPONENT, storex, Provider);
     Navigation.registerComponent('Membership.Component', () => Membership, storex, Provider);
-    Navigation.registerComponent('Pay.Component', () => Pay, storex, Provider)
-    Navigation.registerComponent('Show.Users', () => ShowUsers)
+    Navigation.registerComponent('Pay.Component', () => Pay, storex, Provider);
+    Navigation.registerComponent('Show.Users', () => ShowUsers);
+    Navigation.registerComponent('Elections.Screen', () => ElectionScreen);
+    Navigation.registerComponent('Voting.Screen', () => VotingScreen);
   }
 
   startLoggedOut = () => {

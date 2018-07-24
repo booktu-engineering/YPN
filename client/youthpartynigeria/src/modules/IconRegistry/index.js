@@ -30,3 +30,5 @@ export const BackIcon = (props) => (
 export const SendIcon = ({ color, size }) => <Ionicon name="ios-send" color={color} size={size} />
 
 export const withNavigation = (navigator, Component) => <Component navigator={navigator} />
+
+export const CheckMarkIcon = ({ size, color, style }) => <Ionicon name="ios-checkmark-circle" style={style} color={color} size={size}/>

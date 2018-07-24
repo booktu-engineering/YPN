@@ -20,11 +20,11 @@
   },
   "homepage": "https://github.com/Hasstrup/YPN#readme",
   "dependencies": {
-    "babel-eslint": "^8.2.6",
     "react-native-cloudinary-x": "^1.0.3",
     "react-native-datepicker": "^1.7.2"
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.6",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "^2.13.0",
