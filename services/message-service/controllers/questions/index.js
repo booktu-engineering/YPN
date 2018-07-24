@@ -29,7 +29,7 @@ class ConversationControllerBase extends BaseController {
     this.__wrapInTryCatch(async () => {
       data = await this.service.fetchAll();
       if (req.user.role > 3) return this.__responseOkay(res, data);
-      data = data.filter(item => !(item.archived === false));
+      data = data.filter(item => !item.archived);
       return this.__responseOkay(res, data);
     }, next);
   }
