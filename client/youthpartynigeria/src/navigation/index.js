@@ -106,8 +106,8 @@ export default class Navigator {
     Navigation.registerComponent('Membership.Component', () => Membership, storex, Provider);
     Navigation.registerComponent('Pay.Component', () => Pay, storex, Provider);
     Navigation.registerComponent('Show.Users', () => ShowUsers);
-    Navigation.registerComponent('Elections.Screen', () => ElectionScreen);
-    Navigation.registerComponent('Voting.Screen', () => VotingScreen);
+    Navigation.registerComponent('Elections.Screen', () => ElectionScreen, storex, Provider);
+    Navigation.registerComponent('Voting.Screen', () => VotingScreen, storex, Provider);
   }
 
   startLoggedOut = () => {

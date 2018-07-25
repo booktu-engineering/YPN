@@ -13,7 +13,6 @@ export const fetchAllDonations = navigator => (dispatch, getState) => axios.requ
     dispatch({ type: 'ALL_DONATIONS_RECEIVED', payload: response.data.data });
   })
   .catch((err) => {
-    console.log(err);
     dispatchNotification(navigator)('Something went wrong');
     navigator.pop();
   });
