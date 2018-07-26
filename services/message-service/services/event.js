@@ -29,6 +29,7 @@ class EventServiceBase extends BaseService {
 
   fetchAllSync = async (role) => {
     data = await this.fetchAll();
+    console.log(data)
     return data;
   }
 
