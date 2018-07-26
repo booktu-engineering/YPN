@@ -5,6 +5,7 @@ import { defaultGreen, height, width } from '../../mixins/';
 import { multiplePosts } from '../SinglePost/';
 import { MultipleEvents } from '../SingleEvent';
 import { fetchUsersPosts } from '../../actions/thunks/posts';
+import { fetchEventsForUser } from '../../actions/thunks/events/';
 
 
 const uri = 'https://menhairstylist.com/wp-content/uploads/2017/07/dreads-in-man-bun-black-men-hairstyles.jpg';
@@ -40,6 +41,14 @@ constructor(props) {
   })
 }
 
+componentDidMount = () => {
+  if(!this.state.events) return this.fetchEventsForCurrentUser()
+}
+
+fetchEventsForCurrentUser = () => {
+  this.props.dispatch(fetchEventsForUser(this.props.target.id))
+  .then(events => this.setState({ events }));
+}
 
   handleEvent = () => {
     this.props.dispatch(fetchUsersPosts(this.props.target))
@@ -75,7 +84,7 @@ constructor(props) {
         </TouchableOpacity>
       </View>
       <View style={{ height: height * 0.6 }}>
-        { this.state.viewEvents ? MultipleEvents([1, 2, 3])() : multiplePosts(this.state.posts)({ height: height * 0.3 })}
+        { this.state.viewEvents ? MultipleEvents(this.state.events)({ navigator: this.props.navigator, dispatch: this.props.dispatch }) : multiplePosts(this.state.posts)({ height: height * 0.3 })}
       </View>
     </View>
   )

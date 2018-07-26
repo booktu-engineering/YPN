@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { defaultGreen, height, width } from '../../mixins/';
@@ -8,6 +7,7 @@ import { MultipleEvents } from '../SingleEvent';
 import { BackIcon } from '../IconRegistry/';
 import { startPersonalConversation } from '../../actions/thunks/conversations';
 import { followUser, updateUser } from '../../actions/thunks/user';
+import { fetchEventsForUser } from '../../actions/thunks/events';
 import { fetchUsersPosts } from '../../actions/thunks/posts';
 
 const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
@@ -23,7 +23,6 @@ class ShowUser extends Component {
   constructor(props) {
     super(props);
     this.state = { viewEvents: false };
-    Navigation.registerComponent('SU.Back.Button', () => this.backIcon);
     this.props.navigator.setButtons({
       leftButtons: [
         {
@@ -38,7 +37,8 @@ class ShowUser extends Component {
     this.state = {
       message: 'Follow',
       target: false,
-      posts: []
+      posts: [],
+      events: []
     };
   }
 
@@ -48,8 +48,14 @@ class ShowUser extends Component {
     if (!this.props.target) return this.__getTheUser();
     this.setState({ target: this.props.target });
     this.__fetchPostsForUser()
+    this.__fetchEventsForUser();
     if (this.props.posts) this.setState({ posts: this.props.posts });
     this.__setUpFollowers();
+  }
+
+  __fetchEventsForUser = () => {
+    this.props.dispatch(fetchEventsForUser(this.props.target.id))
+    .then(events => this.setState({ events }))
   }
 
   __setUpFollowers = () => {
@@ -120,7 +126,7 @@ class ShowUser extends Component {
           {
              this.state.posts.length ?
                 <View style={{ height: height * 0.6 }}>
-                  { this.state.viewEvents ? MultipleEvents([1, 2, 3])() : multiplePosts([...this.state.posts ])({ height: height * 0.3, navigator: this.props.navigator, dispatch: this.props.dispatch })}
+                  { this.state.viewEvents ? MultipleEvents(this.state.events)({ navigator: this.props.navigator, dispatch: this.props.dispatch }) : multiplePosts([...this.state.posts ])({ height: height * 0.3, navigator: this.props.navigator, dispatch: this.props.dispatch })}
                 </View>
               : null
             }

@@ -87,10 +87,10 @@ export default class Navigator {
     Navigation.registerComponent('More.Component', () => MoreComponent);
     Navigation.registerComponent('Drawer', () => Drawer, storex, Provider);
     Navigation.registerComponent('Home.Nav', () => HomeNav);
-    Navigation.registerComponent('Events.Screen', () => EventComponent);
-    Navigation.registerComponent('Show.Event', () => ShowEvent);
+    Navigation.registerComponent('Events.Screen', () => EventComponent, storex, Provider);
+    Navigation.registerComponent('Show.Event', () => ShowEvent, storex, Provider);
     Navigation.registerComponent('Careers', () => CareersComponent);
-    Navigation.registerComponent('Show.Career', () => ShowCareer);
+    Navigation.registerComponent('Show.Career', () => ShowCareer, storex, Provider);
     Navigation.registerComponent('Candidate.Screen', () => CandidateScreen);
     Navigation.registerComponent('Open.Position', () => OpenPositions);
     Navigation.registerComponent('Show.Position', () => ShowPosition);

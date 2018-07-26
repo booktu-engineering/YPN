@@ -1,61 +1,61 @@
-import React, { Component } from 'react'
-import { Navigation } from 'react-native-navigation'
-import { View, Text } from 'react-native';
-import { Selectors, height, TinySelectors  } from '../../mixins';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { View } from 'react-native';
+import { Selectors, TinySelectors } from '../../mixins';
 import { MultipleEvents } from '../SingleEvent';
-import { BackIcon, SearchIcon } from '../IconRegistry';
+import { fetchAllEvents } from '../../actions/thunks/events';
 
-let nav
-
-const EventComponent = ({ navigator }) =>  (
-    <View style={{ flex: 1 }}>
-      <Selectors keys={['Events', 'Town Hall']}/>
-      <TinySelectors keys={[ 'Federal', 'Time']} />
-      { MultipleEvents([1,2,3,4,5,6,7])({ navigator, screen: 'Show.Event'})}
-  </View> )
+const EventComponent = ({ navigator, dispatch, data }) => (
+  <View style={{ flex: 1 }}>
+    <Selectors keys={['Events']} />
+    <TinySelectors keys={['Federal', 'Time']} />
+    { MultipleEvents(data)({ navigator, screen: 'Show.Event', dispatch })}
+  </View>);
 
 class EventScreen extends Component {
   constructor(props) {
-    super(props)
-    const { navigator } =  this.props
+    super(props);
+    const { navigator } = this.props;
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
-    this.props.navigator.setButtons({
+    navigator.setButtons({
       leftButtons: [
         {
-          id: 'back.button', 
-          component: 'Back.Button', 
+          id: 'back.button',
+          component: 'Back.Button',
           passProps: {
-            navigator: this.props.navigator
+            navigator
           }
         }
       ],
       rightButtons: [
         {
-          id: 'back.back.search', 
+          id: 'back.back.search',
           component: 'Search.Button',
           passProps: {
-            navigator: this.props.navigator
+            navigator
           }
         }
       ]
-    })
+    });
   }
 
-  componentWillUnmount = () => {
-    this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
-    this.props.navigator.toggleTabs({ to: 'shown', animated: true });
+  componentDidMount = () => {
+    if (!this.props.events) return this.props.dispatch(fetchAllEvents(this.props.navigator));
   }
 
-  backIcon = () => <BackIcon navigator={this.props.navigator} />
-  searchIcon = () => <SearchIcon navigator={this.props.navigator} />
-
-
-
-render = () => <EventComponent navigator={this.props.navigator}/>
+render = () => (
+  <View style={{ flex: 1 }}>
+    { this.props.events ? <EventComponent data={this.props.events} navigator={this.props.navigator} /> : null }
+  </View>
+)
 }
 
 EventScreen.navigatorStyle = {
   tabBarHidden: true
-}
+};
 
-export default EventScreen
+const mapStateToProps = state => ({
+  events: state.events.all
+});
+
+export default connect(mapStateToProps)(EventScreen);
