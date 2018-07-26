@@ -24,6 +24,7 @@ export const fetchAllQuestions = navigator => (dispatch, getState) => {
 // ensure that the id of the election is in the body
 export const VoteResponse = navigator => data => (dispatch, getState) => {
   StartProcess(navigator);
+  console.log(data);
   axios.request({
     method: 'put',
     url: `${config.postUrl}/questions/respond`,
