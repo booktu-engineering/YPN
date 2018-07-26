@@ -29,7 +29,6 @@ class EventServiceBase extends BaseService {
 
   fetchAllSync = async (role) => {
     data = await this.fetchAll();
-    if (role && role < 3) return data.filter(e => e.valid);
     return data;
   }
 
