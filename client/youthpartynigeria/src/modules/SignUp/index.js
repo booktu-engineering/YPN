@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image, TextInput, Picker, TouchableOpacity } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import { defaultGreen, inputStyle, formContainer, width, height, bigButton, buttonText, formHolder } from '../../mixins/';
+import { defaultGreen, inputStyle, formContainer, width, height, bigButton, buttonText, formHolder, formLabel } from '../../mixins/';
 import styles from './styles';
 import userActions from '../../actions/thunks/user';
 import { dispatchNotification } from '../../helpers/uploader';
@@ -142,7 +142,7 @@ const SignUpForm = ({ handleChange, state, handleClick }) => (
     </View>
 
     <View style={{ ...formContainer, marginTop: -10 }}>
-      <Text style={styles.formLabel}> STATE</Text>
+      <Text style={styles.formLabel}> STATE OF REGISTRATION </Text>
       <PickerRender pickedItem={state.state} data={state.keys || []} handleChange={handleChange} name="state" style={{ ...inputStyle }} />
     </View>
     {/* double sided form -ting */}
@@ -155,7 +155,7 @@ const SignUpForm = ({ handleChange, state, handleClick }) => (
 const GridForm = ({ handleChange, state }) => (
   <View style={{ ...formContainer, width, flexDirection: 'row', justifyContent: 'space-around' }}>
     <View style={{ ...formContainer, width: width * 0.3, paddingLeft: 15, paddingRight: 15 }}>
-      <Text style={styles.formLabel}>LGA</Text>
+      <Text style={{ ...formLabel, width: width * 0.4 }}>LGA OF REGISTRATION</Text>
       <PickerRender name="lga" pickedItem={state.lga} state={state} handleChange={handleChange} data={state.selectedLga} style={{ ...inputStyle, width: width * 0.3 }} />
     </View>
 
@@ -191,7 +191,7 @@ const PickerItemRender = data => data.map(d => <Picker.Item label={d.label} valu
 const PickerRender = ({ style, data, handleChange, name, pickedItem }) => (
   <Picker
     style={{ ...style, height: 51, marginTop: -5 }}
-    itemStyle={{ flex: 1, fontSize: 14, width: width * 0.25 }}
+    itemStyle={{ flex: 1, fontSize: 14, width: width * 0.27, color: '#909497' }}
     onValueChange={(value) => handleChange(value, name)}
     selectedValue={pickedItem}
     >

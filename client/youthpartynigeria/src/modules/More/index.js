@@ -49,7 +49,7 @@ class More extends Component {
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Donate </Text>
           </TouchableOpacity>
           <TouchableOpacity>
-            <Ionicon name="md-briefcase" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -11 }}/>
+            <Ionicon name="md-briefcase" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -18 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }} onPress={() => { this.props.navigator.dismissLightBox(); __StackNavigator(this.previousTab).push({ screen: 'Careers', title: 'Careers'})}}> Careers </Text>
           </TouchableOpacity>
           <TouchableOpacity>
@@ -57,7 +57,7 @@ class More extends Component {
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Town Hall </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.navigate('Candidate.Screen', 'Candidates')}>
-          <Ionicon name="ios-flag-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -28 }}/>
+          <Ionicon name="ios-flag-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -30 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Candidates </Text>
           </TouchableOpacity>
           <TouchableOpacity>
@@ -67,24 +67,24 @@ class More extends Component {
         </View>
         { /* Second  grid */}
         <View style={{ height: height * 0.1, width, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-around' }}>
-          <TouchableOpacity onPress={() => this.navigate('Elections.Screen', 'Elections')}>
-          <Ionicon name="ios-checkmark-circle-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -11 }}/>
+          <TouchableOpacity onPress={() => this.navigate('Elections.Screen', 'Elections')} style={{ position: 'relative', left: -5 }}>
+          <Ionicon name="ios-checkmark-circle-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -18 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Elections </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.navigate('Convo.Component', 'Debates')}>
-          <Ionicon name="ios-microphone-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -11 }}/>
+          <TouchableOpacity onPress={() => this.navigate('Convo.Component', 'Debates')} style={{ position: 'relative', left: -15 }}>
+          <Ionicon name="ios-microphone-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -17 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Debate </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity style={{ position: 'relative', left: -12 }}>
             <MaterialIcon name="sitemap" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -9 }} />
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Excos </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.navigate('Gallery.Component', 'Gallery')}>
-          <Ionicon name="ios-camera-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -11 }}/>
+          <TouchableOpacity  style={{ position: 'relative', left: -5 }} onPress={() => this.navigate('Gallery.Component', 'Gallery')}>
+          <Ionicon name="ios-camera-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -17 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Gallery </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { this.props.navigator.dismissLightBox(); __StackNavigator(this.previousTab).push({ screen: 'Events.Screen', title: 'Events'})}}>
-          <Ionicon name="ios-calendar-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -11 }}/>
+          <Ionicon name="ios-calendar-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -13 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Events </Text>
           </TouchableOpacity>
         </View>

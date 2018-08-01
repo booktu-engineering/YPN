@@ -3,17 +3,17 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import React, { Component } from 'react';
 import styles from './styles';
-import { navigatorObject } from '../../navigation/'
+import { dispatchNotification } from '../../helpers/uploader';
 import userActions from '../../actions/thunks/user';
-
 const { LogInThunk } = userActions;
-
-
 
 class LoginContainer extends Component {
   state = {}
   handleChange = (value, name) => this.setState({ [name]: value });
-  handleSubmit = () => this.props.dispatch(LogInThunk(this.state)(this.props.navigator))
+  handleSubmit = () => {
+    if(!this.state.email || !this.state.password || !this.state.email.length || !this.state.password.length) return dispatchNotification(this.props.navigator)('Please fill in the required fields. Thank you.')
+    this.props.dispatch(LogInThunk(this.state)(this.props.navigator))
+  }
   render = () => <LoginComponent navigator={this.props.navigator} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
 }
 
@@ -32,7 +32,7 @@ const LoginComponent = ({ navigator, handleSubmit, handleChange }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.imageContainer}>
-        <Image style={{ flex: 1 }} source={{ uri: 'https://images.unsplash.com/photo-1461155264347-f1450307af27?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f5c7db13e13c0a358c5ecc7d8342a811&auto=format&fit=crop&w=2850&q=80' }} />
+        <Image style={{ flex: 1 }} source={{ uri: 'https://res.cloudinary.com/paperstack/image/upload/v1532950927/pic1_hu1bkc.png' }} />
         <LinearGradient colors={['transparent', '#13131390']} locations={[0, 0.9]} style={styles.textDrop}>
           <Text style={styles.header1}> Welcome to Youth Party </Text>
           <Text style={styles.header2}> Seeking to serve and unite Nigerians </Text>

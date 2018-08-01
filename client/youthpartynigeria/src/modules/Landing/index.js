@@ -14,12 +14,12 @@ const LandingComponent = ({ navigator }) => (
     </View>
     {/* Button Stack */}
     <View style={styles.buttonStack}>
-      <View style={styles.bigButtonBlue}>
-        <Text style={styles.buttonText} onPress={() => { navigator.push({ screen: 'Login.Component' })}}> LOG IN </Text>
-      </View>
-      <View style={styles.bigButton}>
-        <Text style={styles.buttonText} onPress={() => { navigator.push({ screen: 'SignUp.Component', title: 'Registration' })}}> SIGN UP WITH EMAIL </Text>
-      </View>
+      <TouchableOpacity onPress={() => { navigator.push({ screen: 'Login.Component' })}} style={styles.bigButtonBlue}>
+        <Text style={styles.buttonText}> LOG IN </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.bigButton} onPress={() => { navigator.push({ screen: 'SignUp.Component', title: 'Registration' })}}>
+        <Text style={styles.buttonText}> SIGN UP WITH EMAIL </Text>
+      </TouchableOpacity>
       <Text style={{ color: '#2F2E2E', textAlign: 'center' }}>Already a member? Click to <Text style={{ color: '#82BE30' }} onPress={() => { navigator.push({ screen: 'Login.Component' })}}>Log in</Text></Text>
     </View>
     {/* end of button stack */}

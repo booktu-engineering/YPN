@@ -123,18 +123,24 @@ export const fetchUserThunk = (id) => (navigator) => async (dispatch) => {
     }
   })
     .then((response) => {
-      dispatch({
-        type: 'FETCHED_USER',
-        payload: {
-          ...response.data.data,
-          followers: response.data.followers,
-          friends: response.data.friends
-        }
-      });
+      // dispatch({
+      //   type: 'FETCHED_USER',
+      //   payload: {
+      //     ...response.data.data,
+      //     followers: response.data.followers,
+      //     friends: response.data.friends
+      //   }
+      // });
       navigator.push({
         screen: 'Show.User',
         passProps: {
-          id
+          id,
+          target: { 
+            ...response.data.data,
+            followers: response.data.followers,
+          friends: response.data.friends
+          
+        }
         }
       });
       EndProcess(navigator);

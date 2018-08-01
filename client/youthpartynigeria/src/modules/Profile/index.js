@@ -147,7 +147,7 @@ onPress={() => { friends ? navigator.push({ screen: 'Show.Users', title: 'Friend
       height: height * 0.04, alignItems: 'center', justifyContent: 'center', width: width * 0.27, backgroundColor: defaultGreen, borderRadius: 3
     }}
     >
-      <Text style={{ fontSize: 11, color: '#fff' }}> Edit </Text>
+      <Text style={{ fontSize: 11, color: '#fff' }}> Settings </Text>
     </TouchableOpacity>
   </View>
 );

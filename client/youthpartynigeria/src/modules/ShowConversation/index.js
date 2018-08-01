@@ -3,9 +3,13 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Screen from '../../mixins/screen';
 import { height, width, defaultGreen, bigButton, buttonText } from '../../mixins';
 import { withNavigation, BackIcon, NotificationIcon } from '../IconRegistry';
+import { navigatorObject } from '../../navigation';
+import { fetchUserThunk } from '../../actions/thunks/user';
+
 
 const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
 
+const defaultUri = 'https://images.unsplash.com/photo-1519680602921-3ab5bc8c0cba?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f1c0201c4ddf29a26770a39e38e6643a&auto=format&fit=crop&w=1651&q=80'
 class ShowConversation extends Screen {
   constructor(props) {
     super(props, 'A.Test.Screen');
@@ -32,7 +36,7 @@ class ShowConversation extends Screen {
   )
 }
 
-export const CustomHeader = ({ navigator, data, user }) => (
+export const CustomHeader = ({ navigator, data, user, dispatch }) => (
   <View style={{
  height: height * 0.15, width, backgroundColor: defaultGreen, flexDirection: 'row', flexWrap: 'nowrap', paddingRight: 15, paddingLeft: 15, justifyContent: 'space-between', alignItems: 'center'
 }}>
@@ -41,11 +45,12 @@ export const CustomHeader = ({ navigator, data, user }) => (
       { withNavigation(navigator, BackIcon)}
     </View>
     { /* The text Part */}
-    <View style={{
+    <TouchableOpacity style={{
  width: width * 0.8, maxHeight: height * 0.2, flexDirection: 'row', flexWrap: 'nowrap'
 }}
+onPress={() => { console.log('yay'); navigateToUser(data.members, user, dispatch, navigator) }}
     >
-      <Image style={{ height: 52, width: 52, borderRadius: 26 }} source={{ uri: generateUri(data.members.filter(item => item.id !== user.id)) }} />
+      <Image style={{ height: 52, width: 52, borderRadius: 26 }} source={{ uri: data.topic ? defaultUri : generateUri(data.members.filter(item => item.id !== user.id)) }} />
       <View style={{
  maxWidth: width * 0.8, maxHeight: height * 0.2, paddingRight: 20, justifyContent: 'center'
 }}
@@ -56,7 +61,7 @@ export const CustomHeader = ({ navigator, data, user }) => (
         > { data.topic ? data.topic : generateNames(data.members.filter(item => item.id !== user.id)) }
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
     { /* Notification Icon */}
     <View style={{ maxHeight: 40, maxWidth: 50 }}>
       { withNavigation(navigator, NotificationIcon)}
@@ -168,5 +173,10 @@ const ConversationSingle = () => (
   </View>
 );
 
-
+const navigateToUser = (members, user, dispatch, navigator) => {
+  if (members.length > 3) return;
+  members = members.filter(item => item && item.id && item.id !== user.id);
+  console.log(members[0]);
+  dispatch(fetchUserThunk(members[0].id)(navigator));
+};
 export default ShowConversation;

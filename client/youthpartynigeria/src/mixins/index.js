@@ -45,7 +45,7 @@ export const formContainer = {
 export const formLabel = {
   fontSize: 12,
   color: '#2F2E2E',
-  fontWeight: '500'
+  fontWeight: '500',
 }
 
 export const formHolder = {

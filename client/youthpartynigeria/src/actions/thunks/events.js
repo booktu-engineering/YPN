@@ -6,13 +6,15 @@ export const fetchAllEvents = navigator => (dispatch, getState) => {
   StartProcess(navigator);
   return axios.request({
     method: 'get',
-    url: `${config.postUrl}/events`,
+    url: `${config.postUrl}/events/?timestamp=${Date.now()}`,
     headers: {
-      Authorization: getState().users.token
+      Authorization: getState().users.token,
+      'Cache-Control': 'no-cache'
     }
   })
     .then((response) => {
       EndProcess(navigator);
+      console.log(response.data)
       dispatch({ type: 'ALL_EVENTS_GOTTEN', payload: response.data.data });
     })
     .catch(() => {

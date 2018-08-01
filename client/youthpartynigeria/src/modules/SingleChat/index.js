@@ -4,7 +4,7 @@ import { height, width, defaultGreen, avatar, LightGrey } from '../../mixins';
 import Composer from '../iterator';
 
 const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
-
+const defaultUri = 'https://images.unsplash.com/photo-1519680602921-3ab5bc8c0cba?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f1c0201c4ddf29a26770a39e38e6643a&auto=format&fit=crop&w=1651&q=80'
 const generateNameFromMembers = (members) => {
   let string = members.reduce((a, b) => `${a} ${b.firstname || ''} ${b.lastname || ''}`, '');
   string = string.trim().slice(0, (string.length - 1));
@@ -37,7 +37,7 @@ const SingleChat = ({ data, obj }) => {
       });
     }}
     >
-      <Image source={{ uri: generateUri(data.members.filter(item => item.id !== obj.user.id)) }} style={{ ...avatar, marginRight: 10 }} />
+      <Image source={{ uri: data.topic ? defaultUri : generateUri(data.members.filter(item => item.id !== obj.user.id)) }} style={{ ...avatar, marginRight: 10 }} />
       <View style={{ width: width * 0.8, position: 'relative' }}>
         <Text style={{ fontSize: 13.5, fontWeight: '600' }}> { title } </Text>
         <Text style={{

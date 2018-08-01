@@ -60,7 +60,9 @@ class ShowUser extends Component {
 
   __setUpFollowers = () => {
     const friends = this.props.friends.map(item => item.id) || [];
-    if (friends.includes(this.props.target.id)) return this.setState({ message: 'Message' });
+    const followers = this.props.followers.map(item => item.id) || [];
+    if (followers.includes(this.props.target.id)) return this.setState({ message: 'Message' });
+    if (friends.includes(this.props.target.id)) return this.setState({ message: 'Following' });
   }
 
   __getTheUser = () => {
@@ -70,6 +72,7 @@ class ShowUser extends Component {
         this.__setUpFollowers();
         this.props.dispatch(fetchUsersPosts(target))
           .then((posts) => {
+            console.log(posts)
             this.setState({ posts });
           });
       });
@@ -79,6 +82,7 @@ class ShowUser extends Component {
     this.props.dispatch(fetchUsersPosts(this.props.target))
     .then((posts) => {
       this.setState({ posts })
+      
     })
   }
   componentWillUnmount = () => {
@@ -200,8 +204,8 @@ onPress={() => { user && user.friends ? navigator.push({ screen: 'Show.Users', t
 
 const mapStateToProps = state => ({
   user: state.users.current,
-  target: state.users.target,
-  posts: state.posts.target,
+  // target: state.users.target,
+  // posts: state.posts.target,
   followers: state.users.followers || [],
   friends: state.users.friends || []
 });

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Screen from '../../../mixins/screen';
 import { height, width, defaultGreen, bigButton, buttonText } from '../../../mixins/';
+import { fetchDonation } from '../../../actions/thunks/donations';
 
 class DonationPhaseTwo extends Component {
   constructor(props) {
@@ -17,11 +19,22 @@ class DonationPhaseTwo extends Component {
           }
         }
       ]
-    })
+    });
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.state.data = this.props
   }
 
   state = {}
 
+  onNavigatorEvent = (e) => {
+    if (e.id === 'didAppear') {
+      console.log(this.props);
+      this.props.dispatch(fetchDonation(this.props._id)({}, {}))
+        .then((response) => {
+          this.setState({ data: response });
+        });
+    }
+  }
   handleChange = (text) => this.setState({ amount: text })
 
    __renderMoney = (target) => target.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -33,14 +46,14 @@ class DonationPhaseTwo extends Component {
     }})
   }
 
-  render = () => <DonationPhaseTwoComponent data={this.props} renderMoney={this.__renderMoney} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
+  render = () => <DonationPhaseTwoComponent data={this.state.data} renderMoney={this.__renderMoney} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
 }
 
 const DonationPhaseTwoComponent = ({ data, navigator, handleChange, handleSubmit, renderMoney }) => (
   <View style={{
- height: height * 0.9, width, justifyContent: 'space-around', backgroundColor: '#F4F6F6', paddingLeft: width * 0.11,
- paddingBottom: 20
-}}>
+    height: height * 0.9, width, justifyContent: 'space-around', backgroundColor: '#F4F6F6', paddingLeft: width * 0.11,
+    paddingBottom: 20
+  }}>
   <AnimatedComponent data={data}/>
   <View style={{ height: 50, width, paddingRight: 50, position: 'relative', bottom: -10 }}>
     <View style={{
@@ -53,10 +66,10 @@ const DonationPhaseTwoComponent = ({ data, navigator, handleChange, handleSubmit
       <Text style={{ fontSize: 15, position: 'relative', top: -5 }}>Amount: <Text style={{ textDecorationLine: 'line-through'}}>N</Text>{renderMoney(data.amount)}</Text>
       </View>
   <View style={{
-      height: 20, 
-      width, 
-      flexDirection: 'row'
-    }}>
+    height: 20, 
+    width, 
+    flexDirection: 'row'
+  }}>
       <View style={{ height: 12, width: 12, backgroundColor: '#F4D03F', marginRight: 10}}/>
       <Text style={{ fontSize: 15, position: 'relative', top: -5 }}>Target: <Text style={{ textDecorationLine: 'line-through' }}>N</Text>{renderMoney(data.target)}</Text>
   </View>
@@ -71,7 +84,7 @@ const DonationPhaseTwoComponent = ({ data, navigator, handleChange, handleSubmit
     </View>
     { /* Render the target */}
     <View style={{ height: height * 0.14, position: 'relative', top: -10,  width, marginBottom: 5 }}>
-      <Text style={{ fontSize: 16, marginBottom: 15, color: '#383939', fontWeight: '600'}}>{ data.category }</Text>
+      {/* <Text style={{ fontSize: 16, marginBottom: 15, color: '#383939', fontWeight: '600'}}>{ data.category }</Text> */}
       <Target data={data} />
     </View>
     { /* The button at the end */}
@@ -85,11 +98,10 @@ const Target = ({ data }) => (
   <View style={{ height: height * 0.18, width, flexDirection: 'row', flexWrap: 'nowrap'}}>
     <Image style={{ height: 40, width: 40, borderRadius: 20, marginRight: 10}} source={{ uri: '' }}/>
     <View style={{ height: height * 0.15, maxWidth: width * 0.5 }}>
-      <Text style={{ fontSize: 14, fontWeight: '600', color: '#373838', marginBottom: 5}}>{ data.title }</Text>
-      <Text style={{ fontSize: 14, fontWeight: '600', color: defaultGreen, marginBottom: 5}}>{ data.role ? data.role : data.location }</Text>
-        {
-        data.role ? <Text style={{ fontWeight: '500', fontSize: 12, color: '#B3B6B7' }}>{ data.location }</Text> : null
-      }
+      <Text style={{ fontSize: 15, fontWeight: '600', color: '#373838', marginBottom: 5}}> Description </Text>
+      <Text style={{ fontSize: 14, fontWeight: '600', color: defaultGreen, marginBottom: 5, width }}>{data.description}</Text>
+        {/* <Text style={{ fontWeight: '500', fontSize: 12, color: '#B3B6B7' }}>{ data.description }</Text> */}
+      
     </View>
   </View>
 );
@@ -107,11 +119,11 @@ const AnimatedComponent = ({ data }) => {
         {
           (fill) => (
         <Text style={{ fontSize: 25, color: '#82BE30'}}>{ `${Math.ceil(fill)}%` }</Text>
-        )}
+          )}
         </AnimatedCircularProgress>
     </View>
   )
 }
 
 
-export default DonationPhaseTwo;
+export default connect()(DonationPhaseTwo);

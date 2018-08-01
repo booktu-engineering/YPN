@@ -61,7 +61,7 @@ class ConversationLog extends Screen {
 
   render = () => (
     <View style={{ flex: 1, justifyContent: 'space-around' }} behavior="padding">
-      <CustomHeader navigator={this.props.navigator} data={this.props.data} user={this.props.user} />
+      <CustomHeader navigator={this.props.navigator} data={this.props.data} user={this.props.user} dispatch={this.props.dispatch} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding"> 
       { this.state.messages.length ?
         <FlatList

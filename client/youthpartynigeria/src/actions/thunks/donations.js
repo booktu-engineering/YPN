@@ -35,7 +35,7 @@ export const filterThroughDonations = query => navigator => (dispatch, getState)
 };
 
 
-export const fetchDonation = id => navigator => (dispatch, getState) => axios.request({
+export const fetchDonation = id => (navigator, x) => (dispatch, getState) => axios.request({
   url: `${config.postUrl}/donations/${id}`,
   method: 'get',
   headers: {
@@ -43,9 +43,10 @@ export const fetchDonation = id => navigator => (dispatch, getState) => axios.re
   }
 })
   .then((response) => {
+    if (x) return response.data.data;
     navigator.push({ screen: 'DonationPT', passProps: { data: response.data.data } });
   })
-  .catch(() => {
+  .catch((err) => {
     dispatchNotification(navigator)('Something went wrong, try again?');
     navigator.pop();
   });
