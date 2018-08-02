@@ -109,7 +109,7 @@ class UserController < ApplicationController
   def show
     @user = service.fetch_one('id', params[:id].to_i)
     if @user
-    render json: {data: @user, friends: @user.friends, followers: @user.followers}, status: 200
+    render json: {data: @user, friends: @user.friends, followers: @user.followers,}, status: 200
     return
     end
     resource_not_found
@@ -197,7 +197,7 @@ class UserController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :password, :firstname, :lastname, :lga, :phone, :email, :nt_token, :role, :ward, :avatar, :state, :dob)
+    params.require(:user).permit(:username, :password, :firstname, :lastname, :lga, :phone, :email, :nt_token, :role, :ward, :avatar, :state, :dob, :bio, :vin)
   end
 
   def login_params
