@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { height, width } from '../../mixins/'
+import { height, width } from '../../mixins'
 
 const styles = StyleSheet.create({
   base: {

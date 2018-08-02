@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import {
-  View, Text, Image, TouchableOpacity
+import { View, Text, Image, TouchableOpacity
 } from 'react-native';
 import moment from 'moment';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
-import { width } from '../../mixins';
+import { width, height } from '../../mixins';
 import MediaHandler from './media';
 import iterator from '../iterator';
 import { fetchUserThunk } from '../../actions/thunks/user';
@@ -34,8 +33,14 @@ const Data2 = {
 };
 
 const mockText = 'It is now ndisputable that e people f Nigeria are united. I believe in an urgent restoration of active and particiatory democracy ';
+const generateHeight = (obj) => {
+  if(!obj.single || !obj.reference) return height * 0.58;
+  if(obj.single) return height * 1.58;
+  return height * 0.38;
+}
+
 const SinglePost = ({ data, obj }) => (
-  <View style={styles.base}>
+  <TouchableOpacity style={{ width, maxHeight: generateHeight(obj) }} onPress={() => { obj.navigator.push({ screen: 'View.Post', title: `Post by ${data.origin.firstname}`, passProps: { target: data }})}}>
     <View style={styles.mainContent}>
       {/* this should render the users avatar and all of that */}
       <TouchableOpacity
@@ -79,7 +84,7 @@ const SinglePost = ({ data, obj }) => (
       </View>
     </View>
     <ButtonStack data={data} user={obj.user} dispatch={obj.dispatch} navigator={obj.navigator} />
-  </View>
+  </TouchableOpacity>
 );
 
 const renderMedia = (data, navigator) => {
@@ -110,7 +115,6 @@ class ButtonStack extends Component {
       data: this.props.data.likes.data 
 };
   }
-
 
   componentDidMount = () => this.generateLike()
 

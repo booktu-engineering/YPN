@@ -43,6 +43,7 @@ import ShowUsers from '../modules/ShowUsers';
 import ProcessIndicator from '../modules/ProcessIndicator';
 import ElectionScreen from '../modules/Elections/';
 import VotingScreen from '../modules/Elections/screens/index';
+import ViewPostPage from '../modules/ViewPost';
 
 
 const { Provider, store } = configureStore();
@@ -108,6 +109,7 @@ export default class Navigator {
     Navigation.registerComponent('Show.Users', () => ShowUsers);
     Navigation.registerComponent('Elections.Screen', () => ElectionScreen, storex, Provider);
     Navigation.registerComponent('Voting.Screen', () => VotingScreen, storex, Provider);
+    Navigation.registerComponent('View.Post', () => ViewPostPage, storex, Provider);
   }
 
   startLoggedOut = () => {
