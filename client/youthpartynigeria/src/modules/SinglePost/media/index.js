@@ -13,16 +13,14 @@ class MediaHandler extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.data);
+
     // filter through the media
-    
     if (this.props.data.media.length > 0 ) {
       const media = this.props.data.media.filter(item => item.constructor === Array);
       if (!media.length) return this.setState({ images: [] });
       return this.setState({ images: media })
     }
     const links = this.props.data.links.filter(item => item.length > 0);
-    console.log(links)
     if (links.length > 0) {
       this.setState({ target: links[0]})
       LinkPreview.getPreview(links[0])

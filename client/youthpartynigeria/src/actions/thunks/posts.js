@@ -27,28 +27,24 @@ export const fetchTimeline = navigator => async (dispatch) => {
   }
 };
 
-export const sendPost = data => navigator => async (dispatch) => {
+export const sendPost = data => navigator => async (dispatch, getState) => {
   // dispatch processing job
-  StartProcess(navigator)
-  const token = await AsyncStorage.getItem('#!@#$%');
+  StartProcess(navigator);
   return axios.request({
     method: 'post',
     data,
     url: `${config.postUrl}/posts`,
     headers: {
-      Authorization: token
+      Authorization: getState().users.token
     }
-  }).then((response) => {
+  }).then(() => {
     EndProcess(navigator);
     navigator.switchToTab({
       tabIndex: 0
     });
   })
-    .catch((err) => {
+    .catch(() => {
       EndProcess(navigator);
-      console.log(err.response);
-      if (err.message) return console.log(err.message);
-     
     });
 };
 
@@ -71,3 +67,20 @@ export const fetchUsersPosts = target => async (dispatch) => {
       console.log(err);
     });
 };
+
+// passing key of 0 means liking the post, passing a key of 1 means unliking the post
+export const LikePost = id => key => async (_, getState) => axios
+  .request({
+    method: 'put',
+    url: `${config.postUrl}/posts/like/${id}?type=${key}`,
+    headers: {
+      Authorization: getState().users.token
+    }
+  })
+  .then(() => {
+    // You can do whatever you want here
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+

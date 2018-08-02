@@ -84,7 +84,7 @@ fetchEventsForCurrentUser = () => {
         </TouchableOpacity>
       </View>
       <View style={{ height: height * 0.6 }}>
-        { this.state.viewEvents ? MultipleEvents(this.state.events)({ navigator: this.props.navigator, dispatch: this.props.dispatch }) : multiplePosts(this.state.posts)({ height: height * 0.3 })}
+        { this.state.viewEvents ? MultipleEvents(this.state.events)({ navigator: this.props.navigator, dispatch: this.props.dispatch }) : multiplePosts(this.state.posts)({ height: height * 0.3, user: this.props.target, dispatch: this.props.dispatch, navigator: this.props.navigator })}
       </View>
     </View>
   )

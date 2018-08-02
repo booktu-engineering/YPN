@@ -62,7 +62,7 @@ fetchTimeLine = () => this.props.dispatch(fetchTimeline(this.props.navigator))
   render = () => (
     <View style={{ flex: 1 }}>
       { this.props.data ?
-          multiplePosts([...this.props.data].reverse())({ navigator: this.props.navigator, dispatch: this.props.dispatch, refresh: this.fetchTimeLine }) :
+          multiplePosts([...this.props.data].reverse())({ navigator: this.props.navigator, dispatch: this.props.dispatch, refresh: this.fetchTimeLine, user: this.props.user }) :
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="small" color={`${defaultGreen}`} />
           </View>
