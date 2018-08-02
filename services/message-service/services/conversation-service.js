@@ -21,8 +21,7 @@ class ConversationService extends BaseService {
     if (body.constructor !== Array) {
       this.__unprocessableEntity();
     }
-    data = await Post.find({ type: 1 });
-    console.log(body);
+    data = await Post.find({ type: 1 }).sort({ createdAt: -1 });
     data = data.filter(item => body.includes(item.origin.id));
     return data;
   }
