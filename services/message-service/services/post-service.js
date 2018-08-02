@@ -107,7 +107,7 @@ class PostServiceObject extends BaseService {
     if (type === 0) {
       data.likes.count += 1;
       data.likes.data.push(user);
-      console.log(user)
+      data.save()
       notification = { type: data.type, message: `${user.username} liked your ${data.destination ? 'message' : 'post'}`, referenceID: data._id, body: { id: data._id, content: data.content, origin: data.origin}, time: Date.now(), destination: data.origin.username }
       // this.__dispatchToNotificationServer({ ...data._doc, origin: { username: user.username }, destination: data.origin.email, subject: `${user.username} liked your post on Youth Party Nigeria` }, { ...notification, nt_token }, 5);
       // nt_token = await this.__updateNotifications(data.origin.nt_token, notification, data.origin);
@@ -116,9 +116,8 @@ class PostServiceObject extends BaseService {
       if (filler.length < 1) return data;
       data.likes.count -= 1;
       data.likes.data = data.likes.data.filter(item => item.id !== user.id);
+      data.save()
     }
-    data = await data.update();
-    console.log(data)
     return data;
   }
 
