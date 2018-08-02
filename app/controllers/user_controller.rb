@@ -146,7 +146,8 @@ class UserController < ApplicationController
   def update
     begin
     user = service.update_one('id', current_user['id'].to_i, user_params)
-    render json: {:data => user}, status: 201
+    token = service.generate_token user
+    render json: {:data => user, :token => token}, status: 201
     rescue StandardError => e
     unproccessable_entity e
     end
