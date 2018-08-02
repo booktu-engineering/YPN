@@ -117,7 +117,7 @@ class PostServiceObject extends BaseService {
       data.likes.count -= 1;
       data.likes.data = data.likes.data.filter(item => item.id !== user.id);
     }
-    data = await data.save();
+    data = await data.update();
     console.log(data)
     return data;
   }
