@@ -117,14 +117,13 @@ class PostServiceObject extends BaseService {
       data.likes.data = data.likes.data.filter(item => item.id !== user.id);
     }
     const dataX = await this.model.findOneAndUpdate({ _id: data._id}, {$set: { likes: data.likes } }, { new: true })
-    console.log(dataX)
     return data;
   }
 
   fetchAllPosts = async (id) => {
-    data = await this.model.find({ 'origin.id': parseInt(id) })
+    data = await this.model.find({ 'origin.id': parseInt(id) }).sort({ createdAt: -1 })
     data = data.filter(post => !post.destination)
-    return data.reverse();
+    return data
   }
 
   fetchComments = async (data) => {
