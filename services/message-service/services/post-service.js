@@ -103,7 +103,6 @@ class PostServiceObject extends BaseService {
 
 
   like = async (key, value, user, type) => {
-    console.log('Here we are')
     data = await this.fetchOne('_id', value);
     if (type === 0) {
       data.likes.count += 1;
@@ -119,6 +118,7 @@ class PostServiceObject extends BaseService {
       data.likes.data = data.likes.data.filter(item => item.id !== user.id);
     }
     data = await data.save();
+    console.log(data)
     return data;
   }
 
