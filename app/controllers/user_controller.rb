@@ -109,7 +109,8 @@ class UserController < ApplicationController
   def show
     @user = service.fetch_one('id', params[:id].to_i)
     if @user
-    render json: {data: @user, friends: @user.friends, followers: @user.followers,}, status: 200
+     token = service.generate_token @user
+    render json: {data: @user, friends: @user.friends, followers: @user.followers, token: token }, status: 200
     return
     end
     resource_not_found
