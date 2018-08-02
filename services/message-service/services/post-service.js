@@ -45,8 +45,8 @@ class PostServiceObject extends BaseService {
     ref.id = data._id;
     notification = { type: data.type, message: `${data.origin.username} replied your ${data.destination ? 'message' : 'post'}`, referenceID: data._id, body: ref, time: Date.now(), destination: data.referenceObject.origin.username };
     data = { ...data, destination: data.referenceObject.origin.email, subject: data.subject };
-    nt_token = await this.__updateNotifications(data.referenceObject.origin.nt_token, notification, data.referenceObject.origin);
-    this.__dispatchToNotificationServer(data, { ...notification, nt_token }, 5);
+    // nt_token = await this.__updateNotifications(data.referenceObject.origin.nt_token, notification, data.referenceObject.origin);
+    //this.__dispatchToNotificationServer(data, { ...notification, nt_token }, 5);
   };
 
   __dispatchMessage = async (message) => {
@@ -110,8 +110,8 @@ class PostServiceObject extends BaseService {
       data.likes.data.push(user);
       console.log(user)
       notification = { type: data.type, message: `${user.username} liked your ${data.destination ? 'message' : 'post'}`, referenceID: data._id, body: { id: data._id, content: data.content, origin: data.origin}, time: Date.now(), destination: data.origin.username }
-      this.__dispatchToNotificationServer({ ...data._doc, origin: { username: user.username }, destination: data.origin.email, subject: `${user.username} liked your post on Youth Party Nigeria` }, { ...notification, nt_token }, 5);
-      nt_token = await this.__updateNotifications(data.origin.nt_token, notification, data.origin);
+      // this.__dispatchToNotificationServer({ ...data._doc, origin: { username: user.username }, destination: data.origin.email, subject: `${user.username} liked your post on Youth Party Nigeria` }, { ...notification, nt_token }, 5);
+      // nt_token = await this.__updateNotifications(data.origin.nt_token, notification, data.origin);
     } else if (type === 1) {
       filler = data.likes.data.filter(item => item.id === user.id);
       if (filler.length < 1) return data;
