@@ -2,13 +2,13 @@ import jwt from 'jsonwebtoken';
 import PostModel from '../models/post';
 import BaseService from './base';
 import ConversationService from './conversation-service';
-import { key } from '../helpers/keys'
+import { key } from '../helpers/keys';
 
 let ref = {};
 let data;
 let nt_token;
 let notifications;
-let notification
+let notification;
 let filler;
 let body;
 let access;
@@ -45,9 +45,33 @@ class PostServiceObject extends BaseService {
     ref.id = data._id;
     notification = { type: data.type, message: `${data.origin.username} replied your ${data.destination ? 'message' : 'post'}`, referenceID: data._id, body: ref, time: Date.now(), destination: data.referenceObject.origin.username };
     data = { ...data, destination: data.referenceObject.origin.email, subject: data.subject };
+    this.__updateReference(data.referenceObject, 1);
     // nt_token = await this.__updateNotifications(data.referenceObject.origin.nt_token, notification, data.referenceObject.origin);
     //this.__dispatchToNotificationServer(data, { ...notification, nt_token }, 5);
   };
+
+  __updateReference = async (data, key) => {
+    const generateCount = () => {
+      if (!data.commentCount) {
+        if (key === 1) return 1;
+        return 0;
+      }
+      return key === 1 ? data.commentCount + 1 : data.commentCount - 1;
+    };
+    this.model.findOneAndUpdate({ _id: data._id }, { $set: { commentCount: generateCount() }});
+  }
+
+  deleteOne = async (key, value) => {
+    this.__checkArguments(key, value);
+    let ref = {};
+    ref[`${key}`] = value;
+    data = await this.model.findOne(ref);
+    if (data.referenceID) {
+      this.__updateReference(data.referenceObject, 2);
+    }
+    await this.model.findOneAndDelete(ref);
+    return true;
+  }
 
   __dispatchMessage = async (message) => {
     let convo = await ConversationService.fetchOne('_id', message.destination);
@@ -61,7 +85,7 @@ class PostServiceObject extends BaseService {
     notifications = await jwt.verify(token, key);
     notifications = [notification, ...notifications.notifications];
     nt_token = await jwt.sign({ notifications }, key);
-    access = jwt.sign({ id: destination.id, role: destination.role }, key)
+    access = jwt.sign({ id: destination.id, role: destination.role }, key);
     this.__updateUser({ nt_token }, access);
     return nt_token;
   }
@@ -84,7 +108,7 @@ class PostServiceObject extends BaseService {
           ref.origin = body.origin;
           ref.id = body._id;
           notification = { type: body.type, message: `You were mentioned in ${body.origin.username}'s post`, referenceID: body._id, body: ref, destination: item.username, time: Date.now() };
-          nt_token = await this.__updateNotifications(item.nt_token, notification, item)
+          nt_token = await this.__updateNotifications(item.nt_token, notification, item);
           this.__dispatchToNotificationServer({ ...body, destination: item.email, subject: `New mention by ${body.origin.username} on Youth Party Nigeria App` }, { ...notification, nt_token }, 5);
           return body;
         });
@@ -107,7 +131,7 @@ class PostServiceObject extends BaseService {
     if (type === 0) {
       data.likes.count += 1;
       data.likes.data.push(user);
-      notification = { type: data.type, message: `${user.username} liked your ${data.destination ? 'message' : 'post'}`, referenceID: data._id, body: { id: data._id, content: data.content, origin: data.origin}, time: Date.now(), destination: data.origin.username }
+      notification = { type: data.type, message: `${user.username} liked your ${data.destination ? 'message' : 'post'}`, referenceID: data._id, body: { id: data._id, content: data.content, origin: data.origin}, time: Date.now(), destination: data.origin.username };
       // this.__dispatchToNotificationServer({ ...data._doc, origin: { username: user.username }, destination: data.origin.email, subject: `${user.username} liked your post on Youth Party Nigeria` }, { ...notification, nt_token }, 5);
       // nt_token = await this.__updateNotifications(data.origin.nt_token, notification, data.origin);
     } else if (type === 1) {
@@ -116,14 +140,14 @@ class PostServiceObject extends BaseService {
       data.likes.count -= 1;
       data.likes.data = data.likes.data.filter(item => item.id !== user.id);
     }
-    const dataX = await this.model.findOneAndUpdate({ _id: data._id}, {$set: { likes: data.likes } }, { new: true })
+    const dataX = await this.model.findOneAndUpdate({ _id: data._id}, {$set: { likes: data.likes } }, { new: true });
     return data;
   }
 
   fetchAllPosts = async (id) => {
-    data = await this.model.find({ 'origin.id': parseInt(id) }).sort({ createdAt: -1 })
-    data = data.filter(post => !post.destination)
-    return data
+    data = await this.model.find({ 'origin.id': parseInt(id) }).sort({ createdAt: -1 });
+    data = data.filter(post => !post.destination);
+    return data;
   }
 
   fetchComments = async (data) => {
@@ -134,4 +158,4 @@ class PostServiceObject extends BaseService {
 }
 
 const PostService = new PostServiceObject(PostModel);
-export default PostService
+export default PostService;
