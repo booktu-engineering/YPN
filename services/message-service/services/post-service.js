@@ -145,8 +145,7 @@ class PostServiceObject extends BaseService {
   }
 
   fetchAllPosts = async (id) => {
-    data = await this.model.find({ 'origin.id': parseInt(id) }).sort({ createdAt: -1 });
-    data = data.filter(post => !post.destination);
+    data = await this.model.find({ 'origin.id': parseInt(id), destination: null, referenceID: null }).sort({ createdAt: -1 });
     return data;
   }
 
