@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import Screen from '../../../mixins/screen';
 import { height, width, defaultGreen, bigButton, buttonText } from '../../../mixins/';
 import { fetchDonation } from '../../../actions/thunks/donations';
 
@@ -28,7 +27,6 @@ class DonationPhaseTwo extends Component {
 
   onNavigatorEvent = (e) => {
     if (e.id === 'didAppear') {
-      console.log(this.props);
       this.props.dispatch(fetchDonation(this.props._id)({}, {}))
         .then((response) => {
           this.setState({ data: response });
@@ -50,10 +48,24 @@ class DonationPhaseTwo extends Component {
 }
 
 const DonationPhaseTwoComponent = ({ data, navigator, handleChange, handleSubmit, renderMoney }) => (
-  <View style={{
-    height: height * 0.9, width, justifyContent: 'space-around', backgroundColor: '#F4F6F6', paddingLeft: width * 0.11,
+  <KeyboardAvoidingView style={{
+    height: height * 0.9, 
+    width,
+    backgroundColor: '#F4F6F6'
+  }}
+    behavior="position"
+    enabled
+  >
+  <View
+  style={{
+    height: height * 0.9, 
+    width,
+    justifyContent: 'space-around', 
+    backgroundColor: '#F4F6F6', 
+    paddingLeft: width * 0.11,
     paddingBottom: 20
-  }}>
+  }}
+  > 
   <AnimatedComponent data={data}/>
   <View style={{ height: 50, width, paddingRight: 50, position: 'relative', bottom: -10 }}>
     <View style={{
@@ -88,10 +100,11 @@ const DonationPhaseTwoComponent = ({ data, navigator, handleChange, handleSubmit
       <Target data={data} />
     </View>
     { /* The button at the end */}
-    <TouchableOpacity  onPress={() => { handleSubmit() }} style={{ ...bigButton, position: 'absolute', bottom: 20 }}>
+    </View>
+    <TouchableOpacity  onPress={() => { handleSubmit() }} style={{ ...bigButton, position: 'absolute', bottom: 40 }}>
       <Text style={{ ...buttonText }}>CONFIRM</Text>
     </TouchableOpacity>
-  </View>
+  </KeyboardAvoidingView>
 );
 
 const Target = ({ data }) => (

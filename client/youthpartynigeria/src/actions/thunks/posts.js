@@ -64,7 +64,6 @@ export const fetchUsersPosts = target => async (dispatch) => {
     return response.data.data;
   })
     .catch((err) => {
-      console.log(err);
     });
 };
 
@@ -80,7 +79,22 @@ export const LikePost = id => key => async (_, getState) => axios
   .then(() => {
     // You can do whatever you want here
   })
-  .catch((err) => {
-    console.log(err);
+  .catch(() => {
   });
 
+export const fetchSinglePost = id => axios
+  .request({
+    url: `${config.postUrl}/posts/${id}`,
+    method: 'get',
+  })
+  .then(response => response.data.data)
+  .catch((err) => {
+    console.log(err);
+  })
+
+export const replyToPost = data => navigator => (dispatch, getState) => {
+  // ensure that the data has the reference object and ID
+  // the post looks like this { type: 1, content: 'Some content', referenceID;  }
+  if (!data.referenceID || !data.referenceObject) throw new Error('Please send in the right reference');
+  return sendPost(data)(navigator)(dispatch, getState);
+}
