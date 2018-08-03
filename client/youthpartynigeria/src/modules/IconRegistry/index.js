@@ -18,11 +18,11 @@ export const NotificationIcon = ({ navigator }) => (
   </TouchableOpacity>
 );
 
-export const SearchIcon = ({ navigator, dispatch }) => <TouchableOpacity style={{ flex: 1 }} onPress={() => { if(!navigator || !dispatch) return null; dispatch(fetchFollowersForUser(navigator)) }}><Ionicon name="ios-search-outline" color="white" size={25} /></TouchableOpacity>
+export const SearchIcon = ({ navigator, dispatch }) => <TouchableOpacity style={{ flex: 1  }} onPress={() => { if(!navigator || !dispatch) return null; dispatch(fetchFollowersForUser(navigator)) }}><Ionicon name="ios-search-outline" color="white" size={25} /></TouchableOpacity>
 
 export const CameraIcon = ({ color, size, style }) => <Ionicon name="ios-camera-outline" style={style} color={color} size={size} />
 export const BackIcon = (props) => (
-  <TouchableOpacity style={{ flex: 1 }} onPress={() => { if(props.modal) return props.navigator.dismissModal({ animation: 'slide-down'}); if(props.func) return props.func(); props.navigator.pop() }}> 
+  <TouchableOpacity style={{ height: 60, width: 50 }} onPress={() => { if(props.modal) return props.navigator.dismissModal({ animation: 'slide-down'}); if(props.func) return props.func(); props.navigator.pop() }}> 
     <Ionicon name="ios-arrow-back-outline" color="white" size={30}/>
    </TouchableOpacity>
 )

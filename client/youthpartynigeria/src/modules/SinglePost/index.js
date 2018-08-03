@@ -107,7 +107,7 @@ console.log(this.props.data)
 
   handleLike = () => {
     if (!this.state.data.map(item => item.id).includes(this.props.user.id)) {
-      this.setState({ like: '#E74C3C', count: (this.state.count + 1), data: [...this.state.data, this.props.user] });
+      this.setState({ like: '#F4D03F', count: (this.state.count + 1), data: [...this.state.data, this.props.user] });
       return this.props.dispatch(LikePost(this.props.data._id)(0));
     }
     this.setState({ like: '#D0D3D4', count: (this.state.count - 1), data: this.state.data.filter(item => item.id !== this.props.user.id) });
@@ -115,7 +115,7 @@ console.log(this.props.data)
   }
 
    generateLike = () => {
-     if (this.state.data.map(item => item.id).includes(this.props.user.id)) return this.setState({ like: '#E74C3C' });
+     if (this.state.data.map(item => item.id).includes(this.props.user.id)) return this.setState({ like: '#F4D03F' });
    };
 
    showNavigator = () => {
@@ -130,7 +130,7 @@ console.log(this.props.data)
   render = () => (
     <View style={styles.baseButtonStack}>
       <View style={styles.button}>
-        <TouchableOpacity onPress={this.handleLike}>
+        <TouchableOpacity style={{ height: 30, width: 25, }}onPress={this.handleLike}>
           <EvilIcon name="like" color={this.state.like} size={23} />
         </TouchableOpacity>
         <Text style={{
@@ -143,15 +143,15 @@ console.log(this.props.data)
         </Text>
       </View>
       { /* comment for content */}
-      <View style={styles.buttonLower}>
-        <TouchableOpacity onPress={this.showNavigator}>
+      <TouchableOpacity style={styles.buttonLower} onPress={this.showNavigator}>
+        <View>
         <MaterialIcon name="comment-text-outline" color={this.state.comment} size={17} />
-        </TouchableOpacity>
+        </View>
         <Text style={{ color: this.state.comment, fontSize: 12 }}>
           {' '}
         { `${!this.props.data.commentCount ? 0 : this.props.data.commentCount } ${this.props.data.commentCount && this.props.data.commentCount === 1 ? 'comment' : 'comments' }`} 
         </Text>
-      </View>
+      </TouchableOpacity>
       { /* shares for the product */}
       <View style={styles.buttonLowerR}>
         <Ionicon name="ios-share-alt-outline" color={this.state.share} size={17} />

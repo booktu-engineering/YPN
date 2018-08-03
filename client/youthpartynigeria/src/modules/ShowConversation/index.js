@@ -41,7 +41,7 @@ export const CustomHeader = ({ navigator, data, user, dispatch }) => (
  height: height * 0.15, width, backgroundColor: defaultGreen, flexDirection: 'row', flexWrap: 'nowrap', paddingRight: 15, paddingLeft: 15, justifyContent: 'space-between', alignItems: 'center'
 }}>
     { /* icon 1 */}
-    <View style={{ maxHeight: 40, maxWidth: 50, marginRight: 10 }}>
+    <View style={{ maxHeight: 40, maxWidth: 50,  }}>
       { withNavigation(navigator, BackIcon)}
     </View>
     { /* The text Part */}
