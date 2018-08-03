@@ -33,7 +33,7 @@ class PostServiceObject extends BaseService {
       this.__unprocessableEntity('Please pass in the right values for the body');
     }
     const post = await this.model.create(body);
-    if (post.referenceID !== null) this.__dispatchComment({ ...post._doc, subject: 'Someone replied to your post' });
+    if (post.referenceID !== null) await this.__dispatchComment({ ...post._doc, subject: 'Someone replied to your post' });
     this.__examineForMentions(post._doc, access);
     if (post.destination !== null) this.__dispatchMessage(post._doc);
     return post;
