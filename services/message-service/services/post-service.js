@@ -33,6 +33,8 @@ class PostServiceObject extends BaseService {
       this.__unprocessableEntity('Please pass in the right values for the body');
     }
     const post = await this.model.create(body);
+    console.log('bkas')
+    console.log('post');
     if (post.referenceID !== null) this.__dispatchComment({ ...post._doc, subject: 'Someone replied to your post' });
     this.__examineForMentions(post._doc, access);
     if (post.destination !== null) this.__dispatchMessage(post._doc);
@@ -51,14 +53,17 @@ class PostServiceObject extends BaseService {
   };
 
   __updateReference = async (data, key) => {
-    const generateCount = () => {
-      if (!data.commentCount) {
+    const generateCount = (target) => {
+      if (!target.commentCount) {
         if (key === 1) return 1;
         return 0;
       }
-      return key === 1 ? data.commentCount + 1 : data.commentCount - 1;
+      return key === 1 ? target.commentCount + 1 : target.commentCount - 1;
     };
-    this.model.findOneAndUpdate({ _id: data._id }, { $set: { commentCount: generateCount() }});
+    const target = await this.model.findOne({ _id: data._id['$oid'] });
+    if (!target) return null;
+    target.commentCount = generateCount(target);
+    target.save();
   }
 
   deleteOne = async (key, value) => {
