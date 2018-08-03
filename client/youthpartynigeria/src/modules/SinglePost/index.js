@@ -23,7 +23,7 @@ const generateHeight = (obj) => {
 }
 
 const SinglePost = ({ data, obj }) => (
-  <TouchableOpacity style={{ width, ...generateHeight(obj) }} onPress={() => { obj.navigator.push({ screen: 'View.Post', title: `Post by ${data.origin.firstname}`, passProps: { target: data }})}}>
+  <TouchableOpacity style={{ width, ...generateHeight(obj) }} onPress={() => { if(obj.single) return; obj.navigator.push({ screen: 'View.Post', title: `Post by ${data.origin.firstname}`, passProps: { target: data }})}}>
     <View style={styles.mainContent}>
       {/* this should render the users avatar and all of that */}
       <TouchableOpacity
@@ -100,6 +100,7 @@ class ButtonStack extends Component {
       count: this.props.data.likes.count,
       data: this.props.data.likes.data 
 };
+console.log(this.props.data)
   }
 
   componentDidMount = () => this.generateLike()
@@ -135,7 +136,7 @@ class ButtonStack extends Component {
         <Text style={{
           color: this.state.like, fontSize: 12, position: 'relative', bottom: -2
         }}
-        onPress={() => { this.state.data.length ? navigator.push({ screen: 'Show.Users', title: `Liked Post by ${this.props.data.origin.firstname}`, passProps: { data: this.state.data }}) : null }}
+        onPress={() => { this.state.data.length ? this.props.navigator.push({ screen: 'Show.Users', title: `Liked Post by ${this.props.data.origin.firstname}`, passProps: { data: this.state.data }}) : null }}
         >
           {' '}
           { `${this.state.count} ${this.state.count === 1 ? 'like' : 'likes'}`}
@@ -148,7 +149,7 @@ class ButtonStack extends Component {
         </TouchableOpacity>
         <Text style={{ color: this.state.comment, fontSize: 12 }}>
           {' '}
-        { `${!this.state.data.commentCount ? 0 : this.state.data.commentCount } ${this.state.data.commentCount && this.state.data.commentCount === 1 ? 'comment' : 'comments' }`} 
+        { `${!this.props.data.commentCount ? 0 : this.props.data.commentCount } ${this.props.data.commentCount && this.props.data.commentCount === 1 ? 'comment' : 'comments' }`} 
         </Text>
       </View>
       { /* shares for the product */}

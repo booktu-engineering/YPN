@@ -8,7 +8,7 @@ const Notification = ({ message }) => (
       height: height * 0.1,
       width,
       justifyContent: 'center',
-      backgroundColor: '#0D0D0E99',
+      backgroundColor: '#0D0D0E',
       paddingLeft: 10
      }}>
     <Text style={{ color: '#D7DBDD', fontSize: 14, marginBottom: 5, fontWeight: '600' }}> Youth Party </Text>
