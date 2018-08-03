@@ -59,7 +59,6 @@ class PostServiceObject extends BaseService {
       return key === 1 ? target.commentCount + 1 : target.commentCount - 1;
     };
     const target = await this.model.findOneAndUpdate({ _id: data._id }, {$set: { commentCount: generateCount(data) }},{ new: true });
-    console.log(target)
   }
 
   deleteOne = async (key, value) => {
