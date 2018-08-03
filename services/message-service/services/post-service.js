@@ -33,8 +33,6 @@ class PostServiceObject extends BaseService {
       this.__unprocessableEntity('Please pass in the right values for the body');
     }
     const post = await this.model.create(body);
-    console.log('bkas')
-    console.log('post');
     if (post.referenceID !== null) this.__dispatchComment({ ...post._doc, subject: 'Someone replied to your post' });
     this.__examineForMentions(post._doc, access);
     if (post.destination !== null) this.__dispatchMessage(post._doc);
@@ -47,7 +45,7 @@ class PostServiceObject extends BaseService {
     ref.id = data._id;
     notification = { type: data.type, message: `${data.origin.username} replied your ${data.destination ? 'message' : 'post'}`, referenceID: data._id, body: ref, time: Date.now(), destination: data.referenceObject.origin.username };
     data = { ...data, destination: data.referenceObject.origin.email, subject: data.subject };
-    this.__updateReference(data.referenceObject, 1);
+    await this.__updateReference(data.referenceObject, 1);
     // nt_token = await this.__updateNotifications(data.referenceObject.origin.nt_token, notification, data.referenceObject.origin);
     //this.__dispatchToNotificationServer(data, { ...notification, nt_token }, 5);
   };
@@ -60,10 +58,8 @@ class PostServiceObject extends BaseService {
       }
       return key === 1 ? target.commentCount + 1 : target.commentCount - 1;
     };
-    const target = await this.model.findOne({ _id: data._id['$oid'] });
-    if (!target) return null;
-    target.commentCount = generateCount(target);
-    target.save();
+    const target = await this.model.findOneAndUpdate({ _id: data._id['$oid'] }, {$set: { commentCount: generateCount(data) }});
+    console.log(target)
   }
 
   deleteOne = async (key, value) => {
