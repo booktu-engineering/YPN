@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, TouchableOpacity, Image, Text, ScrollView } from 'react-native';
-import { height, width, defaultGreen, bigButton, buttonText } from '../../../mixins';
+import {
+  View, TouchableOpacity, Image, Text, ScrollView
+} from 'react-native';
+import {
+  height, width, defaultGreen, bigButton, buttonText
+} from '../../../mixins';
 import { CheckMarkIcon } from '../../IconRegistry';
-import { VoteResponse } from '../../../actions/thunks/polls'
+import { dispatchNotification } from '../../../helpers/uploader';
+import { VoteResponse, checkIfUniqueVoter } from '../../../actions/thunks/polls';
 
 const uri = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7DkkUNTMfEjuq8pyx6tqGyv8R8-mUf4zhbGw6Lqeai_KeI-sT';
 
@@ -22,50 +27,60 @@ class VotingScreen extends Component {
         }
       ]
     });
-    this.state = {
-      id: this.props.target._id,
-    }
+    this.state = { id: this.props.target._id };
   }
 
   generateReasonsAndResponses = () => {
-    let ref = {};
-    Object.keys(this.props.target.questions).forEach(q => {
-      ref[`${q}`] = ''
-    })
+    const ref = {};
+    Object.keys(this.props.target.questions).forEach((q) => {
+      ref[`${q}`] = '';
+    });
     const responses = [ref];
     this.setState({ responses, reasons: responses });
-    // the state should look like this;
-    // { id: 65755859993, reasons: [ { 0: '}], responses: [{ 0: '' }]}
-
   }
 
   componentDidMount = () => {
     this.generateReasonsAndResponses();
+    this.setState({ processed: true });
   }
 
-  handleSelect = target => {
-    let ref = {}
-    this.setState({ target })
-    ref['0'] = target
-    const response = [ref]
-    this.setState({ responses: response })
+  handleSelect = (target) => {
+    const ref = {};
+    this.setState({ target });
+    ref['0'] = target;
+    const response = [ref];
+    this.setState({ responses: response });
   }
 
   handleSubmit = () => {
-    this.props.dispatch(VoteResponse(this.props.navigator)(this.state));
+    // prevent the user from voting and immediately prompt to sign up
+    if (this.props.user.role < 1) {
+      dispatchNotification(this.props.navigator)('Sorry, you need to be a party member to vote');
+      return this.props.navigator.toggleDrawer({
+        side: 'left',
+        animated: true,
+        to: 'open'
+      });
+    }
+    // check if the user has a vin
+    if (!this.props.user.vin) {
+      dispatchNotification(this.props.navigator)('Sorry, you need to set up your VIN to vote');
+      return this.props.navigator.pop();
+    }
+    if (!this.state.target) return dispatchNotification(this.props.navigator)('Please select a candidate');
+    return this.props.dispatch(checkIfUniqueVoter(this.props.navigator)(this.props.target._id)(this.state));
   }
 
-    renderItems = data => this.props.target.meta.candidates.map((candidate) => {
-      return (
-        <TouchableOpacity
-          style={{
+    renderItems = data => this.props.target.meta.candidates.map(candidate => (
+      <TouchableOpacity
+        style={{
             height: 79,
             width,
             flexDirection: 'row',
             alignItems: 'center',
             marginBottom: 8
           }}
-          onPress={() => this.handleSelect(candidate.name)}
+        onPress={() => this.handleSelect(candidate.name)}
         >
           <View
             style={{
@@ -97,12 +112,13 @@ class VotingScreen extends Component {
           </View>
           { /* The check mark */}
           { this.state.target === candidate.name
-            ? <CheckMarkIcon color="#239B56" size={24} style={{ float: 'right', position: 'relative', top: -7, right: -15 }} />
+            ? <CheckMarkIcon color="#239B56" size={24} style={{
+ float: 'right', position: 'relative', top: -7, right: -15 
+}} />
             : null
       }
         </TouchableOpacity>
-      )
-    })
+    ))
 
     render = () => (
       <View style={{
@@ -132,14 +148,15 @@ Select your desired Candidate
             width,
           }}
         >
-          { this.renderItems([this.props.target.meta.candidates])}
+          { this.state.processed ? this.renderItems([this.props.target.meta.candidates]) : null}
         </ScrollView>
-        <TouchableOpacity style={{
-          ...bigButton,
-          position: 'absolute',
-          bottom: 20
-        }}
-        onPress={() => { this.handleSubmit()}}
+        <TouchableOpacity
+          style={{
+  ...bigButton,
+  position: 'absolute',
+  bottom: 20
+}}
+          onPress={() => { this.handleSubmit(); }}
         >
           <Text style={{ ...buttonText }}>
             {' '}
@@ -152,7 +169,8 @@ CONFIRM SELECTION
 }
 
 const mapStateToProps = state => ({
-  target: state.questions.target
+  target: state.questions.target,
+  user: state.users.current
 });
 
 VotingScreen.navigatorStyle = {

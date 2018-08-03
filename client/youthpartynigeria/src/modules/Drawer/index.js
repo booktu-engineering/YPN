@@ -37,6 +37,9 @@ alignItems: 'center'
       <TouchableOpacity onPress={() => { navigator.showModal({ screen: 'Membership.Component', title: 'Become a party member' })}} style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Membership </Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => { navigator.showModal({ screen: 'Voter.Page', title: 'Voter Eligibility' })}} style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
+        <Text style={{ fontSize: 15, fontWeight: '600' }}> Voter Eligibility </Text>
+      </TouchableOpacity>
       <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Groups </Text>
       </View>

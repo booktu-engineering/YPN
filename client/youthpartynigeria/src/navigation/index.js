@@ -45,7 +45,7 @@ import ElectionScreen from '../modules/Elections/';
 import VotingScreen from '../modules/Elections/screens/index';
 import ViewPostPage from '../modules/ViewPost';
 import ReplyPost from '../modules/ReplyPost';
-
+import VoterEligibility from '../modules/VoterHistory';
 
 const { Provider, store } = configureStore();
 let homeIcon; 
@@ -112,6 +112,7 @@ export default class Navigator {
     Navigation.registerComponent('Voting.Screen', () => VotingScreen, storex, Provider);
     Navigation.registerComponent('View.Post', () => ViewPostPage, storex, Provider);
     Navigation.registerComponent('Reply.Post', () => ReplyPost, storex, Provider);
+    Navigation.registerComponent('Voter.Page', () => VoterEligibility, storex, Provider);
   }
 
   startLoggedOut = () => {

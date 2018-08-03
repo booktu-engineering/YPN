@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-import config from '../../config/';
-import { navigatorObject } from '../../navigation/';
+import config from '../../config';
+import { navigatorObject } from '../../navigation';
 import { dispatchNotification, StartProcess, EndProcess } from '../../helpers/uploader';
 import { fetchUsersPosts } from './posts';
 
 /* eslint arrow-parens: 0 */
 const SignUpThunk = (body) => (navigator) => (dispatch) => {
-  StartProcess(navigator)
+  StartProcess(navigator);
   dispatch({ type: 'PROCESSING_CONTENT' });
   return axios.post(`${config.baseUrl}/signup`, { ...body })
     .then((response) => {
@@ -32,6 +32,30 @@ const SignUpThunk = (body) => (navigator) => (dispatch) => {
     });
 };
 
+export const UpdateUserInfo = newUserInfo => (navigator) => (dispatch, getState) => {
+  axios
+    .request({
+      method: 'put',
+      url: `${config.baseUrl}/user`,
+      data: {
+        user: newUserInfo
+      },
+      headers: {
+        Authorization: getState().users.token
+      }
+    })
+    .then((response) => {
+      EndProcess(navigator);
+      dispatch({ type: 'INSERT_TOKEN', payload: response.data.token });
+      dispatch({ type: 'USER_LOGGED_IN', payload: response.data.data });
+      navigator.pop();
+    })
+    .catch((err) => {
+      EndProcess(navigator);
+      dispatchNotification(navigator)('Sorry, something went wrong');
+      navigator.pop();
+    });
+};
 
 export const fetchFollowersForUser = (navigator) => (dispatch, getState) => axios.request({
   method: 'get',
@@ -84,7 +108,7 @@ export const followUser = (data) => (navigator) => (dispatch, getState) => {
       EndProcess(navigator);
       dispatchNotification(navigator)(`Awesome, You have just followed ${data.firstname}`);
     });
-}
+};
 
 
 const LogInThunk = (body) => (navigator) => (dispatch) => {
@@ -135,12 +159,12 @@ export const fetchUserThunk = (id) => (navigator) => async (dispatch) => {
         screen: 'Show.User',
         passProps: {
           id,
-          target: { 
+          target: {
             ...response.data.data,
             followers: response.data.followers,
-          friends: response.data.friends
-          
-        }
+            friends: response.data.friends
+
+          }
         }
       });
       EndProcess(navigator);
@@ -190,23 +214,22 @@ export const followUserThunk = (target) => (navigator) => async () => {
     });
 };
 
-export const newPartyMember = (navigator) => (dispatch, getState) => {
-  return axios.request({
-    method: 'get',
-    url: `${config.baseUrl}/party/member/new/${getState().users.current.id}`,
-    headers: {
-      Authorization: getState().users.token
-    }
-  }).then(() => {
+export const newPartyMember = (navigator) => (dispatch, getState) => axios.request({
+  method: 'get',
+  url: `${config.baseUrl}/party/member/new/${getState().users.current.id}`,
+  headers: {
+    Authorization: getState().users.token
+  }
+}).then(() => {
+  EndProcess(navigator);
+  dispatchNotification(navigator)(`Welcome to Youth Party Nigeria! ${getState().users.current.firstname}`);
+  // you're doing this so you can update the store as well;
+  dispatch(UpdateUserInfo({ role: 1 })(navigator));
+})
+  .catch(() => {
     EndProcess(navigator);
-    dispatchNotification(navigator)(`Welcome to Youth Party Nigeria! ${getState().users.current.firstname}`)
+    dispatchNotification(navigator)(`Something went wrong. Are you a party member already, ${getState().users.current.firstname}?`);
     navigator.pop();
-  })
-    .catch(() => {
-      EndProcess(navigator);
-      dispatchNotification(navigator)(`Something went wrong. Are you a party member already, ${getState().users.current.firstname}?`)
-      navigator.pop();
-    });
-};
+  });
 
 export default { SignUpThunk, LogInThunk };
