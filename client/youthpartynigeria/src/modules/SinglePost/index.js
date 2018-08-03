@@ -135,6 +135,7 @@ class ButtonStack extends Component {
         <Text style={{
           color: this.state.like, fontSize: 12, position: 'relative', bottom: -2
         }}
+        onPress={() => { this.state.data.length ? navigator.push({ screen: 'Show.Users', title: `Liked Post by ${this.props.data.origin.firstname}`, passProps: { data: this.state.data }}) : null }}
         >
           {' '}
           { `${this.state.count} ${this.state.count === 1 ? 'like' : 'likes'}`}
@@ -155,7 +156,7 @@ class ButtonStack extends Component {
         <Ionicon name="ios-share-alt-outline" color={this.state.share} size={17} />
         <Text style={{ color: this.state.share, fontSize: 12 }}>
           {' '}
-    6 Shares
+         Shares
         </Text>
       </View>
     </View>
