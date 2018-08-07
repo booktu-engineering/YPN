@@ -1,1 +1,1 @@
-web: RAILS_ENV=production rails s
+web: npm run start:service

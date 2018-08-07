@@ -1,6 +1,9 @@
 import axios from 'axios';
 import EventModel from '../models/event';
 import BaseService from './base';
+import configuration from './config';
+
+const config = configuration();
 
 /* eslint no-underscore-dangle: 0, prefer-const: 0 */
 let ref = {};
@@ -26,7 +29,8 @@ class EventServiceBase extends BaseService {
 
   fetchAllSync = async (role) => {
     data = await this.fetchAll();
-    if (role && role < 3) return data.filter(e => e.valid);
+    console.log('bro')
+    console.log(data)
     return data;
   }
 

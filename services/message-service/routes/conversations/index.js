@@ -13,4 +13,5 @@ router
   .get('/', ConversationMiddleware.__ensureAuthorization, ConversationMiddleware.__ensureUser, ConversationController.fetchDataForUser, ConversationMiddleware.__dispatchError)
   .delete('/:id', ConversationMiddleware.__ensureAuthorization, ConversationMiddleware.__ensureUser, ConversationMiddleware.adminMembersOnly, ConversationController.deleteOne, ConversationMiddleware.__dispatchError)
   .get('/all', ConversationMiddleware.__ensureAuthorization, ConversationMiddleware.__ensureUser, ConversationMiddleware.adminMembersOnly, ConversationController.fetchAll, ConversationMiddleware.__dispatchError)
+  .get('/type/:type', ConversationMiddleware.__ensureAuthorization, ConversationMiddleware.__ensureUser, ConversationController.getSpecific, ConversationMiddleware.__dispatchError);
 export default router;

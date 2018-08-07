@@ -24,10 +24,17 @@ class QuestionServiceBase extends BaseService {
     data = await  this.create(obj);
     return data;
   }
+  
+  filterResponses = (data, user) => {
+    const filterX = data.responses.filter(item => item.user.id === user.id)
+    if(filterX.length) return false;
+    return true;
+  }
 
   respond = async (response) => {
     data = await this.model.findById(response.id);
     if (data && response.responses && response.responses.constructor === Array) {
+      if(!this.filterResponses(data, response.user)) return this.__unprocessableEntity("Looks like you've voted earlier")
       const { options } = data
       response.responses.forEach((item) => {
         const opt = Object.entries(item)[0];

@@ -4,7 +4,6 @@ import BaseController from '../base';
 /* eslint no-underscore-dangle: 0 */
 let data;
 class ConversationControllerBase extends BaseController {
-
   create = (req, res, next) => {
     this.__wrapInTryCatch(async () => {
       req.body.members.push(req.user);
@@ -27,6 +26,12 @@ class ConversationControllerBase extends BaseController {
     }, next);
   }
 
+  getSpecific = (req, res, next) => {
+    this.__wrapInTryCatch(async () => {
+      data = await this.service.getSpecific(req.params.type);
+      this.__responseOkay(res, data);
+    }, next);
+  }
 }
 
 const ConversationController = new ConversationControllerBase(ConversationService);

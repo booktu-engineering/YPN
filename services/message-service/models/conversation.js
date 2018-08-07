@@ -47,7 +47,7 @@ const conversationSchema = new mongoose.Schema({
 );
 
 conversationSchema.methods.getMessages = async function () {
-  const posts = await Post.find({ destination: this.id });
+  const posts = await Post.find({ destination: this._id });
   return posts;
 };
 

@@ -22,6 +22,11 @@ const postSchema = new mongoose.Schema({
     default: { count: 0, data: [] }
   },
 
+  commentCount: {
+    type: Number,
+    default: 0
+  },
+
   referenceObject: {
     type: Object,
     default: null
@@ -38,14 +43,10 @@ const postSchema = new mongoose.Schema({
   },
 
 
-  media: {
-    type: String,
-  },
+  media: [],
 
 
-  link: {
-    type: String
-  }
+  links: []
 },
 
 {
