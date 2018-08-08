@@ -129,7 +129,7 @@ class ShowUser extends Component {
           </View>
           {
              this.state.posts.length ?
-                <View style={{ height: height * 0.6 }}>
+                <View style={{ height: height * 0.6, paddingTop: 5 }}>
                   { this.state.viewEvents ? MultipleEvents(this.state.events)({ navigator: this.props.navigator, dispatch: this.props.dispatch }) : multiplePosts([...this.state.posts ])({ height: height * 0.3, navigator: this.props.navigator, dispatch: this.props.dispatch, user: this.props.user })}
                 </View>
               : null

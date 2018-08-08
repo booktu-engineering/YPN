@@ -83,7 +83,7 @@ fetchEventsForCurrentUser = () => {
           <Text style={{ fontSize: 12.3, fontWeight: '600', color: !this.state.viewEvents ? '#626567' : defaultGreen }}> Recent Events </Text>
         </TouchableOpacity>
       </View>
-      <View style={{ height: height * 0.6 }}>
+      <View style={{ height: height * 0.6, paddingTop: 5 }}>
         { this.state.viewEvents ? MultipleEvents(this.state.events)({ navigator: this.props.navigator, dispatch: this.props.dispatch }) : multiplePosts(this.state.posts)({ height: height * 0.3, user: this.props.target, dispatch: this.props.dispatch, navigator: this.props.navigator })}
       </View>
     </View>

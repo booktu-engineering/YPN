@@ -6,7 +6,7 @@ export const fetchAllEvents = navigator => (dispatch, getState) => {
   StartProcess(navigator);
   return axios.request({
     method: 'get',
-    url: `${config.postUrl}/events/?timestamp=${Date.now()}`,
+    url: `${config.postUrl}/events/`,
     headers: {
       Authorization: getState().users.token,
       'Cache-Control': 'no-cache'
@@ -14,7 +14,7 @@ export const fetchAllEvents = navigator => (dispatch, getState) => {
   })
     .then((response) => {
       EndProcess(navigator);
-      console.log(response.data)
+      console.log(response)
       dispatch({ type: 'ALL_EVENTS_GOTTEN', payload: response.data.data });
     })
     .catch(() => {
@@ -79,7 +79,7 @@ export const attendEvent = id => navigator => (_, getState) => {
     })
     .catch((err) => {
       EndProcess(navigator);
-      if (err.response && err.response.status) {
+      if (err.response && err.response.status === 409) {
         dispatchNotification("You're attending this event already. Thank you!");
         return navigator.pop();
       }
@@ -99,7 +99,7 @@ export const leaveEvent = id => navigator => (_, getState) => {
   })
     .then(() => {
       EndProcess(navigator);
-      dispatchNotification(navigator)('Okay great done');
+      dispatchNotification(navigator)('You have successfully unbooked this event');
       navigator.pop();
     })
     .catch(() => {
