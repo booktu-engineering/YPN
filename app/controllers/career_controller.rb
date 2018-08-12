@@ -69,7 +69,7 @@ class CareerController < ApplicationController
 
 private
   def career_params
-    params.require(:career).permit(:role, :key, :name, :origin)
+    params.require(:career).permit(:role, :key, :name, :origin, meta: [:location, :closing_date, :image, :responsibilities => [], :requirements => [] ])
   end
 
 end
