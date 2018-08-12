@@ -5,6 +5,7 @@ import convos from './conversations';
 import donations from './donations';
 import questions from './questions';
 import events from './events';
+import careers from './careers'
 
 const root = combineReducers({
   users,
@@ -12,7 +13,8 @@ const root = combineReducers({
   convos,
   donations,
   questions,
-  events
+  events, 
+  careers
 });
 
 export default root;

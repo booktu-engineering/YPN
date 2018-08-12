@@ -72,9 +72,9 @@ export const Selectors = ({ sideOne, changeFunction, keys }) => (
 )
 
 export const TinySelectors = ({ keys }) => {
-  const selectorElements = keys.map((item) => {
+  const selectorElements = keys.map((item, index) => {
     return (
-      <TouchableOpacity style={{ maxWidth: width * 0.2, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center'}}>
+      <TouchableOpacity key={`item123-${index}`}style={{ maxWidth: width * 0.2, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center'}}>
         <Text style={{ fontSize: 12, fontWeight: '500', color: defaultGreen }}> { item }</Text>
         <MaterialCommunityIcon name="menu-down" color={defaultGreen} size={17}/>
       </TouchableOpacity>

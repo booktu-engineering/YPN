@@ -48,9 +48,9 @@ class More extends Component {
             <EvilIcon name="heart" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -11 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Donate </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { this.props.navigator.dismissLightBox(); __StackNavigator(this.previousTab).push({ screen: 'Careers', title: 'Careers'})}}>
             <Ionicon name="md-briefcase" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -18 }}/>
-            <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }} onPress={() => { this.props.navigator.dismissLightBox(); __StackNavigator(this.previousTab).push({ screen: 'Careers', title: 'Careers'})}}> Careers </Text>
+            <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Careers </Text>
           </TouchableOpacity>
           <TouchableOpacity>
           <Ionicon name="ios-megaphone" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -28 }}/>
