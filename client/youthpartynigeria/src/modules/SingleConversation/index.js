@@ -23,6 +23,11 @@ const SingleConversationType1 = ({ obj, data }) => {
 }
 
 const ButtonStack = ({ data }) => {
+  this.state = {
+    like: '#D0D3D4',
+    comment: '#D0D3D4',
+    share: '#D0D3D4',
+  }
   return (
     <View style={{
       flexDirection: 'row',
