@@ -6,7 +6,8 @@ import Composer from '../iterator';
 const uri = 'https://menhairstylist.com/wp-content/uploads/2017/07/dreads-in-man-bun-black-men-hairstyles.jpg';
 
 const SingleCandidate = (props) => {
-  const { obj } = props
+
+  const { obj, data } = props
   return (
     <TouchableOpacity
       style={{
@@ -22,13 +23,13 @@ const SingleCandidate = (props) => {
         alignItems: 'center'
       }}
       onPress={() => {
-   obj.indicator ? obj.navigator.push({
+   !obj.indicator ? obj.navigator.push({
    screen: 'DonationPT',
   title: 'Donations',
   passProps: {
    avatar: '', name: 'Femi Bukola', location: 'Kaduna, Kaduna State', role: 'Speaker', category: 'Candidate'
   }
-  }) : obj.navigator.push({ screen: 'Show.Position', title: 'Femi Bukola', passProps: { candidate: true } });
+  }) : obj.navigator.push({ screen: 'Show.Position', title: `${ obj.indicator ? data.firstname || '' : props.data.meta.user.name || ''}`, passProps: { candidate: true, data } });
   }}
     >
       <View style={{
@@ -39,15 +40,15 @@ const SingleCandidate = (props) => {
           style={{
    height: 60, width: 60, borderRadius: 30, marginRight: 8,
   }}
-          source={{ uri }}
+          source={{ uri: obj.indicator ? (data.avatar || uri) : uri }}
         />
         <View style={{ height: height * 0.06 }}>
           <Text style={{
    fontSize: 14, fontWeight: '600', color: '#1F2020', marginBottom: 5
   }}
-          > { props.data.meta.user.name }
+          > { obj.indicator ? `${data.firstname} ${data.lastname ||''}` : props.data.meta.user.name }
           </Text>
-          <Text style={{ fontSize: 12, fontWeight: '500', color: defaultGreen }}> {props.data.meta.user.position}</Text>
+          <Text style={{ fontSize: 12, fontWeight: '500', color: defaultGreen }}> { obj.indicator ?  (data.position || '') : props.data.meta.user.position}</Text>
         </View>
       </View>
       <View style={{ height: height * 0.05, width: width * 0.4 }}>
@@ -62,7 +63,7 @@ const SingleCandidate = (props) => {
         <Text style={{
    fontSize: 11.5, fontWeight: '500', color: '#D0D3D4', alignSelf: 'flex-end'
   }}
-        > { props.data.meta.user.location }
+        > { obj.indicator ? (data.location || '') : props.data.meta.user.location }
         </Text>
       </View>
     </TouchableOpacity>

@@ -75,6 +75,7 @@ export const FetchAllExcos = () => (dispatch, getState) => axios
        [{ position: 'Vice President', value: { name: '' ...}}]
       */
     });
+    console.log(payload)
     dispatch({ type: 'ALL_EXCOS_GOTTEN', payload });
   });
 
