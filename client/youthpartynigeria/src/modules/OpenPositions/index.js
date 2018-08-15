@@ -22,6 +22,11 @@ class OpenPosition extends Component {
     });
   }
 
+  componentWillUnmount = () => {
+    this.props.navigator.toggleTabs({ to: 'shown', animated: true });
+    this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
+  }
+
 render = () => <RenderPosition {...this.props} />;
 }
 

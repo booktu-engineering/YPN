@@ -1,9 +1,12 @@
 import { Navigation } from 'react-native-navigation';
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { FetchAllExcos } from '../../actions/thunks/candidates';
+import { dispatchNotification, StartProcess, EndProcess } from '../../helpers/uploader';
 import { height, width } from '../../mixins';
 import __StackNavigator from './helper';
 
@@ -36,6 +39,25 @@ class More extends Component {
   navigate = (screen, title) => {
     this.props.navigator.dismissLightBox();
     __StackNavigator(this.previousTab).push({ screen, title });
+  }
+
+  handlePress = () => {
+    const { excos, dispatch, navigator } = this.props;
+    if (!excos) {
+      StartProcess(navigator)
+      return dispatch(FetchAllExcos(navigator))
+        .then((payload) => {
+          EndProcess(navigator);
+          if (!payload || !payload.length) {
+            dispatchNotification(navigator)('There are no excos available yet');
+            navigator.dismissLightbox();
+          }
+          __StackNavigator(this.previousTab).push({ screen: 'Open.Position', title: 'Excos', passProps: { data: payload, definition: 1 } });
+        });
+    }
+    if (excos.length) return __StackNavigator(this.previousTab).push({ screen: 'Open.Position', title: 'Excos', passProps: { data: excos, definition: 1 } });
+    dispatchNotification(navigator)('There are no excos yet, Please check back');
+    navigator.dismissLightBox();
   }
 
   moreModal = () => (
@@ -75,7 +97,7 @@ class More extends Component {
           <Ionicon name="ios-microphone-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -17 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Debate </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{ position: 'relative', left: -12 }}>
+          <TouchableOpacity style={{ position: 'relative', left: -12 }} onPress={this.handlePress}>
             <MaterialIcon name="sitemap" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -9 }} />
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Excos </Text>
           </TouchableOpacity>
@@ -103,6 +125,8 @@ render = () => {
 }
 }
 
+const mapStateToProps = state => ({
+  excos: state.positions.excos
+})
 
-
-export default More;
+export default connect(mapStateToProps)(More);

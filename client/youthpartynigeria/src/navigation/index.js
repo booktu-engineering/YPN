@@ -86,7 +86,7 @@ export default class Navigator {
     Navigation.registerComponent('Chat.Component', () => ChatComponent, storex, Provider);
     Navigation.registerComponent('Post.Component', () => PostComponent, storex, Provider);
     Navigation.registerComponent('Profile.Component', () => ProfileComponent, storex, Provider);
-    Navigation.registerComponent('More.Component', () => MoreComponent);
+    Navigation.registerComponent('More.Component', () => MoreComponent, storex, Provider);
     Navigation.registerComponent('Drawer', () => Drawer, storex, Provider);
     Navigation.registerComponent('Home.Nav', () => HomeNav);
     Navigation.registerComponent('Events.Screen', () => EventComponent, storex, Provider);

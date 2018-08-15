@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux'
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { ApplyForPosition } from '../../actions/thunks/candidates';

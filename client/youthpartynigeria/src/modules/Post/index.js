@@ -28,12 +28,20 @@ const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.
    }
    state = { type: 1, links: '',}
 
+   componentDidMount = () => {
+    const { navigator } = this.props
+    navigator.toggleTabs({ to: 'shown', animated: true });
+    navigator.setDrawerEnabled({ side: 'left', enabled: true });
+   }
+
    handleMediaUpload = () => {
      MultipleUpload()
      .then(images => {
        this.setState({ images });
      })
    }
+
+   
 
 
    handleChange = (value, name) => this.setState({ [name]: value })

@@ -1,4 +1,4 @@
-import axios  from 'axios';
+import axios from 'axios';
 import { dispatchNotification, StartProcess, EndProcess } from '../../helpers/uploader';
 import config from '../../config';
 
@@ -17,7 +17,7 @@ export const FetchAllPositions = navigator => cb => (dispatch, getState) => axio
     const payload = response.data.data.filter(item => item.name !== 'Excos');
     dispatch({ type: 'ALL_POSITIONS_GOTTEN', payload });
     EndProcess(navigator);
-    if(cb) return cb(payload);
+    if (cb) return cb(payload);
   })
   .catch((err) => {
     dispatchNotification(navigator)('Had some trouble fetching the open positions, would try again in a few');
@@ -38,7 +38,7 @@ export const FetchAllCandidates = navigator => cb => (dispatch, getState) => axi
   .then((response) => {
     dispatch({ type: 'SPONSORED_CANDIDATES_GOTTEN', payload: response.data.sponsored });
     dispatch({ type: 'ASPIRANTS_GOTTEN', payload: response.data.aspirants });
-    if(cb) return cb({ sponsored: response.data.sponsored, aspirants: response.data.aspirants });
+    if (cb) return cb({ sponsored: response.data.sponsored, aspirants: response.data.aspirants });
   })
   .catch((err) => {
     dispatchNotification(navigator)('Had some trouble fetching the open positions, would try again in a few');
@@ -47,7 +47,7 @@ export const FetchAllCandidates = navigator => cb => (dispatch, getState) => axi
 
 // /**
 
-export const FetchAllExcos = () => (dispatch, getState) => axios
+export const FetchAllExcos = navigator => (dispatch, getState) => axios
   .request({
     method: 'get',
     url: `${config.electionUrl}/excos`,
@@ -56,27 +56,19 @@ export const FetchAllExcos = () => (dispatch, getState) => axios
     }
   })
   .then((response) => {
-    /*
-        currently the object that is relevant comes as the meta property of
-        the returning response.data.data object.
-        like this { president: { firstname: '', lastname: '' }, vice President: ''}
-        // to make it easy for you, you might want to form an array, or something
-        check the next set of expresssions
-
-    */
     const { meta } = response.data.data;
     const payload = Object.keys(response.data.data.meta).map((item) => {
       const ref = {};
       ref.position = item;
-      ref.value = meta[`${item}`];
-      return ref;
-      /*
-       so that each item in the array looks like this
-       [{ position: 'Vice President', value: { name: '' ...}}]
-      */
+      return { ...ref, ...meta[item] };
     });
-    console.log(payload)
     dispatch({ type: 'ALL_EXCOS_GOTTEN', payload });
+    console.log(payload);
+    return payload;
+  })
+  .catch((err) => {
+    EndProcess(navigator);
+    dispatchNotification(navigator)('Something went wrong fetching the excos');
   });
 
 

@@ -42,7 +42,10 @@ constructor(props) {
 }
 
 componentDidMount = () => {
+  const { navigator } = this.props
   if(!this.state.events) return this.fetchEventsForCurrentUser()
+    navigator.toggleTabs({ to: 'shown', animated: true });
+    navigator.setDrawerEnabled({ side: 'left', enabled: true });
 }
 
 fetchEventsForCurrentUser = () => {

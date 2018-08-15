@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { height, width, defaultGreen } from '../../mixins';
 import Composer from '../iterator';
 
-const uri = 'https://menhairstylist.com/wp-content/uploads/2017/07/dreads-in-man-bun-black-men-hairstyles.jpg';
+const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
 
 const SingleCandidate = (props) => {
 

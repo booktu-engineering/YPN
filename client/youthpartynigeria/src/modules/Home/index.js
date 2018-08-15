@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Navigation } from 'react-native-navigation';
 import { connect } from 'react-redux';
 import { View, ActivityIndicator } from 'react-native';
 import { defaultGreen } from '../../mixins/';
 import { multiplePosts } from '../SinglePost/';
 import { fetchTimeline } from '../../actions/thunks/posts';
-import { NotificationIcon, SearchIcon, LeftNav } from '../IconRegistry/';
 import { dispatchNotification } from '../../helpers/uploader';
 
 let nav;
@@ -51,6 +49,9 @@ class Home extends Component {
     } 
   }
   componentDidMount = () => {
+    const { navigator } = this.props
+    navigator.toggleTabs({ to: 'shown', animated: true });
+    navigator.setDrawerEnabled({ side: 'left', enabled: true });
     dispatchNotification(this.props.navigator)(`Hey, ${this.props.user.firstname}! what do you have to share?`);
     if (this.props.data) return;
     this.props.dispatch(fetchTimeline(this.props.navigator));
