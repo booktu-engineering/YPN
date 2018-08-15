@@ -1,11 +1,12 @@
 import React from 'react';
 import{ View, Text, Image, TouchableOpacity } from 'react-native';
 import { height, width, defaultGreen } from '../../mixins';
+import moment from 'moment';
 import Composer from '../iterator';
 import SingleCandidate from './candidate';
 
 const uri = 'https://buzznigeria.com/wp-content/uploads/2013/09/Presidential-flag-Standard.png'
-export const SinglePosition = ({ obj }) => (
+export const SinglePosition = ({ data, obj }) => (
   <TouchableOpacity
     style={{
       height: height * 0.15,
@@ -19,13 +20,13 @@ export const SinglePosition = ({ obj }) => (
       borderBottomWidth: 0.3,
       alignItems: 'center'
     }}
-    onPress={() => { obj.navigator.push({ screen: 'Show.Position', title: 'Open Positions' }) }}
+    onPress={() => { obj.navigator.push({ screen: 'Show.Position', title: `${data.name || 'Open Position'}`, passProps: { data } }) }}
     >
     <View style={{ height: height * 0.05, width: width * 0.5, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center' }}>
-      <Image style={{ height: 60, width: 60, borderRadius: 30, marginRight: 8, }} source={{ uri }}/>
+      <Image style={{ height: 60, width: 60, borderRadius: 30, marginRight: 8, }} source={{ uri: data.meta.image || uri }}/>
       <View style={{ height: height * 0.06}}>
-        <Text style={{ fontSize: 14, fontWeight: '600', color: '#1F2020', marginBottom: 5 }}> House Of Rep</Text>
-        <Text style={{ fontSize: 12, fontWeight: '500', color: defaultGreen }}> Ibadan SW</Text>
+        <Text style={{ fontSize: 14, fontWeight: '600', color: '#1F2020', marginBottom: 5 }}> {data.name || ''}</Text>
+        <Text style={{ fontSize: 12, fontWeight: '500', color: defaultGreen }}> {data.meta.location || ''}</Text>
       </View>
     </View>
     <View style={{ height: height * 0.05, width: width * 0.4}}>

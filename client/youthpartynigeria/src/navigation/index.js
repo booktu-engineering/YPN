@@ -91,11 +91,11 @@ export default class Navigator {
     Navigation.registerComponent('Home.Nav', () => HomeNav);
     Navigation.registerComponent('Events.Screen', () => EventComponent, storex, Provider);
     Navigation.registerComponent('Show.Event', () => ShowEvent, storex, Provider);
-    Navigation.registerComponent('Careers', () => CareersComponent, storex, Provider );
+    Navigation.registerComponent('Careers', () => CareersComponent, storex, Provider);
     Navigation.registerComponent('Show.Career', () => ShowCareer, storex, Provider);
-    Navigation.registerComponent('Candidate.Screen', () => CandidateScreen);
-    Navigation.registerComponent('Open.Position', () => OpenPositions);
-    Navigation.registerComponent('Show.Position', () => ShowPosition);
+    Navigation.registerComponent('Candidate.Screen', () => CandidateScreen, storex, Provider);
+    Navigation.registerComponent('Open.Position', () => OpenPositions, storex, Provider);
+    Navigation.registerComponent('Show.Position', () => ShowPosition, storex, Provider);
     Navigation.registerComponent('Gallery.Component', () => Gallery);
     Navigation.registerComponent('Donation.Component', () => Donation, storex, Provider);
     Navigation.registerComponent('DonationPT', () => DonationPhaseTwoCOMPONENT, storex, Provider);

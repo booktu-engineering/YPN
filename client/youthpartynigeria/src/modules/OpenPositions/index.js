@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Navigation } from 'react-native-navigation'
-import { View, Text, TouchableOpacity } from 'react-native';
-import { BackIcon } from '../IconRegistry';
+import { View } from 'react-native';
 import { TinySelectors, height, width } from '../../mixins';
 import { composedPositions, composedCandidates } from '../SingleCandidates';
 
@@ -15,25 +14,27 @@ class OpenPosition extends Component {
       leftButtons: [
         {
           id: 'Back.Nav',
-      component: 'Back.Button'
+      component: 'Back.Button', 
+      passProps: {
+        navigator: this.props.navigator
+      }
         }
       ]
     })
   }
 
   componentDidMount = () => {
-    Navigation.registerComponent('OS.Back.Button', () => this.backIcon)
+    console.log(this.props);
   }
 
-  backIcon = () => <BackIcon navigator={this.props.navigator} />
 
-render = () => <RenderPosition nav={this.props.navigator} data={this.props}/>;
+render = () => <RenderPosition {...this.props}/>;
 }
 
-const RenderPosition = ({ nav, data }) => (
+const RenderPosition = ({ navigator, data }) => (
   <View style={{ minHeight: height, width }}>
     <TinySelectors keys={['Federal', 'Sort by date']}/>
-    { data.definition ? composedCandidates([1,2,3,4,5,6,7,8])({ navigator: nav}) : composedPositions([1,2,3,4,5,6,7,8,9,10, 11, 12, 13, 14, 15])({ navigator: nav }) }
+    { data.definition ? composedCandidates(data)({ navigator }) : composedPositions(data)({ navigator }) }
   </View>
 )
 

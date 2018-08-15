@@ -1,10 +1,10 @@
-import { axios } from 'axios';
+import axios  from 'axios';
 import { dispatchNotification, StartProcess, EndProcess } from '../../helpers/uploader';
 import config from '../../config';
 
 // try to call this at the start of the application or wherever you like
 // this function only brings the positions back
-export const FetchAllPositions = navigator => (dispatch, getState) => axios
+export const FetchAllPositions = navigator => cb => (dispatch, getState) => axios
   .request({
     method: 'get',
     url: `${config.electionUrl}/position`,
@@ -16,6 +16,8 @@ export const FetchAllPositions = navigator => (dispatch, getState) => axios
     // remember to filter out the position called 'excos'
     const payload = response.data.data.filter(item => item.name !== 'Excos');
     dispatch({ type: 'ALL_POSITIONS_GOTTEN', payload });
+    EndProcess(navigator);
+    if(cb) return cb(payload);
   })
   .catch((err) => {
     dispatchNotification(navigator)('Had some trouble fetching the open positions, would try again in a few');
@@ -25,7 +27,7 @@ export const FetchAllPositions = navigator => (dispatch, getState) => axios
   // this api call will essentially return all the candidates, sponsored
   // and aspirants, you can access them in response.data.sponsored, response.data.aspirants
   //
-export const FetchAllCandidates = navigator => (dispatch, getState) => axios
+export const FetchAllCandidates = navigator => cb => (dispatch, getState) => axios
   .request({
     method: 'get',
     url: `${config.electionUrl}/candidates`,
@@ -36,6 +38,7 @@ export const FetchAllCandidates = navigator => (dispatch, getState) => axios
   .then((response) => {
     dispatch({ type: 'SPONSORED_CANDIDATES_GOTTEN', payload: response.data.sponsored });
     dispatch({ type: 'ASPIRANTS_GOTTEN', payload: response.data.aspirants });
+    if(cb) return cb({ sponsored: response.data.sponsored, aspirants: response.data.aspirants });
   })
   .catch((err) => {
     dispatchNotification(navigator)('Had some trouble fetching the open positions, would try again in a few');
