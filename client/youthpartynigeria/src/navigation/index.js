@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle, no-unused-vars */
-import React from 'react';
 import  Icon  from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Evil from 'react-native-vector-icons/EvilIcons'
@@ -49,6 +48,8 @@ import VoterEligibility from '../modules/VoterHistory';
 import PDFViewer from '../modules/PdfViewer';
 import AboutYouthParty from '../modules/AboutYouthParty';
 import SelectEntries from '../modules/SelectEntries';
+import RenderPolls from '../modules/Polls';
+import ShowPoll from '../modules/Polls/screens';
 
 const { Provider, store } = configureStore();
 let homeIcon; 
@@ -119,6 +120,8 @@ export default class Navigator {
     Navigation.registerComponent('Pdf.View', () => PDFViewer);
     Navigation.registerComponent('About', () => AboutYouthParty);
     Navigation.registerComponent('Select.Entries', () => SelectEntries);
+    Navigation.registerComponent('Render.Polls', () => RenderPolls, storex, Provider);
+    Navigation.registerComponent('Show.Poll', () => ShowPoll);
   }
 
   startLoggedOut = () => {

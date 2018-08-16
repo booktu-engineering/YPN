@@ -82,7 +82,7 @@ class More extends Component {
           <Ionicon name="ios-flag-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -30 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Candidates </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => this.navigate('Render.Polls', 'Polls')} >
           <Ionicon name="ios-stats-outline" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -11 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Survey </Text>
           </TouchableOpacity>

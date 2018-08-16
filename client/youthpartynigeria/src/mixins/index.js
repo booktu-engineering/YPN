@@ -160,7 +160,7 @@ export class DisplayRadios extends Component {
 
   render = () => {
     return (
-      <View style={{ maxHeight: height * 0.1, maxWidth: 0.3, marginBottom: 15, justifyContent: 'center' }}>
+      <View style={{ maxHeight: height * 0.1, maxWidth: 0.3, marginBottom: 15, justifyContent: 'center', ...this.props.style }}>
         { this.renderItems() }
     </View>
     )

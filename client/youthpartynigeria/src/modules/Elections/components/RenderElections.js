@@ -27,7 +27,7 @@ export default ({ navigator, data, dispatch }) => {
         <View style={{ flex: 1, paddingLeft: 20, paddingTop: 20 }}>
           <View style={{ height: 50, width: width * 0.9, alignItems: 'center' }}>
             <Text style={{ fontSize: 16, fontWeight: '500', color: '#626567' }}>
-      Primary Elections
+      Polls
             </Text>
           </View>
           { items() }

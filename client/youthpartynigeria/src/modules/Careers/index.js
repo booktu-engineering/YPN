@@ -8,7 +8,6 @@ import { ComposedCareers } from '../SingleCareer';
 
 class Careers extends Component {
   constructor(props) {
-    console.log('my nigga')
     super(props)
     const { navigator } =  this.props
     this.props.navigator.setStyle({
@@ -27,8 +26,8 @@ class Careers extends Component {
       ]
     });
   }
+  
   componentDidMount = () => {
-    console.log('hey')
     if(!this.props.careers) return this.props.dispatch(FetchAllCareers(this.props.navigator));
   }
 
