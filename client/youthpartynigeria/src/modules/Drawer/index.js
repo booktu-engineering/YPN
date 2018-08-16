@@ -43,21 +43,22 @@ alignItems: 'center'
       <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Groups </Text>
       </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
-        <Text style={{ fontSize: 15, fontWeight: '600' }}> Note Pad </Text>
-      </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
+      <TouchableOpacity style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }} 
+        onPress={() => navigator.showModal({ screen: 'About', title: 'About Us'})}
+      >
         <Text style={{ fontSize: 15, fontWeight: '600' }}> About us </Text>
-      </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
+      </TouchableOpacity>
+      <TouchableOpacity style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}
+        onPress={() => navigator.showModal({ screen: 'Pdf.View', title: 'Constitution', passProps: { source: 2 } })}
+      >
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Constitution </Text>
-      </View>
+      </TouchableOpacity>
       <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Contact us </Text>
       </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
+      {/* <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Settings </Text>
-      </View>
+      </View> */}
       <TouchableOpacity onPress={() => LogOut()} style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Logout </Text>
       </TouchableOpacity>
