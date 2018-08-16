@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, WebView } from 'react-native';
+import { View, WebView, Text } from 'react-native';
 import { width, defaultGreen } from '../../mixins';
 
 const PDFViewer = ({ navigator, source }) => {

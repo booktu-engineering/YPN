@@ -52,10 +52,10 @@ class More extends Component {
             dispatchNotification(navigator)('There are no excos available yet');
             navigator.dismissLightbox();
           }
-          __StackNavigator(this.previousTab).push({ screen: 'Open.Position', title: 'Excos', passProps: { data: payload, definition: 1 } });
+          __StackNavigator(this.previousTab).push({ screen: 'Open.Position', title: 'Excos', passProps: { data: payload, definition: 1, entries: payload } });
         });
     }
-    if (excos.length) return __StackNavigator(this.previousTab).push({ screen: 'Open.Position', title: 'Excos', passProps: { data: excos, definition: 1 } });
+    if (excos.length) return __StackNavigator(this.previousTab).push({ screen: 'Open.Position', title: 'Excos', passProps: { data: excos, definition: 1, entries: excos } });
     dispatchNotification(navigator)('There are no excos yet, Please check back');
     navigator.dismissLightBox();
   }

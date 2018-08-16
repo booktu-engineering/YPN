@@ -48,17 +48,18 @@ class CandidateScreen extends Component {
   }
 
   handlePress = (key) => {
+    const { navigator } = this.props
     if (key === 'aspirants') {
       if (!this.props.aspirants) {
         StartProcess(navigator);
         return this.props.dispatch(Actions.FetchAllCandidates(this.props.navigator)((data) => {
           EndProcess(navigator);
           if (!data.aspirants.length) return dispatchNotification(this.props.navigator)('There are no aspirants currently at this moment, Please check back');
-          return this.props.navigator.push({ screen: 'Open.Position', title: 'Aspirants', passProps: { definition: 1, data: [...data.aspirants], target: data } });
+          return this.props.navigator.push({ screen: 'Open.Position', title: 'Aspirants', passProps: { definition: 1, data: [...data.aspirants],  entries: [...data.aspirants], target: data } });
         }));
       }
       if (!this.props.aspirants.length) return dispatchNotification(this.props.navigator)('There are no aspirants running currently, Please check back');
-      return this.props.navigator.push({ screen: 'Open.Position', title: 'Aspirants', passProps: { definition: 1, data: [...this.props.aspirants], target: this.props } });
+      return this.props.navigator.push({ screen: 'Open.Position', title: 'Aspirants', passProps: { definition: 1, data: [...this.props.aspirants], entries: [...this.props.aspirants], target: this.props } });
     }
     // the user wants to see the sponsored candidates;
     if (key === 'sponsored') {
@@ -67,12 +68,11 @@ class CandidateScreen extends Component {
         return this.props.dispatch(Actions.FetchAllCandidates(this.props.navigator)((data) => {
           EndProcess(navigator);
           if (!data.sponsored.length) return dispatchNotification(this.props.navigator)('Looks like there are no sponsored candidates yet, Please check back');
-          return this.props.navigator.push({ screen: 'Open.Position', title: 'Sponsored Candidates', passProps: { definition: 3, data: [...data.sponsored] } });
+          return this.props.navigator.push({ screen: 'Open.Position', title: 'Sponsored Candidates', passProps: { definition: 3, data: [...data.sponsored], entries: [...data.sponsored] } });
         }));
       }
       if (!this.props.sponsored.length) return dispatchNotification(this.props.navigator)('Looks like there are no sponsored candidates, Please check back');
-      console.log('ass')
-      return this.props.navigator.push({ screen: 'Open.Position', title: 'Sponsored Candidates', passProps: { definition: 3, data: [...this.props.sponsored] } });
+      return this.props.navigator.push({ screen: 'Open.Position', title: 'Sponsored Candidates', passProps: { definition: 3, data: [...this.props.sponsored], entries: [...this.props.sponsored], } });
     }
 
     // called without args, then he/she wants to run for office - this should help the user see
@@ -82,11 +82,11 @@ class CandidateScreen extends Component {
       return this.props.dispatch(Actions.FetchAllPositions(this.props.navigator)((data) => {
         EndProcess(this.props.navigator);
         if (!data.length) return dispatchNotification(this.props.navigator)('There are no positions currently, Please check back');
-        return this.props.navigator({ screen: 'Open.Position', title: 'Open Positions', passProps: { definition: 2, data: [...data.aspirants] } });
+        return this.props.navigator({ screen: 'Open.Position', title: 'Open Positions', passProps: { definition: 2, data: [...data], entries: [...data] } });
       }));
     }
     if (!this.props.positions.length) return dispatchNotification(this.props.navigator)('There are no positions currently, Please check back');
-    return this.props.navigator.push({ screen: 'Open.Position', title: 'Open Positions', passProps: { data: [...this.props.positions] } });
+    return this.props.navigator.push({ screen: 'Open.Position', title: 'Open Positions', passProps: { data: [...this.props.positions], entries: [...this.props.positions] } });
   }
 
 

@@ -48,6 +48,7 @@ import ReplyPost from '../modules/ReplyPost';
 import VoterEligibility from '../modules/VoterHistory';
 import PDFViewer from '../modules/PdfViewer';
 import AboutYouthParty from '../modules/AboutYouthParty';
+import SelectEntries from '../modules/SelectEntries';
 
 const { Provider, store } = configureStore();
 let homeIcon; 
@@ -117,6 +118,7 @@ export default class Navigator {
     Navigation.registerComponent('Voter.Page', () => VoterEligibility, storex, Provider);
     Navigation.registerComponent('Pdf.View', () => PDFViewer);
     Navigation.registerComponent('About', () => AboutYouthParty);
+    Navigation.registerComponent('Select.Entries', () => SelectEntries);
   }
 
   startLoggedOut = () => {
@@ -145,7 +147,7 @@ export default class Navigator {
         {
           screen: 'Post.Component',
           label: 'Post',
-          title: 'New Post', 
+          title: 'New Post',
           icon: postIcon
         },
         {
