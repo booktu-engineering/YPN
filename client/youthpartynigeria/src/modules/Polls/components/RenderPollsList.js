@@ -7,12 +7,14 @@ export default ({ navigator, data, dispatch }) => {
   const items = () => data.map(election => (
     <TouchableOpacity style={{
       height: height * 0.13,
-      paddingLeft: 15,
+      width,
+      paddingLeft: 25,
       paddingRight: 15,
       justifyContent: 'center',
-      borderColor: '#B3B6B750',
+      borderColor: '#B3B6B740',
       position: 'relative',
-      borderBottomWidth: 0.3
+      borderBottomWidth: 0.1, 
+      backgroundColor: '#F2F3F4'
     }}
     onPress={() => navigator.push({ screen: 'Show.Poll', title: `${data.title || 'Survey'}`, passProps: { data }})}
     >
@@ -40,7 +42,6 @@ export default ({ navigator, data, dispatch }) => {
     <View
       style={{
         flex: 1,
-        paddingLeft: 20,
         paddingTop: 20
       }}
     >
