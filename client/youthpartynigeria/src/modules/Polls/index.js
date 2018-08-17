@@ -28,6 +28,7 @@ class RenderPolls extends React.Component {
           }
         ]
       });
+      this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     componentDidMount = () => {
@@ -43,6 +44,13 @@ class RenderPolls extends React.Component {
       const { navigator } = this.props;
       navigator.setDrawerEnabled({ side: 'left', enabled: true });
       navigator.toggleTabs({ to: 'shown', animated: true });
+    }
+
+    onNavigatorEvent = (e) => {
+      if (e.id === 'didAppear') {
+        // check for updates from the server from time to time
+        return this.props.dispatch(fetchAllQuestions(this.props.navigator, 1));
+      }
     }
 
     render = () => (

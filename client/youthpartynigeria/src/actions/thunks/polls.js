@@ -4,8 +4,8 @@ import { UpdateUserInfo } from './user';
 import states from '../../modules/SignUp/states';
 import config from '../../config';
 
-export const fetchAllQuestions = navigator => (dispatch, getState) => {
-  StartProcess(navigator);
+export const fetchAllQuestions = (navigator, key) => (dispatch, getState) => {
+  !key  && StartProcess(navigator);
   axios.request({
     method: 'get',
     url: `${config.postUrl}/questions/`,
@@ -15,16 +15,16 @@ export const fetchAllQuestions = navigator => (dispatch, getState) => {
   })
     .then((response) => {
       dispatch({ type: 'ALL_QUESTIONS_RECEIVED', payload: response.data.data });
-      EndProcess(navigator);
+     !key && EndProcess(navigator);
     })
     .catch(() => {
-      EndProcess(navigator);
+      !key && EndProcess(navigator);
       dispatchNotification(navigator)('Something went wrong');
     });
 };
 
 // ensure that the id of the election is in the body
-export const VoteResponse = navigator => data => (_, getState) => {
+export const VoteResponse = (navigator, cb) => data => (dispatch, getState) => {
   StartProcess(navigator);
   axios.request({
     method: 'put',
@@ -34,8 +34,10 @@ export const VoteResponse = navigator => data => (_, getState) => {
       Authorization: getState().users.token
     }
   })
-    .then(() => {
+    .then((response) => {
       EndProcess(navigator);
+      dispatch(fetchAllQuestions(navigator, 1));
+      if (cb) return cb(response.data.data);
       dispatchNotification(navigator)('Thank you for voting');
       navigator.pop();
     })

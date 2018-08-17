@@ -56,7 +56,7 @@ export default ({ navigator, data, dispatch }) => {
           color: '#626567'
         }}
         >
-      Polls
+        { 'Surveys & Polls'}
         </Text>
       </View>
       { items() }

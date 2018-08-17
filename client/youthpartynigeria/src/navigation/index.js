@@ -121,7 +121,7 @@ export default class Navigator {
     Navigation.registerComponent('About', () => AboutYouthParty);
     Navigation.registerComponent('Select.Entries', () => SelectEntries);
     Navigation.registerComponent('Render.Polls', () => RenderPolls, storex, Provider);
-    Navigation.registerComponent('Show.Poll', () => ShowPoll);
+    Navigation.registerComponent('Show.Poll', () => ShowPoll, storex, Provider);
   }
 
   startLoggedOut = () => {
