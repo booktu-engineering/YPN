@@ -17,7 +17,7 @@ import MoreComponent from '../modules/More';
 import Drawer from '../modules/Drawer';
 import HomeNav from '../modules/NavBars/home';
 import EventComponent from '../modules/Events';
-import { BackIcon, SearchIcon, NotificationIcon, LeftNav } from '../modules/IconRegistry/';
+import { BackIcon, SearchIcon, NotificationIcon, LeftNav, AddIcon } from '../modules/IconRegistry/';
 import ShowEvent from '../modules/ShowEvent';
 import CareersComponent from '../modules/Careers';
 import ShowCareer from '../modules/ShowCareer';
@@ -51,7 +51,8 @@ import SelectEntries from '../modules/SelectEntries';
 import RenderPolls from '../modules/Polls';
 import ShowPoll from '../modules/Polls/screens';
 import ShowImage from '../modules/RenderImage';
-import RenderTownHalls from '../modules/TownHalls'
+import RenderTownHalls from '../modules/TownHalls';
+import ShowGroups from '../modules/ShowGroups';
 
 const { Provider, store } = configureStore();
 let homeIcon; 
@@ -76,6 +77,7 @@ export default class Navigator {
     Navigation.registerComponent('Search.Button', () => SearchIcon);
     Navigation.registerComponent('Notif.Button', () => NotificationIcon);
     Navigation.registerComponent('Left.Button', () => LeftNav);
+    Navigation.registerComponent('Add.Button', () => AddIcon);
     Navigation.registerComponent('App.notification', () => NotificationScreen);
     Navigation.registerComponent('Login.Component', () => LoginComponent, store, Provider);
     Navigation.registerComponent('Reset.Password', () => ResetPasswordComponent);
@@ -126,6 +128,7 @@ export default class Navigator {
     Navigation.registerComponent('Show.Poll', () => ShowPoll, storex, Provider);
     Navigation.registerComponent('Show.Image', () => ShowImage);
     Navigation.registerComponent('Town.Halls', () => RenderTownHalls, storex, Provider);
+    Navigation.registerComponent('Show.Groups', () => ShowGroups, storex, Provider);
   }
 
   startLoggedOut = () => {

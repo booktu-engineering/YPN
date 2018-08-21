@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native'
 import { Navigation } from 'react-native-navigation';
 import EvilIcon from 'react-native-vector-icons/EvilIcons'
+import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicon from 'react-native-vector-icons/Ionicons'
 import { fetchFollowersForUser } from '../../actions/thunks/user';
 
@@ -18,6 +19,11 @@ export const NotificationIcon = ({ navigator }) => (
   </TouchableOpacity>
 );
 
+export const AddIcon = ({ func }) => (
+  <TouchableOpacity style={{ height: 60, width: 50 }} onPress={func}> 
+    <Entypo name="plus" color="white" size={30} />
+   </TouchableOpacity>
+)
 export const SearchIcon = ({ navigator, dispatch }) => <TouchableOpacity style={{ flex: 1  }} onPress={() => { if(!navigator || !dispatch) return null; dispatch(fetchFollowersForUser(navigator)) }}><Ionicon name="ios-search-outline" color="white" size={25} /></TouchableOpacity>
 
 export const CameraIcon = ({ color, size, style }) => <Ionicon name="ios-camera-outline" style={style} color={color} size={size} />

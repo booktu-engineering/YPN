@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image } from 'react-native';
 import { fetchAllConversations } from '../../actions/thunks/conversations';
-import { width, height, defaultGreen, avatar, LightGrey } from '../../mixins/';
+import { defaultGreen } from '../../mixins';
 import { multipleChat } from '../SingleChat';
 
 let nav;
@@ -20,10 +20,22 @@ class ChatContainer extends Component {
             navigator: this.props.navigator
           }
         }
+      ],
+      rightButtons: [
+        {
+          id: 'blsns',
+          component: 'Add.Button',
+          passProps: {
+            func: this.handleNavigate
+          }
+        }
       ]
     });
 
   }
+
+  handleNavigate = () => this.props.navigator.push({ screen: 'Show.Groups', title: 'Start a new conversation'  });
+  
   componentDidMount = () => this.props.dispatch(fetchAllConversations(this.props.navigator));
   handleVisibility = (e) => {
     if (e.id === 'didAppear') {

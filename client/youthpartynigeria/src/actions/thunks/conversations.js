@@ -39,14 +39,15 @@ export const fetchAllConversations = navigator => async (dispatch) => {
   }
 };
 
-export const startPersonalConversation = users => navigator => async (dispatch, getState) => {
+export const startPersonalConversation = (users, reference) => navigator => async (dispatch, getState) => {
+  try {
   StartProcess(navigator);
   // you want to check that the message already exists in state
   let target;
   const targets = users.map(item => item.id);
   targets.push(getState().users.current.id);
   const messages = getState().convos.logs;
-  if (!messages || !messages.length) return await createNewConversation(users)(navigator)(dispatch);
+  if (!messages || !messages.length) return await createNewConversation(users, reference)(navigator)(dispatch);
   // you want to make sure the members are in the array;
   let filtered = messages.filter(item => item.type === 1 && item.members.length === targets.length);
   if (!filtered.length) return await createNewConversation(users, reference)(navigator)(dispatch);
@@ -64,9 +65,13 @@ export const startPersonalConversation = users => navigator => async (dispatch, 
   if (target) {
     target.members = users;
     EndProcess(navigator);
-    return navigator.push({ screen: 'Convo.Log', passProps: { data: target } });
+    return navigator.push({ screen: 'Convo.Log', passProps: { data: target, reference } });
   }
   return await createNewConversation(users, reference)(navigator)(dispatch);
+} catch(err) {
+  EndProcess(navigator);
+  dispatchNotification(navigator)('Something went wrong')
+}
 };
 
 export const createNewConversation = (members, reference) => navigator => async (dispatch) => {

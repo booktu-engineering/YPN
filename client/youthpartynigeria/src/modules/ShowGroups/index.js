@@ -1,13 +1,15 @@
-import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { defaultGreen , height, width } from '../../mixins';
 import { startPersonalConversation } from '../../actions/thunks/conversations';
 
+const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
+
 class RenderGroupsOfUsers extends Component {
   constructor(props) {
     super(props)
-    const { navigator } =  this.props
+    const { navigator } =  this.props;
     navigator.setStyle({
       tabBarHidden: true
     });
@@ -15,15 +17,26 @@ class RenderGroupsOfUsers extends Component {
     navigator.setButtons({
       leftButtons: [
         {
-          id: 'Back.button', 
-          component: 'Back.Button', 
+          id: 'Back.button',
+          component: 'Back.Button',
           passProps: {
             navigator
           }
         }
       ]
     });
+    this.state = { members: [], selected: false };
   }
+
+  static getDerivedStateFromProps = (props, state) => {
+      state.users = props.users
+  }
+
+  componentWillUnmount = () => {
+    this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
+    this.props.navigator.toggleTabs({ to: 'shown', animated: true });
+  }
+
 
     handleSelect = (data) => {
       if (this.props.single) return this.setState({ selected: data });
@@ -46,25 +59,33 @@ class RenderGroupsOfUsers extends Component {
       this.props.dispatch(startPersonalConversation(this.state.members)(this.props.navigator))
     }
 
-    _members = () => this.state.members.length ? this.state.members.map(item => item.id) : []
-  renderItems = () => this.props.users.map(item => <SingleUser members={this._members()} selected={this.state.selected.id} data={item} obj={{ ...this.props }}/>)
+    _members = () => this.state.members.length ? this.state.members.map(item => item.id) : [];
+
+     renderItems = () => {
+          const items = this.props.users.map(item => <SingleUser members={this._members()} selected={this.state.selected.id} handleSelect={this.handleSelect} data={item} obj={{ ...this.props }}/>);
+          return (
+                 <ScrollView style={{ height: height * 0.8, width }}>
+                       { items }
+                 </ScrollView>
+            )
+  }
  
   render = () => {
     return (
-          <View style={{ flex: 1, paddingTop: 20, paddingRight: 20}}> 
+          <View style={{ flex: 1, paddingTop: 20, }}> 
             <Text style={{
-              fontSize: 16,
-              fontWeight: '800',
+              fontSize: 14,
+              fontWeight: '500',
               color: defaultGreen,
-              marginBottom: 20
+              marginBottom: 20, 
+              paddingLeft: 20
             }}
             onPress={this.handleDone}
             > Done </Text>
-            {this.state.members && this.state.members.length && 
-                <ScrollView style={{ height: height * 0.8, width }}>
-                    { this.renderItems() }
-                </ScrollView>
-            }
+            <View>
+            { this.state.users.length ? this.renderItems() : null}
+            </View>
+        
           </View>
     )
   }
@@ -79,7 +100,7 @@ const SingleUser = ({ data, members, selected, handleSelect }) => (
         flexWrap: 'nowrap',
         justifyContent: 'space-between',
         paddingLeft: 20,
-        backgroundColor: members.includes(data.id) || selected === data.id ? '#EAFAF1': 'white',
+        backgroundColor: members.includes(data.id) || selected === data.id ? '#F2F3F4': 'white',
         paddingRight: 20,
         borderColor: '#D0D3D4',
         borderBottomWidth: 0.3,
@@ -95,7 +116,7 @@ const SingleUser = ({ data, members, selected, handleSelect }) => (
           style={{
             height: 60, width: 60, borderRadius: 30, marginRight: 8,
           }}
-          source={{ uri: (data.avatar || uri) }}
+          source={{ uri: (data.avatar || uri ) }}
         />
         <View style={{ height: height * 0.06 }}>
           <Text style={{
@@ -115,3 +136,8 @@ const SingleUser = ({ data, members, selected, handleSelect }) => (
       </View>
     </TouchableOpacity>
 );
+
+const mapStateToProps = (state) => ({
+    users: state.users.followers
+})
+export default connect(mapStateToProps)(RenderGroupsOfUsers);
