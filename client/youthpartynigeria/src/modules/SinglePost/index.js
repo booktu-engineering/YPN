@@ -126,6 +126,17 @@ class ButtonStack extends Component {
      })
    }
 
+   handleShare = () => {
+     this.props.navigator.push({ 
+       screen: 'Show.Groups', 
+       title: 'Share the post with your followers',
+       passProps: {
+         single: true,
+         reference: this.props.data
+       }
+     })
+   }
+
   render = () => (
     <View style={styles.baseButtonStack}>
       <View style={styles.button}>
@@ -152,13 +163,13 @@ class ButtonStack extends Component {
         </Text>
       </TouchableOpacity>
       { /* shares for the product */}
-      <View style={styles.buttonLowerR}>
+      <TouchableOpacity style={styles.buttonLowerR} onPress={this.handleShare}>
         <Ionicon name="ios-share-alt-outline" color={this.state.share} size={17} />
         <Text style={{ color: this.state.share, fontSize: 12 }}>
           {' '}
-         Shares
+         Share
         </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   )
 }

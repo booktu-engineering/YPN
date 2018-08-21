@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, ScrollView } from 'react-native';
+import { View, Text, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import { height, width } from '../../mixins/';
 import { formatDate } from '../../helpers/uploader';
 
@@ -21,8 +21,29 @@ const MessageLog = ({ data, origin, extraData }) => (
   />
 );
 
+const RenderReference = ({ reference,  navigator }) => (
+  <TouchableOpacity
+    style={{
+      height: height * 0.1,
+      marginTop: 5,
+      marginBottom: 10,
+      width: width * 0.7,
+      borderRadius: 4,
+      borderColor: '#16A085',
+      alignSelf: 'center',
+      borderWidth: 0.5,
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}
+    onPress={() => {  navigator.push({ screen: 'View.Post', title: `Post by ${reference.origin.firstname}`, passProps: { target: reference }})}}
+  > 
+    <Text style={{ fontSize: 12, fontWeight: '600', color: '#909497', paddingBottom: 5}}>  { reference.origin ? `${reference.origin.firstname || ''} ${reference.origin.lastname || ''}` : 'John Phillips' } </Text>
+    <Text style={{  fontSize: 10.5, fontWeight: '500', color: '#BDC3C7'}}> { reference.content }</Text>
+  </TouchableOpacity>
+)
 
-export const MessageComponent = ({ data, origin, user }) => (
+
+export const MessageComponent = ({ data, origin, user, navigator }) => (
   <View
     style={{
       minHeight: height * 0.07,
@@ -48,6 +69,7 @@ export const MessageComponent = ({ data, origin, user }) => (
         '' }</Text>
       <Text style={{ fontSize: 13, fontWeight: '500', color: '#B3B6B7', }}> { formatDate(data.createdAt) }</Text>
     </View>
+    { data.referenceID && <RenderReference reference={data.referenceObject} navigator={navigator}/> }
     <Text style={{
  fontSize: 13, color: '#797D7F', fontWeight: '500', maxWidth: width * 0.7, textAlign: 'left'
 }}

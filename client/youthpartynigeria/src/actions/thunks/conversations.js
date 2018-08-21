@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { AsyncStorage } from 'react-native';
-import config from '../../config/';
+import config from "../../config";
 import { dispatchNotification, StartProcess, EndProcess } from '../../helpers/uploader';
 import configureStore from '../../store';
 
@@ -39,40 +39,42 @@ export const fetchAllConversations = navigator => async (dispatch) => {
   }
 };
 
+
 export const startPersonalConversation = (users, reference) => navigator => async (dispatch, getState) => {
   try {
-  StartProcess(navigator);
-  // you want to check that the message already exists in state
-  let target;
-  const targets = users.map(item => item.id);
-  targets.push(getState().users.current.id);
-  const messages = getState().convos.logs;
-  if (!messages || !messages.length) return await createNewConversation(users, reference)(navigator)(dispatch);
-  // you want to make sure the members are in the array;
-  let filtered = messages.filter(item => item.type === 1 && item.members.length === targets.length);
-  if (!filtered.length) return await createNewConversation(users, reference)(navigator)(dispatch);
-  // return the item
-  filtered = filtered.map((item) => {
+    StartProcess(navigator);
+    // you want to check that the message already exists in state
+    let target;
+    const targets = users.map(item => item.id);
+    targets.push(getState().users.current.id);
+    const messages = getState().convos.logs;
+    if (!messages || !messages.length) return await createNewConversation(users, reference)(navigator)(dispatch);
+    // you want to make sure the members are in the array;
+    let filtered = messages.filter(item => item.type === 1 && item.members.length === targets.length);
+    if (!filtered.length) return await createNewConversation(users, reference)(navigator)(dispatch);
+    // return the item
+    filtered = filtered.map((item) => {
     // concat & dedupe to check for unique guys
-    item.members = item.members.map(member => member.id).concat(targets);
-    item.members = item.members.filter((el, i, arr) => arr.indexOf(el) === i);
-    if (item.members.length === targets.length) {
-      target = item;
+      item.members = item.members.map(member => member.id).concat(targets);
+      item.members = item.members.filter((el, i, arr) => arr.indexOf(el) === i);
+      if (item.members.length === targets.length) {
+        target = item;
+      }
+      return item;
+    });
+    // dispatch the conversation;
+    if (target) {
+      target.members = users;
+      EndProcess(navigator);
+      return navigator.push({ screen: 'Convo.Log', passProps: { data: target, reference } });
     }
-    return item;
-  });
-  // dispatch the conversation;
-  if (target) {
-    target.members = users;
+    return await createNewConversation(users, reference)(navigator)(dispatch);
+  } catch (err) {
     EndProcess(navigator);
-    return navigator.push({ screen: 'Convo.Log', passProps: { data: target, reference } });
+    dispatchNotification(navigator)('Something went wrong');
   }
-  return await createNewConversation(users, reference)(navigator)(dispatch);
-} catch(err) {
-  EndProcess(navigator);
-  dispatchNotification(navigator)('Something went wrong')
-}
 };
+
 
 export const createNewConversation = (members, reference) => navigator => async (dispatch) => {
   const token = await AsyncStorage.getItem('#!@#$%');
@@ -86,7 +88,7 @@ export const createNewConversation = (members, reference) => navigator => async 
   }).then((response) => {
     dispatch({ type: 'CONVERSATION_RECEIVED', payload: response.data.data });
     EndProcess(navigator);
-    return navigator.push({ screen: 'Convo.Log', passProps: { target: response.data.data, reference } });
+    return navigator.push({ screen: 'Convo.Log', passProps: { data: response.data.data, reference } });
   })
     .catch((err) => {
       EndProcess(navigator);
@@ -111,7 +113,9 @@ export const updateConversation = id => navigator => (dispatch, getState) => axi
     dispatchNotification(navigator)('Something went wrong, couldnt fetch the messages');
   });
 
+
 export const fetchConversation = target => (dispatch, getState) => getState().convos.registry[`${target.destination}`] || [];
+
 
 export const incomingMessage = data => (dispatch, getState) => {
   // data is the new message object
@@ -140,7 +144,6 @@ export const JoinConversation = data => navigator => (dispatch, getState) => {
     .catch((err) => {
       // remember to remove this when the app goes into production
       if (err.response.status && err.response.status === 401) {
-      
         EndProcess(navigator);
         dispatchNotification(navigator)('You do not have permissions to join this conversation');
         return navigator.pop();

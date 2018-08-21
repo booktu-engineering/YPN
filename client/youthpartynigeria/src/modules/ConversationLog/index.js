@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-import Screen from '../../mixins/screen';
 import { View, KeyboardAvoidingView, TouchableOpacity, TextInput, FlatList } from 'react-native';
+import Screen from '../../mixins/screen';
 import { CustomHeader } from '../ShowConversation';
-import { height, width, defaultGreen } from '../../mixins/';
-import config from '../../config/';
+import { height, width, defaultGreen } from "../../mixins";
+import config from "../../config";
 import { MessageComponent } from '../Log';
-import { updateConversation, incomingMessage, sendMessage, LeaveConversation } from '../../actions/thunks/conversations';
+import {
+ updateConversation, incomingMessage, sendMessage, LeaveConversation 
+} from '../../actions/thunks/conversations';
 import { CameraIcon, SendIcon } from '../IconRegistry';
 import { dispatchNotification } from '../../helpers/uploader';
 
@@ -29,8 +31,9 @@ class ConversationLog extends Screen {
     this.setState({ messages });
     this.props.dispatch(updateConversation(this.props.data._id)(this.props.navigator))
       .then((data) => { this.setState({ messages: data }); });
-    if(this.props.reference){
-      this.setState({ content: 'See this' })
+    if (this.props.reference) {
+      // set state is async so this should work fine
+      this.state.content = 'Look at this';
       this.handleSubmit(this.props.reference);
     }
   }
@@ -38,7 +41,9 @@ class ConversationLog extends Screen {
   handleChange = content => this.setState({ content })
 
   handleSubmit = (reference) => {
-    this.setState({ content: '' })
+    if (!reference) {
+      this.setState({ content: '' });
+    }
     if (this.state.content.length < 1) return dispatchNotification(this.props.navigator)(`Hey ${this.props.user.firstname}, you have to say something`);
     // prepare the message // it should like the posts
     let message = {
@@ -47,10 +52,10 @@ class ConversationLog extends Screen {
       type: 2,
       destination: this.props.data._id,
       createdAt: Date.now(),
-      
+
     };
     if (reference) {
-      message = { ...message, referenceObject: reference, referenceID: reference._id }
+      message = { ...message, referenceObject: reference, referenceID: reference._id };
     }
     const messages = [message, ...this.state.messages];
     this.setState({ messages });
@@ -70,14 +75,14 @@ class ConversationLog extends Screen {
   render = () => (
     <View style={{ flex: 1, justifyContent: 'space-around' }} behavior="padding">
       <CustomHeader navigator={this.props.navigator} data={this.props.data} user={this.props.user} dispatch={this.props.dispatch} />
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding"> 
-      { this.state.messages.length ?
-        <FlatList
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+        { this.state.messages.length
+        ? <FlatList
           inverted
           onLayout={() => { this.flatlistRef.scrollToEnd({ animated: true }); }}
           ref={(ref) => { this.flatlistRef = ref; }}
           data={this.state.messages}
-          renderItem={({ item }) => <MessageComponent origin={this.props.user} data={item} user={this.props.user} />}
+          renderItem={({ item }) => <MessageComponent origin={this.props.user} data={item} user={this.props.user} navigator={this.props.navigator} />}
           style={{
             flex: 1,
             paddingRight: 10,
@@ -88,14 +93,15 @@ class ConversationLog extends Screen {
           keyExtractor={(item, index) => item._id}
           extraData={this.state}
         />
-         : <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding"></KeyboardAvoidingView>
+        : <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" />
       }
-      <View style={{
- height: height * 0.08, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
-}}
-behavior="padding"
-  >
-    <TextInput
+        <View
+style={{
+        height: height * 0.08, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
+      }}
+        behavior="padding"
+      >
+        <TextInput
       style={{
         height: height * 0.06,
         paddingLeft: 10,
@@ -106,12 +112,12 @@ behavior="padding"
       }}
       onChangeText={(text) => { this.handleChange(text); }}
       placeholder="Type a message"
-      ref={(ref) => { this.textInput = ref; }} 
+      ref={(ref) => { this.textInput = ref; }}
       placeholderTextColor="#D0D3D4"
       multiline
       value={this.state.content}
     />
-    <TouchableOpacity
+        <TouchableOpacity
       style={{
         height: height * 0.07,
         width: width * 0.05,
@@ -121,21 +127,21 @@ behavior="padding"
     >
       <CameraIcon size={24} style={{}} color={`${defaultGreen}`} />
     </TouchableOpacity>
-    { /* send button */}
-    <TouchableOpacity
+        { /* send button */}
+        <TouchableOpacity
       style={{
         height: height * 0.085,
         width: width * 0.15,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: defaultGreen, 
+        backgroundColor: defaultGreen,
         marginLeft: 5
       }}
       onPress={() => { this.handleSubmit(); }}
     >
       <SendIcon size={25} color="white" />
     </TouchableOpacity>
-  </View>
+      </View>
       </KeyboardAvoidingView>
     </View>
   )
@@ -143,10 +149,11 @@ behavior="padding"
 
 
 const InputButton = ({ handleChange, handleSubmit }) => (
-  <View style={{
- height: height * 0.08, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
-}}
-behavior="height"
+  <View
+style={{
+    height: height * 0.08, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
+  }}
+    behavior="height"
   >
     <TextInput
       style={{
