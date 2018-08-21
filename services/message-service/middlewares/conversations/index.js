@@ -85,8 +85,9 @@ class ConvoMiddlewareBase extends BaseMiddlewareBase {
         }
         granted = false;
       });
-      if (granted) return next();
-      return this.noPermissions('You cannot join a personal conversation, because you havent been invited', next);
+//       if (granted)
+         return next();
+//       return this.noPermissions('You cannot join a personal conversation, because you havent been invited', next);
     }
     if (data) return next();
     return this.notFound('You cannot join a personal conversation, because you havent been invited', next);
