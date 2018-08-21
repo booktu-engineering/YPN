@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { height, width } from '../../../mixins/'
 import LinkPreview from 'react-native-link-preview'
 
@@ -18,7 +18,7 @@ class MediaHandler extends Component {
     if (this.props.data.media.length > 0 ) {
       const media = this.props.data.media.filter(item => item.constructor === Array);
       if (!media.length) return this.setState({ images: [] });
-      return this.setState({ images: media })
+      return this.setState({ images: media[0] })
     }
     const links = this.props.data.links.filter(item => item.length > 0);
     if (links.length > 0) {
@@ -38,8 +38,12 @@ class MediaHandler extends Component {
     ) : null )
  }
 
-  RenderSingleItem = (data) => data.map((uri, index) => <View key={index} style={{ maxHeight: height * 0.3, width: width * 0.34, backgroundColor: '#E5E7E9', marginRight: 3, marginBottom: 3 }}><Image style={{ height: this.__calculateHeight(data), width: width * 0.34 }} source={{ uri: uri[0] }}/></View>)
+  RenderSingleItem = (data, index) => data.map((uri, index) => <TouchableWithoutFeedback  onPress={() => this.showImage(index)} key={index} style={{ maxHeight: height * 0.3, width: width * 0.34, backgroundColor: '#BDC3C7', marginBottom: 3, marginLeft: 10 }}><Image style={{ height: this.__calculateHeight(data), width: width * 0.31 }} source={{ uri }}/></TouchableWithoutFeedback>)
 
+  showImage = (index) => {
+    // reduce the images
+    this.props.navigator.showLightBox({ screen: 'Show.Image', passProps: { data: this.state.images, index }});
+  }
  renderLink = (link, abort) => {
    this.request = LinkPreview.getPreview
    LinkPreview.getPreview(link)

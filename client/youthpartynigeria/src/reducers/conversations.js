@@ -20,6 +20,9 @@ export default (state = {}, action) => {
     case 'SPECIFIC_CONVERSATIONS_GOTTEN':
       return { ...state, specific: action.payload };
 
+    case 'TOWN_HALLS_FETCHED':
+      return { ...state, townHalls: action.payload }
+
     case 'CONVERSATION_RECEIVED':
       const obj = {};
       obj[`${action.payload._id}`] = action.payload.messages.reverse();

@@ -103,7 +103,7 @@ class ShowUser extends Component {
         <View style={{ flex: 1 }}>
           <View style={{ height: height * 0.07, backgroundColor: defaultGreen }} />
 
-          <DisplayBio user={this.state.target} />
+          <DisplayBio user={this.state.target} navigator={this.props.navigator}/>
           <ButtonStack user={this.state.target} handleMessage={this.handleInitMessage} message={this.state.message} navigator={this.props.navigator}/>
           { /* That barrieer thing */}
           <View style={{
@@ -139,19 +139,33 @@ class ShowUser extends Component {
     }
 }
 
-const DisplayBio = ({ user }) => (
+const DisplayBio = ({ user, navigator }) => (
   <View style={{ height: height * 0.2, width, marginBottom: 5 }}>
     {/* This should contain the image and name */}
     <View style={{
  height: height * 0.1, marginBottom: 10, width, flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around'
 }}
     >
-      <Image
+    <TouchableOpacity
+       style={{
+        height: 90, 
+        width: 90, 
+        borderRadius: 45, 
+        position: 'relative', 
+        top: -30
+    }}
+    onPress={() => { navigator.showLightBox({ screen: 'Show.Image', passProps: { data: [(user.avatar || uri )]}})}}
+    > 
+    <Image
         style={{
- height: 90, width: 90, borderRadius: 45, position: 'relative', top: -30
-}}
+        height: 90, 
+        width: 90, 
+        borderRadius: 45
+    }}
         source={{ uri: (user.avatar ? user.avatar : uri) }}
       />
+    </TouchableOpacity>
+
       <View style={{
  width: width * 0.5, position: 'relative', left: -35, paddingTop: 10
 }}

@@ -50,6 +50,8 @@ import AboutYouthParty from '../modules/AboutYouthParty';
 import SelectEntries from '../modules/SelectEntries';
 import RenderPolls from '../modules/Polls';
 import ShowPoll from '../modules/Polls/screens';
+import ShowImage from '../modules/RenderImage';
+import RenderTownHalls from '../modules/TownHalls'
 
 const { Provider, store } = configureStore();
 let homeIcon; 
@@ -122,6 +124,8 @@ export default class Navigator {
     Navigation.registerComponent('Select.Entries', () => SelectEntries);
     Navigation.registerComponent('Render.Polls', () => RenderPolls, storex, Provider);
     Navigation.registerComponent('Show.Poll', () => ShowPoll, storex, Provider);
+    Navigation.registerComponent('Show.Image', () => ShowImage);
+    Navigation.registerComponent('Town.Halls', () => RenderTownHalls, storex, Provider);
   }
 
   startLoggedOut = () => {

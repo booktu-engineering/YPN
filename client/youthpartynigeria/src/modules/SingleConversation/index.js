@@ -14,8 +14,8 @@ const SingleConversationType1 = ({ obj, data }) => {
       <Text style={{ color: 'white', fontSize: 10, textAlign: 'center', fontWeight: '500' }}>Join</Text>
       </TouchableOpacity>
       <View style={{ paddingLeft: 15, maxHeight: height * 0.35, width, marginBottom: 20 }}>
-        <Text style={{ fontSize: 15, fontWeight: '600', color: '#3E3F3F', marginBottom: 15 }}>{ data.topic}</Text>
-        <Text style={{ fontSize: 11.5, color: '#B3B6B7', fontWeight: '500', width: width * 0.9 }}>It is now indisputable that the people of Nigeria are united. I believe in an urgent restoration of active and participatory democracy democracy, social justice and good leadership.</Text>
+        <Text style={{ fontSize: 15, fontWeight: '600', color: '#3E3F3F', marginBottom: 15 }}>{ data.topic || data.details.topic }</Text>
+        <Text style={{ fontSize: 11.5, color: '#B3B6B7', fontWeight: '500', width: width * 0.9 }}></Text>
      </View>
      <ButtonStack data={data} />
     </View>

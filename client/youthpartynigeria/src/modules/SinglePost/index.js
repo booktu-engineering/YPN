@@ -100,7 +100,6 @@ class ButtonStack extends Component {
       count: this.props.data.likes.count,
       data: this.props.data.likes.data 
 };
-console.log(this.props.data)
   }
 
   componentDidMount = () => this.generateLike()

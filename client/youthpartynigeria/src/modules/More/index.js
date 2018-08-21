@@ -74,7 +74,7 @@ class More extends Component {
             <Ionicon name="md-briefcase" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -18 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Careers </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => this.navigate('Town.Halls', 'Town Halls')}>
           <Ionicon name="ios-megaphone" size={24} color="white" style={{ position: 'relative', marginBottom: 3, right: -28 }}/>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 12 }}> Town Hall </Text>
           </TouchableOpacity>

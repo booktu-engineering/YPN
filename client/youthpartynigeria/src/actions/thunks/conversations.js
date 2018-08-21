@@ -150,7 +150,7 @@ export const JoinConversation = id => navigator => (dispatch, getState) => {
     });
 };
 
-export const fetchConversations = (type, navigator) => (dispatch, getState) => {
+export const fetchConversations = (type, navigator, callback) => (dispatch, getState) => {
   StartProcess(navigator);
   return axios.request({
     method: 'get',
@@ -161,6 +161,7 @@ export const fetchConversations = (type, navigator) => (dispatch, getState) => {
   })
     .then((response) => {
       EndProcess(navigator);
+      if (callback) return callback(response.data.data);
       dispatch({ type: 'SPECIFIC_CONVERSATIONS_GOTTEN', payload: response.data.data });
     })
     .catch(() => {
