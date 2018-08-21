@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchConversations } from '../../actions/thunks/conversations';
-import { MultipleConversations } from '../SingleConversation';
+import { ConversationObjects as MultipleConversations } from '../SingleConversation';
 import { defaultGreen } from '../../mixins';
 
 class RenderTownHalls extends Component {

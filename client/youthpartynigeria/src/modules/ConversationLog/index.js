@@ -29,21 +29,29 @@ class ConversationLog extends Screen {
     this.setState({ messages });
     this.props.dispatch(updateConversation(this.props.data._id)(this.props.navigator))
       .then((data) => { this.setState({ messages: data }); });
+    if(this.props.reference){
+      this.setState({ content: 'See this' })
+      this.handleSubmit(this.props.reference);
+    }
   }
 
   handleChange = content => this.setState({ content })
 
-  handleSubmit = () => {
+  handleSubmit = (reference) => {
     this.setState({ content: '' })
     if (this.state.content.length < 1) return dispatchNotification(this.props.navigator)(`Hey ${this.props.user.firstname}, you have to say something`);
     // prepare the message // it should like the posts
-    const message = {
+    let message = {
       content: this.state.content,
       origin: this.props.user,
       type: 2,
       destination: this.props.data._id,
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      
     };
+    if (reference) {
+      message = { ...message, referenceObject: reference, referenceID: reference._id }
+    }
     const messages = [message, ...this.state.messages];
     this.setState({ messages });
     this.props.dispatch(sendMessage({ ...message, token: this.props.token }, this.socket)(this.props.navigator));

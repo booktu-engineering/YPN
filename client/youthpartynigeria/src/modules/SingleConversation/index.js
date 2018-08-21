@@ -10,12 +10,12 @@ import Composer from '../iterator';
 const SingleConversationType1 = ({ obj, data }) => {
   return  (
     <View style={{ maxHeight: height * 0.41, width, paddingTop: 20, position: 'relative'}}>
-      <TouchableOpacity onPress={() => { obj.dispatch(JoinConversation(data._id)(obj.navigator))}}style={{ position: 'absolute', top: 10, right: 10, height: 18, width: 45, paddingTop: 4, borderRadius: 5, backgroundColor: defaultGreen, }}> 
+      <TouchableOpacity onPress={() => { obj.dispatch(JoinConversation(data)(obj.navigator))}}style={{ position: 'absolute', top: 10, right: 10, height: 18, width: 45, paddingTop: 4, borderRadius: 5, backgroundColor: defaultGreen, }}> 
       <Text style={{ color: 'white', fontSize: 10, textAlign: 'center', fontWeight: '500' }}>Join</Text>
       </TouchableOpacity>
       <View style={{ paddingLeft: 15, maxHeight: height * 0.35, width, marginBottom: 20 }}>
         <Text style={{ fontSize: 15, fontWeight: '600', color: '#3E3F3F', marginBottom: 15 }}>{ data.topic || data.details.topic }</Text>
-        <Text style={{ fontSize: 11.5, color: '#B3B6B7', fontWeight: '500', width: width * 0.9 }}></Text>
+        <Text style={{ fontSize: 11.5, color: '#B3B6B7', fontWeight: '500', width: width * 0.9 }}> { data && data.focus ? `focus: ${data.focus.user.name}`: "This conversation might be for specific groups of people. Please check out for conversations you're allowed into"}</Text>
      </View>
      <ButtonStack data={data} />
     </View>

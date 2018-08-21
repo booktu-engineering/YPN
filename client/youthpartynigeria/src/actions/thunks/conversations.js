@@ -49,7 +49,7 @@ export const startPersonalConversation = users => navigator => async (dispatch, 
   if (!messages || !messages.length) return await createNewConversation(users)(navigator)(dispatch);
   // you want to make sure the members are in the array;
   let filtered = messages.filter(item => item.type === 1 && item.members.length === targets.length);
-  if (!filtered.length) return await createNewConversation(users)(navigator)(dispatch);
+  if (!filtered.length) return await createNewConversation(users, reference)(navigator)(dispatch);
   // return the item
   filtered = filtered.map((item) => {
     // concat & dedupe to check for unique guys
@@ -66,10 +66,10 @@ export const startPersonalConversation = users => navigator => async (dispatch, 
     EndProcess(navigator);
     return navigator.push({ screen: 'Convo.Log', passProps: { data: target } });
   }
-  return await createNewConversation(users)(navigator)(dispatch);
+  return await createNewConversation(users, reference)(navigator)(dispatch);
 };
 
-export const createNewConversation = members => navigator => async (dispatch) => {
+export const createNewConversation = (members, reference) => navigator => async (dispatch) => {
   const token = await AsyncStorage.getItem('#!@#$%');
   axios.request({
     method: 'post',
@@ -81,7 +81,7 @@ export const createNewConversation = members => navigator => async (dispatch) =>
   }).then((response) => {
     dispatch({ type: 'CONVERSATION_RECEIVED', payload: response.data.data });
     EndProcess(navigator);
-    return navigator.push({ screen: 'Convo.Log', passProps: { target: response.data.data } });
+    return navigator.push({ screen: 'Convo.Log', passProps: { target: response.data.data, reference } });
   })
     .catch((err) => {
       EndProcess(navigator);
@@ -118,31 +118,32 @@ export const incomingMessage = data => (dispatch, getState) => {
   dispatch({ type: 'UPDATE_ACTIVITY', payload: activityMap });
 };
 
-export const JoinConversation = id => navigator => (dispatch, getState) => {
+export const JoinConversation = data => navigator => (dispatch, getState) => {
   // this assumes that the fella is joining a conversation like debate and all of dat
   StartProcess(navigator);
   return axios.request({
     method: 'put',
-    url: `${config.postUrl}/convos/join/${id}`,
+    url: `${config.postUrl}/convos/join/${data._id}`,
     headers: {
       Authorization: getState().users.token
     }
   }).then((response) => {
     dispatch({ type: 'CONVERSATION_RECEIVED', payload: response.data.data });
     EndProcess(navigator);
-    navigator.push({ screen: 'Convo.Log', passProps: { target: response.data.data } });
+    navigator.push({ screen: 'Convo.Log', passProps: { data: response.data.data } });
   })
     .catch((err) => {
       // remember to remove this when the app goes into production
       if (err.response.status && err.response.status === 401) {
+      
         EndProcess(navigator);
         dispatchNotification(navigator)('You do not have permissions to join this conversation');
         return navigator.pop();
       }
       if (err.response && err.response.status === 409) {
         EndProcess(navigator);
-        dispatchNotification(navigator)("You've joined this conversation already, Please check your log") 
-        return navigator.switchToTab({ tabIndex: 1 });
+        return navigator.push({ screen: 'Convo.Log', passProps: { data } });
+        // return navigator.switchToTab({ tabIndex: 1 });
       }
       EndProcess(navigator);
       dispatchNotification(navigator)('Something went wrong, try again?');

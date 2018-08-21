@@ -25,7 +25,7 @@ export default (state = {}, action) => {
 
     case 'CONVERSATION_RECEIVED':
       const obj = {};
-      obj[`${action.payload._id}`] = action.payload.messages.reverse();
+      obj[`${action.payload._id}`] = action.payload.messages ?  action.payload.messages.reverse() : [];
       return { ...state, registry: { ...state.registry, ...obj } };
 
     default:
