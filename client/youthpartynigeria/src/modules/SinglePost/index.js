@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity
-} from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -73,7 +72,8 @@ const SinglePost = ({ data, obj }) => (
 );
 
 const renderMedia = (data, navigator, obj) => {
-  if (obj.reference) return null; 
+  if (obj.reference) return null;
+  if (!data.media.length && !data.links.length) return null;
   if (data.media && data.media.length > 0) {
     const media = data.media.filter(item => item.constructor === Array);
     if (!media.length) return null;

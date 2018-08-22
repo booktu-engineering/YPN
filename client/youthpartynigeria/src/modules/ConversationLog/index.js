@@ -7,9 +7,7 @@ import { CustomHeader } from '../ShowConversation';
 import { height, width, defaultGreen } from "../../mixins";
 import config from "../../config";
 import { MessageComponent } from '../Log';
-import {
- updateConversation, incomingMessage, sendMessage, LeaveConversation 
-} from '../../actions/thunks/conversations';
+import { updateConversation, incomingMessage, sendMessage, LeaveConversation } from '../../actions/thunks/conversations';
 import { CameraIcon, SendIcon } from '../IconRegistry';
 import { dispatchNotification } from '../../helpers/uploader';
 
@@ -30,12 +28,14 @@ class ConversationLog extends Screen {
     const messages = this.props.registry[`${this.props.data._id}`];
     this.setState({ messages });
     this.props.dispatch(updateConversation(this.props.data._id)(this.props.navigator))
-      .then((data) => { this.setState({ messages: data }); });
-    if (this.props.reference) {
-      // set state is async so this should work fine
-      this.state.content = 'Look at this';
-      this.handleSubmit(this.props.reference);
-    }
+      .then((data) => {
+        this.setState({ messages: data });
+        if (this.props.reference) {
+          // set state is async so this should work fine
+          this.state.content = ' '; // this is us exploiting a bug MUHAHAHAHA
+          this.handleSubmit(this.props.reference);
+        }
+      });
   }
 
   handleChange = content => this.setState({ content })
@@ -117,21 +117,11 @@ style={{
       multiline
       value={this.state.content}
     />
-        <TouchableOpacity
-      style={{
-        height: height * 0.07,
-        width: width * 0.05,
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
-      <CameraIcon size={24} style={{}} color={`${defaultGreen}`} />
-    </TouchableOpacity>
         { /* send button */}
         <TouchableOpacity
       style={{
         height: height * 0.085,
-        width: width * 0.15,
+        width: width * 0.18,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: defaultGreen,

@@ -68,7 +68,7 @@ export const startPersonalConversation = (users, reference) => navigator => asyn
       EndProcess(navigator);
       return navigator.push({ screen: 'Convo.Log', passProps: { data: target, reference } });
     }
-    return await createNewConversation(users, reference)(navigator)(dispatch);
+    return await  createNewConversation(users, reference)(navigator)(dispatch);
   } catch (err) {
     EndProcess(navigator);
     dispatchNotification(navigator)('Something went wrong');

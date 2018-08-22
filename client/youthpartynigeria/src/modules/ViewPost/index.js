@@ -28,15 +28,15 @@ class ViewPostContainer extends Component {
 
 
   componentDidMount = () => {
-    fetchSinglePost(this.props.target._id)
+   this.promise1 = fetchSinglePost(this.props.target._id)
       .then((data) => {
-        console.log(data);
         this.setState({ comments: data.comments, stoppedLoading: true });
       });
   }
 
   componentWillUnmount = () => {
     // doing this to prevent the anomalous behaviour
+    this.promise1 = null;
     this.setState({ stoppedLoading: false, comments: false });
     this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
   }

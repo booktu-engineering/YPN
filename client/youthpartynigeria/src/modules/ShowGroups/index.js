@@ -30,6 +30,7 @@ class RenderGroupsOfUsers extends Component {
 
   static getDerivedStateFromProps = (props, state) => {
     state.users = props.users;
+    return state;
   }
 
   componentWillUnmount = () => {
@@ -72,19 +73,19 @@ class RenderGroupsOfUsers extends Component {
 
   render = () => (
           <View style={{ flex: 1, paddingTop: 20, }}> 
-            <Text style={{
-              fontSize: 14,
-              fontWeight: '500',
-              color: defaultGreen,
-              marginBottom: 20, 
-              paddingLeft: 20
+            <Text 
+                style={{
+                fontSize: 14,
+                fontWeight: '500',
+                 color: defaultGreen,
+                marginBottom: 20, 
+                 paddingLeft: 20
             }}
             onPress={this.handleDone}
             > Done </Text>
             <View>
             { this.state.users.length ? this.renderItems() : null}
-            </View>
-        
+            </View>  
           </View>
     )
 }

@@ -41,6 +41,9 @@ class Home extends Component {
         },
       ]
     })
+    this.state = {
+      refreshing: false
+    }
   }
 
   onNavigatorEvent = (e) => {
@@ -59,11 +62,21 @@ class Home extends Component {
 
 fetchTimeLine = () => this.props.dispatch(fetchTimeline(this.props.navigator))
 
+refreshTimeline = () => {
+  this.setState({ refreshing: true })
+  this.fetchTimeLine()
+  .then(() => this.setState({ refreshing: false }))
+}
+renderRefreshable = () => ({ 
+  refreshable: true,
+  refreshing: this.state.refreshing,
+  onRefresh: this.refreshTimeline
+})
 
   render = () => (
     <View style={{ flex: 1 }}>
       { this.props.data ?
-          multiplePosts([...this.props.data])({ navigator: this.props.navigator, dispatch: this.props.dispatch, refresh: this.fetchTimeLine, user: this.props.user }) :
+          multiplePosts([...this.props.data])({ navigator: this.props.navigator, dispatch: this.props.dispatch, refresh: this.fetchTimeLine, user: this.props.user, ...this.renderRefreshable() }) :
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="small" color={`${defaultGreen}`} />
           </View>
