@@ -129,7 +129,7 @@ class BaseService {
   };
 
   fetchDataForUser = async (id) => {
-    data = await this.model.find({});
+    data = await this.model.find({}).sort({ updatedAt: -1 });
     data = data.map((key) => {
       const members = key.members.map(item => item.id).filter(item => item);
       if (members.includes(id) || key.origin.id === id) return key;
