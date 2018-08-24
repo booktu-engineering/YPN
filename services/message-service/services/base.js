@@ -129,7 +129,7 @@ class BaseService {
   };
 
   fetchDataForUser = async (id) => {
-    data = await this.model.find({ $or: [{ 'origin.id': id}, { 'members.id': id} ]).sort({ createdAt: -1 });
+    data = await this.model.find({ $or: [{ 'origin.id': id}, { 'members.id': id} ] }).sort({ createdAt: -1 });
     data = data.filter(item => item);
     return data;
   }
