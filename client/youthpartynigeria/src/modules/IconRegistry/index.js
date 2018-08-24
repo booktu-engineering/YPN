@@ -23,7 +23,7 @@ export const AddIcon = ({ func }) => (
     <Entypo name="plus" color="white" size={20} />
    </TouchableOpacity>
 )
-export const SearchIcon = ({ navigator, dispatch }) => <TouchableOpacity style={{ flex: 1  }} onPress={() => { if(!navigator || !dispatch) return null; dispatch(fetchFollowersForUser(navigator)) }}><Ionicon name="ios-search-outline" color="white" size={25} /></TouchableOpacity>
+export const SearchIcon = ({ navigator, dispatch }) => <TouchableOpacity style={{ flex: 1  }} onPress={() => { if(!navigator || !dispatch) return null; dispatch(fetchFollowersForUser(navigator, '1')) }}><Ionicon name="ios-search-outline" color="white" size={25} /></TouchableOpacity>
 
 export const CameraIcon = ({ color, size, style }) => <Ionicon name="ios-camera-outline" style={style} color={color} size={size} />
 export const BackIcon = (props) => (

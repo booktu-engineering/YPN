@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image, AlertIOS } from 'react-native';
 import { connect } from 'react-redux';
 import { defaultGreen, height, width } from '../../mixins';
 import { startPersonalConversation } from '../../actions/thunks/conversations';
 
-const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
 class RenderGroupsOfUsers extends Component {
   constructor(props) {
     super(props);
     const { navigator } = this.props;
-    navigator.setStyle({
-      tabBarHidden: true
-    });
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
     navigator.setButtons({
       leftButtons: [
@@ -25,7 +22,7 @@ class RenderGroupsOfUsers extends Component {
         }
       ]
     });
-    this.state = { members: [], selected: false };
+    this.state = { members: [], selected: false, topic: null };
   }
 
   static getDerivedStateFromProps = (props, state) => {
@@ -57,7 +54,23 @@ class RenderGroupsOfUsers extends Component {
         return this.props.dispatch(startPersonalConversation([this.state.selected], this.props.reference)(this.props.navigator));
       }
       if (!this.state.members.length) return;
-      this.props.dispatch(startPersonalConversation(this.state.members)(this.props.navigator));
+      AlertIOS.prompt(
+        'Specify a title for your group',
+        'What do you want to talk about?',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'Done',
+            onPress: (topic) => {
+              this.setState({ topic });
+              this.props.dispatch(startPersonalConversation(this.state.members)(this.props.navigator, this.state.topic));
+            },
+          },
+        ])
     }
 
     _members = () => (this.state.members.length ? this.state.members.map(item => item.id) : []);
@@ -124,11 +137,9 @@ const SingleUser = ({
             fontSize: 14, fontWeight: '600', color: '#1F2020', marginBottom: 5
           }}
           > 
-{' '}
-{ `${data.firstname || ''} ${data.lastname || ''}` }
+      { `${data.firstname || ''} ${data.lastname || ''}` }
           </Text>
           <Text style={{ fontSize: 12, fontWeight: '500', color: defaultGreen }}> 
-{' '}
 {`${data.username}`}
 </Text>
         </View>
@@ -138,7 +149,6 @@ const SingleUser = ({
           fontSize: 11.5, fontWeight: '500', color: '#D0D3D4', alignSelf: 'flex-end'
         }}
         > 
-{' '}
 { `${data.lga || ''}` }
         </Text>
       </View>
@@ -148,4 +158,8 @@ const SingleUser = ({
 const mapStateToProps = state => ({
   users: state.users.followers
 });
+
+RenderGroupsOfUsers.navigatorStyle = {
+  tabBarHidden: true
+}
 export default connect(mapStateToProps)(RenderGroupsOfUsers);

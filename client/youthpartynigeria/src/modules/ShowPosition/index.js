@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { ApplyForPosition } from '../../actions/thunks/candidates';
 import { dispatchNotification } from '../../helpers/uploader';
-import { followUserThunk } from '../../actions/thunks/user';
+import { fetchUserThunk } from '../../actions/thunks/user';
 import { height, width, defaultGreen, bigButton, buttonText } from '../../mixins';
 
-const uri = 'https://buzznigeria.com/wp-content/uploads/2013/09/Presidential-flag-Standard.png'
-const personUri = 'https://menhairstylist.com/wp-content/uploads/2017/07/dreads-in-man-bun-black-men-hairstyles.jpg'
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
+const personUri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
  
 class ShowPosition extends Component {
   constructor(props) {
@@ -72,7 +72,7 @@ const RenderCandidate = ({ data , dispatch, navigator }) => (
     <View style={{ flex: 1 }}>
       { /* first part */}
       <View style={{ height: height * 0.3, width, alignItems: 'center', justifyContent: 'center', borderBottomColor: '#D0D3D420', borderBottomWidth: 1 }}>
-        <Image style={{ height: 76, width: 76, borderRadius: 38, marginBottom: 15 }} source={{ uri: personUri }}/>
+        <Image style={{ height: 76, width: 76, borderRadius: 38, marginBottom: 15, backgroundColor: 'white' }} source={{ uri: personUri }}/>
         <Text style={{ fontSize: 17, fontWeight: '600', color: '#191A1A', marginBottom: 10}}>{data.position || 'House Of Rep'}</Text>
         <Text style={{ fontSize: 13, fontWeight: '600', color: defaultGreen, marginBottom: 8}}> {data.location || ''}</Text>
         <Text style={{ fontSize: 13, fontWeight: '600', color: '#D0D3D4', marginBottom: 8}}> Age: 42 </Text>
@@ -89,24 +89,15 @@ const RenderCandidate = ({ data , dispatch, navigator }) => (
       <TouchableOpacity style={{ ...bigButton, position: 'absolute', bottom: 17 }}
         onPress={() => {
           if(!data.id) return dispatchNotification(navigator)(`${data.name} is not a user yet, Please check back`);
-          return dispatch(followUserThunk(data)(navigator));
+          return dispatch(fetchUserThunk(data.id)(navigator));
         }}
       >
-        <Text style={{ ...buttonText }}> Follow </Text>
+        <Text style={{ ...buttonText }}>View Profile</Text>
       </TouchableOpacity>
     </View>
 )
 
-ShowPosition.navigatorButtons = {
-  leftButtons: [
-    {
-      id: 'SP.Back.Nav',
-      component: 'Sp.Back.Button'
-    }
-  ]
-};
-
 ShowPosition.navigatorStyle = {
-  tabBarHidden: true
+  tabBarHidden: true,
 }
 export default connect()(ShowPosition);

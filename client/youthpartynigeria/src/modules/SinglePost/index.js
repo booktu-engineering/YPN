@@ -11,7 +11,7 @@ import iterator from '../iterator';
 import { fetchUserThunk } from '../../actions/thunks/user';
 import { LikePost } from '../../actions/thunks/posts';
 
-const imageUrl = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
+const imageUrl = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
 
 const mockText = 'It is now ndisputable that e people f Nigeria are united. I believe in an urgent restoration of active and particiatory democracy ';
@@ -43,25 +43,24 @@ const SinglePost = ({ data, obj }) => (
         flexDirection: 'column', alignSelf: 'flex-end', paddingLeft: 50, paddingTop: 20, position: 'relative',
       }}
       >
-        <Text style={{ fontSize: 13, fontWeight: '700' }}>
-          {' '}
+        <Text style={{ fontSize: 13.5, fontWeight: '700' }}>
           { data.origin ? `${data.origin.firstname || ''} ${data.origin.lastname || ''}` : 'John Phillips' }
-          {' '}
         </Text>
         <Text style={{
           alignSelf: 'flex-end', fontSize: 10, position: 'absolute', top: 20, right: 13, color: '#D0D3D4', fontWeight: '600'
         }}
         >
-          {' '}
           { data ? `${moment(new Date(data.createdAt)).fromNow()}` : '10 mins'}
         </Text>
         <Text style={{
-          width: width * 0.7, fontSize: 12, marginTop: 10, marginBottom: 12, color: '#797D7F', fontWeight: '500'
+          width: width * 0.7,
+          fontSize: 12.5, 
+          marginTop: 10, 
+          marginBottom: 12, 
+          color: '#797D7F', 
+          fontWeight: '500'
         }}
-        >
-          {' '}
-          { data.content ? `${data.content}` : `${mockText}`}
-        </Text>
+        >{ data.content ? `${data.content}` : `${mockText}`}</Text>
         { renderMedia(data, obj.navigator, obj)}
       </View>
     </View>
@@ -99,7 +98,7 @@ class ButtonStack extends Component {
       share: '#D0D3D4',
       count: this.props.data.likes.count,
       data: this.props.data.likes.data 
-};
+    };
   }
 
   componentDidMount = () => this.generateLike()
@@ -148,7 +147,6 @@ class ButtonStack extends Component {
         }}
         onPress={() => { this.state.data.length ? this.props.navigator.push({ screen: 'Show.Users', title: `Liked Post by ${this.props.data.origin.firstname}`, passProps: { data: this.state.data }}) : null }}
         >
-          {' '}
           { `${this.state.count} ${this.state.count === 1 ? 'like' : 'likes'}`}
         </Text>
       </View>
@@ -158,7 +156,6 @@ class ButtonStack extends Component {
         <MaterialIcon name="comment-text-outline" color={this.state.comment} size={17} />
         </View>
         <Text style={{ color: this.state.comment, fontSize: 12 }}>
-          {' '}
         { `${!this.props.data.commentCount ? 0 : this.props.data.commentCount } ${this.props.data.commentCount && this.props.data.commentCount === 1 ? 'comment' : 'comments' }`} 
         </Text>
       </TouchableOpacity>
@@ -166,7 +163,6 @@ class ButtonStack extends Component {
       <TouchableOpacity style={styles.buttonLowerR} onPress={this.handleShare}>
         <Ionicon name="ios-share-alt-outline" color={this.state.share} size={17} />
         <Text style={{ color: this.state.share, fontSize: 12 }}>
-          {' '}
          Share
         </Text>
       </TouchableOpacity>

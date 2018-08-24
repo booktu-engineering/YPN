@@ -12,6 +12,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     nav = this.props.navigator;
+    this.props.navigator.setStyle({ tabBarHidden: false, drawUnderTabBar: true });
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.props.navigator.setButtons({
       leftButtons: [
@@ -49,12 +50,11 @@ class Home extends Component {
   onNavigatorEvent = (e) => {
     if (e.id === 'didAppear') {
       return this.fetchTimeLine();
+     
     } 
   }
   componentDidMount = () => {
     const { navigator } = this.props
-    navigator.toggleTabs({ to: 'shown', animated: true });
-    navigator.setDrawerEnabled({ side: 'left', enabled: true });
     dispatchNotification(this.props.navigator)(`Hey, ${this.props.user.firstname}! what do you have to share?`);
     if (this.props.data) return;
     this.props.dispatch(fetchTimeline(this.props.navigator));
@@ -101,3 +101,4 @@ const mapStateToProps = state => ({
 
 export const HomeNavigator = () => nav;
 export default connect(mapStateToProps)(Home);
+

@@ -10,7 +10,7 @@ import { followUser, updateUser } from '../../actions/thunks/user';
 import { fetchEventsForUser } from '../../actions/thunks/events';
 import { fetchUsersPosts } from '../../actions/thunks/posts';
 
-const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
 class ShowUser extends Component {
   static navigatorStyle = {
@@ -86,8 +86,8 @@ class ShowUser extends Component {
     })
   }
   componentWillUnmount = () => {
-    this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
-    this.props.navigator.toggleTabs({ to: 'shown', animated: true });
+    // this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
+    // this.props.navigator.toggleTabs({ to: 'shown', animated: true });
   }
 
     backIcon = () => <BackIcon navigator={this.props.navigator} />;
@@ -160,7 +160,8 @@ const DisplayBio = ({ user, navigator }) => (
         style={{
         height: 90, 
         width: 90, 
-        borderRadius: 45
+        borderRadius: 45,
+        backgroundColor: 'white'
     }}
         source={{ uri: (user.avatar ? user.avatar : uri) }}
       />

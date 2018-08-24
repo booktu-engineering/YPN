@@ -19,15 +19,24 @@ class ConversationLog extends Screen {
       content: ''
     };
     this.socket = io(`${config.realTimeUrl}conversation`, { query: { convoID: this.props.data._id } });
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.registerEvents();
     // this.textInput = CReact.createRef();
   }
 
+  onNavigatorEvent = (e) => {
+    if(e.id === 'didAppear') {
+      this.props.navigator.setDrawerEnabled({ side: 'left', enabled: false });
+      this.props.navigator.toggleTabs({ to: 'hidden', animated: true });
+      this.props.navigator.setStyle({ tabBarHidden: true });
+      
+    }
+  }
 
   componentDidMount = () => {
     const messages = this.props.registry[`${this.props.data._id}`];
     this.setState({ messages });
-    this.props.dispatch(updateConversation(this.props.data._id)(this.props.navigator))
+    this.promise = this.props.dispatch(updateConversation(this.props.data._id)(this.props.navigator))
       .then((data) => {
         this.setState({ messages: data });
         if (this.props.reference) {
@@ -36,6 +45,12 @@ class ConversationLog extends Screen {
           this.handleSubmit(this.props.reference);
         }
       });
+  }
+
+  componentWillUnmount = () => {
+    this.promise = null;
+    this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
+    this.props.navigator.toggleTabs({ to: 'shown', animated: true });
   }
 
   handleChange = content => this.setState({ content })
@@ -82,7 +97,7 @@ class ConversationLog extends Screen {
           onLayout={() => { this.flatlistRef.scrollToEnd({ animated: true }); }}
           ref={(ref) => { this.flatlistRef = ref; }}
           data={this.state.messages}
-          renderItem={({ item }) => <MessageComponent origin={this.props.user} data={item} user={this.props.user} navigator={this.props.navigator} />}
+          renderItem={({ item }) => <MessageComponent origin={this.props.user} data={item} user={this.props.user} navigator={this.props.navigator} focus={this.props.data.focus}/>}
           style={{
             flex: 1,
             paddingRight: 10,
@@ -190,7 +205,8 @@ style={{
 
 ConversationLog.navigatorStyle = {
   navBarHidden: true,
-  tabBarHidden: true
+  tabBarHidden: true,
+  drawUnderTabBar: true
 };
 
 const mapStateToProps = state => ({

@@ -5,7 +5,7 @@ import { height, width, defaultGreen } from '../../mixins';
 import { fetchSpecificEvent } from '../../actions/thunks/events';
 import iterator from '../iterator';
 
-const uri = 'https://i.ytimg.com/vi/SgyzVKYI6IY/maxresdefault.jpg'
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png'
 
 const SingleEvent = ({ obj, data }) => (
   <TouchableOpacity style={{ height: height * 0.16, flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#F8F9F9' }}

@@ -18,7 +18,7 @@ const AboutUs = ({ navigator }) => {
   return (
         <View style={{ flex: 1}}> 
             <View style={{ height: height * 0.4, width, justifyContent: 'center', alignItems: 'center' }}> 
-            <Text style={{ fontSize: 14, fontWeight: '500', color: '#191919' }}> 
+            <Text style={{ fontSize: 14, fontWeight: '500', color: '#191919', textAlign: 'center' }}> 
             The Youth Party is made up of individuals and groups that seek to serve and unite Nigerians.
             Our goal is to develop and improve the standard of living of all Nigerians.
             </Text>

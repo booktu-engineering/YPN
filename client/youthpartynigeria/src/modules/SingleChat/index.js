@@ -3,11 +3,12 @@ import { View, TouchableOpacity, Text, Image } from 'react-native';
 import { height, width, defaultGreen, avatar, LightGrey } from '../../mixins';
 import Composer from '../iterator';
 
-const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
-const defaultUri = 'https://images.unsplash.com/photo-1519680602921-3ab5bc8c0cba?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f1c0201c4ddf29a26770a39e38e6643a&auto=format&fit=crop&w=1651&q=80'
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
+const defaultUri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
+
 const generateNameFromMembers = (members) => {
-  let string = members.reduce((a, b) => `${a} ${b.firstname || ''} ${b.lastname || ''}`, '');
-  string = string.trim().slice(0, (string.length - 1));
+  let string = members.reduce((a, b) => `${a} ${b.firstname} ${members.length === 1 && b.lastname ? b.lastname : ''},`, '');
+  string = string.trim().slice(0, (string.length - 2));
   if (string.length > 18) {
     string = string.slice(0, string.length - 8);
     string = `${string}...`;
@@ -26,30 +27,28 @@ const SingleChat = ({ data, obj }) => {
   return (
     <TouchableOpacity
       style={{
-     height: height / 7, flexDirection: 'row', flexWrap: 'nowrap', paddingLeft: 15, borderBottomWidth: 1, borderBottomColor: '#D0D3D430', paddingTop: 10
-    }}
+        height: height / 7, flexDirection: 'row', flexWrap: 'nowrap', paddingLeft: 15, borderBottomWidth: 1, borderBottomColor: '#D0D3D430', paddingTop: 10
+      }}
       onPress={() => {
-      obj.navigator.push({
-        screen: 'Convo.Log',
-        passProps: {
-          data
-        }
-      });
-    }}
+        obj.navigator.push({
+          screen: 'Convo.Log',
+          passProps: {
+            data
+          }
+        });
+      }}
     >
       <Image source={{ uri: data.topic ? defaultUri : generateUri(data.members.filter(item => item.id !== obj.user.id)) }} style={{ ...avatar, marginRight: 10 }} />
       <View style={{ width: width * 0.8, position: 'relative' }}>
         <Text style={{ fontSize: 13.5, fontWeight: '600' }}> { title } </Text>
         <Text style={{
-     alignSelf: 'flex-end', fontSize: 11, fontWeight: '600', color: LightGrey, position: 'absolute', top: 0, right: 15
-    }}
-        > 20 Mins
-        </Text>
+          alignSelf: 'flex-end', fontSize: 11, fontWeight: '600', color: LightGrey, position: 'absolute', top: 0, right: 15
+        }}
+        ></Text>
         <Text style={{
-     fontSize: 12.5, fontWeight: '500', width: width * 0.76, color: '#979A9A', marginTop: 5
-    }}
-        > Every person has a right to life, and no one shall be deprived intentionally of his life, save in...
-        </Text>
+          fontSize: 12.5, fontWeight: '500', width: width * 0.76, color: '#979A9A', marginTop: 5
+        }}
+        > { obj.registry && obj.registry[data._id][0] && obj.registry[data._id][0].content || 'Waiting for messages to load'}</Text>
       </View>
     </TouchableOpacity>
   );

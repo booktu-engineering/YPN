@@ -8,7 +8,7 @@ import { fetchUsersPosts } from '../../actions/thunks/posts';
 import { fetchEventsForUser } from '../../actions/thunks/events/';
 
 
-const uri = 'https://menhairstylist.com/wp-content/uploads/2017/07/dreads-in-man-bun-black-men-hairstyles.jpg';
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 let nav;
 class ProfileComponent extends Component {
 
@@ -44,8 +44,6 @@ constructor(props) {
 componentDidMount = () => {
   const { navigator } = this.props
   if(!this.state.events) return this.fetchEventsForCurrentUser()
-    navigator.toggleTabs({ to: 'shown', animated: true });
-    navigator.setDrawerEnabled({ side: 'left', enabled: true });
 }
 
 fetchEventsForCurrentUser = () => {
@@ -115,7 +113,8 @@ const DisplayBio = ({ user, navigator }) => (
         style={{
         height: 90, 
         width: 90, 
-        borderRadius: 45
+        borderRadius: 45,
+        backgroundColor: 'white'
     }}
         source={{ uri: (user.avatar ? user.avatar : uri) }}
       />

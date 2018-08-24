@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { height, width, defaultGreen } from '../../mixins';
 import Composer from '../iterator';
 
-const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
 const SingleCandidate = (props) => {
 

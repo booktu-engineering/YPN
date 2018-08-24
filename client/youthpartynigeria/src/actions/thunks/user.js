@@ -57,24 +57,31 @@ export const UpdateUserInfo = newUserInfo => (navigator) => (dispatch, getState)
     });
 };
 
-export const fetchFollowersForUser = (navigator) => (dispatch, getState) => axios.request({
-  method: 'get',
-  url: `${config.baseUrl}/users/`,
-  headers: {
-    Authorization: getState().users.token
+export const fetchFollowersForUser = (navigator, key) => (dispatch, getState) =>  {
+  if(key){
+    StartProcess(navigator)
   }
-}).then((response) => {
-  navigator.showModal({
-    screen: 'Follow.User',
-    passProps: {
-      data: response.data.data
+  return axios.request({
+    method: 'get',
+    url: `${config.baseUrl}/users/`,
+    headers: {
+      Authorization: getState().users.token
     }
-  });
-})
-  .catch((err) => {
-    dispatchNotification(navigator)("We tried to get you some friends. Didn't work out. Try again?");
-    navigator.pop();
-  });
+  }).then((response) => {
+    EndProcess(navigator)
+    navigator.showModal({
+      screen: 'Follow.User',
+      passProps: {
+        data: response.data.data
+      }
+    });
+  })
+    .catch((err) => {
+      EndProcess(navigator)
+      dispatchNotification(navigator)("We tried to get you some friends. Didn't work out. Try again?");
+      navigator.pop();
+    });
+}
 
 
 export const fetchAllRelationshipsOfUser = () => (dispatch, getState) => axios.request({
@@ -222,7 +229,7 @@ export const newPartyMember = (navigator) => (dispatch, getState) => axios.reque
   }
 }).then(() => {
   EndProcess(navigator);
-  dispatchNotification(navigator)(`Welcome to Youth Party Nigeria! ${getState().users.current.firstname}`);
+  dispatchNotification(navigator)(`Welcome to Youth Party! ${getState().users.current.firstname}`);
   // you're doing this so you can update the store as well;
   dispatch(UpdateUserInfo({ role: 1 })(navigator));
 })

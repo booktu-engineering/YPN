@@ -77,6 +77,7 @@ class Pay extends Component {
     }
 
     render = () => {
+
         return (
         <ScrollView keyboardDismissMode="on-drag" style={{ flex: 1, paddingTop: 15 }}> 
         <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'space-around' }} behavior="padding" >
@@ -92,6 +93,8 @@ class Pay extends Component {
             color: '#424949', 
             fontWeight: '600'
         }}
+        cardImageFront={require('./assets/card-front.png')}
+        cardImageBack={require('./assets/card-back.png')}
         />
         <TouchableOpacity onPress={() => { this.handlePay() }} style={{ ...bigButton }}>
             <Text style={{ ...buttonText }}>Pay</Text>

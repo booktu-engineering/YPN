@@ -4,7 +4,7 @@ import { height, width, defaultGreen } from '../../mixins';
 import { fetchUserThunk } from '../../actions/thunks/user';
 import Composer from '../iterator';
 
-const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
 const SingleUser = ({ data, obj }) => (
   <TouchableOpacity

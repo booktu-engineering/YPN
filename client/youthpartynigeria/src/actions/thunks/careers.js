@@ -13,7 +13,6 @@ const FetchAllCareers = navigator => (dispatch, getState) => {
   })
     .then((response) => {
       EndProcess(navigator);
-      console.log(response);
       dispatch({ type: 'ALL_CAREERS_GOTTEN', payload: response.data.data });
     })
     .catch(() => {
@@ -22,22 +21,28 @@ const FetchAllCareers = navigator => (dispatch, getState) => {
     });
 };
 
-const ApplyForCareer = navigator => id => forwardResumeFunction => (_, getState) => {
+const ApplyForCareer = navigator => data => forwardResumeFunction => (_, getState) => {
   StartProcess(navigator);
   return axios.request({
     method: 'post',
-    url: `${config.baseUrl}/careers/apply/${id}`,
+    url: `${config.baseUrl}/careers/apply/${data.id}`,
     headers: {
       Authorization: getState().users.token
     }
   })
     .then(() => {
       EndProcess(navigator);
-      dispatchNotification(navigator)('Awesome then, time to forward your cv');
+      if (!data.item.voluntary) {
+       dispatchNotification(navigator)('Awesome then, time to forward your cv');
+      } else {
+        dispatchNotification(navigator)('Thank you for volunteering, We will reach out'); 
+      }
+      return navigator.pop();
       return forwardResumeFunction && forwardResumeFunction();
     })
     .catch(() => {
       EndProcess(navigator);
+      navigator.pop();
       return dispatchNotification('Sorry that did not go through, try again maybe');
     });
 };

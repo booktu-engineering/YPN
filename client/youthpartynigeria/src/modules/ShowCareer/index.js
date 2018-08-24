@@ -8,7 +8,7 @@ import { ApplyForCareer } from '../../actions/thunks/careers';
 import { height, width, defaultGreen, bigButton, buttonText } from '../../mixins'
 
 
-const uri = 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Coat_of_arms_of_Nigeria.svg/2000px-Coat_of_arms_of_Nigeria.svg.png'
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png'
 
 class ShowCareer extends Component {
   constructor(props) {
@@ -88,11 +88,11 @@ const RenderCareer = ({ data, navigator, dispatch, callback }) => (
 
     <View style={{ maxHeight: height*0.3, width, marginBottom: 30 }}>
       <Text style={{ fontSize: 14, fontWeight: '600', color: '#626567', marginBottom: 8,}}> Resume  </Text>
-      <Text style={{ fontSize: 12, fontWeight: '500', color: '#979A9A', maxWidth: width * 0.8, marginBottom: 5 }}> { 'Email your resume to technical@booktu.org'}</Text>
+      <Text style={{ fontSize: 12, fontWeight: '500', color: '#979A9A', maxWidth: width * 0.8, marginBottom: 5 }}> { data.meta.voluntary ? 'No resume required' : 'Email your resume to technical@booktu.org'}</Text>
       </View>
         { /* remember to do the resume sending thing */}
-        <TouchableOpacity style={{ ...bigButton}} onPress={() => { dispatch(ApplyForCareer(navigator)(data.id)(callback))}}>
-          <Text style={{ ...buttonText }}> APPLY </Text>
+        <TouchableOpacity style={{ ...bigButton}} onPress={() => { dispatch(ApplyForCareer(navigator)(data)(callback))}}>
+          <Text style={{ ...buttonText }}> { data.meta.voluntary ? 'Volunteer' : 'Apply'} </Text>
         </TouchableOpacity>
     </View>
   </View>

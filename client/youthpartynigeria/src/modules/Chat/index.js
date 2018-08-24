@@ -31,7 +31,6 @@ class ChatContainer extends Component {
         }
       ]
     });
-
   }
 
   handleNavigate = () => this.props.navigator.push({ screen: 'Show.Groups', title: 'Start a new conversation'  });
@@ -45,16 +44,16 @@ class ChatContainer extends Component {
   render = () => (
     <View style={{ flex: 1 }}>
       { this.props.logs ?
-        <ChatComponent navigator={this.props.navigator} data={this.props.logs.reverse()} user={this.props.user} /> : null
+        <ChatComponent navigator={this.props.navigator} data={this.props.logs} user={this.props.user} registry={this.props.registry}/> : null
         }
     </View>
   )
 }
-const ChatComponent = ({ navigator, data, user }) => {
+const ChatComponent = ({ navigator, data, user, registry }) => {
   nav = navigator;
   return (
     <View style={{ flex: 1 }}>
-      { multipleChat(data)({ navigator, user })}
+      { multipleChat(data)({ navigator, user, registry })}
     </View>
   );
 };

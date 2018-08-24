@@ -53,6 +53,7 @@ import ShowPoll from '../modules/Polls/screens';
 import ShowImage from '../modules/RenderImage';
 import RenderTownHalls from '../modules/TownHalls';
 import ShowGroups from '../modules/ShowGroups';
+import ContactUs from '../modules/ContactUs';
 
 const { Provider, store } = configureStore();
 let homeIcon; 
@@ -129,6 +130,7 @@ export default class Navigator {
     Navigation.registerComponent('Show.Image', () => ShowImage);
     Navigation.registerComponent('Town.Halls', () => RenderTownHalls, storex, Provider);
     Navigation.registerComponent('Show.Groups', () => ShowGroups, storex, Provider);
+    Navigation.registerComponent('Contact.Us', () => ContactUs)
   }
 
   startLoggedOut = () => {
@@ -146,25 +148,44 @@ export default class Navigator {
           screen: 'Home',
           label: 'Home',
           title: 'Home',
-          icon: homeIcon
+          icon: homeIcon,
+          navigatorStyle: {
+            tabBarHidden: false,
+            drawUnderTabBar: true,
+            statusBarTextColorScheme: 'light',
+          }
         },
         {
           screen: 'Chat.Component',
           label: 'Chat',
           title: 'Chat', 
-          icon: chatIcon
+          icon: chatIcon,
+          navigatorStyle: {
+            drawUnderTabBar: true,
+            statusBarTextColorScheme: 'light',
+          }
         },
         {
           screen: 'Post.Component',
           label: 'Post',
           title: 'New Post',
-          icon: postIcon
+          icon: postIcon,
+          navigatorStyle: {
+            tabBarHidden: false,
+            drawUnderTabBar: true,
+            statusBarTextColorScheme: 'light',
+          }
         },
         {
           screen: 'Profile.Component',
           label: 'Profile',
           title: 'Profile', 
-          icon: profileIcon
+          icon: profileIcon,
+          navigatorStyle: {
+            tabBarHidden: false,
+            drawUnderTabBar: true,
+            statusBarTextColorScheme: 'light',
+          }
         },
         {
           screen: 'More.Component',

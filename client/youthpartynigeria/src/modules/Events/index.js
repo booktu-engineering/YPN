@@ -7,7 +7,7 @@ import { fetchAllEvents } from '../../actions/thunks/events';
 
 const EventComponent = ({ navigator, dispatch, data }) => (
   <View style={{ flex: 1 }}>
-    <Selectors keys={['Events', 'Town Halls']} />
+    {/* <Selectors keys={['Events', 'Town Halls']} /> */}
     { MultipleEvents(data)({ navigator, screen: 'Show.Event', dispatch })}
   </View>);
 

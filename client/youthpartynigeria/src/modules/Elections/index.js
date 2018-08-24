@@ -43,8 +43,8 @@ ElectionScreen.navigatorStyle = {
   statusBarTextColorScheme: 'light'
 };
 
-const mapStateToProps = (state) =>({
-  elections: state.questions.all
+const mapStateToProps = state =>({
+  elections: state.questions.all && state.questions.all.filter(item => item.type === 2)
 })
 
 export default connect(mapStateToProps)(ElectionScreen);

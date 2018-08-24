@@ -60,12 +60,12 @@ export const LightGrey = '#D0D3D4'
 export const defaultGreen = '#82BE30'
 
 // components mixins
-export const Selectors = ({ sideOne, changeFunction, keys }) => (
+export const Selectors = ({ sideOne, changeFunction, keys, functionMap }) => (
   <View style={{ height: height * 0.05, width, flexDirection: 'row', flexWrap: 'nowrap' }}>
-    <TouchableOpacity style={{ height: height * 0.05, width: width * 0.5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F8F9F9' }} onPress={() => { console.log('yay')}}>
-      <Text style={{ fontSize: 12.3, fontWeight: '600', color: !sideOne ? '#626567' : defaultGreen }}> {keys[0]} </Text>
+    <TouchableOpacity style={{ height: height * 0.05, width: width * 0.5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F8F9F9' }} onPress={() => functionMap && functionMap[0]() }>
+      <Text style={{ fontSize: 12.3, fontWeight: '600', color: !sideOne ? '#626567' : defaultGreen }} onPress={() => functionMap && functioMap[0]() }> {keys[0]} </Text>
     </TouchableOpacity>
-    <TouchableOpacity style={{ height: height * 0.05, width: width * 0.5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#E5E8E8'}} onPress={() => { console.log('Yay') }}>
+    <TouchableOpacity style={{ height: height * 0.05, width: width * 0.5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#E5E8E8'}} onPress={() => functionMap && functionMap[1]() }>
       <Text style={{ fontSize: 12.3, fontWeight: '600', color: !sideOne ? '#626567' : defaultGreen }}> {keys[1]} </Text>
     </TouchableOpacity>
   </View>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Pdf from 'react-native-pdf';
 import { View, WebView, Text } from 'react-native';
 import { width, defaultGreen } from '../../mixins';
 
@@ -25,7 +26,7 @@ const PDFViewer = ({ navigator, source }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <WebView
+      <Pdf
         source={docs[source]}
         style={{
           flex: 1,

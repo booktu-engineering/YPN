@@ -3,7 +3,8 @@ import { View, TouchableOpacity, Text, Image } from 'react-native';
 import { height, width, defaultGreen } from '../../mixins';
 import Composer from '../iterator';
 
-const uri = 'https://buzznigeria.com/wp-content/uploads/2013/09/Presidential-flag-Standard.png';
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
+
 const SingleCareer = ({ obj, data }) => (
   <TouchableOpacity
     style={{

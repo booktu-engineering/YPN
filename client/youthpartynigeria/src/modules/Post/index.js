@@ -9,7 +9,7 @@ import { CameraIcon } from '../IconRegistry/'
 
 
 let nav;
-const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
  class PostContainer extends Component {
    constructor(props) {

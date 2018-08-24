@@ -10,7 +10,7 @@ import { CheckMarkIcon } from '../../IconRegistry';
 import { dispatchNotification } from '../../../helpers/uploader';
 import { VoteResponse, checkIfUniqueVoter } from '../../../actions/thunks/polls';
 
-const uri = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7DkkUNTMfEjuq8pyx6tqGyv8R8-mUf4zhbGw6Lqeai_KeI-sT';
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
 class VotingScreen extends Component {
   constructor(props) {

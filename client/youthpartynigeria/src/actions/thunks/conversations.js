@@ -6,7 +6,7 @@ import configureStore from '../../store';
 
 const { store } = configureStore();
 /* eslint max-len:0 */
-export const fetchAllConversations = navigator => async (dispatch) => {
+export const fetchAllConversations = navigator => async (dispatch, getState) => {
   try {
     const token = await AsyncStorage.getItem('#!@#$%');
     return axios.request({
@@ -18,10 +18,14 @@ export const fetchAllConversations = navigator => async (dispatch) => {
     })
       .then((response) => {
         // doing this to know what is happening
+        // bone the redundant p
         dispatch({ type: 'ALL_CONVERSATIONS_RECEIVED', payload: response.data.data });
         // create a registry
         const registry = response.data.data.reduce((a, b) => {
-          a[`${b._id}`] = b.messages || [];
+          const messages = getState().convos.registry && getState().convos.registry[b._id];
+          const incoming = b.messages || [];
+          const final = messages ? [...messages, ...incoming] : (b.messages || [])
+          a[`${b._id}`] = final;
           return a;
         }, {});
         const activitymap = response.data.data.reduce((a, b) => {
@@ -32,6 +36,7 @@ export const fetchAllConversations = navigator => async (dispatch) => {
         dispatch({ type: 'CREATE_ACTIVITY_MAP', payload: activitymap });
       })
       .catch((error) => {
+        console.log(error);
         dispatchNotification(navigator)('Something went wrong');
       });
   } catch (error) {
@@ -40,7 +45,7 @@ export const fetchAllConversations = navigator => async (dispatch) => {
 };
 
 
-export const startPersonalConversation = (users, reference) => navigator => async (dispatch, getState) => {
+export const startPersonalConversation = (users, reference) => (navigator, topic) => async (dispatch, getState) => {
   try {
     StartProcess(navigator);
     // you want to check that the message already exists in state
@@ -48,10 +53,10 @@ export const startPersonalConversation = (users, reference) => navigator => asyn
     const targets = users.map(item => item.id);
     targets.push(getState().users.current.id);
     const messages = getState().convos.logs;
-    if (!messages || !messages.length) return await createNewConversation(users, reference)(navigator)(dispatch);
+    if (!messages || !messages.length) return await createNewConversation(users, reference)(navigator, topic)(dispatch);
     // you want to make sure the members are in the array;
     let filtered = messages.filter(item => item.type === 1 && item.members.length === targets.length);
-    if (!filtered.length) return await createNewConversation(users, reference)(navigator)(dispatch);
+    if (!filtered.length) return await createNewConversation(users, reference)(navigator, topic)(dispatch);
     // return the item
     filtered = filtered.map((item) => {
     // concat & dedupe to check for unique guys
@@ -68,7 +73,7 @@ export const startPersonalConversation = (users, reference) => navigator => asyn
       EndProcess(navigator);
       return navigator.push({ screen: 'Convo.Log', passProps: { data: target, reference } });
     }
-    return await  createNewConversation(users, reference)(navigator)(dispatch);
+    return await  createNewConversation(users, reference)(navigator, topic)(dispatch);
   } catch (err) {
     EndProcess(navigator);
     dispatchNotification(navigator)('Something went wrong');
@@ -76,12 +81,16 @@ export const startPersonalConversation = (users, reference) => navigator => asyn
 };
 
 
-export const createNewConversation = (members, reference) => navigator => async (dispatch) => {
+export const createNewConversation = (members, reference) => (navigator, topic) => async (dispatch) => {
+  const data = { members };
+  if(topic){
+    data.topic = topic
+  }
   const token = await AsyncStorage.getItem('#!@#$%');
   axios.request({
     method: 'post',
     url: `${config.postUrl}/convos/?type=1`,
-    data: { members },
+    data,
     headers: {
       Authorization: token
     }

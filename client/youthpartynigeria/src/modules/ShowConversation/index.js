@@ -7,9 +7,9 @@ import { navigatorObject } from '../../navigation';
 import { fetchUserThunk } from '../../actions/thunks/user';
 
 
-const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
-const defaultUri = 'https://images.unsplash.com/photo-1519680602921-3ab5bc8c0cba?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f1c0201c4ddf29a26770a39e38e6643a&auto=format&fit=crop&w=1651&q=80'
+const defaultUri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png'
 class ShowConversation extends Screen {
   constructor(props) {
     super(props, 'A.Test.Screen');
@@ -38,19 +38,20 @@ class ShowConversation extends Screen {
 
 export const CustomHeader = ({ navigator, data, user, dispatch }) => (
   <View style={{
- height: height * 0.15, width, backgroundColor: defaultGreen, flexDirection: 'row', flexWrap: 'nowrap', paddingRight: 15, paddingLeft: 15, justifyContent: 'space-between', alignItems: 'center'
+ height: height * 0.15, width, backgroundColor: defaultGreen, flexDirection: 'row', flexWrap: 'nowrap', paddingRight: 5, justifyContent: 'space-between', alignItems: 'center'
 }}>
     { /* icon 1 */}
-    <View style={{ maxHeight: 40, maxWidth: 50,  }}>
+    <View style={{ 
+      maxHeight: 40, maxWidth: 50, position: 'relative', right: -15  }}>
       { withNavigation(navigator, BackIcon)}
     </View>
     { /* The text Part */}
     <TouchableOpacity style={{
  width: width * 0.8, maxHeight: height * 0.2, flexDirection: 'row', flexWrap: 'nowrap'
 }}
-onPress={() => { console.log('yay'); navigateToUser(data.members, user, dispatch, navigator) }}
+onPress={() => { navigateToUser(data.members, user, dispatch, navigator) }}
     >
-      <Image style={{ height: 52, width: 52, borderRadius: 26 }} source={{ uri: data.topic ? defaultUri : generateUri(data.members.filter(item => item.id !== user.id)) }} />
+      <Image style={{ height: 52, width: 52, borderRadius: 26, backgroundColor: 'white' }} source={{ uri: data.topic ? defaultUri : generateUri(data.members.filter(item => item.id !== user.id)) }} />
       <View style={{
  maxWidth: width * 0.8, maxHeight: height * 0.2, paddingRight: 20, justifyContent: 'center'
 }}
@@ -58,20 +59,27 @@ onPress={() => { console.log('yay'); navigateToUser(data.members, user, dispatch
         <Text style={{
  fontSize: 18, fontWeight: '600', color: 'white', marginBottom: 5
 }}
-        > { data.topic ? data.topic : generateNames(data.members.filter(item => item.id !== user.id)) }
+        > { data.topic ? sliceString(data.topic) : generateNames(data.members.filter(item => item.id !== user.id)) }
         </Text>
+        {
+          data.focus && (
+            <Text style={{ fontSize: 14, color: 'white' }}> {`focus: ${data.focus.user.name}`}</Text>
+          )
+        }
       </View>
     </TouchableOpacity>
     { /* Notification Icon */}
-    <View style={{ maxHeight: 40, maxWidth: 50 }}>
-      { withNavigation(navigator, NotificationIcon)}
-    </View>
   </View>
 );
-
-
+const sliceString = (string) => {
+  if (string.length > 15) {
+    string = string.slice(0, string.length - 8);
+    string = `${string}...`;
+  }
+  return string;
+}
 const generateNames = (members) => {
-  let string = members.reduce((a, b) => `${a} ${b.firstname} ${b.lastname}, `, '');
+  let string = members.reduce((a, b) => `${a} ${b.firstname} ${members.length === 1 && b.lastname ? b.lastname : ''},`, '');
   string = string.trim().slice(0, (string.length - 2));
   if (string.length > 18) {
     string = string.slice(0, string.length - 8);
@@ -79,7 +87,6 @@ const generateNames = (members) => {
   }
   return string;
 };
-
 const generateUri = (members) => {
   const position = Math.floor(Math.random() * members.length);
   const avatar = members[position].avatar ? members[position].avatar : uri;
@@ -174,9 +181,8 @@ const ConversationSingle = () => (
 );
 
 const navigateToUser = (members, user, dispatch, navigator) => {
-  if (members.length > 3) return;
+  if (members.length > 2) return navigator.push({ screen: 'Show.Users', title: 'Members of this conversation', navigatorStyle: { tabBarHidden: true }, passProps: { data: members.filter(item => item.id !== user.id ) }});
   members = members.filter(item => item && item.id && item.id !== user.id);
-  console.log(members[0]);
   dispatch(fetchUserThunk(members[0].id)(navigator));
 };
 export default ShowConversation;

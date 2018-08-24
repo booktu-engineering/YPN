@@ -6,7 +6,7 @@ import { dispatchNotification } from '../../helpers/uploader';
 import { attendEvent, leaveEvent } from '../../actions/thunks/events';
 import { height, width, bigButton, buttonText } from '../../mixins';
 
-const uri = 'https://socialmediaweek.org/london/files/2017/09/71A6202.jpg';
+const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
 class ShowEvent extends Component {
   constructor(props) {

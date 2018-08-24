@@ -21,7 +21,26 @@ class ShowUsersContainer extends Component {
                 }
             ], 
         })
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
+
+    onNavigatorEvent = (e) => {
+        if(e.id === 'didAppear') {
+          this.props.navigator.setStyle({ tabBarHidden: true });
+          // this.props.navigator.setDrawerEnabled({ side: 'left', enabled: false });
+          // this.props.navigator.toggleTabs({ to: 'hidden', animated: true });
+        }
+        if(e.id === 'didDisappear') {
+            this.props.navigator.setDrawerEnabled({ side: 'left', enabled: false });
+          this.props.navigator.toggleTabs({ to: 'hidden', animated: true });
+        }
+      }
+
+      componentWillUnmount = () => {
+         this.props.navigator.setDrawerEnabled({ side: 'left', enabled: false });
+          this.props.navigator.toggleTabs({ to: 'hidden', animated: true }); 
+      }
+    
   render = () => (
     <View style={{ flex:1, paddingTop: 20 }}>
       <View style={{ minHeight: height * 0.7, width }}>
@@ -34,6 +53,7 @@ class ShowUsersContainer extends Component {
 ShowUsersContainer.navigatorStyle = {
     navBarBackgroundColor: defaultGreen,
     statusBarTextColorScheme: 'light',
+    tabBarHidden: true
 }
 
-export default ShowUsersContainer
+export default ShowUsersContainer;

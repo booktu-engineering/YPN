@@ -50,7 +50,7 @@ export const data = [
   {
     avatar: 'https://media.newyorker.com/photos/59097ddeebe912338a378b6a/master/w_727,c_limit/Malek-For-Syrian-Americans-the-Travel-Ban-Feels-Alarmingly-Familiar.jpg',
     location: 'Kaduna, Kaduna State',
-    name: 'Youth Party Nigeria'
+    name: 'Youth Party'
   }
 ];
 
