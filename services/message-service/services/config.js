@@ -1,13 +1,11 @@
 const prodConfig = {
   baseUrl: 'https://ypn-base-01.herokuapp.com/',
-  notificationUrl: 'https://yon-notification.herokuapp.com/'
+  notificationUrl: 'http://localhost:5000/'
 }
 
 const devConfig = {
   baseUrl: 'http://localhost:3000/',
-  notificationUrl: 'https://ypn-notification-api.herokuapp.com/'
+  notificationUrl: 'http://localhost:5000/'
 }
 
-export default () => {
-  return process.env.NODE_ENV === 'production' ? prodConfig : devConfig
-}
+export default () => devConfig;

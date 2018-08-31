@@ -1,32 +1,18 @@
 {
-  "name": "YPN",
+  "name": "message-service",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:rails": "cd base/ypn-base && rails s",
-    "start:service": "NODE_ENV=production babel-node services/message-service/index.js",
-    "test:rails": "cd base/ypn-base && rspec -fd",
-    "build": "babel services --out-dir  build --ignore node_modules --copy-files",
-    "start:prod": "npm run build && cd build/message-service && npm install && pm2 start index.js"
+    "test": "NODE_ENV=test mocha  --timeout 15000 --compilers js:babel-core/register ./tests/ --recursive --exit",
+    "start:dev": "NODE_ENV=dev nodemon --exec babel-node index"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Hasstrup/YPN.git"
-  },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Hasstrup/YPN/issues"
-  },
-  "homepage": "https://github.com/Hasstrup/YPN#readme",
   "dependencies": {
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-istanbul": "^4.1.6",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -48,8 +34,10 @@
     "mongoose": "^5.1.0",
     "morgan": "^1.9.0",
     "multer": "^1.3.0",
-    "pm2": "^3.0.4",
     "socket.io-client": "^2.1.1",
     "supertest": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.6"
   }
 }
