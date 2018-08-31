@@ -3,6 +3,8 @@ package com.youthpartynigeria;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.linkpreview.RNReactNativeLinkPreviewPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.reactnativenavigation.NavigationReactPackage;
@@ -26,6 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNReactNativeLinkPreviewPackage(),
+            new PickerPackage(),
             new VectorIconsPackage(),
             new LinearGradientPackage(),
             new NavigationReactPackage()

@@ -1,6 +1,9 @@
 import axios from 'axios';
 import EventModel from '../models/event';
 import BaseService from './base';
+import configuration from './config';
+
+const config = configuration();
 
 /* eslint no-underscore-dangle: 0, prefer-const: 0 */
 let ref = {};

@@ -2,7 +2,7 @@ var app = require('express')()
 var Mailer = require('./mailer')
 var bodyParser = require('body-parser')
 var cors = require('cors');
-
+var PORT = process.env.PORT || 3500
 app.use(cors());
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -23,6 +23,6 @@ app.post('/sendmail', (req, res) => {
 })
 
 
-app.listen(3500, () => {
-  console.log('Mailer service is listening at 3500')
+app.listen(PORT, () => {
+  console.log(`Mailer service is listening on ${PORT}`);
 })

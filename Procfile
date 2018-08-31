@@ -1,1 +1,1 @@
-web: RAILS_ENV=production rails s
+web: cd services/real-time-service && npm install && npm start

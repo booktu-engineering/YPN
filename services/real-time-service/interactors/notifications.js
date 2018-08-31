@@ -1,14 +1,15 @@
 import axios from 'axios';
 import ios from '../'
 
+
 let instance;
 class NotificationInteractorB {
   constructor() {
-    this.mailer = axios.create({ baseURL: `http://localhost:3500/`, });
+    this.mailer = axios.create({ baseURL: 'https://ypn-mailer.herokuapp.com/', });
   }
   static interact = async (body) => {
     try {
-      instance = axios.create({ baseURL: `http://localhost:3500/`, });
+      instance = axios.create({ baseURL: `https://ypn-mailer.herokuapp.com/`, });
       instance.post(`/sendmail/?key=${body.key}`, { username: body.notification.destination, ...body.mail })
         .then((response) => {
           console.log(response.data)

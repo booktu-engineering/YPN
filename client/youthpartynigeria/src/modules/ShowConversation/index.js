@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Screen from '../../mixins/screen';
 import { height, width, defaultGreen, bigButton, buttonText } from '../../mixins';
 import { withNavigation, BackIcon, NotificationIcon } from '../IconRegistry';
 
+const uri = 'https://ht-cdn.couchsurfing.com/assets/profile-picture-placeholder.png';
 
 class ShowConversation extends Screen {
   constructor(props) {
-    super(props, 'A.Test.Screen')
+    super(props, 'A.Test.Screen');
   }
    static navigatorStyle = {
      navBarHidden: true
@@ -16,12 +17,15 @@ class ShowConversation extends Screen {
    componentWillUnmount = () => null;
 
   render = () => (
-    <View  style={{ minHeight: height, width }}>
-      <CustomHeader navigator={this.props.navigator} data={{ origin: { name: 'Women Empowerment' }}}/>
-      <View style={{ minHeight: height * 0.65, marginBottom: 25,  width, justifyContent: 'center'}}>
+    <View style={{ minHeight: height, width }}>
+      <CustomHeader navigator={this.props.navigator} data={{ origin: { name: 'Women Empowerment' } }} />
+      <View style={{
+ minHeight: height * 0.65, marginBottom: 25, width, justifyContent: 'center'
+}}
+      >
         <ConversationSingle />
       </View>
-      <TouchableOpacity style={{ ...bigButton }} onPress={() => { this.props.navigator.push({ screen: 'Convo.Log', passProps: { data: { origin: 'Women Empowerment' }}})}}>
+      <TouchableOpacity style={{ ...bigButton }} onPress={() => { this.props.navigator.push({ screen: 'Convo.Log', passProps: { data: { origin: 'Women Empowerment' } } }); }}>
         <Text style={{ ...buttonText }}> JOIN THE CONVERSATION </Text>
       </TouchableOpacity>
     </View>
@@ -29,61 +33,140 @@ class ShowConversation extends Screen {
 }
 
 export const CustomHeader = ({ navigator, data }) => (
-  <View style={{ height: height * 0.15 , width, backgroundColor: defaultGreen, flexDirection: 'row', flexWrap: 'nowrap', paddingRight: 15, paddingLeft: 15,justifyContent: 'space-between', alignItems: 'center' }}>
+  <View style={{
+ height: height * 0.15, width, backgroundColor: defaultGreen, flexDirection: 'row', flexWrap: 'nowrap', paddingRight: 15, paddingLeft: 15, justifyContent: 'space-between', alignItems: 'center'
+}}>
     { /* icon 1 */}
     <View style={{ maxHeight: 40, maxWidth: 50, marginRight: 10 }}>
-        { withNavigation(navigator, BackIcon)}
+      { withNavigation(navigator, BackIcon)}
     </View>
     { /* The text Part */}
-    <View style={{ width: width * 0.8, maxHeight: height * 0.2, flexDirection: 'row', flexWrap: 'nowrap'}}>
-      <Image style={{ height: 52, width: 52, borderRadius: 26}} source={{ uri: 'https://www.graphic.com.gh/images/2017/MAY/may29/right.png' }}/>
-      <View style={{ maxWidth: width * 0.8, maxHeight: height * 0.2, paddingRight: 20, justifyContent: 'center' }}>
-        <Text style={{ fontSize: 18, fontWeight: '600', color:'white', marginBottom: 5 }}> { data.origin.name } </Text>
+    <View style={{
+ width: width * 0.8, maxHeight: height * 0.2, flexDirection: 'row', flexWrap: 'nowrap'
+}}
+    >
+      <Image style={{ height: 52, width: 52, borderRadius: 26 }} source={{ uri: generateUri(data.members.filter(item => item.id !== data.origin.id)) }} />
+      <View style={{
+ maxWidth: width * 0.8, maxHeight: height * 0.2, paddingRight: 20, justifyContent: 'center'
+}}
+      >
+        <Text style={{
+ fontSize: 18, fontWeight: '600', color: 'white', marginBottom: 5
+}}
+        > { data.title ? data.title : generateNames(data.members.filter(item => item.id !== data.origin.id)) }
+        </Text>
       </View>
     </View>
     { /* Notification Icon */}
-    <View style={{ maxHeight: 40, maxWidth: 50}}>
-        { withNavigation(navigator, NotificationIcon)}
+    <View style={{ maxHeight: 40, maxWidth: 50 }}>
+      { withNavigation(navigator, NotificationIcon)}
     </View>
   </View>
-)
+);
 
+
+const generateNames = (members) => {
+  let string = members.reduce((a, b) => `${a} ${b.firstname} ${b.lastname}, `, '');
+  string = string.trim().slice(0, (string.length - 2));
+  if (string.length > 18) {
+    string = string.slice(0, string.length - 8);
+    string = `${string}...`;
+  }
+  return string;
+};
+
+const generateUri = (members) => {
+  const position = Math.floor(Math.random() * members.length);
+  const avatar = members[position].avatar ? members[position].avatar : uri;
+  return avatar;
+};
 
 
 const ConversationSingle = () => (
   <View style={{ flex: 1 }}>
     { /* The first part */}
-    <View style={{ height: height * 0.3, width, borderColor: '#D0D3D450', borderBottomWidth: 1.3, paddingTop: 25, paddingLeft: 20, paddingRight: 20, justifyContent: 'space-around', paddingBottom: 15}}>
-      <Text style={{ fontSize: 12.5, fontWeight: '500', color: '#797D7F', maxWixdth: width * 0.75, marginBottom: 10 }}>Women empowerment has become the buzzword today with women working alongside men in all spheres. They profess an independent outlook, whether they are living inside their home or working outside </Text>
-      <View style={{ maxHeight: height * 0.1, width, flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between' }}>
-        <View style={{ maxHeight: height * 0.1, maxWidth: width * 0.5}}>
-          <Text style={{ fontSize: 11.5, fontWeight: '600', color:'#B3B6B7', marginBottom: 8, }}>{'Tuesday 22nd May, 2018'}</Text>
-          <Text style={{ fontSize:11.5, fontWeight: '600', color:'#B3B6B7'}}>{'Time: 6:00PM'}</Text>
+    <View style={{
+ height: height * 0.3, width, borderColor: '#D0D3D450', borderBottomWidth: 1.3, paddingTop: 25, paddingLeft: 20, paddingRight: 20, justifyContent: 'space-around', paddingBottom: 15
+}}
+    >
+      <Text style={{
+ fontSize: 12.5, fontWeight: '500', color: '#797D7F', maxWixdth: width * 0.75, marginBottom: 10
+}}
+      >Women empowerment has become the buzzword today with women working alongside men in all spheres. They profess an independent outlook, whether they are living inside their home or working outside
+      </Text>
+      <View style={{
+ maxHeight: height * 0.1, width, flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between'
+}}
+      >
+        <View style={{ maxHeight: height * 0.1, maxWidth: width * 0.5 }}>
+          <Text style={{
+ fontSize: 11.5, fontWeight: '600', color: '#B3B6B7', marginBottom: 8,
+}}
+          >Tuesday 22nd May, 2018
+          </Text>
+          <Text style={{ fontSize: 11.5, fontWeight: '600', color: '#B3B6B7' }}>Time: 6:00PM</Text>
         </View>
         { /* Ongoing */}
-        <View style={{ maxHeight: height * 0.05, maxWidth: width * 0.5, flexDirection: 'row', flexWrap: 'nowrap', position: 'relative', left: -35 }}>
-          <View style={{ height: 6, width: 6, borderRadius: 3, marginRight: 2, position: 'relative', bottom: -6,  backgroundColor: defaultGreen }}></View>
-          <Text style={{ color: '#B3B6B7', fontSize: 12, position: 'relative', bottom: -2}}> Ongoing </Text>
+        <View style={{
+ maxHeight: height * 0.05, maxWidth: width * 0.5, flexDirection: 'row', flexWrap: 'nowrap', position: 'relative', left: -35
+}}
+        >
+          <View style={{
+ height: 6, width: 6, borderRadius: 3, marginRight: 2, position: 'relative', bottom: -6, backgroundColor: defaultGreen
+}}
+          />
+          <Text style={{
+ color: '#B3B6B7', fontSize: 12, position: 'relative', bottom: -2
+}}
+          > Ongoing
+          </Text>
         </View>
       </View>
     </View>
     { /* Second pArt showing the moderators */}
-    <View style={{ minHeight: height * 0.3, maxWidth: width * 0.5, alignSelf: 'center', paddingTop: 20, }}>
+    <View style={{
+ minHeight: height * 0.3, maxWidth: width * 0.5, alignSelf: 'center', paddingTop: 20,
+}}
+    >
       <View style={{ alignSelf: 'center', maxHeight: height * 0.15, marginBottom: 15 }}>
-        <Text style={{ fontSize: 13, fontWeight: '600', color:'#626567', marginBottom: 10, textAlign: 'center' }}> Moderators</Text>
-        <Text style={{ fontSize: 13, fontWeight: '500', color:'#B3B6B7', marginBottom: 5 }}> Phillip Otemuyiwa </Text>
-        <Text style={{ fontSize: 13, fontWeight: '500', color:'#B3B6B7', marginBottom: 5, textAlign: 'center' }}> Mary Timothy </Text>
+        <Text style={{
+ fontSize: 13, fontWeight: '600', color: '#626567', marginBottom: 10, textAlign: 'center'
+}}
+        > Moderators
+        </Text>
+        <Text style={{
+ fontSize: 13, fontWeight: '500', color: '#B3B6B7', marginBottom: 5
+}}
+        > Phillip Otemuyiwa
+        </Text>
+        <Text style={{
+ fontSize: 13, fontWeight: '500', color: '#B3B6B7', marginBottom: 5, textAlign: 'center'
+}}
+        > Mary Timothy
+        </Text>
       </View>
       { /* Debaters */}
       <View style={{ alignSelf: 'center', maxHeight: height * 0.15, marginBottom: 25 }}>
-        <Text style={{ fontSize: 13, fontWeight: '600', color:'#626567', marginBottom: 10, textAlign: 'center' }}> Debaters </Text>
-        <Text style={{ fontSize: 13, fontWeight: '500', color:'#B3B6B7', marginBottom: 5 }}> Aminat Yahaya Bello </Text>
-        <Text style={{ fontSize: 13, fontWeight: '500', color:'#B3B6B7', marginBottom: 5 }}> Dr. Mrs Sharon Taiwo </Text>
+        <Text style={{
+ fontSize: 13, fontWeight: '600', color: '#626567', marginBottom: 10, textAlign: 'center'
+}}
+        > Debaters
+        </Text>
+        <Text style={{
+ fontSize: 13, fontWeight: '500', color: '#B3B6B7', marginBottom: 5
+}}
+        > Aminat Yahaya Bello
+        </Text>
+        <Text style={{
+ fontSize: 13, fontWeight: '500', color: '#B3B6B7', marginBottom: 5
+}}
+        > Dr. Mrs Sharon Taiwo
+        </Text>
       </View>
       <Text style={{ fontSize: 12.4, fontWeight: '500', color: '#D0D3D4' }}> Join the conversation to see debate progress and messages </Text>
     </View>
   </View>
-)
+);
 
 
 export default ShowConversation;
