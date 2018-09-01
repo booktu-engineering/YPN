@@ -1,15 +1,19 @@
+'use strict';
+
 var nodemailer = require('nodemailer');
 var senderConfigs = require('./mail.config.js');
 var templates = require('./templates/temps');
 
-const transporter = nodemailer.createTransport(senderConfigs);
+var transporter = nodemailer.createTransport(senderConfigs);
 
-const Mailer = {
+var Mailer = {
 
-  dispatch: (body, key) => {
-    let message = fetchStructure(body, key);
-    const { destination, subject } = body;
-    let mailOptions = {
+  dispatch: function dispatch(body, key) {
+    var message = fetchStructure(body, key);
+    var destination = body.destination,
+        subject = body.subject;
+
+    var mailOptions = {
       from: '"Youth Party" <noreply@youthpartyng.com>', // sender address
       to: destination, // list of receivers
       subject: subject, // Subject line
@@ -17,7 +21,7 @@ const Mailer = {
       html: message // html body
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error.message);
         return false;
@@ -28,7 +32,7 @@ const Mailer = {
   }
 };
 
-const fetchStructure = (body, key) => {
+var fetchStructure = function fetchStructure(body, key) {
   switch (key) {
     case 1:
       return templates.LoginTemplates(body);

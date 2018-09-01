@@ -1,3 +1,5 @@
+'use strict';
+
 var app = require('express')();
 var Mailer = require('./mailer');
 var bodyParser = require('body-parser');
@@ -8,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.post('/sendmail', (req, res) => {
+app.post('/sendmail', function (req, res) {
   try {
     console.log(req.body);
     if (Mailer.dispatch(req.body, parseInt(req.query.key))) {
@@ -21,6 +23,6 @@ app.post('/sendmail', (req, res) => {
   }
 });
 
-app.listen(3500, () => {
+app.listen(3500, function () {
   console.log('Mailer service is listening at 3500');
 });

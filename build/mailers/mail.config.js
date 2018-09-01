@@ -1,6 +1,8 @@
+'use strict';
+
 var nodemailer = require('nodemailer');
 
-const sender = {
+var sender = {
   host: 'send.one.com',
   port: 465,
   secure: true,
@@ -10,7 +12,7 @@ const sender = {
   }
 };
 
-const smtpConfig = {
+var smtpConfig = {
   host: 'smtp.booktu.org',
   port: 465,
   secure: true,
@@ -20,6 +22,6 @@ const smtpConfig = {
   }
 };
 
-const transporter = nodemailer.createTransport(smtpConfig);
+var transporter = nodemailer.createTransport(smtpConfig);
 
 module.exports = smtpConfig;
