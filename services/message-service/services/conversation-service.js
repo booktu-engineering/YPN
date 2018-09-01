@@ -21,8 +21,7 @@ class ConversationService extends BaseService {
     if (body.constructor !== Array) {
       this.__unprocessableEntity();
     }
-    data = await Post.find({ type: 1, referenceID: null }).sort({ createdAt: -1 });
-    data = data.filter(item => body.includes(item.origin.id));
+    data = await Post.find({ type: 1, referenceID: null, $or: [{ 'origin.role': 5 }, { 'origin.id': { $in: [body] } }] }).sort({ createdAt: -1 });
     return data;
   }
 
@@ -40,7 +39,7 @@ class ConversationService extends BaseService {
         data.invites.push(user);
         data = await data.save();
         return data;
-      } else if (data.invites.map(item => item.id).includes(user.id)) return data;
+      } if (data.invites.map(item => item.id).includes(user.id)) return data;
       data.invites.push(user);
       data = await data.save();
       return data;

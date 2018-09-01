@@ -39,15 +39,26 @@ class PostServiceObject extends BaseService {
     return post;
   }
 
+  __formatNotification = () => {
+
+  }
+
   __dispatchComment = async (data) => {
     ref.content = data.content;
     ref.origin = data.origin;
     ref.id = data._id;
-    notification = { type: data.type, message: `${data.origin.username} replied your ${data.destination ? 'message' : 'post'}`, referenceID: data._id, body: ref, time: Date.now(), destination: data.referenceObject.origin.username, destinationID: data.referenceObject.origin.id };
+    notification = { 
+      type: data.type, 
+      message: `${data.origin.username} replied your ${data.destination ? 'message' : 'post'}`, 
+      referenceID: data._id, 
+      body: ref, 
+      time: Date.now(), 
+      destination: data.referenceObject.origin.username, 
+      destinationID: data.referenceObject.origin.id 
+    };
     data = { ...data, destination: data.referenceObject.origin.email, subject: data.subject };
     await this.__updateReference(data.referenceObject, 1);
-    nt_token = await this.__updateNotifications(data.referenceObject.origin.nt_token, notification, data.referenceObject.origin);
-    this.__dispatchToNotificationServer(data, { ...notification, nt_token }, 5);
+    this.__dispatchToNotificationServer(data, { ...notification }, 5, data.origin);
   };
 
   __updateReference = async (data, key) => {
@@ -78,7 +89,7 @@ class PostServiceObject extends BaseService {
     if (!convo || convo.type !== 1) return;
     // doing this so that he/she doesnt send a mail to himself/herself
     let members = convo.members.filter(item => item.id !== message.origin.id);
-    members.forEach(item => this.__dispatchToNotificationServer({ ...message,  destination: item.email, subject: `${message.origin.username} sent you a message on Youth Party Nigeria` }, { destination: item.username, destinationID: item.id }, 4));
+    members.forEach(item => this.__dispatchToNotificationServer({ ...message,  destination: item.email, subject: `${message.origin.username} sent you a message on Youth Party Nigeria` }, { destination: item.username, destinationID: item.id }, 4), message.origin);
   }
 
   __updateNotifications = async (token, notification, destination) => {
@@ -108,8 +119,7 @@ class PostServiceObject extends BaseService {
           ref.origin = body.origin;
           ref.id = body._id;
           notification = { type: body.type, message: `You were mentioned in ${body.origin.username}'s post`, referenceID: body._id, body: ref, destination: item.username, destinationID: item.id, time: Date.now() };
-          nt_token = await this.__updateNotifications(item.nt_token, notification, item);
-          this.__dispatchToNotificationServer({ ...body, destination: item.email, subject: `New mention by ${body.origin.username} on Youth Party Nigeria App` }, { ...notification, nt_token }, 5);
+          this.__dispatchToNotificationServer({ ...body, destination: item.email, subject: `New mention by ${body.origin.username} on Youth Party Nigeria App` }, { ...notification, nt_token }, 5, body.origin);
           return body;
         });
       }
@@ -132,15 +142,14 @@ class PostServiceObject extends BaseService {
       data.likes.count += 1;
       data.likes.data.push(user);
       notification = { type: data.type, message: `${user.username} liked your ${data.destination ? 'message' : 'post'}`, referenceID: data._id, body: { id: data._id, content: data.content, origin: data.origin}, time: Date.now(), destination: data.origin.username, destinationID: data.origin.id };
-      this.__dispatchToNotificationServer({ ...data._doc, origin: { username: user.username }, destination: data.origin.email, subject: `${user.username} liked your post on Youth Party Nigeria` }, { ...notification, nt_token }, 5);
-      nt_token = await this.__updateNotifications(data.origin.nt_token, notification, data.origin);
+      this.__dispatchToNotificationServer({ ...data._doc, origin: { username: user.username }, destination: data.origin.email, subject: `${user.username} liked your post on Youth Party Nigeria` }, { ...notification, nt_token }, 5, user);
     } else if (type === 1) {
       filler = data.likes.data.filter(item => item.id === user.id);
       if (filler.length < 1) return data;
       data.likes.count -= 1;
       data.likes.data = data.likes.data.filter(item => item.id !== user.id);
     }
-    const dataX = await this.model.findOneAndUpdate({ _id: data._id}, {$set: { likes: data.likes } }, { new: true });
+    const dataX = await this.model.findOneAndUpdate({ _id: data._id }, {$set: { likes: data.likes } }, { new: true });
     return data;
   }
 

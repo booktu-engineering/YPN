@@ -109,9 +109,9 @@ class BaseService {
       });
   };
 
-  __dispatchToNotificationServer = async (mail, notification, key) => {
+  __dispatchToNotificationServer = async (mail, notification, key, user) => {
     instance = axios.create({ baseURL: config.notificationUrl });
-    instance.post('/receive', { mail, notification, key })
+    instance.post('/receive', { mail, notification, key, user })
       .then(() => {
         console.log('Successfully dispatched notification');
       });
