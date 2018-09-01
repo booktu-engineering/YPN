@@ -5,15 +5,9 @@ import cors from 'cors';
 import logger from 'morgan';
 import mongoose from 'mongoose';
 import dispatchToDb from './interactors/';
-import NotificationHandler, { ErrorHandlerController } from './controllers/';
+import NotificationHandler, { ErrorHandlerController, RegisterPlayer } from './controllers/';
 
 const app = express();
-const server = require('http').Server(app);
-
-const io = socketServer(server, {
-  path: '/',
-  serveClient: false
-});
 
 app.use(ErrorHandlerController)
   .use(bodyParser.json())
@@ -24,6 +18,14 @@ app.use(ErrorHandlerController)
 
 app.post('/receive', NotificationHandler);
 
+app.post('/register', RegisterPlayer);
+
+const server = require('http').Server(app);
+
+const io = socketServer(server, {
+  path: '/socket.io',
+  serveClient: true
+});
 
 const chatSocket = io
   .of('/conversation')
@@ -33,7 +35,6 @@ const chatSocket = io
       console.log(`${socket.id} has now joined conversation ${identifier}`);
     });
     socket.on('new-message', (data) => {
-      console.log(data);
       socket.broadcast.to(`conversation-${data.destination}`).emit('incoming-message', data);
       dispatchToDb(data);
     });
@@ -46,4 +47,4 @@ server.listen(port, () => {
   console.log(`Notification Service is listening on ${port}`);
 });
 
-export default { io };
+export default { dad: {} };
