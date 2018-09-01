@@ -22,9 +22,9 @@ const NotificationHandler = (req, res, next) => {
   }
 };
 
-export const HandleDecode = (req, res, next) => {
+export const HandleDecode = async (req, res, next) => {
   try {
-    const data = NotificationInteractor.fetchAllNotifications(req.params.userId);
+    const data = await NotificationInteractor.fetchAllNotifications(req.params.userId);
     res.status(200).json({ ok: true, data });
   } catch (e) {
     next(e);

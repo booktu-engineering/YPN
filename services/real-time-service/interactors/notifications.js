@@ -23,8 +23,15 @@ class NotificationInteractorB {
         } else if (body.key === 5) {
           heading = 'Someone replied your post';
         }
-        DispatchRemoteNotification([player.playerId], body.notification.message, heading);
-        player.notifications.push({ ...body.notification, count: (player.notifications.length + 1) });
+        const formatNotification = () => ({
+          type: body.key,
+          origin: body.user,
+          target: !body.key > 0 ? null : body.notification.body,
+          message: body.notification.message
+
+        });
+        DispatchRemoteNotification([player.playerId], body.notification.message, heading, JSON.stringify(...formatNotification()));
+        player.notifications.push({ ...formatNotification(), count: (player.notifications.length + 1) });
         player.save();
       }
 
@@ -43,8 +50,8 @@ class NotificationInteractorB {
 
   static fetchAllNotifications = async (userId) => {
     const compare = (a, b) => {
-      if (a.count < b.count) { return -1; }
-      if (a.count > b.count) { return 1; }
+      if (a.count < b.count) { return 1; }
+      if (a.count > b.count) { return -1; }
       return 0;
     };
     const data = await PlayerModel.findOne({ userId });
@@ -55,7 +62,7 @@ class NotificationInteractorB {
 
 // 19c93878-1c4e-4fd7-b8ad-7ddf9eebc81d
 
-const DispatchRemoteNotification = (players, message, heading) => {
+const DispatchRemoteNotification = (players, message, heading, data) => {
   axios
     .request({
       method: 'Post',
@@ -66,9 +73,10 @@ const DispatchRemoteNotification = (players, message, heading) => {
           en: message
         },
         headings: {
-          en: heading
+          en: 'Youth Party'
         },
-        include_player_ids: players
+        include_player_ids: players,
+        data
       },
       headers: {
         'Content-type': 'application/json; charset=utf-8',
