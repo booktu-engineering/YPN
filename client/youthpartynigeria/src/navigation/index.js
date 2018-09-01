@@ -54,6 +54,7 @@ import ShowImage from '../modules/RenderImage';
 import RenderTownHalls from '../modules/TownHalls';
 import ShowGroups from '../modules/ShowGroups';
 import ContactUs from '../modules/ContactUs';
+import ShowNotifications from '../modules/Notifications';
 
 const { Provider, store } = configureStore();
 let homeIcon; 
@@ -130,7 +131,8 @@ export default class Navigator {
     Navigation.registerComponent('Show.Image', () => ShowImage);
     Navigation.registerComponent('Town.Halls', () => RenderTownHalls, storex, Provider);
     Navigation.registerComponent('Show.Groups', () => ShowGroups, storex, Provider);
-    Navigation.registerComponent('Contact.Us', () => ContactUs)
+    Navigation.registerComponent('Contact.Us', () => ContactUs);
+    Navigation.registerComponent('Show.Notifications', () => ShowNotifications, storex, Provider);
   }
 
   startLoggedOut = () => {
@@ -158,7 +160,7 @@ export default class Navigator {
         {
           screen: 'Chat.Component',
           label: 'Chat',
-          title: 'Chat', 
+          title: 'Chat',
           icon: chatIcon,
           navigatorStyle: {
             drawUnderTabBar: true,

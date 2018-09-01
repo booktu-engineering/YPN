@@ -18,7 +18,7 @@ class ConversationLog extends Screen {
       messages: [],
       content: ''
     };
-    this.socket = io(`${config.realTimeUrl}conversation`, { query: { convoID: this.props.data._id } });
+    this.socket = io(`${config.realTimeUrl}/conversation`, { query: { convoID: this.props.data._id } });
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.registerEvents();
     // this.textInput = CReact.createRef();

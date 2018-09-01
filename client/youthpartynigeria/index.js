@@ -6,10 +6,11 @@ let token;
 /* eslint-disable no-underscore-dangle */
 class StartApp {
   constructor() {
+    console.log('boom sha');
     this.navigator = new NavigatorBase();
     this.navigator.__registerScreens();
   }
-
+  
   start = () => {
     AsyncStorage.getItem('#!@#$%')
     .then((token) => {

@@ -6,7 +6,8 @@ import donations from './donations';
 import questions from './questions';
 import events from './events';
 import careers from './careers';
-import positions from './positions'
+import positions from './positions';
+import notifications from './notifications';
 
 const root = combineReducers({
   users,
@@ -16,7 +17,8 @@ const root = combineReducers({
   questions,
   events,
   careers,
-  positions
+  positions,
+  notifications
 });
 
 export default root;

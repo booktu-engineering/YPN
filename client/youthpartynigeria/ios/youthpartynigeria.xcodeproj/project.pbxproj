@@ -39,6 +39,14 @@
 		5075181120F66E3200207960 /* QBImagePicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5075180F20F66E3200207960 /* QBImagePicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5075181420F66EE000207960 /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5075181320F66EE000207960 /* RSKImageCropper.framework */; };
 		5075181520F66EE000207960 /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5075181320F66EE000207960 /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5089FF8F2138B77F00F45FD9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5089FF8E2138B77E00F45FD9 /* UIKit.framework */; };
+		5089FF912138B78F00F45FD9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5089FF902138B78F00F45FD9 /* SystemConfiguration.framework */; };
+		5089FF922138B7AD00F45FD9 /* libRCTOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 509B53CA2138B19900380E97 /* libRCTOneSignal.a */; };
+		50BC59042138B44100DCECDE /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BC59032138B44100DCECDE /* UserNotifications.framework */; };
+		50BC59062138B44100DCECDE /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BC59052138B44100DCECDE /* UserNotificationsUI.framework */; };
+		50BC590A2138B44100DCECDE /* NotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50BC59092138B44100DCECDE /* NotificationViewController.m */; };
+		50BC590D2138B44100DCECDE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50BC590B2138B44100DCECDE /* MainInterface.storyboard */; };
+		50BC59112138B44100DCECDE /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 50BC59022138B43F00DCECDE /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		50E7926120FDCA47001E2CC0 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50E7922720FDCA46001E2CC0 /* Octicons.ttf */; };
 		50E7926220FDCA47001E2CC0 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50E7922820FDCA46001E2CC0 /* Feather.ttf */; };
 		50E7926320FDCA47001E2CC0 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50E7922920FDCA46001E2CC0 /* Entypo.ttf */; };
@@ -53,6 +61,7 @@
 		57F4275707114B13BF55BFCB /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 028878ACAAC74A25A033CDE4 /* Feather.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		5FA461C5D0FD44288E826DF1 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4F48E4D89FB4F58ACFF91DC /* MaterialCommunityIcons.ttf */; };
+		6437A874520041CBAE4C4586 /* libRCTOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9176DDA58C4E1C8A0B64BD /* libRCTOneSignal.a */; };
 		66F78343FC674CEF9F0C76E4 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 39B5E619B01E4F6A9A6BFF16 /* Entypo.ttf */; };
 		680B46096BA644CF9C653CFA /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C43B4D76F2E44908A0F5DFFD /* EvilIcons.ttf */; };
 		69017AE534DE4894BC5CC795 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4F0CFA76B164307A8FB460B /* libRNFetchBlob.a */; };
@@ -352,12 +361,26 @@
 			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
 			remoteInfo = "jschelpers-tvOS";
 		};
+		509B53C92138B19900380E97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 481B1707051843EEA8DE2C47 /* RCTOneSignal.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3245CDED1BFEE35C00EABF68;
+			remoteInfo = RCTOneSignal;
+		};
 		50A82FA3212F292900EB55C9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 684881A0E351431E9E040E82 /* RCTPdf.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 20D8E03F1C8E946C00039823;
 			remoteInfo = RCTPdf;
+		};
+		50BC590F2138B44100DCECDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50BC59012138B43F00DCECDE;
+			remoteInfo = OneSignalNotificationServiceExtension;
 		};
 		50CE22C521257E5C00C258BB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -444,6 +467,17 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50BC59152138B44100DCECDE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				50BC59112138B44100DCECDE /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -471,6 +505,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = youthpartynigeria/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = youthpartynigeria/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		1A9176DDA58C4E1C8A0B64BD /* libRCTOneSignal.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOneSignal.a; sourceTree = "<group>"; };
 		1B0A414E715E488DBE0ECD47 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		228A51E33F8A4490BF82CBF0 /* libRNCloudinary.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCloudinary.a; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* youthpartynigeria-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "youthpartynigeria-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -479,11 +514,21 @@
 		39B5E619B01E4F6A9A6BFF16 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		41EF7EDDBCF045BD9A17E26C /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		478B9B6B8F724FC6B1535E45 /* imageCropPicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = imageCropPicker.xcodeproj; path = "../node_modules/react-native-image-crop-picker/ios/imageCropPicker.xcodeproj"; sourceTree = "<group>"; };
+		481B1707051843EEA8DE2C47 /* RCTOneSignal.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOneSignal.xcodeproj; path = "../node_modules/react-native-onesignal/ios/RCTOneSignal.xcodeproj"; sourceTree = "<group>"; };
 		4E8B862F804A424FAF60E9F0 /* libReactNativeNavigation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeNavigation.a; sourceTree = "<group>"; };
 		4F6F73EABA41417EB5736684 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		5075180F20F66E3200207960 /* QBImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QBImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5075181320F66EE000207960 /* RSKImageCropper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5089FF8E2138B77E00F45FD9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		5089FF902138B78F00F45FD9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		50A11F5F20F8E47A00A79195 /* youthpartynigeria.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = youthpartynigeria.entitlements; path = youthpartynigeria/youthpartynigeria.entitlements; sourceTree = "<group>"; };
+		50BC59022138B43F00DCECDE /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		50BC59032138B44100DCECDE /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		50BC59052138B44100DCECDE /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		50BC59082138B44100DCECDE /* NotificationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationViewController.h; sourceTree = "<group>"; };
+		50BC59092138B44100DCECDE /* NotificationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationViewController.m; sourceTree = "<group>"; };
+		50BC590C2138B44100DCECDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		50BC590E2138B44100DCECDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50E7922720FDCA46001E2CC0 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		50E7922820FDCA46001E2CC0 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
 		50E7922920FDCA46001E2CC0 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
@@ -569,6 +614,7 @@
 				E61F348BDA714F99A9DC8B5A /* libRNVectorIcons.a in Frameworks */,
 				69017AE534DE4894BC5CC795 /* libRNFetchBlob.a in Frameworks */,
 				BCF3F8B58B7E4E56A2C99D8A /* libRCTPdf.a in Frameworks */,
+				6437A874520041CBAE4C4586 /* libRCTOneSignal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,6 +639,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50BC58FF2138B43F00DCECDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5089FF922138B7AD00F45FD9 /* libRCTOneSignal.a in Frameworks */,
+				5089FF912138B78F00F45FD9 /* SystemConfiguration.framework in Frameworks */,
+				5089FF8F2138B77F00F45FD9 /* UIKit.framework in Frameworks */,
+				50BC59062138B44100DCECDE /* UserNotificationsUI.framework in Frameworks */,
+				50BC59042138B44100DCECDE /* UserNotifications.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,6 +803,7 @@
 				F2664149E8B34ABD835F3B1B /* libRNVectorIcons.a */,
 				E4F0CFA76B164307A8FB460B /* libRNFetchBlob.a */,
 				A3CD53E9AEFD431A96EBF2EC /* libRCTPdf.a */,
+				1A9176DDA58C4E1C8A0B64BD /* libRCTOneSignal.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -769,9 +828,21 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5089FF902138B78F00F45FD9 /* SystemConfiguration.framework */,
+				5089FF8E2138B77E00F45FD9 /* UIKit.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
+				50BC59032138B44100DCECDE /* UserNotifications.framework */,
+				50BC59052138B44100DCECDE /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		509B53C62138B19900380E97 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				509B53CA2138B19900380E97 /* libRCTOneSignal.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		50A82FA0212F292900EB55C9 /* Products */ = {
@@ -780,6 +851,17 @@
 				50A82FA4212F292900EB55C9 /* libRCTPdf.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		50BC59072138B44100DCECDE /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				50BC59082138B44100DCECDE /* NotificationViewController.h */,
+				50BC59092138B44100DCECDE /* NotificationViewController.m */,
+				50BC590B2138B44100DCECDE /* MainInterface.storyboard */,
+				50BC590E2138B44100DCECDE /* Info.plist */,
+			);
+			path = OneSignalNotificationServiceExtension;
 			sourceTree = "<group>";
 		};
 		50CE22C221257E5B00C258BB /* Products */ = {
@@ -876,6 +958,7 @@
 				CC3CE48ACA7A456CADFC47AD /* RNVectorIcons.xcodeproj */,
 				1B0A414E715E488DBE0ECD47 /* RNFetchBlob.xcodeproj */,
 				684881A0E351431E9E040E82 /* RCTPdf.xcodeproj */,
+				481B1707051843EEA8DE2C47 /* RCTOneSignal.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -898,6 +981,7 @@
 				13B07FAE1A68108700A75B9A /* youthpartynigeria */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* youthpartynigeriaTests */,
+				50BC59072138B44100DCECDE /* OneSignalNotificationServiceExtension */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				286D916E20BECACE0070D5C2 /* Recovered References */,
@@ -915,6 +999,7 @@
 				00E356EE1AD99517003FC87E /* youthpartynigeriaTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* youthpartynigeria-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* youthpartynigeria-tvOSTests.xctest */,
+				50BC59022138B43F00DCECDE /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -990,10 +1075,12 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				5075181220F66E3300207960 /* Embed Frameworks */,
+				50BC59152138B44100DCECDE /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				50BC59102138B44100DCECDE /* PBXTargetDependency */,
 			);
 			name = youthpartynigeria;
 			productName = "Hello World";
@@ -1036,6 +1123,23 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* youthpartynigeria-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		50BC59012138B43F00DCECDE /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50BC59122138B44100DCECDE /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */;
+			buildPhases = (
+				50BC58FE2138B43F00DCECDE /* Sources */,
+				50BC58FF2138B43F00DCECDE /* Frameworks */,
+				50BC59002138B43F00DCECDE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OneSignalNotificationServiceExtension;
+			productName = OneSignalNotificationServiceExtension;
+			productReference = 50BC59022138B43F00DCECDE /* OneSignalNotificationServiceExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1055,7 +1159,13 @@
 						DevelopmentTeam = F9K6U83952;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -1068,6 +1178,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
+					};
+					50BC59012138B43F00DCECDE = {
+						CreatedOnToolsVersion = 9.4.1;
+						DevelopmentTeam = F9K6U83952;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -1118,6 +1233,10 @@
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
+				},
+				{
+					ProductGroup = 509B53C62138B19900380E97 /* Products */;
+					ProjectRef = 481B1707051843EEA8DE2C47 /* RCTOneSignal.xcodeproj */;
 				},
 				{
 					ProductGroup = 50A82FA0212F292900EB55C9 /* Products */;
@@ -1174,6 +1293,7 @@
 				00E356ED1AD99517003FC87E /* youthpartynigeriaTests */,
 				2D02E47A1E0B4A5D006451C7 /* youthpartynigeria-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* youthpartynigeria-tvOSTests */,
+				50BC59012138B43F00DCECDE /* OneSignalNotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -1438,6 +1558,13 @@
 			remoteRef = 3DAD3EAE1DF850E9000B6D8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		509B53CA2138B19900380E97 /* libRCTOneSignal.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTOneSignal.a;
+			remoteRef = 509B53C92138B19900380E97 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		50A82FA4212F292900EB55C9 /* libRCTPdf.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1574,6 +1701,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50BC59002138B43F00DCECDE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50BC590D2138B44100DCECDE /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -1642,6 +1777,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50BC58FE2138B43F00DCECDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50BC590A2138B44100DCECDE /* NotificationViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1655,6 +1798,11 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* youthpartynigeria-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		50BC59102138B44100DCECDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50BC59012138B43F00DCECDE /* OneSignalNotificationServiceExtension */;
+			targetProxy = 50BC590F2138B44100DCECDE /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1665,6 +1813,14 @@
 			);
 			name = LaunchScreen.xib;
 			path = youthpartynigeria;
+			sourceTree = "<group>";
+		};
+		50BC590B2138B44100DCECDE /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				50BC590C2138B44100DCECDE /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1692,12 +1848,14 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = youthpartynigeriaTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1730,12 +1888,14 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = youthpartynigeriaTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1753,7 +1913,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-        ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = youthpartynigeria/youthpartynigeria.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -1776,6 +1936,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = youthpartynigeria/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1785,7 +1946,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = youthpartynigeria;
-				PROVISIONING_PROFILE = "f0719208-70a8-47b7-9479-97989ce1f0e4";
+				PROVISIONING_PROFILE = "c33fc6e7-af03-4f23-a3cc-52fe704f5236";
 				PROVISIONING_PROFILE_SPECIFIER = "Hasstrup wildcard profile";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1795,7 +1956,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-        ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = youthpartynigeria/youthpartynigeria.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -1817,6 +1978,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = youthpartynigeria/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1826,7 +1988,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = youthpartynigeria;
-				PROVISIONING_PROFILE = "f0719208-70a8-47b7-9479-97989ce1f0e4";
+				PROVISIONING_PROFILE = "c33fc6e7-af03-4f23-a3cc-52fe704f5236";
 				PROVISIONING_PROFILE_SPECIFIER = "Hasstrup wildcard profile";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1856,11 +2018,13 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = "youthpartynigeria-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1900,11 +2064,13 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = "youthpartynigeria-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1943,11 +2109,13 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = "youthpartynigeria-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1986,11 +2154,13 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = "youthpartynigeria-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -2003,6 +2173,80 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/youthpartynigeria-tvOS.app/youthpartynigeria-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
+			};
+			name = Release;
+		};
+		50BC59132138B44100DCECDE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = F9K6U83952;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				HEADER_SEARCH_PATHS = "/Users/hasstrupezekiel/desktop/projects/ypn/client/youthpartynigeria/node_modules/react-native-onesignal/ios/RCTOneSignal/**";
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.youthpartynigeria.OneSignalNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		50BC59142138B44100DCECDE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = F9K6U83952;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				HEADER_SEARCH_PATHS = "/Users/hasstrupezekiel/desktop/projects/ypn/client/youthpartynigeria/node_modules/react-native-onesignal/ios/RCTOneSignal/**";
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.youthpartynigeria.OneSignalNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -2117,6 +2361,15 @@
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
 				2D02E49A1E0B4A5E006451C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50BC59122138B44100DCECDE /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50BC59132138B44100DCECDE /* Debug */,
+				50BC59142138B44100DCECDE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

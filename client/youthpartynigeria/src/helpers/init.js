@@ -16,7 +16,6 @@ export default async (token, navigator) => {
     }
   })
     .then((response) => {
-      console.log(response.data.token);
       store.dispatch({ type: 'INSERT_TOKEN', payload: response.data.token });
       store.dispatch({ type: 'USER_LOGGED_IN', payload: response.data.data });
       store.dispatch({ type: 'FETCHED_ALL_RELATIONSHIPS', payload: { friends: response.data.friends, followers: response.data.followers } });

@@ -32,6 +32,20 @@ const SignUpThunk = (body) => (navigator) => (dispatch) => {
     });
 };
 
+export const fetchAllNotifications = () => async (dispatch, getState) => axios({
+  method: 'post',
+  url: `${config.realTimeUrl}/fetch/${getState().users.current.id}`,
+})
+  .then(async (response) => {
+    const count = await AsyncStorage.getItem('lastNotificationCount');
+    const newCount = response.data.data.last - parseInt(count);
+    dispatch({ type: 'SET_NOTIFICATIONS', payload: response.data.data.notifications, count: newCount });
+  })
+  .catch((err) => {
+    console.log(err);
+    dispatch({ type: 'SET_NOTIFICATIONS', payload: [], count: 0 });
+  });
+
 export const UpdateUserInfo = newUserInfo => (navigator) => (dispatch, getState) => {
   axios
     .request({
@@ -57,9 +71,9 @@ export const UpdateUserInfo = newUserInfo => (navigator) => (dispatch, getState)
     });
 };
 
-export const fetchFollowersForUser = (navigator, key) => (dispatch, getState) =>  {
-  if(key){
-    StartProcess(navigator)
+export const fetchFollowersForUser = (navigator, key) => (dispatch, getState) => {
+  if (key) {
+    StartProcess(navigator);
   }
   return axios.request({
     method: 'get',
@@ -68,7 +82,7 @@ export const fetchFollowersForUser = (navigator, key) => (dispatch, getState) =>
       Authorization: getState().users.token
     }
   }).then((response) => {
-    EndProcess(navigator)
+    EndProcess(navigator);
     navigator.showModal({
       screen: 'Follow.User',
       passProps: {
@@ -77,11 +91,11 @@ export const fetchFollowersForUser = (navigator, key) => (dispatch, getState) =>
     });
   })
     .catch((err) => {
-      EndProcess(navigator)
+      EndProcess(navigator);
       dispatchNotification(navigator)("We tried to get you some friends. Didn't work out. Try again?");
       navigator.pop();
     });
-}
+};
 
 
 export const fetchAllRelationshipsOfUser = () => (dispatch, getState) => axios.request({
@@ -121,7 +135,7 @@ export const followUser = (data) => (navigator) => (dispatch, getState) => {
 const LogInThunk = (body) => (navigator) => (dispatch) => {
   // render an activity indicator here
   StartProcess(navigator);
-  return axios.post(`${config.baseUrl}/login`, body)
+  return axios.post(`${config.baseUrl}/login`, body, { 'Cache-Control': 'no-cache' })
     .then((response) => {
       dispatch({ type: 'USER_LOGGED_IN', payload: response.data.data.user });
       dispatch({ type: 'INSERT_TOKEN', payload: response.data.data.token });
