@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 import ios from '../index';
 import PlayerModel from '../models';
 
@@ -22,7 +23,9 @@ class NotificationInteractorB {
         } else if (body.key === 5) {
           heading = 'Someone replied your post';
         }
-        DispatchRemoteNotification([ player.playerId], body.notification.message, heading);  
+        DispatchRemoteNotification([player.playerId], body.notification.message, heading);
+        player.notifications.push({ ...body.notification, count: (player.notifications.length + 1) });
+        player.save();
       }
 
       instance = axios.create({ baseURL: 'https://ypn-mailer.herokuapp.com/', });
@@ -32,12 +35,25 @@ class NotificationInteractorB {
         })
         .catch((err) => {
           console.log(err);
-        }); 
+        });
     } catch (e) {
       throw e;
     }
   }
+
+  static fetchAllNotifications = async (userId) => {
+    const compare = (a, b) => {
+      if (a.count < b.count) { return -1; }
+      if (a.count > b.count) { return 1; }
+      return 0;
+    };
+    const data = await PlayerModel.findOne({ userId });
+    if (!data) return null;
+    return { notifications: data.notifications.sort(compare), last: data.notifications.sort(compare)[0].count };
+  }
 }
+
+// 19c93878-1c4e-4fd7-b8ad-7ddf9eebc81d
 
 const DispatchRemoteNotification = (players, message, heading) => {
   axios
@@ -47,10 +63,10 @@ const DispatchRemoteNotification = (players, message, heading) => {
       data: {
         app_id: '19c93878-1c4e-4fd7-b8ad-7ddf9eebc81d',
         contents: {
-          "en": message
+          en: message
         },
         headings: {
-          "en": heading
+          en: heading
         },
         include_player_ids: players
       },

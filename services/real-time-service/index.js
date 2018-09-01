@@ -5,7 +5,7 @@ import cors from 'cors';
 import logger from 'morgan';
 import mongoose from 'mongoose';
 import dispatchToDb from './interactors/';
-import NotificationHandler, { ErrorHandlerController, RegisterPlayer } from './controllers/';
+import NotificationHandler, { ErrorHandlerController, RegisterPlayer, HandleDecode } from './controllers/';
 
 const app = express();
 
@@ -19,6 +19,8 @@ app.use(ErrorHandlerController)
 app.post('/receive', NotificationHandler);
 
 app.post('/register', RegisterPlayer);
+
+app.post('/fetch/:userId', HandleDecode);
 
 const server = require('http').Server(app);
 
