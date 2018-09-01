@@ -26,7 +26,7 @@ class NotificationInteractorB {
         const formatNotification = () => ({
           type: body.key,
           origin: body.user,
-          target: !body.key > 0 ? null : body.notification.body,
+          target: body.key > 0 ? body.notification.body : null,
           message: body.notification.message
 
         });
