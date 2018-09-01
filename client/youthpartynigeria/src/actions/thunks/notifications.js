@@ -1,5 +1,7 @@
 
 import { AsyncStorage } from 'react-native';
+import axios from 'axios';
+import config from '../../config';
 
 export const fetchAllNotifications = () => async (dispatch, getState) => axios({
   method: 'post',
@@ -11,7 +13,6 @@ export const fetchAllNotifications = () => async (dispatch, getState) => axios({
     dispatch({ type: 'SET_NOTIFICATIONS', payload: response.data.data.notifications, unSeenCount: newCount, lastSeenCount: count });
   })
   .catch((err) => {
-    console.log(err);
     dispatch({ type: 'SET_NOTIFICATIONS', payload: [], count: 0 });
   });
 

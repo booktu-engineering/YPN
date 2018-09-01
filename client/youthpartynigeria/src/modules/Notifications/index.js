@@ -4,7 +4,6 @@ import { View, Text, AsyncStorage } from 'react-native';
 import MultipleNotifications from '../SingleNotification';
 import { clearNotificationCount } from '../../actions/thunks/notifications';
 import { height, width, defaultGreen } from '../../mixins';
-import { ComposedCareers } from '../SingleCareer';
 
 class NotificationsComponent extends Component {
   constructor (props) {
@@ -15,29 +14,20 @@ class NotificationsComponent extends Component {
           id: 'Back.nav', 
           component: 'Back.Button', 
           passProps: {
-            navigator: this.props.navigator, 
-            modal: true
-          }
-        }
-      ], 
-      rightButtons: [
-        {
-          id: 'Back.nav', 
-          component: 'Search.Button', 
-          passProps: {
-            navigator: this.props.navigator, 
-            dispatch: this.props.dispatch
+            navigator: this.props.navigator
           }
         }
       ]
     })
   }
-    componentDidMount = () => {
-      dispatch(clearNotificationCount());
-      if(this.props.notifications && this.props.notifications.length) {
-        dispatch({ type: 'UPDATE_LAST_SEEN_COUNT', payload: this.props.notifications[0].count });
-        AsyncStorage.setItem('lastNotificationCount', this.props.notifications[0].count.toString());
-      }
+
+  componentDidMount = () =>  this.props.dispatch(clearNotificationCount());
+
+    componentWillUnmount = () => {
+        if(this.props.notifications && this.props.notifications.length) {
+            this.props.dispatch({ type: 'UPDATE_LAST_SEEN_COUNT', payload: this.props.notifications[0].count });
+            AsyncStorage.setItem('lastNotificationCount', this.props.notifications[0].count.toString());
+          }
     }
 
     renderNotifications = () => MultipleNotifications(this.props.notifications)({ navigator: this.props.navigator, dispatch: this.props.dispatch, lastCount: this.props.lastSeenCount })
@@ -45,8 +35,10 @@ class NotificationsComponent extends Component {
         <View style={{
           flex: 1
         }}>
-        { this.props.notifications && this.props.notifications.length && this.renderNotifications() }
-        { (!this.props.notifcations || !this.props.notifications.length) && <Text> Seems like there are no notifications </Text> }
+        { 
+            this.props.notifications && this.props.notifications.length ? this.renderNotifications() : 
+            <Text> Seems like there are no notifications </Text>
+        }
         </View>
     )
 }
@@ -55,12 +47,14 @@ NotificationsComponent.navigatorStyle = {
     navBarBackgroundColor: defaultGreen,
     statusBarTextColorScheme: 'light',
     preferredContentSize: { height: 2000 }, 
-    navBarNoBorder: true
+    navBarNoBorder: true,
+    tabBarHidden: true
   };
 
 const mapStateToProps = (state) => ({
   notifications: state.notifications.notifications,
-  lastSeenCount: state.notifications.lastSeen
+  lastSeenCount: state.notifications.lastSeen,
+  unseenCount: state.notifications.unseenCount
 })
 
 export default connect(mapStateToProps)(NotificationsComponent);

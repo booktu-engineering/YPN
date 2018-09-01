@@ -77,7 +77,6 @@ export default class Navigator {
   __registerScreens = () => {
     Navigation.registerComponent('Back.Button', () => BackIcon);
     Navigation.registerComponent('Search.Button', () => SearchIcon);
-    Navigation.registerComponent('Notif.Button', () => NotificationIcon);
     Navigation.registerComponent('Left.Button', () => LeftNav);
     Navigation.registerComponent('Add.Button', () => AddIcon);
     Navigation.registerComponent('App.notification', () => NotificationScreen);
@@ -92,6 +91,7 @@ export default class Navigator {
   }
 
   registerOtherScreens = (storex = store) => {
+    Navigation.registerComponent('Notif.Button', () => NotificationIcon, storex, Provider);
     Navigation.registerComponent('Home', () => HomeComponent, storex, Provider);
     Navigation.registerComponent('Chat.Component', () => ChatComponent, storex, Provider);
     Navigation.registerComponent('Post.Component', () => PostComponent, storex, Provider);

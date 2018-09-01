@@ -1,14 +1,16 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import { dispatchNotification } from '../helpers/uploader';
+import { fetchAllNotifications } from '../actions/thunks/notifications';
 import OneSignal from 'react-native-onesignal';
 import config from '../config';
 
 
-export default (device, navigator) => async (_, getState) => {
-  const onReceived = (notification) => dispatchNotification(navigator)(notification.payload.body);
-
-  
+export default (device, navigator) => async (dispatch, getState) => {
+  const onReceived = (notification) => {
+    dispatch(fetchAllNotifications());
+    dispatchNotification(navigator)(notification.payload.body)
+  };
 
   const onOpened = (result) => {
     console.log(result)
