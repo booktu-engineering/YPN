@@ -53,8 +53,8 @@ class PostServiceObject extends BaseService {
       referenceID: data._id, 
       body: ref, 
       time: Date.now(), 
-      destination: data.referenceObject.origin.username, 
-      destinationID: data.referenceObject.origin.id 
+      destination: data.referenceObject.origin.username,
+      destinationID: data.referenceObject.origin.id
     };
     data = { ...data, destination: data.referenceObject.origin.email, subject: data.subject };
     await this.__updateReference(data.referenceObject, 1);
@@ -89,7 +89,7 @@ class PostServiceObject extends BaseService {
     if (!convo || convo.type !== 1) return;
     // doing this so that he/she doesnt send a mail to himself/herself
     let members = convo.members.filter(item => item.id !== message.origin.id);
-    members.forEach(item => this.__dispatchToNotificationServer({ ...message,  destination: item.email, subject: `${message.origin.username} sent you a message on Youth Party Nigeria` }, { destination: item.username, destinationID: item.id }, 4), message.origin);
+    members.forEach(item => this.__dispatchToNotificationServer({ ...message,  destination: item.email, subject: `${message.origin.username} sent you a message on Youth Party Nigeria` }, { destination: item.username, destinationID: item.id, message: `${message.origin.username} sent you a message on Youth Party Nigeria` }, 4), message.origin);
   }
 
   __updateNotifications = async (token, notification, destination) => {
