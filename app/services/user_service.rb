@@ -34,12 +34,14 @@ class UserService < BaseService
 
 
   def follow body
+    puts body
     user = self.model.find_by(id: body[:current_user][:id].to_i);
     followed_user = self.model.find_by(id: body[:id].to_i);
     relationship = Relationship.where({ follower_id: body[:current_user][:id].to_i, followed_id: body[:id].to_i })
-    if user && followed_user && !relationship.present?
+    if user && followed_user
       if (body[:type] && body[:type] === '1')
-        relationship.destroy
+        puts "yay"
+        relationship[0].destroy
         return relationship
       end
       relationship = Relationship.create!({ follower_id: body[:current_user][:id].to_i, followed_id: body[:id].to_i });
@@ -135,9 +137,9 @@ class UserService < BaseService
     if data
       payload = { :id => data.id, :reset_password_count => data.reset_password_count }
       token = Auth.issue payload
-      link = "https://ypn-base.herokuapp.com/reset/password/?tk=#{token}"
+      link = "https://ypn-web.firebaseapp.com/reset/password/?tk=#{token}"
       body = { :destination => data.email, :subject => 'Reset Your Password', :link => link, :username => data[:username] }
-      payload = { :notification => { :destination => data.username }, :key => 2, :mail => body }
+      payload = { :notification => { :destination => data.username }, :key => 2, :mail => body, :emailOnly => true }
       dispatch_notification payload
       return token
     end
@@ -193,9 +195,9 @@ def update_notification_token user, notification
 end
 
 def dispatch_notification body
-  uri = URI.parse("https://ypn-notification-api.herokuapp.com/receive/")
+  uri = URI.parse("http://localhost:5000/receive/")
   http = Net::HTTP.new(uri.host, uri.port);
-  http.use_ssl = true
+  http.use_ssl = false
   header = {'Content-Type': 'application/json'}
   request = Net::HTTP::Post.new(uri.request_uri, header)
   request.body = body.to_json

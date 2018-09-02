@@ -23,25 +23,26 @@ default: &default
 
 development:
   <<: *default
-  database: ypn-db
+  url: postgres://nwriynmmaalkar:1edd494d9d448e6fc83e4ff90f3f5d728a068085eace9ed84f52cdb0061f7049@ec2-54-228-180-236.eu-west-1.compute.amazonaws.com:5432/d8jfug9fca5dnn
+  # database: ypn-db
 
-  # The specified database role being used to connect to postgres.
-  # To create additional roles in postgres see `$ createuser --help`.
-  # When left blank, postgres will use the default role. This is
-  # the same name as the operating system user that initialized the database.
-  username: Hasstrup
+  # # The specified database role being used to connect to postgres.
+  # # To create additional roles in postgres see `$ createuser --help`.
+  # # When left blank, postgres will use the default role. This is
+  # # the same name as the operating system user that initialized the database.
+  # username: Hasstrup
 
-  # The password associated with the postgres role (username).
-  password: MYpassword
+  # # The password associated with the postgres role (username).
+  # password: MYpassword
 
-  # Connect on a TCP socket. Omitted by default since the client uses a
-  # domain socket that doesn't need configuration. Windows does not have
-  # domain sockets, so uncomment these lines.
-  host: localhost
+  # # Connect on a TCP socket. Omitted by default since the client uses a
+  # # domain socket that doesn't need configuration. Windows does not have
+  # # domain sockets, so uncomment these lines.
+  # host: localhost
 
-  # The TCP port the server listens on. Defaults to 5432.
-  # If your server runs on a different port number, change accordingly.
-  port: 5432
+  # # The TCP port the server listens on. Defaults to 5432.
+  # # If your server runs on a different port number, change accordingly.
+  # port: 5432
 
   # Schema search path. The server defaults to $user,public
   #schema_search_path: myapp,sharedapp,public

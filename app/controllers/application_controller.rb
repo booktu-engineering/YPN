@@ -49,7 +49,7 @@ class ApplicationController < ActionController::API
   end
 
   def dispatch_notification body
-    uri = URI.parse("https://ypn-notification-api.herokuapp.com/receive/")
+    uri = URI.parse("http:///receive/")
     http = Net::HTTP.new(uri.host, uri.port);
     http.use_ssl = true
     header = {'Content-Type': 'application/json'}

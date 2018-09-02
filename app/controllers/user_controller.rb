@@ -62,9 +62,9 @@ class UserController < ApplicationController
     if data
       payload = { :id => data.id }
       token = Auth.issue payload
-      link = "https://ypn-base.herokuapp.com/confirm/mail/?tk=#{token}"
+      link = "https://ypn-web.firebaseapp.com/confirm/mail/?tk=#{token}"
       body = { :destination => data.email, :subject => 'Welcome to Youth Party Nigeria', :link => link, :username => data[:username] }
-      payload = { :key => 1, :mail => body, :notification => { :destination => data.username }}
+      payload = { :key => 1, :mail => body, :notification => { :destination => data.username }, :emailOnly => true }
       dispatch_notification payload
       return token
     end
