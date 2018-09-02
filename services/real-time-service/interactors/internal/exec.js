@@ -1,7 +1,7 @@
 import axios from 'axios';
 import PostModel from './model';
 
-const url = 'https://ypn-node-service.herokuapp.com/api/v1/posts';
+const url = 'http://52.47.48.167/api/v1/posts';
 
 class PostServiceBase {
   constructor(model, fetcher) {

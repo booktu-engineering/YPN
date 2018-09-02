@@ -27,14 +27,14 @@ class NotificationInteractorB {
           type: body.key,
           origin: body.user,
           target: body.key > 0 ? body.notification.body : null,
-          message: body.notification.message
+          message: body.notification.message,
+          time: body
 
         });
         DispatchRemoteNotification([player.playerId], body.notification.message, heading, JSON.stringify(...formatNotification()));
         player.notifications.push({ ...formatNotification(), count: (player.notifications.length + 1) });
         player.save();
       }
-
       instance = axios.create({ baseURL: 'https://ypn-mailer.herokuapp.com/', });
       instance.post(`/sendmail/?key=${body.key}`, { username: body.notification.destination, ...body.mail })
         .then((response) => {
