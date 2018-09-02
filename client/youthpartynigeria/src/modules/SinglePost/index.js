@@ -22,7 +22,7 @@ const generateHeight = (obj) => {
 }
 
 const SinglePost = ({ data, obj }) => (
-  <TouchableOpacity style={{ width, ...generateHeight(obj) }} onPress={() => { if(obj.single) return; obj.navigator.push({ screen: 'View.Post', title: `Post by ${data.origin.firstname}`, passProps: { target: data }})}}>
+  <TouchableOpacity style={{ width, ...generateHeight(obj) }} onPress={() => { if(obj.single) return; obj.navigator.push({ screen: 'View.Post', title: `Post by ${data.origin.firstname}`, passProps: { target: data }}) }}>
     <View style={styles.mainContent}>
       {/* this should render the users avatar and all of that */}
       <TouchableOpacity
@@ -128,7 +128,7 @@ class ButtonStack extends Component {
    handleShare = () => {
      this.props.navigator.push({ 
        screen: 'Show.Groups', 
-       title: 'Share the post with your followers',
+       title: 'Share this post with your followers',
        passProps: {
          single: true,
          reference: this.props.data

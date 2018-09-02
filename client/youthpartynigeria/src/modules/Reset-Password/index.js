@@ -1,20 +1,37 @@
-import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { RequestPasswordReset } from '../../ops';
+import { defaultGreen } from '../../mixins';
 import styles from './styles';
 
 /* eslint-disable max-len, object-curly-newline, no-undef */
 
-const ResetPasswordComponent = (props) => {
-  this.props = props;
+class ResetPasswordComponent extends Component {
+  constructor (props) {
+    super(props);
+    this.props.navigator.setButtons({
+      leftButtons: [
+        {
+          id: 'Back.nav', 
+          component: 'Back.Button', 
+          passProps: {
+            navigator: this.props.navigator
+          }
+        }
+      ]
+    })
+    this.state = {}
+  }
 
-  onNavigatorEvent = (e) => {
-    if (e.type === 'NavBarButtonPress' && e.id === 'back.button') return this.props.navigator.pop();
-  };
+  handleChange = (text) => this.setState({ email: text });
 
-  this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+  handleSubmit = () => {
+    console.log(this.state);
+    RequestPasswordReset(this.state)(this.props.navigator)
+  }
 
-  return (
-    <View style={styles.base}>
+    render = () => (
+      <View style={styles.base}>
       <View style={{ height: 150 }}>
         { /* Location for the logo */}
       </View>
@@ -26,36 +43,31 @@ const ResetPasswordComponent = (props) => {
         <Text style={styles.smallText}> Enter your email or phone number to receive your password reset instructions </Text>
       </View>
       {/* End of Main text / Start of form and button  */}
-      <ResetPasswordForm />
+      <ResetPasswordForm handleChange={this.handleChange} handleSubmit={this.handleSubmit} />
     </View>
-  );
-};
+    ) 
+
+}
+
 
 
 // main navigator properties;
 ResetPasswordComponent.navigatorStyle = {
-  navBarNoBorder: true
-};
-
-ResetPasswordComponent.navigatorButtons = {
-  leftButtons: [{
-    title: 'Back',
-    id: 'back.button',
-    buttonColor: '#82BE30',
-    buttonFontSize: 15
-  }]
+  navBarNoBorder: true,
+  navBarBackgroundColor: defaultGreen,
+  statusBarTextColorScheme: 'light',
 };
 
 /*  *********** SUB COMPONENTS TO BE REFACTORED ********  */
 
 // reset password form
-const ResetPasswordForm = () => (
-  <View style={{ height: 100 }}>
-    <TextInput style={styles.inputStyle} />
-    <View style={styles.bigButton}>
+const ResetPasswordForm = ({ handleSubmit, handleChange }) => (
+  <KeyboardAvoidingView style={{ height: 100 }} behavior="height">
+    <TextInput style={styles.inputStyle} onChangeText={handleChange}/>
+    <TouchableOpacity style={styles.bigButton} onPress={handleSubmit}>
       <Text style={styles.buttonText}> RESET PASSWORD </Text>
-    </View>
-  </View>
+    </TouchableOpacity>
+  </KeyboardAvoidingView>
 );
 
 export default ResetPasswordComponent;

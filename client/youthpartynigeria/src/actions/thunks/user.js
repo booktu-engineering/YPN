@@ -32,20 +32,6 @@ const SignUpThunk = (body) => (navigator) => (dispatch) => {
     });
 };
 
-export const fetchAllNotifications = () => async (dispatch, getState) => axios({
-  method: 'post',
-  url: `${config.realTimeUrl}/fetch/${getState().users.current.id}`,
-})
-  .then(async (response) => {
-    const count = await AsyncStorage.getItem('lastNotificationCount');
-    const newCount = response.data.data.last - parseInt(count);
-    dispatch({ type: 'SET_NOTIFICATIONS', payload: response.data.data.notifications, count: newCount });
-  })
-  .catch((err) => {
-    console.log(err);
-    dispatch({ type: 'SET_NOTIFICATIONS', payload: [], count: 0 });
-  });
-
 export const UpdateUserInfo = newUserInfo => (navigator) => (dispatch, getState) => {
   axios
     .request({
@@ -176,6 +162,7 @@ export const fetchUserThunk = (id) => (navigator) => async (dispatch) => {
       //     friends: response.data.friends
       //   }
       // });
+      console.log(response.data);
       navigator.push({
         screen: 'Show.User',
         passProps: {

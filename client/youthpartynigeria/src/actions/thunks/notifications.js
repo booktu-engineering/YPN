@@ -8,12 +8,12 @@ export const fetchAllNotifications = () => async (dispatch, getState) => axios({
   url: `${config.realTimeUrl}/fetch/${getState().users.current.id}`,
 })
   .then(async (response) => {
-    const count = await AsyncStorage.getItem('lastNotificationCount');
+    const count = await AsyncStorage.getItem('lastNotificationCount') || 0;
     const newCount = response.data.data.last - parseInt(count);
     dispatch({ type: 'SET_NOTIFICATIONS', payload: response.data.data.notifications, unSeenCount: newCount, lastSeenCount: count });
   })
   .catch((err) => {
-    dispatch({ type: 'SET_NOTIFICATIONS', payload: [], count: 0 });
+    dispatch({ type: 'SET_NOTIFICATIONS', payload: [], unseenCount: 0 });
   });
 
 

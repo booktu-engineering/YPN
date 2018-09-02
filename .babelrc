@@ -1,0 +1,13 @@
+{
+    "presets": [ "env" ],
+    "plugins": ["transform-runtime", "transform-object-rest-spread", "transform-es2015-arrow-functions", "transform-class-properties"],
+    "env": {
+     "test": {
+       "plugins": [ "istanbul" ]
+     }
+   },
+   "ignore": [
+    "node_modules",
+    "build"
+]
+ }

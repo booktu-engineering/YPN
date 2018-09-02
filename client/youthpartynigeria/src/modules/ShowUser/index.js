@@ -26,8 +26,8 @@ class ShowUser extends Component {
     this.props.navigator.setButtons({
       leftButtons: [
         {
-          id: 'idd', 
-          component: 'Back.Button', 
+          id: 'idd',
+          component: 'Back.Button',
           passProps: {
             navigator: this.props.navigator
           }
@@ -59,8 +59,8 @@ class ShowUser extends Component {
   }
 
   __setUpFollowers = () => {
-    const friends = this.props.friends.map(item => item.id) || [];
-    const followers = this.props.followers.map(item => item.id) || [];
+    const friends = this.props.friends.map(item => item && item.id) || [];
+    const followers = this.props.followers.map(item => item && item.id) || [];
     if (followers.includes(this.props.target.id)) return this.setState({ message: 'Message' });
     if (friends.includes(this.props.target.id)) return this.setState({ message: 'Following' });
   }
@@ -72,7 +72,6 @@ class ShowUser extends Component {
         this.__setUpFollowers();
         this.props.dispatch(fetchUsersPosts(target))
           .then((posts) => {
-            console.log(posts)
             this.setState({ posts });
           });
       });
@@ -82,7 +81,6 @@ class ShowUser extends Component {
     this.props.dispatch(fetchUsersPosts(this.props.target))
     .then((posts) => {
       this.setState({ posts })
-      
     })
   }
   componentWillUnmount = () => {
@@ -148,18 +146,18 @@ const DisplayBio = ({ user, navigator }) => (
     >
     <TouchableOpacity
        style={{
-        height: 90, 
-        width: 90, 
-        borderRadius: 45, 
-        position: 'relative', 
+        height: 90,
+        width: 90,
+        borderRadius: 45,
+        position: 'relative',
         top: -30
     }}
     onPress={() => { navigator.showLightBox({ screen: 'Show.Image', passProps: { data: [(user.avatar || uri )]}})}}
-    > 
+    >
     <Image
         style={{
-        height: 90, 
-        width: 90, 
+        height: 90,
+        width: 90,
         borderRadius: 45,
         backgroundColor: 'white'
     }}

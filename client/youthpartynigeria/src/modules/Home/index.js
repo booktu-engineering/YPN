@@ -63,6 +63,7 @@ class Home extends Component {
 
   onNavigatorEvent = (e) => {
     if (e.id === 'didAppear') {
+      this.props.dispatch(fetchAllNotifications());
       return this.fetchTimeLine();
     }
   }
