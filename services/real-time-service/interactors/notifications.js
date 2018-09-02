@@ -58,7 +58,7 @@ class NotificationInteractorB {
     };
     const data = await PlayerModel.findOne({ userId });
     if (!data) return null;
-    return { notifications: data.notifications.sort(compare), last: data.notifications.sort(compare)[0].count };
+    return { notifications: data.notifications.sort(compare), last: data.notifications.sort(compare)[0] ? data.notifications.sort(compare)[0].count : 0 };
   }
 }
 

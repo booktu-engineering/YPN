@@ -18,13 +18,13 @@ class PostServiceBase {
   internalCreate = (body) => {
     this.model.create(body, (err, data) => {
       if (err) return err.message;
-      Conversation.find({ _id: data.destination }, (err, convo) => {
+      Conversation.findOne({ _id: data.destination }, (err, convo) => {
         if (err || !convo) return;
-        const memberIDs = convo.members.map(member => member.id);
+        const memberIDs = convo.members.map(member => member.id).filter(id => id !== data.origin.id);
         Player.find({ userId: { $in: memberIDs } }, (err, players) => {
           if (err || !players.length) return;
           players = players.map(player => player && player.playerId);
-          const message = `${data.origin.username} sent a message to ${memberIDs.length > 2 ? 'your group' : 'you'}`
+          const message = `${data.origin.username} sent a message to ${memberIDs.length > 1 ? 'your group' : 'you'}`;
           DispatchRemoteNotification(players, message, '', {});
         });
       });
