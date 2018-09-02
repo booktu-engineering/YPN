@@ -1,5 +1,8 @@
 import axios from 'axios';
-import PostModel from './model';
+import PostModel from './model'
+import Player from '../../models';
+import Conversation from '../../models/convos';
+import { DispatchRemoteNotification } from '../../interactors/notifications';
 
 const url = 'http://52.47.48.167/api/v1/posts';
 
@@ -15,7 +18,16 @@ class PostServiceBase {
   internalCreate = (body) => {
     this.model.create(body, (err, data) => {
       if (err) return err.message;
-      console.log(`Successfully created the ${data._id}`);
+      Conversation.find({ _id: data.destination }, (err, convo) => {
+        if (err || !convo) return;
+        const memberIDs = convo.members.map(member => member.id);
+        Player.find({ userId: { $in: memberIDs } }, (err, players) => {
+          if (err || !players.length) return;
+          players = players.map(player => player && player.playerId);
+          const message = `${data.origin.username} sent a message to ${memberIDs.length > 2 ? 'your group' : 'you'}`
+          DispatchRemoteNotification(players, message, '', {});
+        });
+      });
     });
   }
 
