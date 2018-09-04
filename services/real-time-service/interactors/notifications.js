@@ -33,9 +33,8 @@ class NotificationInteractorB {
         });
         DispatchRemoteNotification([player.playerId], body.notification.message, heading, JSON.stringify(...formatNotification()));
         player.notifications.push({ ...formatNotification(), count: (player.notifications.length + 1) });
-        if (body.origin) {
-          player.save();
-        }
+        player.save();
+        
       }
       instance = axios.create({ baseURL: 'https://ypn-mailer.herokuapp.com/', });
       instance.post(`/sendmail/?key=${body.key}`, { username: body.notification.destination, ...body.mail })
