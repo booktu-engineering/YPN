@@ -1,11 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Share } from 'react-native';
 import { LogOut } from '../../helpers/init';
 import { height, width } from '../../mixins/';
 
 const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
+const SharePost = () => {
+  Share.share({
+    title: 'Download Youth Party Application from the app store',
+    message: 'Join the revolutionaries by downloading Youth Party App from the app store',
+    url: 'https://youthpartyng.com/'
+  })
+}
 
 const Drawer = ({ currentUser, navigator, current }) => (
   <View style={{ height }}>
@@ -55,9 +62,17 @@ const Drawer = ({ currentUser, navigator, current }) => (
       >
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Contact us </Text>
       </TouchableOpacity>
-      {/* <View style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
+
+      <TouchableOpacity style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }} 
+        onPress={() => navigator.showModal({ screen: 'Settings', title: 'Settings'})}
+      >
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Settings </Text>
-      </View> */}
+      </TouchableOpacity>
+      <TouchableOpacity style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }} 
+        onPress={SharePost}
+      >
+        <Text style={{ fontSize: 15, fontWeight: '600' }}> Share </Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => LogOut()} style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Logout </Text>
       </TouchableOpacity>

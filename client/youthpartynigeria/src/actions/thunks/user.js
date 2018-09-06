@@ -118,11 +118,15 @@ export const followUser = (data) => (navigator) => (dispatch, getState) => {
 };
 
 
-const LogInThunk = (body) => (navigator) => (dispatch) => {
+const LogInThunk = (body, key) => (navigator) => (dispatch) => {
   // render an activity indicator here
   StartProcess(navigator);
   return axios.post(`${config.baseUrl}/login`, body, { 'Cache-Control': 'no-cache' })
     .then((response) => {
+      if (key) {
+        EndProcess(navigator);
+        return true;
+      }
       dispatch({ type: 'USER_LOGGED_IN', payload: response.data.data.user });
       dispatch({ type: 'INSERT_TOKEN', payload: response.data.data.token });
       // cache the token - and move after then
@@ -137,6 +141,7 @@ const LogInThunk = (body) => (navigator) => (dispatch) => {
     })
     .catch((err) => {
       EndProcess(navigator);
+      if(key) return false;
       const error = err.response ? err.response.data.errors : 'Something went wrong, try again?';
       dispatchNotification(navigator)(error);
     });

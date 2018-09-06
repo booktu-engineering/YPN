@@ -5,8 +5,7 @@ import DatePicker from 'react-native-datepicker';
 import { defaultGreen, inputStyle, formContainer, width, height, bigButton, buttonText, formHolder, formLabel } from '../../mixins/';
 import styles from './styles';
 import userActions from '../../actions/thunks/user';
-import { dispatchNotification } from '../../helpers/uploader';
-import { SingleUpload } from '../../helpers/uploader';
+import { dispatchNotification, SingleUpload } from '../../helpers/uploader';
 import states from './states';
 
 const { SignUpThunk } = userActions;

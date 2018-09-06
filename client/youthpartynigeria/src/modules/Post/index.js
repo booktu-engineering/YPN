@@ -81,11 +81,12 @@ const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.
    handleSubmit={this.handleSubmit}
     handleChange={this.handleChange}
     value={this.state.content}
+    linkValue={this.state.links}
     />
  }
 
 
-const PostComponent = ({ navigator, handleMediaUpload, handleChange, user, handleSubmit, value }) => {
+const PostComponent = ({ navigator, handleMediaUpload, handleChange, user, handleSubmit, value, linkValue }) => {
   nav = navigator
   return (
     <ScrollView keyboardDismissMode="on-drag" style={{ flex: 1, backgroundColor: '#F4F6F7', paddingLeft: 25, paddingTop: 20 }}>
@@ -117,6 +118,7 @@ const PostComponent = ({ navigator, handleMediaUpload, handleChange, user, handl
          multiline={true}
          placeholder="Share some links, separate it each one with a comma"
          onChangeText={(text) => { handleChange(text, 'links')}}
+         value={linkValue}
          />
      </View>
      { /* render the bigbutton */}

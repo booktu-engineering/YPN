@@ -135,7 +135,7 @@ const DisplayBio = ({ user, navigator }) => (
     <Text style={{
       fontSize: 11.5, fontWeight: '500', color: '#909497', width: width * 0.9, alignSelf: 'flex-start', position: 'relative', right: -30
     }}
-    > Philosopher | Human Rights Activist...I believe n an urgent restoration of active and participatory democracy, social justiceand good leadership
+    > { user.bio || ''}
     </Text>
   </View>
 );
@@ -161,16 +161,17 @@ onPress={() => { friends ? navigator.push({ screen: 'Show.Users', title: 'Friend
     <TouchableOpacity style={{
       height: height * 0.04, alignItems: 'center', justifyContent: 'center', width: width * 0.27, backgroundColor: defaultGreen, borderRadius: 3
     }}
+    onPress={() => navigator.push({ screen: 'Update.Profile', title: 'Update your profile' })}
     >
-      <Text style={{ fontSize: 11, color: '#fff' }}> Settings </Text>
+      <Text style={{ fontSize: 11, color: '#fff' }}>Edit Profile</Text>
     </TouchableOpacity>
   </View>
 );
 
 
 const mapStateToProps = state => ({
-  target: state.users.current, 
-  followers: state.users.followers, 
+  target: state.users.current,
+  followers: state.users.followers,
   friends: state.users.friends
 });
 export const ProfileNavigator = () => nav;

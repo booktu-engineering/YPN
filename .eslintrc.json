@@ -4,6 +4,8 @@
   "rules": {
     "allowForLoopAfterthoughts": true,
      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+     "react/jsx-indent": 0,
+     "react/jsx-closing-tag-location": 0,
     "linebreak-style": [0, "windows"],
      "jsx-a11y/label-has-for": [ 2, {
             "components": [ "Label" ],

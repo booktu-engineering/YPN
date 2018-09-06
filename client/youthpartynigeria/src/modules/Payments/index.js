@@ -61,7 +61,7 @@ class MemberShipContainer extends Component {
 const ListOfBenefits = () => (
     <View style={{ height: height * 0.15, width: width * 0.85, justifyContent: 'space-between', paddingLeft: 15 }}> 
         <Text style={{ fontSize: 13, color: '#424949', fontWeight: '500' }}> - Contribute to posts and comments</Text>
-        <Text style={{ fontSize: 13, color: '#424949', fontWeight: '500' }}> - Participate in debates and townhal meetings</Text>
+        <Text style={{ fontSize: 13, color: '#424949', fontWeight: '500' }}> - Participate in debates and townhall meetings</Text>
         <Text style={{ fontSize: 13, color: '#424949', fontWeight: '500' }}> - Participate in polls and elections</Text>
         <Text style={{ fontSize: 13, color: '#424949', fontWeight: '500' }}> - Real time active messaging with other members</Text>
     </View>

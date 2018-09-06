@@ -60,16 +60,27 @@ export const LightGrey = '#D0D3D4'
 export const defaultGreen = '#82BE30'
 
 // components mixins
-export const Selectors = ({ sideOne, changeFunction, keys, functionMap }) => (
-  <View style={{ height: height * 0.05, width, flexDirection: 'row', flexWrap: 'nowrap' }}>
-    <TouchableOpacity style={{ height: height * 0.05, width: width * 0.5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F8F9F9' }} onPress={() => functionMap && functionMap[0]() }>
-      <Text style={{ fontSize: 12.3, fontWeight: '600', color: !sideOne ? '#626567' : defaultGreen }} onPress={() => functionMap && functioMap[0]() }> {keys[0]} </Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={{ height: height * 0.05, width: width * 0.5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#E5E8E8'}} onPress={() => functionMap && functionMap[1]() }>
-      <Text style={{ fontSize: 12.3, fontWeight: '600', color: !sideOne ? '#626567' : defaultGreen }}> {keys[1]} </Text>
-    </TouchableOpacity>
-  </View>
-)
+
+  export class Selectors extends Component {
+    state={
+      color1: defaultGreen,
+      color2: '#909497'
+    }
+    render = () => {
+      const { sideOne, changeFunction, keys, functionMap } = this.props;
+      return (
+        <View style={{ height: height * 0.05, width, flexDirection: 'row', flexWrap: 'nowrap' }}>
+        <TouchableOpacity style={{ height: height * 0.05, width: width * 0.5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F8F9F9' }} onPress={() => { this.setState({ color1: defaultGreen, color2: '#909497' }); functionMap && functionMap[0]() }}>
+          <Text style={{ fontSize: 12.3, fontWeight: '600', color: this.state.color1 }} onPress={() => { this.setState({ color1: defaultGreen, color2: '#909497' }); functionMap && functionMap[0]() } }> {keys[0]} </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{ height: height * 0.05, width: width * 0.5, justifyContent: 'center', alignItems: 'center', backgroundColor: '#E5E8E8'}} onPress={() => {  this.setState({ color2: defaultGreen, color1: '#909497' }); functionMap && functionMap[1]() }}>
+          <Text style={{ fontSize: 12.3, fontWeight: '600', color: this.state.color2 }}> {keys[1]} </Text>
+        </TouchableOpacity>
+      </View>
+      )
+    }
+  }
+
 
 export const TinySelectors = ({ keys, functionMap }) => {
   const selectorElements = keys.map((item, index) => {

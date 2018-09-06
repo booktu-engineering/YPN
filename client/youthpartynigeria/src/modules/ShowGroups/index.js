@@ -37,7 +37,6 @@ class RenderGroupsOfUsers extends Component {
 
 
     handleSelect = (data) => {
-      if (this.props.single) return this.setState({ selected: data });
       let { members } = this.state;
       if (members.map(item => item.id).includes(data.id)) {
         members = members.filter(item => item.id !== data.id);
@@ -50,10 +49,11 @@ class RenderGroupsOfUsers extends Component {
     handleDone = () => {
       if (this.props.single) {
         // there has to be a reference object that the user will want to send as a message;
-        if (!this.state.selected) return;
-        return this.props.dispatch(startPersonalConversation([this.state.selected], this.props.reference)(this.props.navigator));
+        if (!this.state.members || !this.state.members.length) return;
+        return this.state.members.forEach((member) =>  this.props.dispatch(startPersonalConversation([member], this.props.reference)(this.props.navigator)))
       }
       if (!this.state.members.length) return;
+      if(this.state.members.length === 1) return this.props.dispatch(startPersonalConversation(this.state.members)(this.props.navigator))
       AlertIOS.prompt(
         'Specify a title for your group',
         'What do you want to talk about?',

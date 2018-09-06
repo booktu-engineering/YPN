@@ -33,7 +33,7 @@ export default (Component) => {
         return;
       }
       keys = [`Showing only ${value}`];
-      selectedEntries = entries.filter(item => item.meta && item.meta.type === value);
+      selectedEntries = entries.filter(item => (item.meta && item.meta.level === value) || (item.level && item.level === value));
       this.setState({ entries: selectedEntries, keys });
     };
 
@@ -47,7 +47,7 @@ export default (Component) => {
          return;
        }
        keys[2] = value;
-       selectedEntries = entries.filter(item => item.meta && item.meta.lga === value);
+       selectedEntries = entries.filter(item => (item.meta && item.meta.lga === value) || (item.lga && item.lga === value));
        this.setState({ entries: selectedEntries, keys });
      };
 
@@ -63,7 +63,7 @@ export default (Component) => {
        }
        keys[1] = value;
        keys[2] = 'Select Lga';
-       selectedEntries = entries.filter(item => item.meta && item.meta.state === value);
+       selectedEntries = entries.filter(item => (item.meta && item.meta.state === value) || (item.state && item.state === value));
        this.setState({ entries: selectedEntries, state: value, keys });
      };
 

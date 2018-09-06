@@ -5,7 +5,7 @@ import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
-import { width, height } from '../../mixins';
+import { width, height, defaultGreen } from '../../mixins';
 import MediaHandler from './media';
 import iterator from '../iterator';
 import { fetchUserThunk } from '../../actions/thunks/user';
@@ -43,9 +43,18 @@ const SinglePost = ({ data, obj }) => (
         flexDirection: 'column', alignSelf: 'flex-end', paddingLeft: 50, paddingTop: 20, position: 'relative',
       }}
       >
-        <Text style={{ fontSize: 13.5, fontWeight: '700' }}>
+      <View style={{ minHeight: 20, minWidth: width * 0.3, flexDirection: 'row', }}> 
+      <Text style={{ fontSize: 13.5, fontWeight: '700', marginRight: 8 }}>
           { data.origin ? `${data.origin.firstname || ''} ${data.origin.lastname || ''}` : 'John Phillips' }
         </Text>
+        { data.origin.role === 5 &&
+        <View style={{ minHeight: 16, width: 50, borderColor: defaultGreen, borderWidth: 0.5, paddingTop: 2, justifyContent: 'center', alignItems: 'center'}}> 
+        <Text style={{ color: defaultGreen, fontSize: 10 }}>Verified</Text>
+        </View>
+        }
+        
+      </View>
+        
         <Text style={{
           alignSelf: 'flex-end', fontSize: 10, position: 'absolute', top: 20, right: 13, color: '#D0D3D4', fontWeight: '600'
         }}

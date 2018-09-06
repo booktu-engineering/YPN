@@ -174,14 +174,14 @@ const DisplayBio = ({ user, navigator }) => (
 }}
         > {`${user.firstname || ''} ${user.lastname || ''}`}
         </Text>
-        <Text style={{ fontSize: 12, fontWeight: '600', color: '#909497' }}>{` Ward ${user.ward || ''} | Surulere ${user.lga || ''}`} </Text>
+        <Text style={{ fontSize: 12, fontWeight: '600', color: '#909497' }}>{` Ward: ${user.ward || ''} | lga: ${user.lga || ''}`} </Text>
       </View>
     </View>
     { /* Render the bio */}
     <Text style={{
  fontSize: 11.5, fontWeight: '500', color: '#909497', width: width * 0.9, alignSelf: 'flex-start', position: 'relative', right: -30
 }}
-    > Philosopher | Human Rights Activist...I believe n an urgent restoration of active and participatory democracy, social justiceand good leadership
+    > { user.bio || '' }
     </Text>
   </View>
 );

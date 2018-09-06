@@ -55,13 +55,16 @@ import RenderTownHalls from '../modules/TownHalls';
 import ShowGroups from '../modules/ShowGroups';
 import ContactUs from '../modules/ContactUs';
 import ShowNotifications from '../modules/Notifications';
+import SettingsScreen from '../modules/Settings';
+import UpdateProfile from '../modules/UpdateProfile';
+import Subscription from '../modules/Subscriptions';
 
 const { Provider, store } = configureStore();
 let homeIcon; 
 let chatIcon;
 let postIcon; 
 let moreIcon;
-let profileIcon
+let profileIcon;
 
 
 export default class Navigator {
@@ -106,7 +109,7 @@ export default class Navigator {
     Navigation.registerComponent('Candidate.Screen', () => CandidateScreen, storex, Provider);
     Navigation.registerComponent('Open.Position', () => OpenPositions, storex, Provider);
     Navigation.registerComponent('Show.Position', () => ShowPosition, storex, Provider);
-    Navigation.registerComponent('Gallery.Component', () => Gallery);
+    Navigation.registerComponent('Gallery.Component', () => Gallery, storex, Provider);
     Navigation.registerComponent('Donation.Component', () => Donation, storex, Provider);
     Navigation.registerComponent('DonationPT', () => DonationPhaseTwoCOMPONENT, storex, Provider);
     Navigation.registerComponent('Convo.Component', () => Conversations, storex, Provider);
@@ -133,6 +136,9 @@ export default class Navigator {
     Navigation.registerComponent('Show.Groups', () => ShowGroups, storex, Provider);
     Navigation.registerComponent('Contact.Us', () => ContactUs);
     Navigation.registerComponent('Show.Notifications', () => ShowNotifications, storex, Provider);
+    Navigation.registerComponent('Settings', () => SettingsScreen, storex, Provider);
+    Navigation.registerComponent('Update.Profile', () => UpdateProfile, storex, Provider);
+    Navigation.registerComponent('Subscribe.NewsLetter', () => Subscription);
   }
 
   startLoggedOut = () => {

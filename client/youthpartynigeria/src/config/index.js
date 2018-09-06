@@ -1,7 +1,7 @@
 export default {
-  baseUrl: 'http://192.168.8.101:3000',
+  baseUrl: 'https://ypn-base-01.herokuapp.com',
   postUrl: 'http://52.47.48.167/api/v1',
-  realTimeUrl: 'http://192.168.8.101:5000',
+  realTimeUrl: 'https://yon-notification.herokuapp.com',
   electionUrl: 'https://ypn-election-02.herokuapp.com/api',
   cloud: 'paperstack',
   cloudinaryKey: '675851188152783',
