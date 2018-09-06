@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image, TouchableOpacity, Share } from 'react-native';
 import { LogOut } from '../../helpers/init';
-import { height, width } from '../../mixins/';
+import { height, width } from '../../mixins';
 
 const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 

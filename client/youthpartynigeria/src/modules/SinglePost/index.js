@@ -16,13 +16,16 @@ const imageUrl = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/
 
 const mockText = 'It is now ndisputable that e people f Nigeria are united. I believe in an urgent restoration of active and particiatory democracy ';
 const generateHeight = (obj) => {
-  if(!obj.single && !obj.reference) return { maxHeight: height * 0.58 }
-  if(obj.single) return { minHeight: 0.90, backgroundColor: '#ECF0F1' };
+  if (!obj.single && !obj.reference) return { maxHeight: height * 0.58 }
+  if (obj.single) return { minHeight: 0.90, backgroundColor: '#ECF0F1' };
   return { maxHeight: height * 0.28, borderBottomWidth: 1, borderBottomColor: '#E5E7E9', backgroundColor: '#FDFEFE' } ;
 }
 
-const SinglePost = ({ data, obj }) => (
-  <TouchableOpacity style={{ width, ...generateHeight(obj) }} onPress={() => { if(obj.single) return; obj.navigator.push({ screen: 'View.Post', title: `Post by ${data.origin.firstname}`, passProps: { target: data }}) }}>
+class SinglePost extends Component {
+  render = () => {
+    const { obj, data } = this.props;
+    return (
+      <TouchableOpacity style={{ width, ...generateHeight(obj) }} onPress={() => { if(obj.single) return; obj.navigator.push({ screen: 'View.Post', title: `Post by ${data.origin.firstname}`, passProps: { target: data }}) }}>
     <View style={styles.mainContent}>
       {/* this should render the users avatar and all of that */}
       <TouchableOpacity
@@ -33,8 +36,9 @@ const SinglePost = ({ data, obj }) => (
       >
         <Image
           style={{
-            height: 50, width: 50, borderRadius: 25, position: 'absolute', top: 0
+            height: 50, width:   50, borderRadius: 25, position: 'absolute', top: 0
           }}
+          resizeMode={data.origin && data.origin.avatar ? "cover" : "center" }
           source={{ uri: (data.origin && data.origin.avatar ? data.origin.avatar : imageUrl) }}
         />
       </TouchableOpacity>
@@ -77,7 +81,10 @@ const SinglePost = ({ data, obj }) => (
       <ButtonStack data={data} user={obj.user} dispatch={obj.dispatch} navigator={obj.navigator} />
     }
   </TouchableOpacity>
-);
+    )
+  }
+}
+
 
 const renderMedia = (data, navigator, obj) => {
   if (obj.reference) return null;

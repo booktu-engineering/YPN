@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, AlertIOS } from 'react-native';
 import config from '../config/index';
 import configureStore from '../store';
 import { navigatorObject } from '../navigation'
@@ -29,6 +29,22 @@ export default async (token, navigator) => {
 
 
 export const LogOut = () => {
-    AsyncStorage.removeItem('#!@#$%ID');
-    navigatorObject.startLoggedOut();
+  AlertIOS.alert(
+    `Are you sure you want to logout?`,
+    '',
+    [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => {
+          AsyncStorage.removeItem('#!@#$%ID');
+          navigatorObject.startLoggedOut();
+        }
+      },
+    ]
+  )
 }

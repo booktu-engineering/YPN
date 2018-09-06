@@ -13,6 +13,7 @@ const RenderDetailsOfYPN = () => (
   }}>
       <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#797D7F'}}>Youth Party</Text>
       <Text style={{ fontSize: 13, fontWeight: '500', color: '#979A9A'}}> hello@youthpartyng.com</Text>
+      <Text style={{ fontSize: 13, fontWeight: '500', color: '#979A9A'}}> No 6 Bamako Crescent, Wuse Zone 1, Abuja, Nigeria</Text>
     </View>
 );
 
@@ -69,15 +70,15 @@ const RenderSubmitButton = ({ value, handleChange, handleSubmit }) => (
 const IconDirectory = (navigator) => {
     const directory = [{
         name: "instagram-with-circle",
-        func: () => navigator.push({ screen: "Web.Page", passProps: { source: "https://instagram.com/" }})
+        func: () => navigator.push({ screen: "Web.Page", passProps: { source: "https://instagram.com/youthparty_nigeria" }})
     },
     {
         name: "facebook-with-circle",
-        func: () => navigator.push({ screen: "Web.Page", passProps: { source: "https://facebook.com/" }})
+        func: () => navigator.push({ screen: "Web.Page", passProps: { source: "https://facebook.com/YouthPartyNG" }})
     },
     {
         name: "twitter-with-circle",
-        func: () => navigator.push({ screen: "Web.Page", passProps: { source: "https://twitter.com/" }})
+        func: () => navigator.push({ screen: "Web.Page", passProps: { source: "https://twitter.com/youthparty_ng" }})
     },
     {
         name: "google--with-circle",

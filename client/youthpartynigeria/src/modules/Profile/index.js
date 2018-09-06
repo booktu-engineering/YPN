@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { defaultGreen, height, width } from '../../mixins/';
 import { multiplePosts } from '../SinglePost/';
 import { MultipleEvents } from '../SingleEvent';
 import { fetchUsersPosts } from '../../actions/thunks/posts';
 import { fetchEventsForUser } from '../../actions/thunks/events/';
-
 
 const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 let nav;
@@ -58,8 +58,9 @@ fetchEventsForCurrentUser = () => {
       });
   }
   render = () => (
-    <View style={{ flex: 1 }}>
-      <View style={{ height: height * 0.07, backgroundColor: defaultGreen }} />
+    <View style={{ flex: 1, position: 'relative' }}>
+      <View style={{ height: height * 0.08, backgroundColor: defaultGreen, flexDirection: 'column', width }}>
+      </View>
       <DisplayBio user={this.props.target} navigator={this.props.navigator} />
       <ButtonStack followers={this.props.followers} friends={this.props.friends} navigator={this.props.navigator} dispatch={this.props.dispatch}/>
       { /* That barrieer thing */}
@@ -171,8 +172,8 @@ onPress={() => { friends ? navigator.push({ screen: 'Show.Users', title: 'Friend
 
 const mapStateToProps = state => ({
   target: state.users.current,
-  followers: state.users.followers,
-  friends: state.users.friends
+  followers: state.users.followers ? state.users.followers.filter(user => user) : [],
+  friends: state.users.friends ? state.users.friends.filter(user => user) : []
 });
 export const ProfileNavigator = () => nav;
 export default connect(mapStateToProps)(ProfileComponent);

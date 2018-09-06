@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
   bigButtonBlue: {
     ...bigButton,
-    backgroundColor: '#2E86C1',
+    backgroundColor: '#F4D03F',
     marginBottom: 20
   },
 

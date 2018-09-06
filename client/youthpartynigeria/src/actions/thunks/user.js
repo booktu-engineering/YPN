@@ -99,21 +99,24 @@ export const fetchAllRelationshipsOfUser = () => (dispatch, getState) => axios.r
   });
 
 
-export const followUser = (data) => (navigator) => (dispatch, getState) => {
+export const followUser = (data, key) => (navigator) => (dispatch, getState) => {
+  const url = !key ? `${config.baseUrl}/follow/${data.id}` : `${config.baseUrl}/follow/${data.id}/?type=1`
   StartProcess(navigator);
   axios.request({
     method: 'post',
-    url: `${config.baseUrl}/follow/${data.id}`,
+    url,
     headers: {
       Authorization: getState().users.token
     }
   }).then(() => {
     EndProcess(navigator);
-    dispatchNotification(navigator)(`Awesome, You have just followed ${data.firstname}`);
+    dispatch(fetchAllRelationshipsOfUser());
+    dispatchNotification(navigator)(`Awesome, You have just ${ key ? 'unfollowed' : 'followed'} ${data.firstname}`);
   })
-    .catch(() => {
+    .catch((err) => {
       EndProcess(navigator);
-      dispatchNotification(navigator)(`Awesome, You have just followed ${data.firstname}`);
+      dispatch(fetchAllRelationshipsOfUser());
+      dispatchNotification(navigator)(`Awesome, You have just ${ key ? 'unfollowed' : 'followed'} ${data.firstname}`);
     });
 };
 
