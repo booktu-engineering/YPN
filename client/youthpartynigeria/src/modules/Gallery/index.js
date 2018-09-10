@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, FlatList, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { BackIcon } from '../IconRegistry';
+import { EndProcess } from '../../helpers/uploader'
 import { height, width } from '../../mixins'
 import FetchAllPictures from '../../actions/thunks/media';
 
@@ -9,6 +10,7 @@ class Gallery extends Component {
   constructor(props){
     super(props);
     const { navigator } =  this.props
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
     navigator.setButtons({
       leftButtons: [
@@ -32,6 +34,10 @@ class Gallery extends Component {
     }
   }
 
+  onNavigatorEvent = (e) => {
+    if (e.id === 'didAppear' && this.state.media) return this.props.navigator.dismissLightBox();
+  };
+
   componentWillUnmount = () => {
     this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
     this.props.navigator.toggleTabs({ to: 'shown', animated: true });
@@ -40,9 +46,10 @@ class Gallery extends Component {
   componentDidMount = () => {
     this.props.dispatch(FetchAllPictures(this.props.navigator))
     .then(media => {
-      console.log(media);
+      EndProcess(this.props.navigator);
       this.setState({ media })
-    });
+    })
+    .catch
   }
 
   _hideModal = () => this.setState({  height: 0, width: 0, zIndex: -1, opacity: 0, mainIndex: 10})

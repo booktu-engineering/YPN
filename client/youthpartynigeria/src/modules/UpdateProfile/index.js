@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, KeyboardAvoidingView, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import RenderScreen from '../../hocs/renderScreens';
 import { UpdateUserInfo } from '../../actions/thunks/user';
@@ -9,7 +10,9 @@ import styles from '../SignUp/styles';
 
 
 class UpdateProfile extends React.Component {
-   state = {};
+   state = {
+     paddingBottom: new Animated.Value(0)
+   };
 
     selectImage = () => {
       try {
@@ -29,7 +32,8 @@ class UpdateProfile extends React.Component {
     handleChange = (value, name) => this.setState({ [name]: value })
 
     handleSubmit = () => {
-      if (this.props.passwordOnly && (!this.state.password || !this.state.password.length )) return dispatchNotification(this.props.navigator)('Please fill in the required fields');
+      if (this.props.passwordOnly && (!this.state.password || !this.state.password.length || !this.state.password2 || !this.state.password2.length )) return dispatchNotification(this.props.navigator)('Please fill in the required fields');
+      if (this.props.passwordOnly && this.state.password !== this.password2 ) return dispatchNotification(this.props.navigator)("Sorry, those passwords don't match")
       // loop through the state
       const values = Object.values(this.state).filter(item => !item.length);
       if (values.length) return dispatchNotification(this.props.navigator)('Please fill in the required fields');
@@ -39,10 +43,10 @@ class UpdateProfile extends React.Component {
 
     render = () => {
       if(this.props.passwordOnly) return ( <PasswordForm handleChange={this.handleChange} handleSubmit={this.handleSubmit} />);
-
       return (
         <ScrollView keyboardShouldPersistTaps="never" style={{ flex: 1 }}>
         {/* This should contain the green bar and the image */}
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="position"> 
         <View style={styles.greenBar}>
           <View style={styles.ImageHolder}>
             <Image style={styles.Image} source={{ uri: this.state.avatar }} />
@@ -53,13 +57,13 @@ class UpdateProfile extends React.Component {
         </View>
         { /* end of the green bar */}
         <UpdateForm state={this.state} user={this.props.user} handleChange={this.handleChange} handleClick={this.handleClickLink}/>
-
         <TouchableOpacity
           style={{ ...bigButton }}
           onPress={this.handleSubmit}
           >
           <Text style={{ ...buttonText }}>UPDATE</Text>
         </TouchableOpacity>
+        </KeyboardAvoidingView>
       </ScrollView>
     )
     }
@@ -71,6 +75,13 @@ const PasswordForm = ({ handleChange, handleSubmit }) => (
   <Text style={styles.formLabel}> NEW PASSWORD </Text>
   <TextInput style={styles.inputStyle}
     onChangeText={text => handleChange(text, 'password')}
+    secureTextEntry
+    />
+</View>
+<View style={styles.formContainer}>
+  <Text style={styles.formLabel}> RE-TYPE PASSWORD</Text>
+  <TextInput style={styles.inputStyle}
+    onChangeText={text => handleChange(text, 'password2')}
     secureTextEntry
     />
 </View>
@@ -94,7 +105,7 @@ const UpdateForm = ({ handleChange, state, user }) => (
           />
       </View>
       <View style={styles.formContainer}>
-        <Text style={styles.formLabel}> LASTNAME </Text>
+        <Text style={styles.formLabel}>LASTNAME</Text>
         <TextInput style={styles.inputStyle}
           onChangeText={text => handleChange(text, 'lastname')}
           defaultValue={user.lastname || ''}

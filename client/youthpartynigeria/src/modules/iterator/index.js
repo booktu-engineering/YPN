@@ -28,18 +28,13 @@ const rollComponents = SomeComponent => data => (obj) => {
       if(this.props.data.length === nextProps.data.length) return false;
     }
     render = () => (
-      <View style={{ flex: 1, paddingBottom: 30 }}> 
       <FlatList
     data={this.props.data}
     renderItem={({ item }) => <SomeComponent key={item} data={item} obj={obj} />}
     keyExtractor={(item, index) => `ypn-item-${index}`}
     refreshControl={determineRefresh()}
-    contentContainerStyle={{
-      paddingBottom: 20
-    }}
     extraData={this.props.data}
   />
-  </View>
     )
   }
 

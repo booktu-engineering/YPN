@@ -177,7 +177,7 @@ class ButtonStack extends Component {
       </TouchableOpacity>
       { /* shares for the product */}
       <TouchableOpacity style={styles.buttonLowerR} onPress={this.handleShare}>
-        <Ionicon name="ios-share-alt-outline" color={this.state.share} size={17} />
+        <Ionicon name="ios-share-alt" color={this.state.share} size={17} />
         <Text style={{ color: this.state.share, fontSize: 12 }}>
          Share
         </Text>

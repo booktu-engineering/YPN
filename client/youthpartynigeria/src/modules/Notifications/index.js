@@ -37,7 +37,7 @@ class NotificationsComponent extends Component {
         }}>
         { 
             this.props.notifications && this.props.notifications.length ? this.renderNotifications() : 
-            <Text> Seems like there are no notifications </Text>
+            <Text style={{ fontSize: 18, fontWeight: '600', color: '#CACFD2', alignSelf: 'center', position: 'relative', bottom: -(height * 0.4) }}> Seems like there are no notifications </Text>
         }
         </View>
     )

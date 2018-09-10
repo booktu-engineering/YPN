@@ -1,23 +1,24 @@
 import { AsyncStorage } from 'react-native';
-import NavigatorBase from './src/navigation/';
+import Orientation from 'react-native-orientation';
+import NavigatorBase from './src/navigation';
 import Initializer from './src/helpers/init';
+
 
 let token;
 /* eslint-disable no-underscore-dangle */
 class StartApp {
   constructor() {
-    console.log('boom sha');
     this.navigator = new NavigatorBase();
     this.navigator.__registerScreens();
   }
-  
+
   start = () => {
+    Orientation.lockToPortrait();
     AsyncStorage.getItem('#!@#$%')
-    .then((token) => {
-      console.log
-      if(token) return Initializer(token, this.navigator);
-      this.navigator.startLoggedOut();
-    })
+      .then((token) => {
+        if (token) return Initializer(token, this.navigator);
+        this.navigator.startLoggedOut();
+      });
     // this.navigator.startLoggedIn();
   }
 }

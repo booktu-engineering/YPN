@@ -2,7 +2,7 @@ import React from 'react';
 import states from '../modules/SignUp/states';
 
 
-export default (Component) => {
+export default (Component, map = ['Federal', 'State', 'Local']) => {
   states.shift();
   let selectedEntries;
   const statesFilterObject = states.map(item => item.state.name);
@@ -12,12 +12,17 @@ export default (Component) => {
   }, {});
 
   return class FilterableComponent extends React.Component {
+    static navigatorStyle = {
+      tabBarHidden: true,
+      drawContentUnderTabBar: true
+    }
+
     constructor(props) {
       super(props);
       this.state = {
         entries: [],
         state: '',
-        keys: ['Level', 'State', 'Local']
+        keys: map
       };
     }
 
@@ -25,10 +30,10 @@ export default (Component) => {
 
     handleSubmitFederal = (value) => {
       const { navigator, entries } = this.props;
-      let { keys } = this.state
+      let { keys } = this.state;
       navigator.dismissLightBox({});
       if (value === 'All') {
-        keys = ['Level', 'State', 'Local' ];
+        keys = map;
         this.setState({ entries, keys });
         return;
       }
@@ -56,7 +61,9 @@ export default (Component) => {
        const { navigator, entries } = this.props;
        navigator.dismissLightBox({});
        if (value === 'None') {
-         keys[2] = 'lga';
+         if (keys[2]) {
+           keys[2] = 'lga';
+         }
          keys[1] = 'State';
          this.setState({ entries, keys });
          return;
@@ -67,11 +74,13 @@ export default (Component) => {
        this.setState({ entries: selectedEntries, state: value, keys });
      };
 
-    renderStates = () => this.props.navigator.showLightBox({ screen: 'Select.Entries', passProps: { data: ['None', ...statesFilterObject], handleSelect: this.handleSubmitState, _navigator: this.props.navigator } });
+    renderStates = () => {
+      this.props.navigator.showLightBox({ screen: 'Select.Entries', passProps: { data: ['None', ...statesFilterObject], handleSelect: this.handleSubmitState } });
+    } 
 
-    renderLocals = () => this.state.state.length && this.props.navigator.showLightBox({ screen: 'Select.Entries', passProps: { data: ['None', ...locals[this.state.state]], handleSelect: this.handleSubmitLocal, _navigator: this.props.navigator } });
+    renderLocals = () => this.state.state.length && this.props.navigator.showLightBox({ screen: 'Select.Entries', passProps: { data: ['None', ...locals[this.state.state]], handleSelect: this.handleSubmitLocal } });
 
-    renderFederal = () => this.props.navigator.showLightBox({ screen: 'Select.Entries', passProps: { data: ['All', 'Federal', 'State', 'Local'], handleSelect: this.handleSubmitFederal, _navigator: this.props.navigator } });
+    renderFederal = () => this.props.navigator.showLightBox({ screen: 'Select.Entries', passProps: { data: ['All', 'Federal', 'State', 'Local'], handleSelect: this.handleSubmitFederal  } });
 
         render = () => (
           <Component

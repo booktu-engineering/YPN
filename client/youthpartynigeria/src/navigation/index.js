@@ -69,8 +69,8 @@ let profileIcon;
 
 export default class Navigator {
   constructor() {
-    Icon.getImageSource('ios-home-outline', 20, 'white').then((icon) => homeIcon = icon);
-    Icon.getImageSource('ios-chatboxes-outline', 20, 'white').then((icon) => chatIcon = icon);
+    Icon.getImageSource('ios-home', 20, 'white').then((icon) => homeIcon = icon);
+    Icon.getImageSource('ios-chatboxes', 20, 'white').then((icon) => chatIcon = icon);
     MaterialIcon.getImageSource('add', 20, 'white').then((icon) => postIcon = icon);
     Icon.getImageSource('ios-menu', 20, 'white').then((icon) => moreIcon = icon);
     Evil.getImageSource('user', 20, 'white').then((icon) => profileIcon = icon);

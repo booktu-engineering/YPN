@@ -7,10 +7,10 @@ export default (state = { count: 0, notifications: [], unseenCount: 0 }, action)
       return { ...state, unseenCount: 0 };
 
     case 'UPDATE_LAST_SEEN_COUNT': 
-    return { ...state, lastSeen: action.payload }
+      return { ...state, lastSeen: action.payload }
 
     default: 
-    return state;
+      return state;
   }
 }
 ;

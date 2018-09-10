@@ -77,17 +77,24 @@ class ShowUser extends Component {
       });
   }
 
+  // shouldComponentUpdate = (nextProps, nextState) => {
+  //   if((JSON.stringify({ ...nextProps.target }) === JSON.stringify({ ...this.props.target })) && nextState.posts.length === this.state.posts.length ) return false;
+  //   return true;
+  // }
+
   __fetchPostsForUser = () => {
     this.props.dispatch(fetchUsersPosts(this.props.target))
-      .then((posts) => {
-        this.setState({ posts });
-      });
+    .then((posts) => {
+      if(this.state.posts && this.state.posts.length === posts.length) return;
+
+      this.setState({ posts });
+    });
   }
 
-  componentWillUnmount = () => {
-    this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
-    this.props.navigator.toggleTabs({ to: 'shown', animated: true });
-  }
+  // componentWillUnmount = () => {
+  //   this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
+  //   this.props.navigator.toggleTabs({ to: 'shown', animated: true });
+  // }
 
     backIcon = () => <BackIcon navigator={this.props.navigator} />;
 

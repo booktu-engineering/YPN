@@ -10,6 +10,7 @@ class ElectionScreen extends Component {
   constructor(props) {
     super(props);
     const { navigator } = this.props;
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     navigator.setButtons({
       leftButtons: [
         {
@@ -21,6 +22,11 @@ class ElectionScreen extends Component {
         }
       ]
     });
+  }
+
+
+  onNavigatorEvent = (e) => {
+    if (e.id === 'didAppear' && this.props.elections) return this.props.navigator.dismissLightBox();
   }
 
   componentDidMount = () => {

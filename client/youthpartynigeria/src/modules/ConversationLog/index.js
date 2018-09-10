@@ -34,11 +34,12 @@ class ConversationLog extends Screen {
   }
 
   componentDidMount = () => {
+    this.mounted = true
     const messages = this.props.registry[`${this.props.data._id}`];
     this.setState({ messages });
     this.promise = this.props.dispatch(updateConversation(this.props.data._id)(this.props.navigator))
       .then((data) => {
-        this.setState({ messages: data });
+        this.mounted && this.setState({ messages: data });
         if (this.props.reference) {
           // set state is async so this should work fine
           this.state.content = ' '; // this is us exploiting a bug MUHAHAHAHA
@@ -48,7 +49,7 @@ class ConversationLog extends Screen {
   }
 
   componentWillUnmount = () => {
-    this.promise = null;
+    this.mounted = false;
     this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
     this.props.navigator.toggleTabs({ to: 'shown', animated: true });
   }

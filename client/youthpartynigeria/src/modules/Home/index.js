@@ -54,7 +54,6 @@ class Home extends Component {
   }
 
   componentDidMount = () => {
-    const { navigator } = this.props;
     dispatchNotification(this.props.navigator)(`Hey, ${this.props.user.firstname}! what do you have to share?`);
     if (this.props.data) return;
     this.props.dispatch(fetchTimeline(this.props.navigator));

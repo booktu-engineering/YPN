@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchConversations } from '../../actions/thunks/conversations';
 import { ConversationObjects as MultipleConversations } from '../SingleConversation';
 import { defaultGreen } from '../../mixins';
+import { EndProcess } from '../../helpers/uploader';
 
 class RenderTownHalls extends Component {
     static navigatorStyle = {
@@ -15,6 +16,7 @@ class RenderTownHalls extends Component {
 
     constructor(props) {
       super(props);
+      this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
       this.state = { townHalls: [] };
       this.state.townHalls = this.props.townHalls;
       const { navigator } = this.props;
@@ -32,8 +34,13 @@ class RenderTownHalls extends Component {
       });
     }
 
+    onNavigatorEvent = (e) => {
+      if (e.id === 'didAppear' && this.state.townHalls) return this.props.navigator.dismissLightBox();
+    }
+
     componentDidMount = () => {
       const callback = (townHalls) => {
+        EndProcess(this.props.navigator);
         this.setState({ townHalls });
         this.props.dispatch({ type: 'TOWN_HALLS_FETCHED', payload: townHalls });
       };

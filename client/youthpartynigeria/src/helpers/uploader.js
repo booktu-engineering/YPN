@@ -54,5 +54,6 @@ export const StartProcess = navigator => {
 }
 
 export const EndProcess = navigator => {
-  navigator.dismissLightBox();
+  console.log('closing');
+  navigator.dismissLightBox({});
 }

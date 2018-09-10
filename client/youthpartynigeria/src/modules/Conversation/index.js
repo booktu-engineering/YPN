@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { TinySelectors, height, width, LoadingScreen } from '../../mixins';
 import { ConversationObjects } from '../SingleConversation';
-import { dispatchNotification } from '../../helpers/uploader';
+import { dispatchNotification, EndProcess } from '../../helpers/uploader';
 import { fetchConversations } from '../../actions/thunks/conversations';
 
 class Conversations extends Component {
   constructor(props) {
     super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.props.navigator.setButtons({
       leftButtons: [
         {
@@ -31,8 +32,15 @@ class Conversations extends Component {
     });
   }
 
+  onNavigatorEvent = (e) => {
+    if(e.id === 'didAppear' && this.props.target) return this.props.navigator.dismissLightBox();
+  }
+
   componentDidMount() {
-    if(!this.props.target); return this.props.dispatch(fetchConversations(2, this.props.navigator));
+    if(!this.props.target); {
+      this.props.dispatch(fetchConversations(2, this.props.navigator))
+      .then(() => EndProcess(this.props.navigator));
+    }
   }
 
   componentWillUnmount = () => {

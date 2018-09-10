@@ -9,10 +9,11 @@ const styles = StyleSheet.create({
     paddingTop: 50
   },
   logoContainer: {
-    height: height * 0.16
+    height: height * 0.16,
+    marginBottom: 70
   },
   textContainer: {
-    height: height * 0.22
+    height: height * 0.20
   },
 
   largeText: {
@@ -37,6 +38,8 @@ const styles = StyleSheet.create({
   },
   buttonStack: {
     height: height * 0.3,
+    position: 'relative',
+    top: -25,
     alignSelf: 'center'
   },
 

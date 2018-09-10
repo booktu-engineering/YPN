@@ -17,8 +17,7 @@ const generateNameFromMembers = (members) => {
 };
 
 const generateUri = (members) => {
-  const position = Math.floor(Math.random() * members.length);
-  const avatar = members[position].avatar ? members[position].avatar : uri;
+  const avatar = members[0].avatar ? members[0].avatar : uri;
   return avatar;
 };
 
@@ -38,7 +37,7 @@ const SingleChat = ({ data, obj }) => {
         });
       }}
     >
-      <Image source={{ uri: data.topic ? defaultUri : generateUri(data.members.filter(item => item.id !== obj.user.id)) }} style={{ ...avatar, marginRight: 10 }} />
+      <Image source={{ uri: data.topic ? defaultUri : generateUri(data.members.filter(item => item.id !== obj.user.id)) }} style={{ ...avatar, marginRight: 10, resizeMode: (data.members.filter(item => item.id !== obj.user.id)[0].avatar ? 'cover' : 'center') }} />
       <View style={{ width: width * 0.8, position: 'relative' }}>
         <Text style={{ fontSize: 13.5, fontWeight: '600' }}> { title } </Text>
         <Text style={{
@@ -48,7 +47,7 @@ const SingleChat = ({ data, obj }) => {
         <Text style={{
           fontSize: 12.5, fontWeight: '500', width: width * 0.76, color: '#979A9A', marginTop: 5
         }}
-        > { obj.registry && obj.registry[data._id][0] && obj.registry[data._id][0].content || 'Waiting for messages to load'}</Text>
+        > { obj.registry && obj.registry[data._id][0] && obj.registry[data._id][0].content || ''}</Text>
       </View>
     </TouchableOpacity>
   );

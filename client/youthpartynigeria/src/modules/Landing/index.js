@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styles, { width } from './styles'
 
+const imageUrl = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 const LandingComponent = ({ navigator }) => (
   <View style={styles.base}>
     <View style={styles.logoContainer}>
       { /* this should contain the logo */}
+      <Image source={{ uri: imageUrl }} style={{ alignSelf: 'center', height: 140, width: 150, resizeMode: 'center', position: 'relative', }}/>
     </View>
     {/* Start of the Welcome to youth party text */}
     <View style={styles.textContainer} >

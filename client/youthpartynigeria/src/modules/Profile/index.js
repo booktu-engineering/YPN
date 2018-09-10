@@ -54,8 +54,15 @@ fetchEventsForCurrentUser = () => {
   handleEvent = () => {
     this.props.dispatch(fetchUsersPosts(this.props.target))
       .then((posts) => {
+        console.log('here');
+        if(this.state.posts && this.state.posts.length === posts.length) return;
         this.setState({ posts });
       });
+  }
+
+  shouldComponentUpdate = (nextProps, nextState) => {
+    if((JSON.stringify({ ...nextProps.target }) === JSON.stringify({ ...this.props.target })) && nextState.posts.length === this.state.posts.length ) return false;
+    return true;
   }
   render = () => (
     <View style={{ flex: 1, position: 'relative' }}>

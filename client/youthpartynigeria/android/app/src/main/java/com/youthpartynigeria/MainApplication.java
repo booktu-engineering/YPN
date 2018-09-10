@@ -3,16 +3,15 @@ package com.youthpartynigeria;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
-import org.wonday.pdf.RCTPdfView;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.rncloudinary.RNCloudinaryPackage;
 import com.horcrux.svg.SvgPackage;
+import org.wonday.pdf.RCTPdfView;
+import com.github.yamill.orientation.OrientationPackage;
+import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import io.linkpreview.RNReactNativeLinkPreviewPackage;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
-import com.reactnativenavigation.NavigationReactPackage;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -33,16 +32,15 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new ReactNativeOneSignalPackage(),
-            new RCTPdfView(),
             new RNFetchBlobPackage(),
             new VectorIconsPackage(),
-            new RNCloudinaryPackage(),
             new SvgPackage(),
+            new RCTPdfView(),
+            new OrientationPackage(),
+            new ReactNativeOneSignalPackage(),
             new RNReactNativeLinkPreviewPackage(),
-            new PickerPackage(),
             new LinearGradientPackage(),
-            new NavigationReactPackage()
+            new PickerPackage()
       );
     }
 

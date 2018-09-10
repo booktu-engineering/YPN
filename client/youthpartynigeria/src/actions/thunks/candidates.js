@@ -20,6 +20,7 @@ export const FetchAllPositions = navigator => cb => (dispatch, getState) => axio
     if (cb) return cb(payload);
   })
   .catch((err) => {
+    console.log(err);
     dispatchNotification(navigator)('Had some trouble fetching the open positions, would try again in a few');
     // set off an event to fetch the positions again async
   });

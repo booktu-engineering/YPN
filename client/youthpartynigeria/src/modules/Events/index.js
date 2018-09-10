@@ -2,19 +2,31 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { Selectors, TinySelectors } from '../../mixins';
+import FilterableComponent from '../../hocs';
+import { EndProcess } from '../../helpers/uploader';
 import { MultipleEvents } from '../SingleEvent';
 import { fetchAllEvents } from '../../actions/thunks/events';
 
-const EventComponent = ({ navigator, dispatch, data }) => (
-  <View style={{ flex: 1 }}>
-    {/* <Selectors keys={['Events', 'Town Halls']} /> */}
-    { MultipleEvents(data)({ navigator, screen: 'Show.Event', dispatch })}
-  </View>);
+const EventComponent = () => {
+  const ComponentX = (props) => {
+    console.log(props);
+    const { navigator, dispatch, _entries, keys, renderFunctionMap } = props;
+    return  (
+      <View style={{ flex: 1 }}>
+        {/* <Selectors keys={['Events', 'Town Halls']} /> */}
+        <TinySelectors keys={keys} functionMap={renderFunctionMap} />
+        { MultipleEvents(_entries)({ navigator, screen: 'Show.Event', dispatch })}
+      </View>);
+  }
+  return FilterableComponent(ComponentX, [ 'Federal', 'State' ]);
+};
+
 
 class EventScreen extends Component {
   constructor(props) {
     super(props);
     const { navigator } = this.props;
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     navigator.setDrawerEnabled({ side: 'left', enabled: false });
     navigator.setButtons({
       leftButtons: [
@@ -38,15 +50,24 @@ class EventScreen extends Component {
     });
   }
 
+  onNavigatorEvent = (e) => {
+    if (e.id === 'didAppear' && this.props.entries) return this.props.navigator.dismissLightBox();
+  }
+
   componentDidMount = () => {
-    if (!this.props.events) return this.props.dispatch(fetchAllEvents(this.props.navigator));
+
+    if (!this.props.entries) {
+      this.props.dispatch(fetchAllEvents(this.props.navigator))
+      .then(() => EndProcess(this.props.navigator));
+    }
     // asynchronously dispatch to fetch all the events belonging to the user    
-    return this.props.dispatch(fetchAllEvents(this.props.navigator));
+    this.props.dispatch(fetchAllEvents(this.props.navigator))
+    .then(() => EndProcess(this.props.navigator));
   }
 
 render = () => (
   <View style={{ flex: 1 }}>
-    { this.props.events ? <EventComponent data={this.props.events} navigator={this.props.navigator} dispatch={this.props.dispatch}/> : null }
+    { this.props.entries ? React.createElement(EventComponent(), this.props, null) : null }
   </View>
 )
 }
@@ -56,7 +77,7 @@ EventScreen.navigatorStyle = {
 };
 
 const mapStateToProps = state => ({
-  events: state.events.all
+  entries: state.events.all || []
 });
 
 export default connect(mapStateToProps)(EventScreen);

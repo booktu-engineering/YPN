@@ -56,6 +56,17 @@ const AboutUs = ({ navigator }) => {
                 <Text style={{color: '#82BE30', fontSize: 13 }}>> Leadership </Text>
             </TouchableOpacity>
 
+              <TouchableOpacity style={{height: 30, width: 150 }} 
+            onPress={() => navigator.showModal({
+              screen: 'Pdf.View',
+              title: 'Constitution',
+              passProps: {
+                source: 2
+              }
+            }) }>
+                <Text style={{color: '#82BE30', fontSize: 13 }}>> Constitution </Text>
+            </TouchableOpacity>
+
             <TouchableOpacity style={{height: 30, width: 150 }} 
             onPress={() => navigator.showModal({
               screen: 'Pdf.View',

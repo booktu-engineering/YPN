@@ -52,11 +52,6 @@ const Drawer = ({ currentUser, navigator, current }) => (
       >
         <Text style={{ fontSize: 15, fontWeight: '600' }}> About us </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}
-        onPress={() => navigator.showModal({ screen: 'Pdf.View', title: 'Constitution', passProps: { source: 2 } })}
-      >
-        <Text style={{ fontSize: 15, fontWeight: '600' }}> Constitution </Text>
-      </TouchableOpacity>
       <TouchableOpacity style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }} 
         onPress={() => navigator.showModal({ screen: 'Contact.Us', title: 'Contact Us'})}
       >
