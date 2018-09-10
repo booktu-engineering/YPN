@@ -34,7 +34,7 @@ class MemberShipContainer extends Component {
     handlePress = () => {
         if(parseInt(this.props.user.role) > 0) {
             this.props.navigator.dismissModal({ animated: true });
-           return  dispatchNotification(this.props.navigator)("You're already a party member, Subscribe next month!");
+           return  dispatchNotification(this.props.navigator)("You're already a party member, Subscribe next quarter!");
         }
         this.props.navigator.push({ screen: 'Pay.Component', title: 'Subscribe'})
 

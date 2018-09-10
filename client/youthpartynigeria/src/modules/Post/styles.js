@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     paddingLeft: 15,
+    paddingTop: 22,
     paddingRight: 10
   },
   ImageUploader: {

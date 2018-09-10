@@ -72,6 +72,7 @@ class Home extends Component {
 fetchTimeLine = () => this.props.dispatch(fetchTimeline(this.props.navigator))
 
 shouldComponentUpdate = (nextProps) => {
+if(JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) return true;
 if(this.props.data && this.props.data.length === nextProps.data.length) return false;
 return true;
 }

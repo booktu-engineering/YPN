@@ -24,6 +24,7 @@ class OpenPosition extends Component {
   }
 
   componentDidMount = () => {
+    console.log(this.props);
     this.props.navigator.dismissLightBox();
   }
   componentWillUnmount = () => {

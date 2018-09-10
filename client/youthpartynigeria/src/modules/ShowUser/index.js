@@ -190,7 +190,8 @@ const DisplayBio = ({ user, navigator }) => (
           height: 90,
           width: 90,
           borderRadius: 45,
-          backgroundColor: 'white'
+          backgroundColor: 'white',
+          resizeMode: (user.avatar ? 'cover' : 'center')
         }}
         source={{ uri: (user.avatar ? user.avatar : uri) }}
       />

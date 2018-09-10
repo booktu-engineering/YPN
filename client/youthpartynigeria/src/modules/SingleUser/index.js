@@ -28,7 +28,7 @@ const SingleUser = ({ data, obj }) => (
     >
       <Image
         style={{
- height: 60, width: 60, borderRadius: 30, marginRight: 8,
+ height: 60, width: 60, borderRadius: 30, marginRight: 8, resizeMode: (data.avatar ? "cover" : "center")
 }}
         source={{ uri: (data.avatar || uri) }}
       />

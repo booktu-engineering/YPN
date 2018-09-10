@@ -38,10 +38,10 @@ class ContactUsPage extends Component {
       <View style={{ flex: 1, justifyContent: 'space-around', backgroundColor: '#F2F3F4', paddingLeft: 20, paddingTop: 20, paddingBottom: 15  }}>
           <Components.RenderDetailsOfYPN />
           <Components.RenderPhoneTing />
-          <Components.RenderSubmitButton 
+          {/* <Components.RenderSubmitButton 
           value={this.state.content} 
           handleChange={this.handleChange} 
-          handleSubmit={this.handleSubmit}/>
+          handleSubmit={this.handleSubmit}/> */}
           <Text style={{ fontSize: 14, textAlign: 'center' }}>
           Follow us @YouthPartyng
           </Text>

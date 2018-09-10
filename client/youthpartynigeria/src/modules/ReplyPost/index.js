@@ -16,6 +16,7 @@ class AddCommentContainer extends Component {
     }
 
     componentWillUnmount = () => {
+        this.props.navigator.dismissLightBox({})
         this.props.dispatch(fetchTimeline(this.props.navigator));
     }
     render = () => (

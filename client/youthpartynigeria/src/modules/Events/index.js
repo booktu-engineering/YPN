@@ -9,7 +9,6 @@ import { fetchAllEvents } from '../../actions/thunks/events';
 
 const EventComponent = () => {
   const ComponentX = (props) => {
-    console.log(props);
     const { navigator, dispatch, _entries, keys, renderFunctionMap } = props;
     return  (
       <View style={{ flex: 1 }}>
@@ -18,7 +17,7 @@ const EventComponent = () => {
         { MultipleEvents(_entries)({ navigator, screen: 'Show.Event', dispatch })}
       </View>);
   }
-  return FilterableComponent(ComponentX, [ 'Federal', 'State' ]);
+  return FilterableComponent(ComponentX, [ 'Federal', 'State' ], 'details');
 };
 
 

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { width, height, defaultGreen, formLabel, inputStyle, formContainer, formHolder } from '../../mixins/'
+import { height, defaultGreen, formLabel, inputStyle, formContainer, formHolder } from '../../mixins/'
 
 const styles = StyleSheet.create({
   greenBar: {

@@ -48,14 +48,14 @@ class SinglePost extends Component {
       }}
       >
       <View style={{ minHeight: 20, minWidth: width * 0.3, flexDirection: 'row', }}> 
-      <Text style={{ fontSize: 13.5, fontWeight: '700', marginRight: 8 }}>
+      <Text style={{ fontSize: 14.5, fontWeight: '700', marginRight: 8 }}>
           { data.origin ? `${data.origin.firstname || ''} ${data.origin.lastname || ''}` : 'John Phillips' }
         </Text>
-        { data.origin.role === 5 ? 
+        { data.origin.role === 5 &&
         <View style={{ minHeight: 16, width: 50, borderColor: defaultGreen, borderWidth: 0.5, paddingTop: 2, justifyContent: 'center', alignItems: 'center'}}> 
         <Text style={{ color: defaultGreen, fontSize: 10 }}>Verified</Text>
         </View>
-        : <Text style={{ fontSize: 12, fontWeight: '500', color: '#CACFD2', position: 'relative', left: -3 }}>{`@${data.origin.username}`}</Text>
+        
         }
 
         
@@ -69,7 +69,7 @@ class SinglePost extends Component {
         </Text>
         <Text style={{
           width: width * 0.7,
-          fontSize: 12.5, 
+          fontSize: 13.5, 
           marginTop: 10, 
           marginBottom: 12, 
           color: '#797D7F', 

@@ -21,7 +21,8 @@ const PDFViewer = ({ navigator, source }) => {
     2: require('../../docs/Constitution.pdf'),
     3: require('../../docs/Leadership.pdf'),
     4: require('../../docs/Manifesto.pdf'),
-    5: require('../../docs/obj.pdf')
+    5: require('../../docs/obj.pdf'),
+    5: require('../../docs/Primaries.pdf')
   };
 
   return (

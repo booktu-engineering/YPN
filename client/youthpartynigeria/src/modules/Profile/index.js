@@ -61,6 +61,7 @@ fetchEventsForCurrentUser = () => {
   }
 
   shouldComponentUpdate = (nextProps, nextState) => {
+    if(JSON.stringify(this.state) !== JSON.stringify(nextState)) return true;
     if((JSON.stringify({ ...nextProps.target }) === JSON.stringify({ ...this.props.target })) && nextState.posts.length === this.state.posts.length ) return false;
     return true;
   }
@@ -122,7 +123,8 @@ const DisplayBio = ({ user, navigator }) => (
         height: 90, 
         width: 90, 
         borderRadius: 45,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        resizeMode: (user.avatar ? 'cover' : 'center')
     }}
         source={{ uri: (user.avatar ? user.avatar : uri) }}
       />

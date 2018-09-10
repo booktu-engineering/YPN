@@ -11,7 +11,6 @@ import styles from '../SignUp/styles';
 
 class UpdateProfile extends React.Component {
    state = {
-     paddingBottom: new Animated.Value(0)
    };
 
     selectImage = () => {

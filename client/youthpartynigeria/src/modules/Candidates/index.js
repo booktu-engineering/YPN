@@ -82,7 +82,7 @@ class CandidateScreen extends Component {
       return this.props.dispatch(Actions.FetchAllPositions(this.props.navigator)((data) => {
         EndProcess(this.props.navigator);
         if (!data.length) return dispatchNotification(this.props.navigator)('There are no positions currently, Please check back');
-        return this.props.navigator.push({ screen: 'Open.Position', title: 'Open Positions', passProps: { definition: 2, data: [...data], entries: [...data] } });
+        return this.props.navigator.push({ screen: 'Open.Position', title: 'Open Positions', passProps: { data: [...data], entries: [...data] } });
       }));
     }
     if (!this.props.positions.length) return dispatchNotification(this.props.navigator)('There are no positions currently, Please check back');

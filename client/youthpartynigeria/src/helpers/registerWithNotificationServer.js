@@ -7,6 +7,7 @@ import config from '../config';
 
 
 export default (device, navigator) => async (dispatch, getState) => {
+  console.log(device);
   const onReceived = (notification) => {
     dispatch(fetchAllNotifications());
     dispatchNotification(navigator)(notification.payload.body)

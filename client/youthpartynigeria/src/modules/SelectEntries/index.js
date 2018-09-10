@@ -48,7 +48,7 @@ class RenderSelectEntries extends Component {
           justifyContent: 'center',
           alignItems: 'center',
         }}
-        onPress={() => { this.props._navigator.dismissLightBox(); }}
+        onPress={() => { this.props.navigator.dismissLightBox(); }}
       >
         <View
           style={{

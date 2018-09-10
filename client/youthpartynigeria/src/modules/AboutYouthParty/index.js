@@ -77,6 +77,16 @@ const AboutUs = ({ navigator }) => {
             }) }>
                 <Text style={{color: '#82BE30', fontSize: 13 }}>> Manifesto </Text>
             </TouchableOpacity>
+            <TouchableOpacity style={{height: 30, width: 150 }} 
+            onPress={() => navigator.showModal({
+              screen: 'Pdf.View',
+              title: 'Primaries',
+              passProps: {
+                source: 6
+              }
+            }) }>
+                <Text style={{color: '#82BE30', fontSize: 13 }}>> Primaries Guidelines </Text>
+            </TouchableOpacity>
             </View>
             
         </View>
