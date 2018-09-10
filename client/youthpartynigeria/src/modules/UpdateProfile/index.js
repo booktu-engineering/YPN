@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, KeyboardAvo
 import { connect } from 'react-redux';
 import RenderScreen from '../../hocs/renderScreens';
 import { UpdateUserInfo } from '../../actions/thunks/user';
-import { bigButton, buttonText, defaultGreen } from '../../mixins';
+import { bigButton, buttonText, defaultGreen, inputStyle, height } from '../../mixins';
 import { SingleUpload, dispatchNotification, StartProcess } from '../../helpers/uploader';
 import styles from '../SignUp/styles';
 
@@ -114,7 +114,7 @@ const UpdateForm = ({ handleChange, state, user }) => (
 
       <View style={styles.formContainer}>
         <Text style={styles.formLabel}> BIO </Text>
-        <TextInput style={styles.inputStyle}
+        <TextInput style={{ ...inputStyle, height: height * 0.15 }}
           onChangeText={text => handleChange(text, 'bio')}
           defaultValue={user.bio || ''}
           multiline

@@ -3,11 +3,11 @@ package com.youthpartynigeria;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativenavigation.NavigationReactPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
 import org.wonday.pdf.RCTPdfView;
-import com.github.yamill.orientation.OrientationPackage;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import io.linkpreview.RNReactNativeLinkPreviewPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -32,11 +32,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new NavigationReactPackage(),
             new RNFetchBlobPackage(),
             new VectorIconsPackage(),
             new SvgPackage(),
             new RCTPdfView(),
-            new OrientationPackage(),
             new ReactNativeOneSignalPackage(),
             new RNReactNativeLinkPreviewPackage(),
             new LinearGradientPackage(),

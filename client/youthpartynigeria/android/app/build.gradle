@@ -137,11 +137,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-navigation')
     compile project(':rn-fetch-blob')
     compile project(':react-native-vector-icons')
     compile project(':react-native-svg')
     compile project(':react-native-pdf')
-    compile project(':react-native-orientation')
     compile project(':react-native-onesignal')
     compile project(':react-native-link-preview')
     compile project(':react-native-linear-gradient')

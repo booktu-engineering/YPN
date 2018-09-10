@@ -1,5 +1,4 @@
 import { AsyncStorage } from 'react-native';
-import Orientation from 'react-native-orientation';
 import NavigatorBase from './src/navigation';
 import Initializer from './src/helpers/init';
 
@@ -13,7 +12,6 @@ class StartApp {
   }
 
   start = () => {
-    Orientation.lockToPortrait();
     AsyncStorage.getItem('#!@#$%')
       .then((token) => {
         if (token) return Initializer(token, this.navigator);

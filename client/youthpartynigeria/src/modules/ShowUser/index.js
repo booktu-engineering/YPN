@@ -77,11 +77,6 @@ class ShowUser extends Component {
       });
   }
 
-  // shouldComponentUpdate = (nextProps, nextState) => {
-  //   if((JSON.stringify({ ...nextProps.target }) === JSON.stringify({ ...this.props.target })) && nextState.posts.length === this.state.posts.length ) return false;
-  //   return true;
-  // }
-
   __fetchPostsForUser = () => {
     this.props.dispatch(fetchUsersPosts(this.props.target))
     .then((posts) => {
@@ -210,12 +205,13 @@ const DisplayBio = ({ user, navigator }) => (
         }}
         > {`${user.firstname || ''} ${user.lastname || ''}`}
         </Text>
+        <Text style={{ fontSize: 12, fontWeight: '600', color: '#CACFD2', marginBottom: 5 }}>{`@${user.username || ''}`} </Text>
         <Text style={{ fontSize: 12, fontWeight: '600', color: '#909497' }}>{` Ward: ${user.ward || ''} | lga: ${user.lga || ''}`} </Text>
       </View>
     </View>
     { /* Render the bio */}
     <Text style={{
-      fontSize: 11.5, fontWeight: '500', color: '#909497', width: width * 0.9, alignSelf: 'flex-start', position: 'relative', right: -30
+      fontSize: 12.5, fontWeight: '500', color: '#909497', width: width * 0.9, alignSelf: 'flex-start', position: 'relative', right: -30
     }}
     > { user.bio || '' }
     </Text>
