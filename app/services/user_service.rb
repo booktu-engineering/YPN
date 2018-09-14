@@ -195,7 +195,7 @@ def update_notification_token user, notification
 end
 
 def dispatch_notification body
-  uri = URI.parse("http://localhost:5000/receive/")
+  uri = URI.parse("https://yon-notification.herokuapp.com/receive/")
   http = Net::HTTP.new(uri.host, uri.port);
   http.use_ssl = false
   header = {'Content-Type': 'application/json'}
