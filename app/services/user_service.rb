@@ -197,7 +197,7 @@ end
 def dispatch_notification body
   uri = URI.parse("https://yon-notification.herokuapp.com/receive/")
   http = Net::HTTP.new(uri.host, uri.port);
-  http.use_ssl = false
+  http.use_ssl = true
   header = {'Content-Type': 'application/json'}
   request = Net::HTTP::Post.new(uri.request_uri, header)
   request.body = body.to_json
