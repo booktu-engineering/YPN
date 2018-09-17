@@ -103,7 +103,8 @@ class UserService < BaseService
         data.reset_password_count ||= 0
         data.reset_password_count += 1
         data.save!
-        return data
+        token = generate_token data
+        return { :data => data, :token => token }
       end
       raise StandardError.new('Is this link still valid? We guess not. Please make this request again')
     rescue StandardError => e
