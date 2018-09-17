@@ -78,13 +78,13 @@ class ConvoMiddlewareBase extends BaseMiddlewareBase {
       }
       return this.noPermissions('You cannot join a personal conversation, because you havent been invited', next);
     } else if (data && data.type === 3) {
-      let granted = false;
-      Object.keys(data.details.inclusion).forEach((key) => {
-        if (req.user[`${key}`] && req.user[`${key}`] === data.details.inclusion[`${key}`]) {
-          granted = true;
-        }
-        granted = false;
-      });
+      // let granted = false;
+      // Object.keys(data.details.location).forEach((key) => {
+      //   if (req.user[`${key}`] && req.user[`${key}`] === data.details.inclusion[`${key}`]) {
+      //     granted = true;
+      //   }
+      //   granted = false;
+      // });
 //       if (granted) 
       return next();
 //       return this.noPermissions('You cannot join a personal conversation, because you havent been invited', next);
