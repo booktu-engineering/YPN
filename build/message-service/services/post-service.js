@@ -150,7 +150,7 @@ var PostServiceObject = function (_BaseService) {
       return function (_x4, _x5) {
         return _ref3.apply(this, arguments);
       };
-    }(), _this.__dispatchComment = function () {
+    }(), _this.__formatNotification = function () {}, _this.__dispatchComment = function () {
       var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(data) {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
@@ -159,21 +159,23 @@ var PostServiceObject = function (_BaseService) {
                 ref.content = data.content;
                 ref.origin = data.origin;
                 ref.id = data._id;
-                notification = { type: data.type, message: data.origin.username + ' replied your ' + (data.destination ? 'message' : 'post'), referenceID: data._id, body: ref, time: Date.now(), destination: data.referenceObject.origin.username, destinationID: data.referenceObject.origin.id };
+                notification = {
+                  type: data.type,
+                  message: data.origin.username + ' replied your ' + (data.destination ? 'message' : 'post'),
+                  referenceID: data._id,
+                  body: ref,
+                  time: Date.now(),
+                  destination: data.referenceObject.origin.username,
+                  destinationID: data.referenceObject.origin.id
+                };
                 data = _extends({}, data, { destination: data.referenceObject.origin.email, subject: data.subject });
                 _context3.next = 7;
                 return _this.__updateReference(data.referenceObject, 1);
 
               case 7:
-                _context3.next = 9;
-                return _this.__updateNotifications(data.referenceObject.origin.nt_token, notification, data.referenceObject.origin);
+                _this.__dispatchToNotificationServer(data, _extends({}, notification), 5, data.origin);
 
-              case 9:
-                nt_token = _context3.sent;
-
-                _this.__dispatchToNotificationServer(data, _extends({}, notification, { nt_token: nt_token }), 5);
-
-              case 11:
+              case 8:
               case 'end':
                 return _context3.stop();
             }
@@ -280,8 +282,8 @@ var PostServiceObject = function (_BaseService) {
                 });
 
                 members.forEach(function (item) {
-                  return _this.__dispatchToNotificationServer(_extends({}, message, { destination: item.email, subject: message.origin.username + ' sent you a message on Youth Party Nigeria' }), { destination: item.username, destinationID: item.id }, 4);
-                });
+                  return _this.__dispatchToNotificationServer(_extends({}, message, { destination: item.email, subject: message.origin.username + ' sent you a message on Youth Party Nigeria' }), { destination: item.username, destinationID: item.id, message: message.origin.username + ' sent you a message on Youth Party Nigeria' }, 4);
+                }, message.origin);
 
               case 7:
               case 'end':
@@ -427,16 +429,10 @@ var PostServiceObject = function (_BaseService) {
                               ref.origin = body.origin;
                               ref.id = body._id;
                               notification = { type: body.type, message: 'You were mentioned in ' + body.origin.username + '\'s post', referenceID: body._id, body: ref, destination: item.username, destinationID: item.id, time: Date.now() };
-                              _context8.next = 6;
-                              return _this.__updateNotifications(item.nt_token, notification, item);
-
-                            case 6:
-                              nt_token = _context8.sent;
-
-                              _this.__dispatchToNotificationServer(_extends({}, body, { destination: item.email, subject: 'New mention by ' + body.origin.username + ' on Youth Party Nigeria App' }), _extends({}, notification, { nt_token: nt_token }), 5);
+                              _this.__dispatchToNotificationServer(_extends({}, body, { destination: item.email, subject: 'New mention by ' + body.origin.username + ' on Youth Party Nigeria App' }), _extends({}, notification, { nt_token: nt_token }), 5, body.origin);
                               return _context8.abrupt('return', body);
 
-                            case 9:
+                            case 6:
                             case 'end':
                               return _context8.stop();
                           }
@@ -511,25 +507,20 @@ var PostServiceObject = function (_BaseService) {
                 data = _context11.sent;
 
                 if (!(type === 0)) {
-                  _context11.next = 13;
+                  _context11.next = 10;
                   break;
                 }
 
                 data.likes.count += 1;
                 data.likes.data.push(user);
                 notification = { type: data.type, message: user.username + ' liked your ' + (data.destination ? 'message' : 'post'), referenceID: data._id, body: { id: data._id, content: data.content, origin: data.origin }, time: Date.now(), destination: data.origin.username, destinationID: data.origin.id };
-                _this.__dispatchToNotificationServer(_extends({}, data._doc, { origin: { username: user.username }, destination: data.origin.email, subject: user.username + ' liked your post on Youth Party Nigeria' }), _extends({}, notification, { nt_token: nt_token }), 5);
-                _context11.next = 10;
-                return _this.__updateNotifications(data.origin.nt_token, notification, data.origin);
-
-              case 10:
-                nt_token = _context11.sent;
-                _context11.next = 19;
+                _this.__dispatchToNotificationServer(_extends({}, data._doc, { origin: { username: user.username }, destination: data.origin.email, subject: user.username + ' liked your post on Youth Party Nigeria' }), _extends({}, notification, { nt_token: nt_token }), 5, user);
+                _context11.next = 16;
                 break;
 
-              case 13:
+              case 10:
                 if (!(type === 1)) {
-                  _context11.next = 19;
+                  _context11.next = 16;
                   break;
                 }
 
@@ -538,27 +529,27 @@ var PostServiceObject = function (_BaseService) {
                 });
 
                 if (!(filler.length < 1)) {
-                  _context11.next = 17;
+                  _context11.next = 14;
                   break;
                 }
 
                 return _context11.abrupt('return', data);
 
-              case 17:
+              case 14:
                 data.likes.count -= 1;
                 data.likes.data = data.likes.data.filter(function (item) {
                   return item.id !== user.id;
                 });
 
-              case 19:
-                _context11.next = 21;
+              case 16:
+                _context11.next = 18;
                 return _this.model.findOneAndUpdate({ _id: data._id }, { $set: { likes: data.likes } }, { new: true });
 
-              case 21:
+              case 18:
                 dataX = _context11.sent;
                 return _context11.abrupt('return', data);
 
-              case 23:
+              case 20:
               case 'end':
                 return _context11.stop();
             }

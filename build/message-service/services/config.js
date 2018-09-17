@@ -9,8 +9,8 @@ var prodConfig = {
 };
 
 var devConfig = {
-  baseUrl: 'http://localhost:3000/',
-  notificationUrl: 'http://localhost:5000/'
+  baseUrl: 'https://ypn-base-01.herokuapp.com/',
+  notificationUrl: 'https://yon-notification.herokuapp.com/'
 };
 
 exports.default = function () {

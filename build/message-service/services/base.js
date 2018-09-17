@@ -328,13 +328,13 @@ var BaseService = function BaseService(model) {
   }();
 
   this.__dispatchToNotificationServer = function () {
-    var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(mail, notification, key) {
+    var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(mail, notification, key, user) {
       return regeneratorRuntime.wrap(function _callee10$(_context10) {
         while (1) {
           switch (_context10.prev = _context10.next) {
             case 0:
               instance = _axios2.default.create({ baseURL: config.notificationUrl });
-              instance.post('/receive', { mail: mail, notification: notification, key: key }).then(function () {
+              instance.post('/receive', { mail: mail, notification: notification, key: key, user: user }).then(function () {
                 console.log('Successfully dispatched notification');
               });
 
@@ -346,7 +346,7 @@ var BaseService = function BaseService(model) {
       }, _callee10, _this);
     }));
 
-    return function (_x19, _x20, _x21) {
+    return function (_x19, _x20, _x21, _x22) {
       return _ref10.apply(this, arguments);
     };
   }();
@@ -386,7 +386,7 @@ var BaseService = function BaseService(model) {
       }, _callee11, _this, [[0, 10]]);
     }));
 
-    return function (_x22, _x23) {
+    return function (_x23, _x24) {
       return _ref11.apply(this, arguments);
     };
   }();
@@ -416,7 +416,7 @@ var BaseService = function BaseService(model) {
       }, _callee12, _this);
     }));
 
-    return function (_x24) {
+    return function (_x25) {
       return _ref12.apply(this, arguments);
     };
   }();

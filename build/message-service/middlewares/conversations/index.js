@@ -143,7 +143,7 @@ var ConvoMiddlewareBase = function (_BaseMiddlewareBase) {
       };
     }(), _this.filterAccess = function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res, next) {
-        var _data2, invites, granted;
+        var _data2, invites;
 
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
@@ -188,33 +188,24 @@ var ConvoMiddlewareBase = function (_BaseMiddlewareBase) {
 
               case 13:
                 if (!(data && data.type === 3)) {
+                  _context2.next = 15;
+                  break;
+                }
+
+                return _context2.abrupt('return', next());
+
+              case 15:
+                if (!data) {
                   _context2.next = 17;
                   break;
                 }
 
-                granted = false;
-
-                Object.keys(data.details.inclusion).forEach(function (key) {
-                  if (req.user['' + key] && req.user['' + key] === data.details.inclusion['' + key]) {
-                    granted = true;
-                  }
-                  granted = false;
-                });
-                //       if (granted) 
                 return _context2.abrupt('return', next());
 
               case 17:
-                if (!data) {
-                  _context2.next = 19;
-                  break;
-                }
-
-                return _context2.abrupt('return', next());
-
-              case 19:
                 return _context2.abrupt('return', _this.notFound('You cannot join a personal conversation, because you havent been invited', next));
 
-              case 20:
+              case 18:
               case 'end':
                 return _context2.stop();
             }

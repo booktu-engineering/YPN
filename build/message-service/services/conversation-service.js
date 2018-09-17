@@ -98,17 +98,13 @@ var ConversationService = function (_BaseService) {
                   _this.__unprocessableEntity();
                 }
                 _context2.next = 3;
-                return _post2.default.find({ type: 1, referenceID: null }).sort({ createdAt: -1 });
+                return _post2.default.find({ $or: [{ 'origin.role': 5, 'type': 1, 'referenceID': null, 'destination': null }, { 'origin.id': { $in: body }, 'type': 1, 'referenceID': null, 'destination': null }] }).sort({ createdAt: -1 });
 
               case 3:
                 data = _context2.sent;
-
-                data = data.filter(function (item) {
-                  return body.includes(item.origin.id);
-                });
                 return _context2.abrupt('return', data);
 
-              case 6:
+              case 5:
               case 'end':
                 return _context2.stop();
             }
@@ -158,12 +154,12 @@ var ConversationService = function (_BaseService) {
                 data = _context4.sent;
 
                 if (!data) {
-                  _context4.next = 21;
+                  _context4.next = 19;
                   break;
                 }
 
                 if (!(data.invites < 1)) {
-                  _context4.next = 14;
+                  _context4.next = 12;
                   break;
                 }
 
@@ -175,29 +171,29 @@ var ConversationService = function (_BaseService) {
                 data = _context4.sent;
                 return _context4.abrupt('return', data);
 
-              case 14:
+              case 12:
                 if (!data.invites.map(function (item) {
                   return item.id;
                 }).includes(user.id)) {
-                  _context4.next = 16;
+                  _context4.next = 14;
                   break;
                 }
 
                 return _context4.abrupt('return', data);
 
-              case 16:
+              case 14:
                 data.invites.push(user);
-                _context4.next = 19;
+                _context4.next = 17;
                 return data.save();
 
-              case 19:
+              case 17:
                 data = _context4.sent;
                 return _context4.abrupt('return', data);
 
-              case 21:
+              case 19:
                 return _context4.abrupt('return', null);
 
-              case 22:
+              case 20:
               case 'end':
                 return _context4.stop();
             }
