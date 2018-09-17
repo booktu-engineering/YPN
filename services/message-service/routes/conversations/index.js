@@ -5,7 +5,7 @@ import ConversationController from '../../controllers/conversations';
 const router = Router();
 
 router
-  .post('/', ConversationMiddleware.__ensureAuthorization, ConversationMiddleware.__ensureUser, ConversationMiddleware.grantAccess, ConversationMiddleware.__checkForNullInput, ConversationMiddleware.checkRequired, ConversationMiddleware.appendType, ConversationMiddleware.appendOrigin, ConversationController.create, ConversationMiddleware.__dispatchError)
+  .post('/', ConversationMiddleware.__ensureAuthorization, ConversationMiddleware.__ensureUser, ConversationMiddleware.grantAccess, ConversationMiddleware.checkRequired, ConversationMiddleware.appendType, ConversationMiddleware.appendOrigin, ConversationController.create, ConversationMiddleware.__dispatchError)
   .get('/:id', ConversationMiddleware.__ensureAuthorization, ConversationMiddleware.__ensureUser, ConversationMiddleware.restrictAccess, ConversationController.fetchOne, ConversationMiddleware.__dispatchError)
   .put('/join/:id', ConversationMiddleware.__ensureAuthorization, ConversationMiddleware.__ensureUser, ConversationMiddleware.filterAccess, ConversationController.participate, ConversationMiddleware.__dispatchError)
   .put('/invite/:id', ConversationMiddleware.__ensureAuthorization, ConversationMiddleware.__ensureUser, ConversationMiddleware.OwnerOrAdminAccess, ConversationController.extendInvite, ConversationMiddleware.__dispatchError)
