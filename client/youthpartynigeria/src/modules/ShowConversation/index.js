@@ -63,7 +63,7 @@ onPress={() => { navigateToUser(data.members, user, dispatch, navigator) }}
         </Text>
         {
           data.focus && (
-            <Text style={{ fontSize: 14, color: 'white' }}> {`focus: ${data.focus.user.name}`}</Text>
+            <Text style={{ fontSize: 14, color: 'white' }}> {`focus: ${data.focus.user.firstname} ${data.focus.user.lastname}`}</Text>
           )
         }
       </View>

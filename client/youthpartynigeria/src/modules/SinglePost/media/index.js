@@ -23,8 +23,8 @@ class MediaHandler extends Component {
     const links = this.props.data.links.filter(item => item.length > 0);
     if (links.length > 0) {
      this.request = LinkPreview.getPreview(links[0])
-      .then(data => {
-       this.mounted && this.setState({ data })
+      .then((data) => {
+       this.mounted && this.setState({ data, target: links[0] })
       })
     }
   }

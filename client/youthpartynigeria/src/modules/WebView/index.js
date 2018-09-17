@@ -38,4 +38,4 @@ render = () => (
     navBarBackgroundColor: defaultGreen,
     statusBarTextColorScheme: 'light',
   }
-export default WebPage
+export default WebPage;

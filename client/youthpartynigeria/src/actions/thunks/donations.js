@@ -21,7 +21,7 @@ export const filterThroughDonations = query => navigator => (dispatch, getState)
   const donations = getState().donations.all;
   const target = donations.filter(donation => donation.type === query.type && donation.meta.level === query.level);
   if (!target.length) {
-    dispatchNotification(navigator)('No donations matching that currently. Thanks you');
+    dispatchNotification(navigator)('No donations matching that currently. Thank you');
     return navigator.pop();
   }
   return navigator.push({

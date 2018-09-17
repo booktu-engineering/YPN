@@ -27,7 +27,7 @@ class ConversationLog extends Screen {
   onNavigatorEvent = (e) => {
     if(e.id === 'didAppear') {
       this.props.navigator.setDrawerEnabled({ side: 'left', enabled: false });
-      this.props.navigator.toggleTabs({ to: 'hidden', animated: true });
+      setTimeout(() => this.mounted &&  this.props.navigator.toggleTabs({ to: 'hidden', animated: true }), 500);
       this.props.navigator.setStyle({ tabBarHidden: true });
       
     }
@@ -50,8 +50,8 @@ class ConversationLog extends Screen {
 
   componentWillUnmount = () => {
     this.mounted = false;
-    this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
-    this.props.navigator.toggleTabs({ to: 'shown', animated: true });
+    // this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
+    // this.props.navigator.toggleTabs({ to: 'shown', animated: true });
   }
 
   handleChange = content => this.setState({ content })

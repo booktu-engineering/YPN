@@ -14,8 +14,8 @@ const NotificationIco = ({ navigator, unSeen }) => (
   <TouchableOpacity style={{ flex: 1 }} onPress={() => navigator.push({ screen: 'Show.Notifications', title: 'Notifications' })}>
   { 
     unSeen && unSeen > 0 ? 
-    <View style={{ height: 14, width: 14, alignItems:'center', borderRadius: 7, backgroundColor: '#F4D03F', position:'absolute', zIndex: 2, left: 15, top: -5, paddingTop: 1 }}>
-    <Text style={{ fontSize: 11, position: 'relative', right: 1, color: 'white', textAlign: 'center', fontWeight: '700' }}>{unSeen}</Text>
+    <View style={{ height: 16, width: 16, flexDirection: 'column', alignItems:'center', borderRadius: 8, justifyContent: 'center', backgroundColor: '#F4D03F', position:'absolute', zIndex: 2, left: 15, top: -5, paddingTop: 1 }}>
+    <Text style={{ fontSize: 9, position: 'relative', right: 1, color: 'white', textAlign: 'center', fontWeight: '700' }}>{unSeen}</Text>
   </View>
   : null
   }

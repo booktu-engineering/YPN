@@ -23,7 +23,7 @@ export const SinglePosition = ({ data, obj }) => (
     onPress={() => { obj.navigator.push({ screen: 'Show.Position', title: `${data.name || 'Open Position'}`, passProps: { data } }) }}
     >
     <View style={{ height: height * 0.05, width: width * 0.5, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center' }}>
-      <Image style={{ height: 60, width: 60, borderRadius: 30, marginRight: 8, }} source={{ uri: data.meta.image || uri }}/>
+      <Image style={{ height: 60, width: 60, borderRadius: 30, marginRight: 8, resizeMode: (data.meta.image ? 'cover' : 'center') }} source={{ uri: data.meta.image || uri }}/>
       <View style={{ height: height * 0.06}}>
         <Text style={{ fontSize: 14, fontWeight: '600', color: '#1F2020', marginBottom: 5 }}> {data.name || ''}</Text>
         <Text style={{ fontSize: 12, fontWeight: '500', color: defaultGreen }}> {data.meta.location || ''}</Text>

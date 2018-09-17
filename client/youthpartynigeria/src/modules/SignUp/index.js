@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, TextInput, Picker, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TextInput, Picker, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import EvilIcon from 'react-native-vector-icons/Entypo';
 import { defaultGreen, inputStyle, formContainer, width, height, bigButton, buttonText, formHolder, formLabel } from '../../mixins/';
 import styles from './styles';
 import userActions from '../../actions/thunks/user';
 import { dispatchNotification, SingleUpload } from '../../helpers/uploader';
-import states from './states';
+import states from './StatesWithWards';
 
 const { SignUpThunk } = userActions;
 
@@ -47,7 +48,11 @@ class SignUpComponent extends Component {
       const target = states.filter(state => state.state.name === value)
       const selectedTarget = target[0].state.locals.map(lga => ({ label: lga.name, value: lga.name }));
       this.setState({ selectedLga: selectedTarget });
-
+    }
+    if(name === 'lga') {
+      const targetX = states.filter(state => state.state.name === this.state.state)
+      const targets = targetX[0].state.locals.filter(item => item.name === value)[0].wards.map(item => ({ label: item, value: item }))
+      this.setState({ selectedWards: targets })
     }
   }
 
@@ -99,7 +104,8 @@ class SignUpComponent extends Component {
   }
 
   render = () => (
-    <View style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1 }}>
+    <KeyboardAvoidingView behavior="position" style={{ flex: 1 }}> 
       {/* This should contain the green bar and the image */}
       <View style={styles.greenBar}>
         <View style={styles.ImageHolder}>
@@ -118,8 +124,9 @@ class SignUpComponent extends Component {
         >
         <Text style={{ ...buttonText }}>{ this.state.movingForward ? 'SIGN UP' : 'CONTINUE'} </Text>
       </TouchableOpacity>
-      <Text style={{ textAlign: 'center', position: 'absolute', bottom: 16, alignSelf: 'center', fontSize: 13 }}> Already a member? Click to <Text style={{ color: defaultGreen }}> Log In</Text></Text>
-    </View>
+      <Text style={{ textAlign: 'center', position: 'absolute', bottom: -28, alignSelf: 'center', fontSize: 13 }}> Already a member? Click to <Text style={{ color: defaultGreen }}> Log In</Text></Text>
+      </KeyboardAvoidingView>
+    </ScrollView>
   )
 }
 
@@ -141,30 +148,35 @@ const SignUpForm = ({ handleChange, state, handleClick }) => (
     </View>
 
     <View style={{ ...formContainer, marginTop: -10 }}>
-      <Text style={styles.formLabel}> STATE OF REGISTRATION </Text>
+    <View style={{ flexDirection: "row", flexWrap: "nowrap", }}> 
+    <Text style={{ ...formLabel, marginRight: 2 }}> STATE OF REGISTRATION </Text>
+      <EvilIcon name="triangle-down" size={15} color="#E5E7E9" style={{ position: 'relative', left: -4}}/>
+      </View>
       <PickerRender pickedItem={state.state} data={state.keys || []} handleChange={handleChange} name="state" style={{ ...inputStyle }} />
     </View>
     {/* double sided form -ting */}
     <GridForm handleChange={handleChange} state={state}/>
-    <Text style={{ position: 'relative', top: -18, fontSize: 12, textAlign: 'center', height: 14, fontWeight: '500', color: '#B3B6B7' }}> Check your registration details <Text style={{ color: '#82BE30'}} onPress={() => { handleClick() }}> Here </Text></Text>
+    <Text style={{ position: 'relative', top: -18, fontSize: 12, textAlign: 'center', height: 14, fontWeight: '500', color: '#B3B6B7' }}> Check your INEC registration details <Text style={{ color: '#82BE30'}} onPress={() => { handleClick() }}> Here </Text></Text>
   </View>
 );
 
 
 const GridForm = ({ handleChange, state }) => (
   <View style={{ ...formContainer, width, flexDirection: 'row', justifyContent: 'space-around' }}>
-    <View style={{ ...formContainer, width: width * 0.3, paddingLeft: 15, paddingRight: 15 }}>
+    <View style={{ ...formContainer, width: width * 0.4, paddingLeft: 15, paddingRight: 15 }}>
+      <View style={{ flexDirection: "row", flexWrap: "nowrap"}}> 
       <Text style={{ ...formLabel, width: width * 0.4 }}>LGA OF REGISTRATION</Text>
+      <EvilIcon name="triangle-down" size={15} color="#E5E7E9" style={{ position: 'relative', left: -16 }}/>
+        </View> 
       <PickerRender name="lga" pickedItem={state.lga} state={state} handleChange={handleChange} data={state.selectedLga} style={{ ...inputStyle, width: width * 0.3 }} />
     </View>
 
     <View style={{ ...formContainer, width: width * 0.3 }}>
-      <Text style={styles.formLabel}>WARD</Text>
-      <TextInput
-        style={{ ...inputStyle, width: width * 0.3, borderBottomColor: '#B3B6B7', borderBottomWidth: 0.7, position: 'relative', bottom: -10 }}
-        onChangeText={(text) => { handleChange(text, 'ward')}}
-        value={state.ward}
-      />
+    <View style={{ flexDirection: "row", flexWrap: "nowrap"}}> 
+      <Text style={{ ...formLabel, marginRight: 15 }}>WARD</Text>
+      <EvilIcon name="triangle-down" size={15} color="#E5E7E9" style={{ position: 'relative', left: -15, }}/>
+        </View> 
+      <PickerRender name="ward" pickedItem={state.ward} state={state} handleChange={handleChange} data={state.selectedWards || []} style={{ ...inputStyle, width: width * 0.3 }} />
     </View>
   </View>
 );

@@ -6,7 +6,7 @@ import Composer from '../iterator';
 
 const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
-const SingleUser = ({ data, obj }) => (
+const SingleUser = ({ data, obj }) => data && (
   <TouchableOpacity
     style={{
       height: height * 0.15,

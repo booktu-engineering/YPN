@@ -137,6 +137,7 @@ export const incomingMessage = data => (dispatch, getState) => {
 };
 
 export const JoinConversation = data => navigator => (dispatch, getState) => {
+  console.log(data);
   // this assumes that the fella is joining a conversation like debate and all of dat
   StartProcess(navigator);
   return axios.request({
@@ -162,6 +163,7 @@ export const JoinConversation = data => navigator => (dispatch, getState) => {
         return navigator.push({ screen: 'Convo.Log', passProps: { data } });
         // return navigator.switchToTab({ tabIndex: 1 });
       }
+      console.log(err);
       EndProcess(navigator);
       dispatchNotification(navigator)('Something went wrong, try again?');
       return navigator.pop();

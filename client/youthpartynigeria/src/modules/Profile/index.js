@@ -51,13 +51,16 @@ fetchEventsForCurrentUser = () => {
   .then(events => this.setState({ events }));
 }
 
-  handleEvent = () => {
+  handleEvent = (e) => {
+    if(e.id === 'didAppear') {
+    this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
+    this.props.navigator.toggleTabs({ to: '', animated: true });
     this.props.dispatch(fetchUsersPosts(this.props.target))
       .then((posts) => {
-        console.log('here');
         if(this.state.posts && this.state.posts.length === posts.length) return;
         this.setState({ posts });
       });
+    }
   }
 
   shouldComponentUpdate = (nextProps, nextState) => {

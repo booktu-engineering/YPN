@@ -29,7 +29,8 @@ borderBottomWidth: 0.3
     >
       <Image
         style={{
- height: 60, width: 60, borderRadius: 30, marginRight: 10
+ height: 60, width: 60, borderRadius: 30, marginRight: 10,
+ resizeMode: data.meta.image ? 'cover' : 'center'
 }}
         source={{ uri: data.meta.image || uri }}
       />

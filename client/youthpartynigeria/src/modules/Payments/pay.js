@@ -73,14 +73,13 @@ class Pay extends Component {
 
     _handleChange = (form) => {
         this.setState({ ...form });
-        console.log(form);
     }
 
     render = () => {
 
         return (
         <ScrollView keyboardDismissMode="on-drag" style={{ flex: 1, paddingTop: 15 }}> 
-        <KeyboardAvoidingView style={{ flex: 1, justifyContent: 'space-around' }} behavior="padding" >
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="position" enabled >
         <CreditCardInput
         onChange={this._handleChange}
         inputContainerStyle={{

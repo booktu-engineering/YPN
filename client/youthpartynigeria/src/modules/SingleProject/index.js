@@ -26,8 +26,9 @@ const SingleProject = props => (
       <Image
         style={{
  height: 60, width: 60, borderRadius: 30, marginRight: 8,
+ resizeMode: 'center'
 }}
-        source={{ uri: 'https://qz.com/wp-content/uploads/2017/06/19575061_1355575787863484_8238479006744169542_o.jpg?quality=80&strip=all&w=1200' }}
+        source={{ uri: 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png' }}
       />
       <View style={{ height: height * 0.06 }}>
         <Text style={{

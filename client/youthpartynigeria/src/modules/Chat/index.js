@@ -36,8 +36,15 @@ class ChatContainer extends Component {
   handleNavigate = () => this.props.navigator.push({ screen: 'Show.Groups', title: 'Start a new conversation'  });
   
   componentDidMount = () => this.props.dispatch(fetchAllConversations(this.props.navigator));
+
+  shouldComponentUpdate = (nextProps) => {
+    if(this.props.logs && (JSON.stringify(this.props.logs) === JSON.stringify(nextProps.logs))) return false;
+    return true
+  }
   handleVisibility = (e) => {
     if (e.id === 'didAppear') {
+      this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
+      this.props.navigator.toggleTabs({ to: 'shown', animated: true });
       return this.props.dispatch(fetchAllConversations(this.props.navigator));
     }
   }

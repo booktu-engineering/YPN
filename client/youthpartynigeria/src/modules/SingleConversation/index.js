@@ -12,7 +12,7 @@ const SingleConversationType1 = ({ obj, data }) => {
     <TouchableOpacity  onPress={() => { obj.dispatch(JoinConversation(data)(obj.navigator))}} style={{ maxHeight: height * 0.41, width, paddingTop: 20, position: 'relative', borderBottomWidth: 0.5, borderBottomColor: '#E5E7E9' }}>
       <View style={{ paddingLeft: 15, maxHeight: height * 0.35, width, marginBottom: 20 }}>
         <Text style={{ fontSize: 15, fontWeight: '600', color: '#3E3F3F', marginBottom: 15 }}>{ data.topic || data.details.topic }</Text>
-        <Text style={{ fontSize: 11.5, color: '#B3B6B7', fontWeight: '500', width: width * 0.9 }}> { data && data.focus ? `focus: ${data.focus.user.name}`: "This conversation might be for specific groups of people. Please check out for conversations you're allowed into"}</Text>
+        <Text style={{ fontSize: 11.5, color: '#B3B6B7', fontWeight: '500', width: width * 0.9 }}> { data && data.focus ? `focus: ${data.focus.user.firstname} ${data.focus.user.lastname}`: "This conversation might be for specific groups of people. Please check out for conversations you're allowed into"}</Text>
      </View>
     </TouchableOpacity>
   )

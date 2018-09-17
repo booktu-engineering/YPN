@@ -38,7 +38,7 @@ class More extends Component {
 
   navigate = (screen, title) => {
     this.props.navigator.dismissLightBox();
-    __StackNavigator(this.previousTab).push({ screen, title });
+    __StackNavigator(this.previousTab) && __StackNavigator(this.previousTab).push({ screen, title });
   }
 
   handlePress = () => {

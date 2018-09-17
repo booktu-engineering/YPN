@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, Image } from 'react-native';
+import Ionicon from 'react-native-vector-icons/Ionicons';
 import { height, width, defaultGreen, avatar, LightGrey } from '../../mixins';
 import Composer from '../iterator';
 
@@ -37,7 +38,13 @@ const SingleChat = ({ data, obj }) => {
         });
       }}
     >
-      <Image source={{ uri: data.topic ? defaultUri : generateUri(data.members.filter(item => item.id !== obj.user.id)) }} style={{ ...avatar, marginRight: 10, resizeMode: (data.members.filter(item => item.id !== obj.user.id)[0].avatar ? 'cover' : 'center') }} />
+     { data.type === 1  && <Image source={{ uri: data.topic ? defaultUri : generateUri(data.members.filter(item => item.id !== obj.user.id)) }} style={{ ...avatar, marginRight: 10, resizeMode: (data.members.filter(item => item.id !== obj.user.id)[0].avatar ? 'cover' : 'center') }} /> }
+     { data.type > 1 && 
+      <View style={{ ...avatar, backgroundColor: '#E5E7E9', justifyContent: 'center', alignItems: 'center', marginRight: 7 }}> 
+                  <Ionicon name="ios-microphone" size={26} color={defaultGreen} style={{ position: 'relative' }}/>
+      </View> 
+
+    }
       <View style={{ width: width * 0.8, position: 'relative' }}>
         <Text style={{ fontSize: 13.5, fontWeight: '600' }}> { title } </Text>
         <Text style={{

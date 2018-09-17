@@ -26,7 +26,7 @@ const Drawer = ({ currentUser, navigator, current }) => (
       alignItems: 'center'
     }}
     >
-      <Image source={{ uri: (current.avatar ? current.avatar : uri) }} style={{ height: 74, width: 74, borderRadius: 37 }} />
+      <Image source={{ uri: (current.avatar ? current.avatar : uri) }} style={{ height: 74, width: 74, borderRadius: 37, backgroundColor: 'white', resizeMode: (current.avatar ? 'cover' : 'center') }} />
       <View style={{ width: width * 0.4, position: 'relative', top: -4 }}>
         <Text style={{
           fontSize: 16, color: 'white', fontWeight: '700', marginBottom: 10

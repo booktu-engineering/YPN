@@ -112,7 +112,7 @@ const Target = ({ data }) => (
     <Image style={{ height: 40, width: 40, borderRadius: 20, marginRight: 10}} source={{ uri: '' }}/>
     <View style={{ height: height * 0.15, maxWidth: width * 0.5 }}>
       <Text style={{ fontSize: 15, fontWeight: '600', color: '#373838', marginBottom: 5}}> Description </Text>
-      <Text style={{ fontSize: 14, fontWeight: '600', color: defaultGreen, marginBottom: 5, width }}>{data.description}</Text>
+      <Text style={{ fontSize: 14, fontWeight: '600', color: defaultGreen, marginBottom: 5, width: width * 0.7 }}>{data.description}</Text>
         {/* <Text style={{ fontWeight: '500', fontSize: 12, color: '#B3B6B7' }}>{ data.description }</Text> */}
       
     </View>

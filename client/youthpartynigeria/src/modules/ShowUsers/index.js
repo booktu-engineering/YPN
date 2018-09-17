@@ -37,8 +37,8 @@ class ShowUsersContainer extends Component {
     }
 
       componentWillUnmount = () => {
-        this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
-        this.props.navigator.toggleTabs({ to: 'shown', animated: true });
+        // this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
+        // this.props.navigator.toggleTabs({ to: 'shown', animated: true });
       }
 
   render = () => (
