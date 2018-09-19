@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchAllQuestions } from '../../actions/thunks/polls';
-import { defaultGreen } from '../../mixins';
+import { defaultGreen, height } from '../../mixins';
 import RenderElections from './components/RenderElections';
 
 
@@ -36,7 +36,16 @@ class ElectionScreen extends Component {
 render = () => (
     <View style={{ flex: 1 }}>
     {
-        this.props.elections ? <RenderElections dispatch={this.props.dispatch} navigator={this.props.navigator} data={this.props.elections}/> : null
+        this.props.elections && this.props.elections.length ? <RenderElections dispatch={this.props.dispatch} navigator={this.props.navigator} data={this.props.elections}/> : <Text style={{ 
+          fontSize: 14, 
+          fontWeight: '600', 
+          width: '80%',
+          color: '#CACFD2', 
+          alignSelf: 'center', 
+          textAlign: 'center',
+          position: 'relative', 
+          bottom: -(height * 0.4) 
+          }}>{`There are no elections available for you to participate in. Thank you`}</Text>
     }
     </View>
 )

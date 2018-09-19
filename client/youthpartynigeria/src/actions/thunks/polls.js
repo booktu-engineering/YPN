@@ -14,9 +14,9 @@ export const fetchAllQuestions = (navigator, key) => (dispatch, getState) => {
     }
   })
     .then((response) => {
-      const user = getState().users.current
+      const user = getState().users.current;
       let { data } = response.data;
-      data = data.filter(item =>  item.type === 1 || item.meta.location.includes("All") || item.meta.location.includes(user.state) || item.meta.location.includes(user.lga) || item.meta.location.includes(user.ward))
+      data = data.filter(item => (item.type === 1) || (item.meta.location.includes("All")) || (item.meta.location.includes(user.state)) || (item.meta.location.includes(user.lga)) || (item.meta.location.includes(user.ward)));
       dispatch({ type: 'ALL_QUESTIONS_RECEIVED', payload: data });
      !key && EndProcess(navigator);
     })

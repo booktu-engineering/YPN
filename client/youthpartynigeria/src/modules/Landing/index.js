@@ -25,7 +25,7 @@ const LandingComponent = ({ navigator }) => (
       <Text style={{ color: '#2F2E2E', textAlign: 'center' }}>Already a member? Click to <Text style={{ color: '#82BE30' }} onPress={() => { navigator.push({ screen: 'Login.Component' })}}>Log in</Text></Text>
     </View>
     {/* end of button stack */}
-    <Text style={{ color: '#2F2E2E', textAlign: 'center', width: width * 0.6, position: 'absolute', bottom: 70 }}> By signing up, you agree to our <Text style={{ color: '#82BE30' }}>Privacy Policy</Text> & <Text style={{ color: '#82BE30'}}>Terms of Service</Text></Text>
+    <Text style={{ color: '#2F2E2E', textAlign: 'center', width: width * 0.6, position: 'absolute', bottom: 70 }}> By signing up, you agree to our <Text style={{ color: '#82BE30' }} onPress={() => navigator.showModal({ screen: 'Web.Page', title: 'Privacy Policy', passProps: { source: 'https://youthpartyng.com/about-us/'}})}>Privacy Policy</Text> & <Text onPress={() => navigator.showModal({ screen: 'Web.Page', title: 'Terms of Service', passProps: { source: 'https://youthpartyng.com/about-us/'}})} style={{ color: '#82BE30'}}>Terms of Service</Text></Text>
   </View>
 );
 

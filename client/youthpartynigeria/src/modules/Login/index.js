@@ -46,11 +46,11 @@ const LoginComponent = ({ navigator, handleSubmit, handleChange }) => {
       {/* Login/ Reset password Section */}
       <View style={styles.container}>
         <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row' }}>
-          <Text style={{ fontSize: 13, color: '#2F2E2E' }}>Sign Up</Text>
+          <Text style={{ fontSize: 13, color: '#2F2E2E' }} onPress={() => navigator.push({ screen: 'SignUp.Component'})}>Sign Up</Text>
           <Text style={{ fontSize: 13, color: '#2F2E2E' }} onPress={() => { navigator.push({ screen: 'Reset.Password' })}}> Forgot Password?</Text>
         </View>
         <View style={{ flex: 1, marginTop: -70 }}>
-          <Text style={{ color: '#2F2E2E' }}> By logging in, you agree to our <Text style={{ color: '#82BE30' }}>Privacy Policy</Text> & <Text style={{ color: '#82BE30'}}>Terms of Service</Text></Text>
+          <Text style={{ color: '#2F2E2E' }}> By logging in, you agree to our <Text style={{ color: '#82BE30' }} onPress={() => navigator.showModal({ screen: 'Web.Page', title: 'Privacy Policy', passProps: { source: 'https://youthpartyng.com/about-us/'}})}>Privacy Policy</Text> & <Text style={{ color: '#82BE30'}} onPress={() => navigator.showModal({ screen: 'Web.Page', title: 'Terms of Service', passProps: { source: 'https://youthpartyng.com/about-us/'}})}>Terms of Service</Text></Text>
         </View>
       </View>
     </View>

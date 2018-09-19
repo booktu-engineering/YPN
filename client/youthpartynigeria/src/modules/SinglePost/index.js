@@ -203,9 +203,11 @@ class ButtonStack extends Component {
          Share
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={{ position: 'relative', top: -1, width: 15 }} onPress={this.handleActions}>
+      { this.props.data.origin.role !== 5 && 
+      <TouchableOpacity style={{ position: 'relative', top: -1, width: 20, height: 20 }} onPress={this.handleActions}>
         <Ionicon name="ios-more" color={this.state.share} size={20} />
       </TouchableOpacity>
+      }
     </View>
   )
 }

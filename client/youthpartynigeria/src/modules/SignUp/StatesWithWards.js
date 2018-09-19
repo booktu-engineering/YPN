@@ -1,7 +1,7 @@
 export default [
   {
     state: {
-      name: 'Select State',
+      name: 'Scroll to Select State',
       id: 1,
       locals: [
         {

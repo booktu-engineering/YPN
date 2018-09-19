@@ -152,7 +152,7 @@ const SignUpForm = ({ handleChange, state, handleClick }) => (
     <Text style={{ ...formLabel, marginRight: 2 }}> STATE OF REGISTRATION </Text>
       <EvilIcon name="triangle-down" size={15} color="#E5E7E9" style={{ position: 'relative', left: -4}}/>
       </View>
-      <PickerRender pickedItem={state.state} data={state.keys || []} handleChange={handleChange} name="state" style={{ ...inputStyle }} />
+      <PickerRender pickerStyle={{}} itemStyle={{ width: width * 0.6, position: 'relative', left: -45 }} pickedItem={state.state} data={state.keys || []} handleChange={handleChange} name="state" style={{ ...inputStyle }} />
     </View>
     {/* double sided form -ting */}
     <GridForm handleChange={handleChange} state={state}/>
@@ -162,21 +162,20 @@ const SignUpForm = ({ handleChange, state, handleClick }) => (
 
 
 const GridForm = ({ handleChange, state }) => (
-  <View style={{ ...formContainer, width, flexDirection: 'row', justifyContent: 'space-around' }}>
+  <View style={{ ...formContainer, width, flexDirection: 'row', justifyContent: 'space-around', position: 'relative', right: -17 }}>
     <View style={{ ...formContainer, width: width * 0.4, paddingLeft: 15, paddingRight: 15 }}>
       <View style={{ flexDirection: "row", flexWrap: "nowrap"}}> 
       <Text style={{ ...formLabel, width: width * 0.4 }}>LGA OF REGISTRATION</Text>
-      <EvilIcon name="triangle-down" size={15} color="#E5E7E9" style={{ position: 'relative', left: -16 }}/>
         </View> 
-      <PickerRender name="lga" pickedItem={state.lga} state={state} handleChange={handleChange} data={state.selectedLga} style={{ ...inputStyle, width: width * 0.3 }} />
+      <PickerRender name="lga" pickedItem={state.lga} pickerStyle={{}} state={state} handleChange={handleChange} itemStyle={{ position: 'relative', left: -15 }} data={state.selectedLga} style={{ ...inputStyle, width: width * 0.3 }} />
     </View>
 
     <View style={{ ...formContainer, width: width * 0.3 }}>
     <View style={{ flexDirection: "row", flexWrap: "nowrap"}}> 
       <Text style={{ ...formLabel, marginRight: 15 }}>WARD</Text>
-      <EvilIcon name="triangle-down" size={15} color="#E5E7E9" style={{ position: 'relative', left: -15, }}/>
+      <EvilIcon name="triangle-down" size={15} color="#E5E7E9" style={{ position: 'relative', left: -25, }}/>
         </View> 
-      <PickerRender name="ward" pickedItem={state.ward} state={state} handleChange={handleChange} data={state.selectedWards || []} style={{ ...inputStyle, width: width * 0.3 }} />
+      <PickerRender name="ward" itemStyle={{ position: 'relative', left: (state.ward && state.ward.length < 10 ? -25 : 0) }}  pickerStyle={{ paddingRight: 15 }} pickedItem={state.ward} state={state} handleChange={handleChange} data={state.selectedWards || []} style={{ ...inputStyle, width: width * 0.3 }} />
     </View>
   </View>
 );
@@ -189,7 +188,7 @@ const DatePickerRender = ({ handleChange, date }) => (
     cancelBtnText='Cancel'
     date={date}
     customStyles={{
-      dateInput: { width: 700, borderColor: 'white' },
+      dateInput: { width: 700, borderColor: 'white', position: 'relative', left: -90 },
       dateIcon: { display: 'none' }
     }}
      onDateChange={(date) => handleChange(date, 'dob')}
@@ -199,10 +198,10 @@ const DatePickerRender = ({ handleChange, date }) => (
 const PickerItemRender = data => data.map(d => <Picker.Item label={d.label} value={d.value} />);
 
 
-const PickerRender = ({ style, data, handleChange, name, pickedItem }) => (
+const PickerRender = ({ style, data, handleChange, name, pickedItem, itemStyle, pickerStyle }) => (
   <Picker
-    style={{ ...style, height: 51, marginTop: -5 }}
-    itemStyle={{ flex: 1, fontSize: 14, width: width * 0.27, color: '#909497' }}
+    style={{ ...style, height: 51, marginTop: -5, ...pickerStyle }}
+    itemStyle={{ flex: 1, fontSize: 14, width: width * 0.27, color: '#909497', ...itemStyle }}
     onValueChange={(value) => handleChange(value, name)}
     selectedValue={pickedItem}
     >

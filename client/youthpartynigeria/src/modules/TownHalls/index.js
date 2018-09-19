@@ -40,7 +40,6 @@ class RenderTownHalls extends Component {
     }
 
     componentDidMount = () => {
-      console.log(this.props.user);
       const callback = (townHalls) => {
         EndProcess(this.props.navigator);
         this.setState({ townHalls: townHalls.filter(tH => tH.details.location.includes(this.props.user.ward)) });
