@@ -3,12 +3,12 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import Swiper from 'react-native-swiper';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { height, width } from '../../mixins';
+import { defaultGreen } from '../../mixins/colors';
 
 const ImageComponent = ({ source, navigator }) => (
   <View style={{
       height,
       width,
-      backgroundColor: '#25252598',
       position: 'relative'
     }}
     >
@@ -23,7 +23,37 @@ const ImageComponent = ({ source, navigator }) => (
             }}
         />
       {/* close button */}
-      <TouchableOpacity
+    </View>
+);
+
+const NextButton = <Ionicon name="ios-arrow-forward" size={24} color="white" />;
+const PrevButton = <Ionicon name="ios-arrow-back" size={24} color="white" />;
+const RenderImages = ({ images, navigator, index }) => (
+    <Swiper
+      loop
+      showsButtons
+      height={height}
+      width={width}
+      index={index || 0}
+      nextButton={NextButton}
+      prevButton={PrevButton}
+      dotColor="white"
+      activeDotColor={defaultGreen}
+    >
+      { images.map((uri) => <ImageComponent key={`${uri}`} source={{ uri }} navigator={navigator} />)}
+    </Swiper>
+
+);
+
+const ShowImagePage = (props) => {
+  const { data, navigator, index } = props;
+  navigator.toggleTabs({ to: 'hidden', animated: false });
+  navigator.setDrawerEnabled({ side: 'left', enabled: false });
+  return (
+      <View style={{ height, width, backgroundColor: '#25252598', position: 'relative' }}>
+          { data.length > 1 && <RenderImages images={data} index={index} navigator={navigator} />}
+          { data.length === 1 && <ImageComponent source={{ uri: data[0] }} navigator={navigator} />}
+          <TouchableOpacity
 style={{
           height: 40,
           width: 40,
@@ -40,36 +70,6 @@ style={{
         >
           <Ionicon name="ios-close" color="white" size={25} />
         </TouchableOpacity>
-
-    </View>
-);
-
-const NextButton = <Ionicon name="ios-arrow-forward" size={24} color="white" />;
-const PrevButton = <Ionicon name="ios-arrow-back" size={24} color="white" />;
-const RenderImages = ({ images, navigator, index }) => (
-  <Swiper
-      loop={false}
-      showsButtons
-      style={{
-          height,
-          width,
-        }}
-      index={index || 0}
-      nextButton={NextButton}
-      prevButton={PrevButton}
-    >
-      { images.map(uri => <ImageComponent source={{ uri }} navigator={navigator} />)}
-    </Swiper>
-);
-
-const ShowImagePage = (props) => {
-  const { data, navigator, index } = props;
-  navigator.toggleTabs({ to: 'hidden', animated: false });
-  navigator.setDrawerEnabled({ side: 'left', enabled: false });
-  return (
-      <View style={{ height, width }}>
-          { data.length > 1 && <RenderImages images={data} index={index} navigator={navigator} />}
-          { data.length === 1 && <ImageComponent source={{ uri: data[0] }} navigator={navigator} />}
         </View>
   );
 };

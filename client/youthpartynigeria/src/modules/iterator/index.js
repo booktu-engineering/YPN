@@ -24,7 +24,6 @@ const rollComponents = SomeComponent => data => (obj) => {
       this.state.data = this.props.data
     }
     shouldComponentUpdate = (nextProps) => {
-      console.log(nextProps);
       if(this.props.data.length === nextProps.data.length) return false;
     }
     render = () => (

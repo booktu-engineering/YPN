@@ -101,8 +101,9 @@ const PostComponent = ({ navigator, handleMediaUpload, handleChange, user, handl
     <View style={styles.base}>
       <TextInput
         style={styles.largeInput}
-        placeholder="Share a post. What do you have to contribute?"
+        placeholder={`What's happening ${user.firstname}? Share in 350 characters.`}
         multiline
+        maxLength={350}
         onChangeText={(text) => { handleChange(text, 'content');}}
         value={value}
         />
@@ -117,6 +118,8 @@ const PostComponent = ({ navigator, handleMediaUpload, handleChange, user, handl
        <TextInput
          style={styles.smallInput}
          multiline
+         autoCapitalize="none"
+         autoCorrect={false}
          placeholder="Share some links, separate it each one with a comma"
          onChangeText={(text) => { handleChange(text, 'links');}}
          value={linkValue}

@@ -5,6 +5,11 @@ import config from '../config/';
 
 export const formatDate = date => moment(new Date(date)).fromNow() || '10 mins';
 
+export const formatImageQuality = (string) => {
+  const link = [...string.split('/').slice(0, 6), 'q_50', ...string.split('/').slice(6, string.split('/').length)]
+  return link.join('/');
+}
+
 export const SingleUpload = () => ImagePicker.openPicker({
   width: 300,
   height: 400,
@@ -32,7 +37,7 @@ export const SendToCloudinary = async (data, key) => {
 
   for (let i = 0; i < data.length; i++) {
     const url = await RNCloudinary.UploadImage(data[i].path);
-    images.push(url);
+    images.push(formatImageQuality(url));
   }
   return images;
 };

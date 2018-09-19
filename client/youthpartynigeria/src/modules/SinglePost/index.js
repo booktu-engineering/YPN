@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ActionSheetIOS } from 'react-native';
 import moment from 'moment';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,24 +8,24 @@ import styles from './styles';
 import { width, height, defaultGreen } from '../../mixins';
 import MediaHandler from './media';
 import iterator from '../iterator';
-import { fetchUserThunk } from '../../actions/thunks/user';
-import { LikePost } from '../../actions/thunks/posts';
+import { fetchUserThunk, followUser } from '../../actions/thunks/user';
+import { LikePost, DeletePost } from '../../actions/thunks/posts';
 
 const imageUrl = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
 
 const mockText = 'It is now ndisputable that e people f Nigeria are united. I believe in an urgent restoration of active and particiatory democracy ';
 const generateHeight = (obj) => {
-  if (!obj.single && !obj.reference) return { maxHeight: height * 0.58 }
+  if (!obj.single && !obj.reference) return { maxHeight: height * 0.8 }
   if (obj.single) return { minHeight: 0.90, backgroundColor: '#ECF0F1' };
   return { maxHeight: height * 0.28, borderBottomWidth: 1, borderBottomColor: '#E5E7E9', backgroundColor: '#FDFEFE' } ;
 }
 
 class SinglePost extends Component {
   render = () => {
-    const { obj, data } = this.props;
+    const { obj, data, user, } = this.props;
     return (
-      <TouchableOpacity style={{ width, ...generateHeight(obj) }} onPress={() => { if(obj.single) return; obj.navigator.push({ screen: 'View.Post', title: `Post by ${data.origin.firstname}`, passProps: { target: data }}) }}>
+      <TouchableOpacity style={{ width, ...generateHeight(obj) }} onPress={() => { if(obj.single) return; obj.navigator.push({ screen: 'View.Post', title: `Post by ${data.origin.firstname}`, passProps: { target: data, user, friends: obj.friends }}) }}>
     <View style={styles.mainContent}>
       {/* this should render the users avatar and all of that */}
       <TouchableOpacity
@@ -80,7 +80,7 @@ class SinglePost extends Component {
       </View>
     </View>
     { obj.reference ? null :
-      <ButtonStack data={data} user={obj.user} dispatch={obj.dispatch} navigator={obj.navigator} />
+      <ButtonStack data={data} user={obj.user} dispatch={obj.dispatch} navigator={obj.navigator} friends={obj.friends || []}/>
     }
   </TouchableOpacity>
     )
@@ -154,6 +154,25 @@ class ButtonStack extends Component {
      })
    }
 
+   handleActions = () => {
+    let options = []
+    if(this.props.friends.includes(this.props.data.origin.id)) {
+      options = [`Unfollow @${this.props.data.origin.username}`]
+    }
+    if((this.props.user.id === this.props.data.origin.id) || this.props.user.role === 5){
+      options = [...options, 'Delete this post']
+    }
+    if(!options.length) return;
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [...options, 'Cancel'],
+      cancelButtonIndex: options.length,
+    },
+    (buttonIndex) => {
+      if(options[buttonIndex] === 'Delete this post') return this.props.dispatch(DeletePost(this.props.data._id)(this.props.navigator))
+      if(options[buttonIndex] === `Unfollow @${this.props.data.origin.username}`) return this.props.dispatch(followUser(this.props.data.origin, 3)(this.props.navigator))
+    });
+   }
+
   render = () => (
     <View style={styles.baseButtonStack}>
       <View style={styles.button}>
@@ -183,6 +202,9 @@ class ButtonStack extends Component {
         <Text style={{ color: this.state.share, fontSize: 12 }}>
          Share
         </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={{ position: 'relative', top: -1, width: 15 }} onPress={this.handleActions}>
+        <Ionicon name="ios-more" color={this.state.share} size={20} />
       </TouchableOpacity>
     </View>
   )

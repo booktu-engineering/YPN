@@ -90,11 +90,32 @@ export const fetchSinglePost = id => axios
   .then(response => response.data.data)
   .catch((err) => {
     console.log(err);
-  })
+  });
 
 export const replyToPost = data => navigator => (dispatch, getState) => {
   // ensure that the data has the reference object and ID
   // the post looks like this { type: 1, content: 'Some content', referenceID;  }
   if (!data.referenceID || !data.referenceObject) throw new Error('Please send in the right reference');
   return sendPost(data)(navigator)(dispatch, getState);
-}
+};
+
+
+export const DeletePost = id => navigator => (dispatch, getState) => {
+  StartProcess(navigator);
+  return axios({
+    method: 'Delete',
+    url: `${config.postUrl}/posts/${id}`,
+    headers: {
+      Authorization: getState().users.token
+    }
+  })
+    .then(() => {
+      EndProcess(navigator);
+      dispatchNotification(navigator)('All cleared up');
+      return dispatch(fetchTimeline(navigator))
+    })
+    .catch(() => {
+      EndProcess(navigator);
+      dispatchNotification(navigator)('Something went wrong. Try again');
+    });
+};

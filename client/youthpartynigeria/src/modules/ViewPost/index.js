@@ -59,20 +59,20 @@ class ViewPostContainer extends Component {
   
 
     render = () => (
-      <ViewPost renderLoading={this.renderLoading} data={this.props.target} comments={this.state.comments} dispatch={this.props.dispatch} user={this.props.user} navigator={this.props.navigator} />
+      <ViewPost renderLoading={this.renderLoading} data={this.props.target} comments={this.state.comments} dispatch={this.props.dispatch} user={this.props.user} friends={this.props.friendsIDs} navigator={this.props.navigator} />
     )
 }
 
-const ViewPost = ({ renderLoading, data, dispatch, user, navigator, comments }) => (
+const ViewPost = ({ renderLoading, data, dispatch, user, navigator, comments, friends }) => (
   <ScrollView style={{ flex: 1 }}>
     { data.referenceObject
-      ? <SinglePost data={data.referenceObject} obj={{ user, dispatch, navigator, reference: true }} />
+      ? <SinglePost data={data.referenceObject} obj={{ user, dispatch, navigator, reference: true, friends }} />
       : null
     }
-    <SinglePost data={data} obj={{ user, dispatch, navigator, single: true }} />
+    <SinglePost data={data} obj={{ user, dispatch, navigator, single: true, friends }} />
     {
        comments
-          ? multiplePosts(comments)({ user, dispatch, navigator, reference: true })
+          ? multiplePosts(comments)({ user, dispatch, navigator, reference: true, friends })
           : renderLoading()
     }
   </ScrollView>
@@ -80,7 +80,8 @@ const ViewPost = ({ renderLoading, data, dispatch, user, navigator, comments }) 
 
 
 const mapStateToProps = state => ({
-  user: state.users.current
+  user: state.users.current,
+  friendsIDs: state.users.friendsIDs
 });
 
 ViewPostContainer.navigatorStyle = {

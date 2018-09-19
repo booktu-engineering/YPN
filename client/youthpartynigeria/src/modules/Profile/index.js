@@ -97,7 +97,7 @@ fetchEventsForCurrentUser = () => {
         </TouchableOpacity>
       </View>
       <View style={{ height: height * 0.6, paddingTop: 5 }}>
-        { this.state.viewEvents ? MultipleEvents(this.state.events)({ navigator: this.props.navigator, dispatch: this.props.dispatch }) : multiplePosts(this.state.posts)({ height: height * 0.3, user: this.props.target, dispatch: this.props.dispatch, navigator: this.props.navigator })}
+        { this.state.viewEvents ? MultipleEvents(this.state.events)({ navigator: this.props.navigator, dispatch: this.props.dispatch }) : multiplePosts(this.state.posts)({ height: height * 0.3, user: this.props.target, dispatch: this.props.dispatch, navigator: this.props.navigator, friends: this.props.friendsIDs })}
       </View>
     </View>
   )
@@ -186,7 +186,8 @@ onPress={() => { friends ? navigator.push({ screen: 'Show.Users', title: 'Friend
 const mapStateToProps = state => ({
   target: state.users.current,
   followers: state.users.followers ? state.users.followers.filter(user => user) : [],
-  friends: state.users.friends ? state.users.friends.filter(user => user) : []
+  friends: state.users.friends ? state.users.friends.filter(user => user) : [],
+  friendsIDS: state.users.friendsIDS
 });
 export const ProfileNavigator = () => nav;
 export default connect(mapStateToProps)(ProfileComponent);

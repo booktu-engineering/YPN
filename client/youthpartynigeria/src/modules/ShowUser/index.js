@@ -159,7 +159,7 @@ class ShowUser extends Component {
           {
              this.state.posts.length ?
                 <View style={{ height: height * 0.6, paddingTop: 5 }}>
-                  { this.state.viewEvents ? MultipleEvents(this.state.events)({ navigator: this.props.navigator, dispatch: this.props.dispatch }) : multiplePosts([...this.state.posts ])({ height: height * 0.3, navigator: this.props.navigator, dispatch: this.props.dispatch, user: this.props.user })}
+                  { this.state.viewEvents ? MultipleEvents(this.state.events)({ navigator: this.props.navigator, dispatch: this.props.dispatch }) : multiplePosts([...this.state.posts ])({ height: height * 0.3, navigator: this.props.navigator, dispatch: this.props.dispatch, user: this.props.user, friends: this.props.friendsIDs })}
                 </View>
                : null
             }
@@ -253,7 +253,8 @@ const mapStateToProps = state => ({
   // target: state.users.target,
   // posts: state.posts.target,
   followers: state.users.followers.filter(user => user) || [],
-  friends: state.users.friends.filter(user => user) || []
+  friends: state.users.friends.filter(user => user) || [],
+  friendsIDs: state.users.friendsIDs
 });
 
 

@@ -97,6 +97,7 @@ renderRefreshable = () => ({
           dispatch: this.props.dispatch,
           refresh: this.fetchTimeLine,
           user: this.props.user,
+          friends: this.props.friendsIDs,
           ...this.renderRefreshable()
         })
         : (
@@ -120,7 +121,9 @@ Home.navigatorStyle = {
 
 const mapStateToProps = state => ({
   data: state.posts.timeline,
-  user: state.users.current
+  user: state.users.current,
+  friends: state.users.friends ? state.users.friends.filter(user => user) : [],
+  friendsIDs: state.users.friendsIDs
 });
 
 export const HomeNavigator = () => nav;
