@@ -1,8 +1,9 @@
 import React from 'react';
+import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchAllQuestions } from '../../actions/thunks/polls';
 import { dispatchNotification } from '../../helpers/uploader';
-import { defaultGreen } from '../../mixins';
+import { defaultGreen, height } from '../../mixins';
 import RenderPollsComponent from './components/RenderPollsList';
 
 class RenderPolls extends React.Component {
@@ -55,7 +56,16 @@ class RenderPolls extends React.Component {
 
     render = () => (
       <React.Fragment>
-        { this.props.data && this.props.data.length && <RenderPollsComponent {...this.props} />}
+        { this.props.data && this.props.data.length ? <RenderPollsComponent {...this.props} /> : <Text style={{ 
+          fontSize: 14, 
+          fontWeight: '600', 
+          width: '80%',
+          color: '#CACFD2', 
+          alignSelf: 'center', 
+          textAlign: 'center',
+          position: 'relative', 
+          bottom: -(height * 0.4) 
+          }}>{`There are no polls available for you to participate in. Thank you`}</Text>}
       </React.Fragment>
     )
 }

@@ -27,9 +27,17 @@ const SingleChat = ({ data, obj }) => {
   return (
     <TouchableOpacity
       style={{
-        height: height / 7, flexDirection: 'row', flexWrap: 'nowrap', paddingLeft: 15, borderBottomWidth: 1, borderBottomColor: '#D0D3D430', paddingTop: 10
+        height: height / 7, 
+        flexDirection: 'row', 
+        flexWrap: 'nowrap', 
+        paddingLeft: 15, 
+        borderBottomWidth: 1, 
+        borderBottomColor: '#D0D3D430', 
+        paddingTop: 10,
+        backgroundColor: obj.unreads.includes(data._id) ? '#D5F5E3' : 'white'
       }}
       onPress={() => {
+        obj.updateCache(data._id)
         obj.navigator.push({
           screen: 'Convo.Log',
           passProps: {

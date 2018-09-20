@@ -16,7 +16,7 @@ export default ({ navigator, data, dispatch }) => {
       borderBottomWidth: 0.1, 
       backgroundColor: '#F2F3F4'
     }}
-    onPress={() => navigator.push({ screen: 'Show.Poll', title: `${data.title || 'Survey'}`, passProps: { data }})}
+    onPress={() => navigator.push({ screen: 'Show.Poll', title: `${data.title || 'Survey'}`, passProps: { data: [election] }})}
     >
       <Text style={{
         fontSize: 15,

@@ -18,10 +18,10 @@ export const fetchAllQuestions = (navigator, key) => (dispatch, getState) => {
       let { data } = response.data;
       data = data.filter(item => (item.type === 1) || (item.meta.location.includes("All")) || (item.meta.location.includes(user.state)) || (item.meta.location.includes(user.lga)) || (item.meta.location.includes(user.ward)));
       dispatch({ type: 'ALL_QUESTIONS_RECEIVED', payload: data });
-     !key && EndProcess(navigator);
+      EndProcess(navigator);
     })
-    .catch(() => {
-      !key && EndProcess(navigator);
+    .catch((err) => {
+      EndProcess(navigator);
       dispatchNotification(navigator)('Something went wrong');
     });
 };
@@ -88,7 +88,7 @@ export const VerifyVin = navigator => data => (dispatch, getState) => {
 
 
 // id is the id of the current election
-export const checkIfUniqueVoter = navigator => id => vote => (dispatch, getState) => {
+export const checkIfUniqueVoter = navigator => id => (vote, callback) => (dispatch, getState) => {
   StartProcess(navigator);
   return axios
     .request({
@@ -101,7 +101,7 @@ export const checkIfUniqueVoter = navigator => id => vote => (dispatch, getState
     .then(() => {
       // this means this is the first time this user with this vin is voting;
       EndProcess(navigator);
-      dispatch(VoteResponse(navigator)(vote));
+      dispatch(VoteResponse(navigator, callback)(vote));
     })
     .catch((err) => {
       EndProcess(navigator);

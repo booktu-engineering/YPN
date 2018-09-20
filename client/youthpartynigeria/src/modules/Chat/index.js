@@ -4,6 +4,7 @@ import { View, Text, Image } from 'react-native';
 import { fetchAllConversations } from '../../actions/thunks/conversations';
 import { defaultGreen } from '../../mixins';
 import { multipleChat } from '../SingleChat';
+import QueueOps from '../../ops/MessageQueueOps';
 
 let nav;
 
@@ -31,36 +32,58 @@ class ChatContainer extends Component {
         }
       ]
     });
+    this.state = {};
+  }
+
+  handlePopulateUnreads= async () => {
+    this.queuer = await QueueOps((tray) => {
+      this.needsToUpdate = true;
+      this.setState({ unreads: tray }) 
+    });
+    await this.queuer(this.props.user)({ fetch: true });
+    
+  }
+
+  handleUpdateCache = async (id) => {
+    await this.queuer(this.props.user)({ remove: true, target: id });
   }
 
   handleNavigate = () => this.props.navigator.push({ screen: 'Show.Groups', title: 'Start a new conversation'  });
   
-  componentDidMount = () => this.props.dispatch(fetchAllConversations(this.props.navigator));
+  componentDidMount = () => {
+     this.props.dispatch(fetchAllConversations(this.props.navigator))
+     this.handlePopulateUnreads();
+    };
 
   shouldComponentUpdate = (nextProps) => {
-    if(this.props.logs && (JSON.stringify(this.props.logs) === JSON.stringify(nextProps.logs))) return false;
+    if(this.needsToUpdate)  {
+      this.needsToUpdate = false;
+      return true;
+    }
+    if(this.props.registry && JSON.stringify(this.props.registry) === JSON.stringify(nextProps.registry)) return false;
     return true
   }
   handleVisibility = (e) => {
     if (e.id === 'didAppear') {
       this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
       this.props.navigator.toggleTabs({ to: 'shown', animated: true });
+      this.handlePopulateUnreads();
       return this.props.dispatch(fetchAllConversations(this.props.navigator));
     }
   }
   render = () => (
     <View style={{ flex: 1 }}>
       { this.props.logs ?
-        <ChatComponent navigator={this.props.navigator} data={this.props.logs} user={this.props.user} registry={this.props.registry}/> : null
+        <ChatComponent navigator={this.props.navigator} updateCache={this.handleUpdateCache}data={this.props.logs} user={this.props.user} unreads={this.state.unreads || []} registry={this.props.registry}/> : null
         }
     </View>
   )
 }
-const ChatComponent = ({ navigator, data, user, registry }) => {
+const ChatComponent = ({ navigator, data, user, registry, updateCache, unreads }) => {
   nav = navigator;
   return (
     <View style={{ flex: 1 }}>
-      { multipleChat(data)({ navigator, user, registry })}
+      { multipleChat(data)({ navigator, user, registry, unreads, updateCache })}
     </View>
   );
 };

@@ -53,7 +53,7 @@ const RenderPollForm = ({ data, pushUpValue, handleSubmit, heatMap, wantsToSeeRe
   );
 };
 
-const RenderResultsForQuestion = ({ data }) => {
+export const RenderResultsForQuestion = ({ data }) => {
   const RenderItemCard = ({ dataX }) => (
         <View style={{
           width,
@@ -111,7 +111,7 @@ class RenderPollPage extends Component {
         reasons: this.generateReasons(),
       };
       // check if the user has participated in the poll before;
-      if(this.props.data.length && this.props.data[0].responses.map(item => item.user.id).includes(this.props.user.id)) return this.generateResults(this.props.data[0].options)();
+      if (this.props.data.length && this.props.data[0].responses.map(item => item.user.id).includes(this.props.user.id)) return this.generateResults(this.props.data[0].options)();
     }
 
     handleSubmit = () => {
