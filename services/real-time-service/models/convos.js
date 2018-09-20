@@ -21,6 +21,10 @@ const conversationSchema = new mongoose.Schema({
     trim: true
   },
 
+  visited: {
+    type: Number
+  },
+
   focus: {
     type: Object,
   },

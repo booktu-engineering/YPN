@@ -9,6 +9,7 @@ import NotificationHandler, { ErrorHandlerController, RegisterPlayer, HandleDeco
 
 const app = express();
 
+
 app.use(ErrorHandlerController)
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
@@ -29,6 +30,15 @@ const io = socketServer(server, {
   serveClient: true
 });
 
+const baseIO = io
+                .of('/base')
+                .on('connection', (socket) => {
+                  socket.join(`user-room-${socket.handshake.query.userID}`, () => {
+                    console.log(`user ${socket.handshake.query.userID} is now online`)
+                  })
+                })
+
+
 const chatSocket = io
   .of('/conversation')
   .on('connection', (socket) => {
@@ -38,9 +48,11 @@ const chatSocket = io
     });
     socket.on('new-message', (data) => {
       socket.broadcast.to(`conversation-${data.destination}`).emit('incoming-message', data);
-      dispatchToDb(data);
+      dispatchToDb(data)(baseIO);
     });
   });
+
+
 
 // console.log(chat);
 
