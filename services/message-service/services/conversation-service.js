@@ -30,6 +30,11 @@ class ConversationService extends BaseService {
     return data;
   }
 
+  fetchDataForUser = async (id) => {
+    data = await this.model.find({ $or: [{ 'origin.id': id}, { 'members.id': id} ] }).sort({ visited: -1 });
+    return data;
+  }
+
   extendInvite = async (key, value, user) => {
     this.__checkArguments(key, value);
     ref[`${key}`] = value;
