@@ -1,15 +1,16 @@
 import { AsyncStorage } from 'react-native'
 import io from 'socket.io-client';
 import config from '../config';
+import { incomingMessage, fetchAllConversations } from '../actions/thunks/conversations'
 
 
 
-export default async (callback)  => {
+export default async (callback, dispatch, navigator, registry = {})  => {
     // check for the item
-    let init = await AsyncStorage.getItem(`MessageNotificationTray`)
+    let map = await AsyncStorage.getItem(`LastSeenMap`)
     let tray;
-    if(!init) {
-        await AsyncStorage.setItem(`MessageNotificationTray`, JSON.stringify([]))
+    if(!map) {
+        await AsyncStorage.setItem(`LastSeenMap`, JSON.stringify(registry))
     }
     
     return  (user) => (ops) => {
@@ -17,23 +18,22 @@ export default async (callback)  => {
    const handler =  io.connect(`${config.realTimeUrl}/base`, { query: { userID: user.id }})
    handler.on(`new-message-convo`, async (data) => {
        //set it as unread
-       tray = await AsyncStorage.getItem(`MessageNotificationTray`)
-       tray = [...JSON.parse(tray), data.destination];
-       callback(tray);
-       AsyncStorage.setItem(`MessageNotificationTray`, JSON.stringify(tray));
+       tray = await AsyncStorage.getItem(`LastSeenMap`)
+       tray = {...JSON.parse(tray), [data.destination]: data.visited };
+        dispatch(fetchAllConversations(navigator))
+        .then(() => dispatch(incomingMessage(data))) 
+        callback(tray);
+        AsyncStorage.setItem(`LastSeenMap`, JSON.stringify(tray));
    })
 
   const handleRetriveCurrentUnread = async () => {
-    tray =  await AsyncStorage.getItem(`MessageNotificationTray`)
-    return JSON.parse(tray);
+    tray =  await AsyncStorage.getItem(`LastSeenMap`)
+    callback(JSON.parse(tray))
   }
 
   const clearFromUnreadChats = async () => {
-      tray = await AsyncStorage.getItem('MessageNotificationTray');
-      tray = JSON.parse(tray)
-             .filter((id) => id !== ops.target);
-     AsyncStorage.setItem(`MessageNotificationTray`, JSON.stringify(tray))
-     callback(tray)
+      callback(ops.target)
+      AsyncStorage.setItem(`LastSeenMap`, JSON.stringify(ops.target)) 
     }
 
     if(ops.remove) return clearFromUnreadChats();

@@ -29,7 +29,7 @@ export const fetchAllConversations = navigator => async (dispatch, getState) => 
           return a;
         }, {});
         const activitymap = response.data.data.reduce((a, b) => {
-          a[`${b._id}`] = 0;
+          a[`${b._id}`] = b.visited;
           return a;
         }, {});
         dispatch({ type: 'CREATE_REGISTRY', payload: registry });
@@ -131,7 +131,7 @@ export const incomingMessage = data => (dispatch, getState) => {
   const { registry } = getState().convos;
   const { activityMap } = getState().convos;
   registry[`${data.destination}`] = [data, ...registry[`${data.destination}`]];
-  activityMap[`${data.destination}`] += 1;
+  activityMap[`${data.destination}`] = Date.now();
   dispatch({ type: 'UPDATE_REGISTRY', payload: registry });
   dispatch({ type: 'UPDATE_ACTIVITY', payload: activityMap });
 };

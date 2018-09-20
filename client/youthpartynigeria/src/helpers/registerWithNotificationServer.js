@@ -7,18 +7,16 @@ import config from '../config';
 
 
 export default (device, navigator) => async (dispatch, getState) => {
-  console.log(device);
   const onReceived = (notification) => {
     dispatch(fetchAllNotifications());
     dispatchNotification(navigator)(notification.payload.body)
   };
 
-  const onOpened = (result) => {
-    console.log(result)
-  }
-
   OneSignal.addEventListener('received', onReceived);
   OneSignal.addEventListener('opened', onOpened);
+  
+  const onOpened = (result) => navigator.push({ screen: 'Show.Notifications', title: 'Notifications' })
+  
 
   if (!device.userId) return;
   // const playerId = await AsyncStorage.getItem('OneSignalPlayerId');

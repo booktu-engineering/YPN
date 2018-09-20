@@ -41,6 +41,7 @@ export const LogOut = () => {
       {
         text: 'Yes',
         onPress: () => {
+          AsyncStorage.removeItem('LastSeenMap');
           AsyncStorage.removeItem('#!@#$%ID');
           navigatorObject.startLoggedOut();
         }

@@ -36,16 +36,18 @@ class ChatContainer extends Component {
   }
 
   handlePopulateUnreads= async () => {
+    // initialize the queuer
     this.queuer = await QueueOps((tray) => {
       this.needsToUpdate = true;
       this.setState({ unreads: tray }) 
-    });
+    }, this.props.dispatch, this.props.navigator, this.props.activityMap);
     await this.queuer(this.props.user)({ fetch: true });
     
   }
 
-  handleUpdateCache = async (id) => {
-    await this.queuer(this.props.user)({ remove: true, target: id });
+  handleUpdateCache = async (target) => {
+    this.state.unreads[target._id] = target.visited
+    await this.queuer(this.props.user)({ remove: true, target: this.state.unreads });
   }
 
   handleNavigate = () => this.props.navigator.push({ screen: 'Show.Groups', title: 'Start a new conversation'  });
@@ -63,6 +65,10 @@ class ChatContainer extends Component {
     if(this.props.registry && JSON.stringify(this.props.registry) === JSON.stringify(nextProps.registry)) return false;
     return true
   }
+
+  // componentDidUpdate = () => {
+
+  // }
   handleVisibility = (e) => {
     if (e.id === 'didAppear') {
       this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
@@ -100,7 +106,8 @@ ChatContainer.navigatorStyle = {
 const mapStateToProps = state => ({
   registry: state.convos.registry,
   logs: state.convos.logs,
-  user: state.users.current
+  user: state.users.current,
+  activityMap: state.convos.activityMap
 });
 export const ChatNavigator = () => nav;
 export default connect(mapStateToProps)(ChatContainer);

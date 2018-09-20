@@ -34,10 +34,10 @@ const SingleChat = ({ data, obj }) => {
         borderBottomWidth: 1, 
         borderBottomColor: '#D0D3D430', 
         paddingTop: 10,
-        backgroundColor: obj.unreads.includes(data._id) ? '#D5F5E3' : 'white'
+        backgroundColor: !obj.unreads[data._id] || obj.unreads[data._id] < data.visited ? '#F9E79F' : 'white'
       }}
       onPress={() => {
-        obj.updateCache(data._id)
+        obj.updateCache(data)
         obj.navigator.push({
           screen: 'Convo.Log',
           passProps: {
@@ -62,7 +62,7 @@ const SingleChat = ({ data, obj }) => {
         <Text style={{
           fontSize: 12.5, fontWeight: '500', width: width * 0.76, color: '#979A9A', marginTop: 5
         }}
-        > { obj.registry && obj.registry[data._id][0] && obj.registry[data._id][0].content || ''}</Text>
+        >{ obj.registry && obj.registry[data._id][0] && obj.registry[data._id][0].content.slice(0, 50) || ''}</Text>
       </View>
     </TouchableOpacity>
   );
