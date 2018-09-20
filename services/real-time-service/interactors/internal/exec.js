@@ -27,7 +27,7 @@ class PostServiceBase {
         if (err || !convo) return;
         convo.visited = Date.now();
         convo.save();
-        const memberIDs = convo.members.map(member => member.id)
+        const memberIDs = convo.members.map(member => member.id).filter(id => id !== data.origin.id);
         const mappedMembers = memberIDs.map(id => `user-room-${id}`);
         dispatch(mappedMembers, body, io);
         Player.find({ userId: { $in: memberIDs } }, (err, players) => {
