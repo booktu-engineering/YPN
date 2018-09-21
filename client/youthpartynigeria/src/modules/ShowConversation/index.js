@@ -36,9 +36,17 @@ class ShowConversation extends Screen {
   )
 }
 
-export const CustomHeader = ({ navigator, data, user, dispatch }) => (
+export const CustomHeader = ({ navigator, data, user, dispatch, customStyle }) => (
   <View style={{
- height: height * 0.15, width, backgroundColor: defaultGreen, flexDirection: 'row', flexWrap: 'nowrap', paddingRight: 5, justifyContent: 'space-between', alignItems: 'center'
+ height: height * 0.15, 
+ width, 
+ backgroundColor: defaultGreen, 
+ flexDirection: 'row', 
+ flexWrap: 'nowrap', 
+ paddingRight: 5, 
+ justifyContent: 'space-between', 
+ alignItems: 'center',
+ ...customStyle
 }}>
     { /* icon 1 */}
     <View style={{ 
@@ -71,19 +79,21 @@ onPress={() => { navigateToUser(data.members, user, dispatch, navigator) }}
     { /* Notification Icon */}
   </View>
 );
-const sliceString = (string) => {
-  if (string.length > 15) {
-    string = string.slice(0, string.length - 8);
-    string = `${string}...`;
-  }
+const sliceString = (string, members) => {
+  if(string.length < 15) return string;
+  string = string.slice(0, string.length - parseInt(0.6 * string.length)).split('')
+  string[string.length -1] = '';
+  string = string.join('')
+  string = `${string} ${ members ? `and ${members.length} others` : '...'}`;
   return string;
 }
+
+
 const generateNames = (members) => {
   let string = members.reduce((a, b) => `${a} ${b.firstname} ${members.length === 1 && b.lastname ? b.lastname : ''},`, '');
   string = string.trim().slice(0, (string.length - 2));
   if (string.length > 18) {
-    string = string.slice(0, string.length - 8);
-    string = `${string}...`;
+    sliceString(string, members);
   }
   return string;
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, Image } from 'react-native';
+import moment from 'moment';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import { height, width, defaultGreen, avatar, LightGrey } from '../../mixins';
 import Composer from '../iterator';
@@ -9,21 +10,33 @@ const defaultUri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v153507247
 
 const generateNameFromMembers = (members) => {
   let string = members.reduce((a, b) => `${a} ${b.firstname} ${members.length === 1 && b.lastname ? b.lastname : ''},`, '');
-  string = string.trim().slice(0, (string.length - 2));
-  if (string.length > 18) {
-    string = string.slice(0, string.length - 8);
-    string = `${string}...`;
-  }
-  return string;
+  string = string.trim().slice(0, (string.length - 2))
+  return formatString(string, members);
 };
+
+const formatString = (string, members) => {
+  if(string.length < 18) return string;
+  string = string.slice(0, string.length - parseInt(0.6 * string.length)).split('')
+  string[string.length -1] = '';
+  string = string.join('')
+  string = `${string} ${ members ? `and ${members.length} others` : '...'}`;
+  return string;
+}
 
 const generateUri = (members) => {
   const avatar = members[0].avatar ? members[0].avatar : uri;
   return avatar;
 };
 
+
+const generateColor = (obj, data) => {
+  if( (!obj.unreads[data._id] || obj.unreads[data._id] < data.visited) && !(obj.registry && obj.registry[data._id][0])) return '#F9E79F';
+  if((!obj.unreads[data._id] || obj.unreads[data._id] < data.visited) && (obj.registry && obj.registry[data._id][0] && obj.registry[data._id][0].origin.id !== obj.user.id)) return '#F9E79F';
+  return 'white';
+}
+
 const SingleChat = ({ data, obj }) => {
-  const title = data.topic ? data.topic : generateNameFromMembers(data.members.filter(item => item.id !== obj.user.id));
+  const title = data.topic ? formatString(data.topic) : generateNameFromMembers(data.members.filter(item => item.id !== obj.user.id));
   return (
     <TouchableOpacity
       style={{
@@ -34,7 +47,7 @@ const SingleChat = ({ data, obj }) => {
         borderBottomWidth: 1, 
         borderBottomColor: '#D0D3D430', 
         paddingTop: 10,
-        backgroundColor: !obj.unreads[data._id] || obj.unreads[data._id] < data.visited ? '#F9E79F' : 'white'
+        backgroundColor: generateColor(obj, data)
       }}
       onPress={() => {
         obj.updateCache(data)
@@ -53,16 +66,16 @@ const SingleChat = ({ data, obj }) => {
       </View> 
 
     }
-      <View style={{ width: width * 0.8, position: 'relative' }}>
-        <Text style={{ fontSize: 13.5, fontWeight: '600' }}> { title } </Text>
+      <View style={{ width: width * 0.8, position: 'relative', paddingLeft: 5 }}>
+        <Text style={{ fontSize: 13.5, fontWeight: '600' }}>{ title }</Text>
         <Text style={{
           alignSelf: 'flex-end', fontSize: 11, fontWeight: '600', color: LightGrey, position: 'absolute', top: 0, right: 15
         }}
-        ></Text>
+        >{moment(new Date(data.visited)).fromNow(true) || ''}</Text>
         <Text style={{
           fontSize: 12.5, fontWeight: '500', width: width * 0.76, color: '#979A9A', marginTop: 5
         }}
-        >{ obj.registry && obj.registry[data._id][0] && obj.registry[data._id][0].content.slice(0, 50) || ''}</Text>
+        >{ obj.registry && obj.registry[data._id][0] && `${obj.registry[data._id][0].origin.id === obj.user.id ? 'You:' : `${obj.registry[data._id][0].origin.firstname}:`} ${obj.registry[data._id][0].content.slice(0, 50)}` || ''}</Text>
       </View>
     </TouchableOpacity>
   );

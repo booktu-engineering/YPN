@@ -37,7 +37,7 @@ class RenderPolls extends React.Component {
       if (!data) return dispatch(fetchAllQuestions(navigator));
       if (!data.length) {
         dispatchNotification(navigator)('Sorry there are no polls availble at this time');
-        navigator.pop();
+        // navigator.pop();
       }
     }
 

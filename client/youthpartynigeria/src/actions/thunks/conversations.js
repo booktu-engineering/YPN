@@ -3,6 +3,7 @@ import { AsyncStorage } from 'react-native';
 import config from "../../config";
 import { dispatchNotification, StartProcess, EndProcess } from '../../helpers/uploader';
 import configureStore from '../../store';
+import QueueOps from '../../ops/MessageQueueOps';
 
 const { store } = configureStore();
 /* eslint max-len:0 */
@@ -137,7 +138,6 @@ export const incomingMessage = data => (dispatch, getState) => {
 };
 
 export const JoinConversation = data => navigator => (dispatch, getState) => {
-  console.log(data);
   // this assumes that the fella is joining a conversation like debate and all of dat
   StartProcess(navigator);
   return axios.request({
@@ -163,7 +163,6 @@ export const JoinConversation = data => navigator => (dispatch, getState) => {
         return navigator.push({ screen: 'Convo.Log', passProps: { data } });
         // return navigator.switchToTab({ tabIndex: 1 });
       }
-      console.log(err);
       EndProcess(navigator);
       dispatchNotification(navigator)('Something went wrong, try again?');
       return navigator.pop();
@@ -211,11 +210,19 @@ export const LeaveConversation = id => navigator => async (dispatch) => {
   });
 };
 
-export const sendMessage = (body, socket) => navigator => (dispatch, getState) => {
+export const sendMessage = (body, socket) => navigator => async (dispatch, getState) => {
   // there has to be type and destination
   if (!body.type && !body.destination) return dispatchNotification(navigator)('Sorry, you need to send in the right message');
   dispatch(incomingMessage(body));
   // add the origin, since it might be saved to the db directly
   body.origin = getState().users.current;
-  return socket.emit('new-message', body);
+  socket.emit('new-message', body);
+  setTimeout(async () => {
+    const activityMap = getState().convos.activityMap;
+    activityMap[body.destination] = Date.now();
+    const queuer = await QueueOps()
+    queuer()({ target: activityMap, remove: true })
+  }, 5000)
+ 
+
 };

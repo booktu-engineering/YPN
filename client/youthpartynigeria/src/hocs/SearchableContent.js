@@ -37,7 +37,7 @@ export default Component => Component2 => config => {
         }
         handleTextChange = (text) => {
             if(!text.length) return this.setState({ Posts: config.directories.Posts, Users: config.directories.Users, })
-            if(text.length < 3) return; 
+            // if(text.length < 3) return; 
             if(!config.directories) return;
             // debouncing 
             this.timeout = setTimeout(() => {

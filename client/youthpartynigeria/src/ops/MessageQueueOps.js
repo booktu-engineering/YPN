@@ -15,6 +15,7 @@ export default async (callback, dispatch, navigator, registry = {})  => {
     
     return  (user) => (ops) => {
   //establish the connection here
+  if(user){
    const handler =  io.connect(`${config.realTimeUrl}/base`, { query: { userID: user.id }})
    handler.on(`new-message-convo`, async (data) => {
        //set it as unread
@@ -25,14 +26,15 @@ export default async (callback, dispatch, navigator, registry = {})  => {
         callback(tray);
         AsyncStorage.setItem(`LastSeenMap`, JSON.stringify(tray));
    })
+}
 
   const handleRetriveCurrentUnread = async () => {
     tray =  await AsyncStorage.getItem(`LastSeenMap`)
-    callback(JSON.parse(tray))
+    callback && callback(JSON.parse(tray))
   }
 
   const clearFromUnreadChats = async () => {
-      callback(ops.target)
+      callback && callback(ops.target)
       AsyncStorage.setItem(`LastSeenMap`, JSON.stringify(ops.target)) 
     }
 

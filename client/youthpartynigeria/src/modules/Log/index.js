@@ -55,7 +55,7 @@ export const MessageComponent = ({ data, origin, user, navigator, focus }) => {
   return (
     <View
       style={{
-        minHeight: height * 0.07,
+        minHeight: height * 0.05,
         minWidth: width * 0.8,
         backgroundColor: generateColor(data, origin, focus),
         alignSelf: (data.origin.id === origin.id ? 'flex-end' : 'flex-start'),
@@ -64,7 +64,7 @@ export const MessageComponent = ({ data, origin, user, navigator, focus }) => {
         paddingRight: 10,
         paddingLeft: 10,
         paddingBottom: 15,
-        marginBottom: 20,
+        marginBottom: 15,
         justifyContent: 'space-around'
        }}
     >

@@ -14,6 +14,7 @@
     "native-base": "^2.7.1",
     "react": "^16.4.0",
     "react-native": "^0.56.0",
+    "react-native-awesome-list": "^1.0.8",
     "react-native-circular-progress": "^1.0.0",
     "react-native-cloudinary": "^1.0.1",
     "react-native-cloudinary-x": "^1.0.3",

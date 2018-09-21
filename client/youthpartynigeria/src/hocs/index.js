@@ -28,6 +28,7 @@ export default (Component, map = ['Federal', 'State', 'Local'], key = 'meta') =>
 
     componentDidMount = () => this.setState({ entries: this.props.entries })
 
+
     handleSubmitFederal = (value) => {
       const { navigator, entries } = this.props;
       let { keys } = this.state;
@@ -48,7 +49,8 @@ export default (Component, map = ['Federal', 'State', 'Local'], key = 'meta') =>
        navigator && navigator.dismissLightBox({});
        if (value === 'None') {
          keys[2] = 'Select Lga';
-         this.setState({ entries, keys });
+         selectedEntries = entries.filter(item => (item[key] && item[key].state === this.state.keys[1]) || (item.meta && item.meta.state === this.state.keys[1]) || (item.state && item.state === this.state.keys[1]));
+         this.setState({ entries: selectedEntries, keys });
          return;
        }
        keys[2] = value;

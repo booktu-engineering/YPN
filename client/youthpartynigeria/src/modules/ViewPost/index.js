@@ -30,7 +30,7 @@ class ViewPostContainer extends Component {
   componentDidMount = () => {
      this.promise1 = fetchSinglePost(this.props.target._id)
       .then((data) => {
-        this.setState({ comments: data.comments, stoppedLoading: true });
+        this.setState({ comments: data.comments || [], stoppedLoading: true });
       });
   }
 

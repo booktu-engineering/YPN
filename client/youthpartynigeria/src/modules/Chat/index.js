@@ -15,8 +15,8 @@ class ChatContainer extends Component {
     this.props.navigator.setButtons({
       leftButtons: [
         {
-          id: 'Back.button', 
-          component: 'Left.Button', 
+          id: 'Back.button',
+          component: 'Left.Button',
           passProps: {
             navigator: this.props.navigator
           }
@@ -39,10 +39,10 @@ class ChatContainer extends Component {
     // initialize the queuer
     this.queuer = await QueueOps((tray) => {
       this.needsToUpdate = true;
-      this.setState({ unreads: tray }) 
+      this.setState({ unreads: tray })
     }, this.props.dispatch, this.props.navigator, this.props.activityMap);
     await this.queuer(this.props.user)({ fetch: true });
-    
+
   }
 
   handleUpdateCache = async (target) => {
@@ -51,7 +51,7 @@ class ChatContainer extends Component {
   }
 
   handleNavigate = () => this.props.navigator.push({ screen: 'Show.Groups', title: 'Start a new conversation'  });
-  
+
   componentDidMount = () => {
      this.props.dispatch(fetchAllConversations(this.props.navigator))
      this.handlePopulateUnreads();

@@ -89,6 +89,7 @@ export const fetchSinglePost = id => axios
   })
   .then(response => response.data.data)
   .catch((err) => {
+    console.log(err.response)
     console.log(err);
   });
 

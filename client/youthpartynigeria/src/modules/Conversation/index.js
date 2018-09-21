@@ -60,7 +60,6 @@ class Conversations extends Component {
 const ConversationList = (props) => (
   <View style={{ minHeight: height, width, paddingTop: 10 }}>
     <View style={{ maxHeight: height * 0.04, width, paddingRight: 15 }}>
-      <TinySelectors keys={['Live']} />
     </View>
     { ConversationObjects([...props.data])({ navigator: props.navigator, dispatch: props.dispatch })}
   </View>

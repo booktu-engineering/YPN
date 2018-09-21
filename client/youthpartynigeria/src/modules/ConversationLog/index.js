@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-import { View, KeyboardAvoidingView, TouchableOpacity, TextInput, FlatList } from 'react-native';
+import AwesomeList from 'react-native-awesome-list';
+import { View, KeyboardAvoidingView, TouchableOpacity, TextInput, FlatList, ScrollView } from 'react-native';
 import Screen from '../../mixins/screen';
 import { CustomHeader } from '../ShowConversation';
 import { height, width, defaultGreen } from "../../mixins";
@@ -89,33 +90,50 @@ class ConversationLog extends Screen {
   deets = () => this.props.registry[`${this.props.data._id}`].reverse()
 
   render = () => (
-    <View style={{ flex: 1, justifyContent: 'space-around' }} behavior="padding">
+    <View style={{ height, width, justifyContent: 'space-between' }} >
       <CustomHeader navigator={this.props.navigator} data={this.props.data} user={this.props.user} dispatch={this.props.dispatch} />
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <KeyboardAvoidingView style={{ flex: 1 }}behavior="padding">
         { this.state.messages.length
-        ? <FlatList
+        ?
+        <View style={{ flex: 1, flexGrow: 2, }}> 
+        {/* <AwesomeList 
           inverted
-          onLayout={() => { this.flatlistRef.scrollToEnd({ animated: true }); }}
-          ref={(ref) => { this.flatlistRef = ref; }}
           data={this.state.messages}
-          renderItem={({ item }) => <MessageComponent origin={this.props.user} data={item} user={this.props.user} navigator={this.props.navigator} focus={this.props.data.focus}/>}
-          style={{
-            flex: 1,
-            paddingRight: 10,
-            paddingLeft: 10,
-            paddingTop: 15,
-          }}
-          getItemLayout={(item, index) => ({ index, height: height * 0.07, offset: 0 })}
+          renderItem={(item) => <MessageComponent origin={this.props.user} data={item} user={this.props.user} navigator={this.props.navigator} focus={this.props.data.focus}/>}
           keyExtractor={(item, index) => item._id}
           extraData={this.state}
+          removeClippedSubviews={false}
+        /> */}
+          <FlatList
+          inverted
+          automaticallyAdjustContentInsets={false}
+          ref={(ref) => { this.flatlistRef = ref; }}
+          data={this.state.messages}
+          contentContainerStyle={{
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            paddingBottom: 20,
+            paddingLeft: 10,
+            paddingRight: 10
+          }}
+          renderItem={({ item }) => <MessageComponent origin={this.props.user} data={item} user={this.props.user} navigator={this.props.navigator} focus={this.props.data.focus}/>}
+          keyExtractor={(item, index) => item._id}
+          extraData={this.state}
+          removeClippedSubviews={false}
         />
-        : <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" />
+        </View> 
+        : <KeyboardAvoidingView style={{ flex: 10 }} behavior="padding" />
       }
         <View
 style={{
-        height: height * 0.08, width, flexDirection: 'row', flexWrap: 'nowrap', borderColor: '#D0D3D450', zIndex: 4, borderTopWidth: 1.2,
+        height: height * 0.08, 
+        width, 
+        flexDirection: 'row', 
+        flexWrap: 'nowrap', 
+        borderColor: '#D0D3D450', 
+        zIndex: 4, 
+        borderTopWidth: 1.2,
       }}
-        behavior="padding"
       >
         <TextInput
       style={{
@@ -125,6 +143,7 @@ style={{
         color: '#7B7D7D',
         fontSize: 14,
         fontWeight: '500',
+        backgroundColor: 'white'
       }}
       onChangeText={(text) => { this.handleChange(text); }}
       placeholder="Type a message"

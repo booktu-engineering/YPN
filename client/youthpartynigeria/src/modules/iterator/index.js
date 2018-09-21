@@ -33,11 +33,12 @@ const rollComponents = SomeComponent => data => (obj) => {
     keyExtractor={(item, index) => `ypn-item-${index}`}
     refreshControl={determineRefresh()}
     extraData={this.props.data}
+    contentContainerStyle={{paddingBottom: 100 }}
   />
     )
   }
 
-  return <Scrollable data={data} {...obj} />
+  return ( <Scrollable data={data} {...obj} />)
 };
 
 export default rollComponents;
