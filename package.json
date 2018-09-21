@@ -9,7 +9,7 @@
     "start:service": "NODE_ENV=production babel-node services/message-service/index.js",
     "start:mailer": "cd services/mailers && node index",
     "test:rails": "cd base/ypn-base && rspec -fd",
-    "heroku:postbuild": "cd services/real-time-service && npm install"
+    "heroku-postbuild": "cd services/real-time-service && npm install"
   },
   "repository": {
     "type": "git",
