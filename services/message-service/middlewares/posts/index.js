@@ -20,6 +20,9 @@ class PostMiddlewareBase extends BaseMiddlewareBase {
       if (data.origin.id === req.user.id && data.destination === null) {
         return next();
       }
+      if(req.user.role > 3) {
+        return next();
+      }
       err = new Error('You are not permitted to do that');
       err.status = 401;
       return next(err);
