@@ -13,7 +13,7 @@ class UserController < ApplicationController
     begin
     data = service.signup(user_params)
     render json: {data: data}, status: 201
-#     send_confirm_email data[:user].id
+     send_confirm_email data[:user].id
     rescue StandardError, ActiveRecord::RecordInvalid => e
       if e.class === ActiveRecord::RecordInvalid
         return conflict e

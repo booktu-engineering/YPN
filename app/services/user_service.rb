@@ -10,7 +10,7 @@ class UserService < BaseService
     token = generate_token user
     return { user: user, token: token }
     end
-    raise ArgumentError.new('Hey that input might be wrong, or the username or email taken :(')
+    raise ArgumentError.new('Sorry, that input might be wrong, or the (username or email) could be taken')
   end
 
 
@@ -34,13 +34,11 @@ class UserService < BaseService
 
 
   def follow body
-    puts body
     user = self.model.find_by(id: body[:current_user][:id].to_i);
     followed_user = self.model.find_by(id: body[:id].to_i);
     relationship = Relationship.where({ follower_id: body[:current_user][:id].to_i, followed_id: body[:id].to_i })
     if user && followed_user
       if (body[:type] && body[:type] === '1')
-        puts "yay"
         relationship[0].destroy
         return relationship
       end
@@ -48,7 +46,6 @@ class UserService < BaseService
       body = { :destination => followed_user.email, :subject => "#{user.username} followed you on YPN", :firstname => user.firstname,  :lastname => user.lastname, :username => user.username }
       notification = { :destination => followed_user.username, :message => "#{user.username} followed you", :type => 10, time: DateTime.now }
       nt_token = update_notification_token(followed_user, notification)
-      puts nt_token
       new_notification = { **notification, :nt_token => nt_token }
       payload = { :mail => body, :notification => new_notification, :key => 3}
       return {:relationship => relationship, :payload => payload }
