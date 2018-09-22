@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:rails": "cd base/ypn-base && rails s",
     "start:service": "NODE_ENV=production babel-node services/message-service/index.js",
-    "start:mailer": "cd services/mailers && npm install && pm2 start index",
+    "start:mailer": "cd services/mailers && npm install && pm2 start index.js --name mailer",
     "test:rails": "cd base/ypn-base && rspec -fd"
   },
   "repository": {
