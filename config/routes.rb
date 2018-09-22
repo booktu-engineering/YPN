@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  scope '/rails' do
   get '/users', to: 'admin#all'
   get "/profile/:id", to: 'user#show'
   get '/fetch/:username', to: 'user#fetch'
@@ -29,6 +30,7 @@ Rails.application.routes.draw do
   get '/reset/password', to: 'user#reset_password'
   get '/confirm/mail', to: 'user#confirm_mail'
   get '/party/member/new/:id', to: 'user#new_party_member'
+  end 
 
   resources :users do
     resources :posts
