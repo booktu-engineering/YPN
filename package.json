@@ -8,6 +8,8 @@
     "start:rails": "cd base/ypn-base && rails s",
     "start:service": "NODE_ENV=production babel-node services/message-service/index.js",
     "start:election": "NODE_ENV=production babel-node services/election-service/index.js",
+    "build": "babel services --out-dir  build --ignore node_modules --copy-files",
+    "start:prod": "npm run build && cd build/election-service && npm install && pm2 start index.js --name election-service",
     "test:rails": "cd base/ypn-base && rspec -fd"
   },
   "repository": {
