@@ -36,7 +36,7 @@ class NotificationInteractorB {
         player.save();
         
       }
-      instance = axios.create({ baseURL: 'https://ypn-mailer.herokuapp.com/', });
+      instance = axios.create({ baseURL: 'http://52.47.48.167/mailers/', });
       instance.post(`/sendmail/?key=${body.key}`, { username: body.notification.destination, ...body.mail })
         .then((response) => {
           console.log(response.data);

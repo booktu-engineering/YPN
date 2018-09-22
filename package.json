@@ -10,7 +10,7 @@
     "start:mailer": "cd services/mailers && node index",
     "test:rails": "cd base/ypn-base && rspec -fd",
     "build": "babel services --out-dir  build --ignore node_modules --copy-files",
-    "start:prod": "npm run build && cd build/real-time-service && npm install && pm2 start index.js",
+    "start:prod": "npm run build && cd build/real-time-service && npm install && pm2 start index.js --name real-time-service",
     "heroku-postbuild": "cd services/real-time-service && npm install"
   },
   "repository": {
