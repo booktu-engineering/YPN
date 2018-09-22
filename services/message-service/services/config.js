@@ -4,8 +4,8 @@ const prodConfig = {
 }
 
 const devConfig = {
-  baseUrl: 'https://ypn-base-01.herokuapp.com/',
-  notificationUrl: 'https://yon-notification.herokuapp.com/'
+  baseUrl: 'http://52.47.48.167/rails/',
+  notificationUrl: 'http://52.47.48.167/notifications/'
 };
 
 export default () => devConfig;
