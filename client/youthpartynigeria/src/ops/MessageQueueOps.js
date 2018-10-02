@@ -29,6 +29,7 @@ export default async (callback, dispatch, navigator, registry = {})  => {
 }
 
   const handleRetriveCurrentUnread = async () => {
+      console.log('receiving')
     tray =  await AsyncStorage.getItem(`LastSeenMap`)
     callback && callback(JSON.parse(tray))
   }

@@ -156,7 +156,7 @@ const SingleUser = ({
 );
 
 const mapStateToProps = state => ({
-  users: state.users.followers.filter(user => user)
+  users: state.users.followers ? state.users.followers.filter(user => user) : []
 });
 
 RenderGroupsOfUsers.navigatorStyle = {

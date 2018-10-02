@@ -37,7 +37,7 @@ class ConversationLog extends Screen {
   componentDidMount = () => {
     this.mounted = true
     const messages = this.props.registry[`${this.props.data._id}`];
-    this.setState({ messages });
+    this.mounted && this.setState({ messages });
     this.promise = this.props.dispatch(updateConversation(this.props.data._id)(this.props.navigator))
       .then((data) => {
         this.mounted && this.setState({ messages: data });
@@ -82,7 +82,7 @@ class ConversationLog extends Screen {
   registerEvents = () => {
     this.socket.on('incoming-message', (data) => {
       const messages = [data, ...this.state.messages];
-      this.setState({ messages });
+      this.mounted && this.setState({ messages });
       this.props.dispatch(incomingMessage(data));
     });
   }
@@ -106,7 +106,7 @@ class ConversationLog extends Screen {
         /> */}
           <FlatList
           inverted
-          automaticallyAdjustContentInsets={false}
+          // automaticallyAdjustContentInsets={false}
           ref={(ref) => { this.flatlistRef = ref; }}
           data={this.state.messages}
           contentContainerStyle={{
@@ -119,7 +119,7 @@ class ConversationLog extends Screen {
           renderItem={({ item }) => <MessageComponent origin={this.props.user} data={item} user={this.props.user} navigator={this.props.navigator} focus={this.props.data.focus}/>}
           keyExtractor={(item, index) => item._id}
           extraData={this.state}
-          removeClippedSubviews={false}
+          // removeClippedSubviews={false}
         />
         </View> 
         : <KeyboardAvoidingView style={{ flex: 10 }} behavior="padding" />

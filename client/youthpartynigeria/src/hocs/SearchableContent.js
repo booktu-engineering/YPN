@@ -54,7 +54,7 @@ export default Component => Component2 => config => {
         }
 
         searchDirectory = (directory, text, key) => {
-            const results = directory.filter(item => JSON.stringify(item).search(text) !== -1)
+            const results = directory.filter(item => (JSON.stringify(item)).toLowerCase().search(text.toLowerCase()) !== -1)
             this.setState({ [key]: results })  
         }
 

@@ -30,7 +30,10 @@ const generateUri = (members) => {
 
 
 const generateColor = (obj, data) => {
-  if( (!obj.unreads[data._id] || obj.unreads[data._id] < data.visited) && !(obj.registry && obj.registry[data._id][0])) return '#F9E79F';
+  if(!Object.keys(obj.unreads).length) return 'white';
+  // so this is the main guy
+  // if( (!obj.unreads[data._id] || obj.unreads[data._id] < data.visited) && !(obj.registry && obj.registry[data._id][0])) return '#F9E79F';
+  // this checks that last message is not from the current user
   if((!obj.unreads[data._id] || obj.unreads[data._id] < data.visited) && (obj.registry && obj.registry[data._id][0] && obj.registry[data._id][0].origin.id !== obj.user.id)) return '#F9E79F';
   return 'white';
 }
@@ -81,5 +84,17 @@ const SingleChat = ({ data, obj }) => {
   );
 };
 
-export const multipleChat = Composer(SingleChat);
+class SingleChatContainer extends React.Component {
+  shouldComponentUpdate = (nextProps) => {
+    const { data } = this.props;
+    if(!this.props.obj.registry[data._id]) return true;
+    if(!this.props.obj.registry[data._id][0] && !nextProps.obj.registry[data._id][0]) return false;
+    if(this.props.obj.registry[data._id][0].content === nextProps.obj.registry[data._id][0].content) return false;
+    return true;
+    }
+  
+  render = () => <SingleChat {...this.props} />
+}
+
+export const multipleChat = Composer(SingleChatContainer);
 export default SingleChat;

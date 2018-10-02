@@ -12,10 +12,16 @@ export default (device, navigator) => async (dispatch, getState) => {
     dispatchNotification(navigator)(notification.payload.body)
   };
 
+  const onOpened = (result) => {
+    if(result.notification && (result.notification.payload.body.search('message') !== -1)){
+      return navigator.switchToTab({ tabIndex: 1 })
+    }
+    navigator.push({ screen: 'Show.Notifications', title: 'Notifications' })
+  }
   OneSignal.addEventListener('received', onReceived);
   OneSignal.addEventListener('opened', onOpened);
-  
-  const onOpened = (result) => navigator.push({ screen: 'Show.Notifications', title: 'Notifications' })
+
+ 
   
 
   if (!device.userId) return;
