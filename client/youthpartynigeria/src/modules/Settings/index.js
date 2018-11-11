@@ -79,7 +79,7 @@ class SettingsScreen extends Component {
           >
               <Text style={{ position: 'relative', left: -35 }}>
 
-        Turn Off Notifications
+        Toggle Notifications
             </Text>
               <Switch
                 value={this.state.value}

@@ -35,7 +35,7 @@ const RenderPhoneTing = () => (
           fontSize: 14, 
           marginBottom: 5,
           color: '#424949' }}> Phone</Text>
-            <Text style={{ fontSize: 13, color: '#B3B6B7' }}> 08069216186 </Text>
+            <Text style={{ fontSize: 13, color: '#B3B6B7' }}> 08154859527 </Text>
     </View>
 )
 

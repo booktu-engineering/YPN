@@ -113,7 +113,7 @@ const DonationComponent = ({ pushUpToState, navigate }) => (
         <Text style={{
  fontSize: 14.5, fontWeight: '600', color: '#626567', marginBottom: 17
 }}
-        > Please select a level
+        > Please select a category
         </Text>
         <DisplayRadios values={['Party', 'Candidate', 'Project']} pushToState={value => pushUpToState(value)} />
       </View>

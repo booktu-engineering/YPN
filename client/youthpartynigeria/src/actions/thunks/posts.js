@@ -27,7 +27,7 @@ export const fetchTimeline = navigator => async (dispatch) => {
   }
 };
 
-export const sendPost = data => navigator => async (dispatch, getState) => {
+export const sendPost = (data, callback) => navigator => async (dispatch, getState) => {
   // dispatch processing job
   StartProcess(navigator);
   return axios.request({
@@ -39,6 +39,7 @@ export const sendPost = data => navigator => async (dispatch, getState) => {
     }
   }).then(() => {
     EndProcess(navigator);
+    callback && callback()
     navigator.switchToTab({
       tabIndex: 0
     });
@@ -93,11 +94,11 @@ export const fetchSinglePost = id => axios
     console.log(err);
   });
 
-export const replyToPost = data => navigator => (dispatch, getState) => {
+export const replyToPost = (data, callback) => navigator => (dispatch, getState) => {
   // ensure that the data has the reference object and ID
   // the post looks like this { type: 1, content: 'Some content', referenceID;  }
   if (!data.referenceID || !data.referenceObject) throw new Error('Please send in the right reference');
-  return sendPost(data)(navigator)(dispatch, getState);
+  return sendPost(data, callback)(navigator)(dispatch, getState);
 };
 
 

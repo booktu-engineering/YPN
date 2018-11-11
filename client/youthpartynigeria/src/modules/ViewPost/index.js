@@ -34,9 +34,18 @@ class ViewPostContainer extends Component {
       });
   }
 
+  handleCallback = () => {
+    this.promise2 = fetchSinglePost(this.props.target._id)
+    .then((data) => {
+      if(!this.promise2) return null;
+      this.setState({ comments: data.comments || [], stoppedLoading: true });
+    });
+  }
+
   componentWillUnmount = () => {
     // doing this to prevent the anomalous behaviour
     this.promise1 = null; // 
+    this.promise2= null
     this.setState({ stoppedLoading: false, comments: false });
     this.props.navigator.setDrawerEnabled({ side: 'left', enabled: true });
   }
@@ -59,20 +68,29 @@ class ViewPostContainer extends Component {
   
 
     render = () => (
-      <ViewPost renderLoading={this.renderLoading} data={this.props.target} comments={this.state.comments} dispatch={this.props.dispatch} user={this.props.user} friends={this.props.friendsIDs} navigator={this.props.navigator} />
+      <ViewPost 
+      renderLoading={this.renderLoading} 
+      data={this.props.target} 
+      comments={this.state.comments} 
+      dispatch={this.props.dispatch} 
+      user={this.props.user} 
+      friends={this.props.friendsIDs} 
+      navigator={this.props.navigator} 
+      callback={this.handleCallback}
+      />
     )
 }
 
-const ViewPost = ({ renderLoading, data, dispatch, user, navigator, comments, friends }) => (
+const ViewPost = ({ renderLoading, data, dispatch, user, navigator, comments, friends, callback }) => (
   <ScrollView style={{ flex: 1 }}>
     { data.referenceObject
-      ? <SinglePost data={data.referenceObject} obj={{ user, dispatch, navigator, reference: true, friends }} />
+      ? <SinglePost data={data.referenceObject} obj={{ user, dispatch, navigator, reference: true, friends, callback }} />
       : null
     }
-    <SinglePost data={data} obj={{ user, dispatch, navigator, single: true, friends }} />
+    <SinglePost data={data} obj={{ user, dispatch, navigator, single: true, friends, callback }} />
     {
        comments
-          ? multiplePosts(comments)({ user, dispatch, navigator, reference: true, friends })
+          ? multiplePosts(comments)({ user, dispatch, navigator, reference: true, friends, callback })
           : renderLoading()
     }
   </ScrollView>

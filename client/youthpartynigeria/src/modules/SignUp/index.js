@@ -6,7 +6,7 @@ import EvilIcon from 'react-native-vector-icons/Entypo';
 import { defaultGreen, inputStyle, formContainer, width, height, bigButton, buttonText, formHolder, formLabel } from '../../mixins/';
 import styles from './styles';
 import userActions from '../../actions/thunks/user';
-import { dispatchNotification, SingleUpload } from '../../helpers/uploader';
+import { dispatchNotification, SingleUpload, EndProcess } from '../../helpers/uploader';
 import states from './StatesWithWards';
 
 const { SignUpThunk } = userActions;
@@ -86,9 +86,11 @@ class SignUpComponent extends Component {
     try {
       SingleUpload()
         .then((url) => {
+          EndProcess(this.props.navigator)
           this.setState({ avatar: url });
         });
     } catch (e) {
+      EndProcess(this.props.navigator)
       console.log(e);
     }
   }

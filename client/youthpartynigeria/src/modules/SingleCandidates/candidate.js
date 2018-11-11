@@ -7,6 +7,13 @@ const uri = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.
 
 const SingleCandidate = (props) => {
 
+  const generateLocation = () => {
+    if (data.constituencyIndex) {
+      return `${data.state} Constituency ${data.constituencyIndex}`
+    }
+    return data.location
+  }
+
   const { obj, data } = props
   return (
     <TouchableOpacity
@@ -46,7 +53,7 @@ const SingleCandidate = (props) => {
           <Text style={{
    fontSize: 14, fontWeight: '600', color: '#1F2020', marginBottom: 5
   }}
-          > { obj.indicator ? `${data.firstname} ${data.lastname ||''}` : props.data.meta.user.name }
+          > { obj.indicator ? `${data.name} ${data.lastname ||''}` : props.data.meta.user.name }
           </Text>
           <Text style={{ fontSize: 12, fontWeight: '500', color: defaultGreen }}> { obj.indicator ?  (data.position || '') : props.data.meta.user.position}</Text>
         </View>
@@ -63,7 +70,7 @@ const SingleCandidate = (props) => {
         <Text style={{
    fontSize: 11.5, fontWeight: '500', color: '#D0D3D4', alignSelf: 'flex-end'
   }}
-        > { obj.indicator ? (data.location || '') : props.data.meta.user.location }
+        > { obj.indicator ? (generateLocation() || '') : props.data.meta.user.location }
         </Text>
       </View>
     </TouchableOpacity>

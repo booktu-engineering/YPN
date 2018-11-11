@@ -44,6 +44,7 @@ class RenderSelectEntries extends Component {
       <TouchableWithoutFeedback
         style={{
           height,
+          position: 'relative',
           width,
           justifyContent: 'center',
           alignItems: 'center',
@@ -61,6 +62,14 @@ class RenderSelectEntries extends Component {
             paddingTop: 10
           }}
         >
+          <Text style={{
+            position: 'absolute',
+            top: 10,
+            right: 10,
+            fontSize: 14,
+            fontWeight: 'bold',
+            color: 'white'
+          }}>x</Text>
           { this.props.data && this.renderItemsMain() }
         </View>
       </TouchableWithoutFeedback>

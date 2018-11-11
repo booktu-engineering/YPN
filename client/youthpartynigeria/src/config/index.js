@@ -1,7 +1,7 @@
 export default {
   baseUrl: 'http://52.47.48.167/rails',
   postUrl: 'http://52.47.48.167/api/v1',
-  realTimeUrl: 'http://52.47.48.167/notifications',
+  realTimeUrl: 'https://yon-notification.herokuapp.com',
   electionUrl: 'http://52.47.48.167/elections/api',
   cloud: 'paperstack',
   cloudinaryKey: '675851188152783',

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import RenderScreen from '../../hocs/renderScreens';
 import { UpdateUserInfo } from '../../actions/thunks/user';
 import { bigButton, buttonText, defaultGreen, inputStyle, height } from '../../mixins';
-import { SingleUpload, dispatchNotification, StartProcess } from '../../helpers/uploader';
+import { SingleUpload, dispatchNotification, StartProcess, EndProcess } from '../../helpers/uploader';
 import styles from '../SignUp/styles';
 
 
@@ -15,11 +15,13 @@ class UpdateProfile extends React.Component {
 
     selectImage = () => {
       try {
-        SingleUpload()
+        SingleUpload(this.props.navigator)
           .then((url) => {
+            EndProcess(this.props.navigator)
             this.setState({ avatar: url });
           });
       } catch (e) {
+        EndProcess(this.props.navigator)
         console.log(e);
       }
     }

@@ -21,9 +21,21 @@ const generateHeight = (obj) => {
   return { maxHeight: height * 0.28, borderBottomWidth: 1, borderBottomColor: '#E5E7E9', backgroundColor: '#FDFEFE' } ;
 }
 
-class SinglePost extends Component {
+class SinglePost extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: this.props.data
+    }
+  }
+
+  
   render = () => {
-    const { obj, data, user, } = this.props;
+    const { obj,  user, } = this.props;
+    let { data }  = this.state
+    if((data.origin.id === obj.user.id)) {
+       data = { ...data, origin: obj.user }
+    }
     return (
       <TouchableOpacity style={{ width, ...generateHeight(obj) }} onPress={() => { if(obj.single) return; obj.navigator.push({ screen: 'View.Post', title: `Post by ${data.origin.firstname}`, passProps: { target: data, user, friends: obj.friends }}) }}>
     <View style={styles.mainContent}>
@@ -60,7 +72,6 @@ class SinglePost extends Component {
 
         
       </View>
-        
         <Text style={{
           alignSelf: 'flex-end', fontSize: 10, position: 'absolute', top: 20, right: 13, color: '#D0D3D4', fontWeight: '600'
         }}
@@ -80,7 +91,7 @@ class SinglePost extends Component {
       </View>
     </View>
     { obj.reference ? null :
-      <ButtonStack data={data} user={obj.user} dispatch={obj.dispatch} navigator={obj.navigator} friends={obj.friends || []}/>
+      <ButtonStack data={data} user={obj.user} dispatch={obj.dispatch} callback={obj.callback} navigator={obj.navigator} friends={obj.friends || []}/>
     }
   </TouchableOpacity>
     )
@@ -135,10 +146,14 @@ class ButtonStack extends Component {
    };
 
    showNavigator = () => {
+     const generateCallback = () => {
+        return null
+     }
      this.props.navigator.showLightBox({
        screen: 'Reply.Post', 
        passProps: {
-         target: this.props.data
+         target: this.props.data,
+         callback: this.props.callback
        }
      })
    }

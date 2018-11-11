@@ -133,7 +133,7 @@ class ShowUser extends Component {
       </View>
 
           <DisplayBio user={this.state.target} navigator={this.props.navigator}/>
-          <ButtonStack user={this.state.target} handleMessage={this.handleInitMessage} message={this.state.message} navigator={this.props.navigator}/>
+          <ButtonStack user={this.state.target} handleMessage={this.handleInitMessage} current={this.props.user} message={this.state.message} navigator={this.props.navigator}/>
           { /* That barrieer thing */}
           <View style={{
             height: height * 0.05, width, flexDirection: 'row', flexWrap: 'nowrap'
@@ -219,7 +219,7 @@ const DisplayBio = ({ user, navigator }) => (
   </View>
 );
 
-const ButtonStack = ({ user, handleMessage, message, navigator }) => (
+const ButtonStack = ({ user, handleMessage, message, navigator, current }) => (
   <View style={{
     width, height: height * 0.08, paddingRight: 16, paddingLeft: 16, flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around'
   }}>
@@ -237,6 +237,7 @@ onPress={() => { user && user.friends ? navigator.push({ screen: 'Show.Users', t
     >
       <Text style={{ fontSize: 11, color: '#979A9A' }}><Text style={{ fontWeight: '600', color: '#626567' }}> { `${user && user.friends ? user.friends.length : 0}`} </Text>Following </Text>
     </TouchableOpacity>
+    { current && current.id !== user.id && 
     <TouchableOpacity
       style={{
         height: height * 0.04, alignItems: 'center', justifyContent: 'center', width: width * 0.27, backgroundColor: defaultGreen, borderRadius: 3
@@ -245,6 +246,7 @@ onPress={() => { user && user.friends ? navigator.push({ screen: 'Show.Users', t
     >
       <Text style={{ fontSize: 11, color: '#fff' }}>{`${message}`} </Text>
     </TouchableOpacity>
+    }
   </View>
 );
 

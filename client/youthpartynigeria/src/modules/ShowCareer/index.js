@@ -31,7 +31,7 @@ class ShowCareer extends Component {
 
   handleSendMail = () => {
     // this doesnt work now because it is a simulator, but should work on my phone
-    const destination = ['technical@booktu.org', 'hasstrup.ezekiel@gmail.com']
+    const destination = ['technical@booktu.org', 'career@youthpartyng.com']
     email(destination, {
       subject: `Career Application for ${this.props.user.firstname} ${this.props.user.lastname}`
     })

@@ -24,10 +24,10 @@ const MessageLog = ({ data, origin, extraData, focus }) => (
 const RenderReference = ({ reference,  navigator, data, origin  }) => (
   <TouchableOpacity
     style={{
-      height: height * 0.09,
+      minHeight: height * 0.09,
       marginTop: 10,
       marginBottom: 20,
-      width: width * 0.7,
+      minWidth: width * 0.7,
       borderRadius: 4,
       alignSelf: (data.origin.id === origin.id ? 'flex-end' : 'flex-start'),
       borderColor: '#16A085',

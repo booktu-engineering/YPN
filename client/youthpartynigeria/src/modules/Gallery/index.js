@@ -54,7 +54,7 @@ class Gallery extends Component {
 
   _hideModal = () => this.setState({  height: 0, width: 0, zIndex: -1, opacity: 0, mainIndex: 10})
 
-  showModal = (uri) => this.setState({  uri, opacity: 1, zIndex: 10, mainIndex: -1, height, width, });
+  showModal = (uri) => this.props.navigator.showLightBox({ screen: 'Show.Image', passProps: { data: [uri] }})
 
   backIcon = () => <BackIcon navigator={this.props.navigator} />
 
@@ -76,6 +76,7 @@ class Gallery extends Component {
               alignSelf: 'center',
               opacity: this.state.opacity
             }}
+            resizeMode="contain"
             />
         </TouchableOpacity>
       </View>
@@ -130,6 +131,7 @@ const ImageRenderer = ({ title, data, showImage }) => (
               width: width * 0.31,
               borderRadius: 5,
             }}
+            resizeMode="cover"
           source={{ uri: item }}
            />
        </TouchableOpacity>)}

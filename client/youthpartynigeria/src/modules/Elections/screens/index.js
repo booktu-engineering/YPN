@@ -84,8 +84,9 @@ class VotingScreen extends Component {
   }
 
   handleSubmit = () => {
+    if (!this.state.target) return dispatchNotification(this.props.navigator)('Please select a candidate');
     ActionSheetIOS.showActionSheetWithOptions({
-      options: [`Vote for ${this.state.target}`, 'Cancel'],
+      options: [`Vote for ${this.state.target}?`, 'Cancel'],
       cancelButtonIndex: 1,
     },
     (buttonIndex) => {
@@ -108,10 +109,8 @@ class VotingScreen extends Component {
     if (!this.props.user.vin) {
       dispatchNotification(this.props.navigator)('Sorry, you need to set up your VIN to vote');
       return this.props.navigator.pop();
-    }
-    if (!this.state.target) return dispatchNotification(this.props.navigator)('Please select a candidate');
-
-    const callback = results => this.generateResults(results.options)(data => this.setState({ heatMap: data, wantsToSeeResults: true }));
+    } 
+   const callback = results => this.generateResults(results.options)(data => this.setState({ heatMap: data, wantsToSeeResults: true }));
     return this.props.dispatch(checkIfUniqueVoter(this.props.navigator)(this.props.target._id)(this.state, callback));
   }
 
@@ -183,7 +182,7 @@ class VotingScreen extends Component {
       ) :
         (<React.Fragment>
         <Text style={{ fontSize: 16, fontWeight: '600',color: '#2E2F2F',height: 30, width, marginBottom: 15}}>Select your desired Candidate</Text>
-        <ScrollView style={{ maxHeight: height * 0.4, width }}>
+        <ScrollView style={{ minHeight: height * 0.4, width }}>
           { this.state.processed ? this.renderItems([this.props.target.meta.candidates]) : null}
         </ScrollView>
         <TouchableOpacity

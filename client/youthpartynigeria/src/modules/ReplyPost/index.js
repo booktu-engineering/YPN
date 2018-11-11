@@ -15,7 +15,7 @@ class AddCommentContainer extends Component {
       const data = {
         type: 1, content: this.state.content, referenceObject: this.props.target, referenceID: this.props.target._id
       };
-      this.props.dispatch(replyToPost(data)(this.props.navigator));
+      this.props.dispatch(replyToPost(data, this.props.callback)(this.props.navigator));
     }
 
     componentWillUnmount = () => {
