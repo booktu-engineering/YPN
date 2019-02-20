@@ -42,11 +42,19 @@ const postSchema = new mongoose.Schema({
     required: true
   },
 
+  reportedTooManyTimes: {
+    type: Boolean,
+    default: false
+  },
 
   media: [],
 
+  links: [],
 
-  links: []
+  reported: {
+    type: Number,
+    default: 0
+  }
 },
 
 {

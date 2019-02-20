@@ -40,7 +40,7 @@ class PostControllerBase extends BaseController {
   report = (req, res, next) => {
     this.__wrapInTryCatch(async () => {
       const { user } = req;
-      data = await this.service.report('_id', req.params.id, user, parseInt(req.query.type));
+      data = await this.service.report(req.params.id);
       this.__responseOkay(res, { data });
     }, next);
   }
