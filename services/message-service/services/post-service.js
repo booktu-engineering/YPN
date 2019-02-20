@@ -163,6 +163,17 @@ class PostServiceObject extends BaseService {
     return data;
   }
 
+  report = async (value) => {
+    data = await this.fetchOne('_id', value);
+    data.reported = data.reported ? data.reported : 0;
+    data.reported += 1
+    const MAXIMUM_NUMBER_OF_REPORTS = 5
+    if (data.reported > MAXIMUM_NUMBER_OF_REPORTS) {
+      data.reportedTooManyTimes = true;
+    }
+    await this.model.findOneAndUpdate({ _id: data._id }, {$set: { reported: data.reported, reportedTooManyTimes: data.reportedTooManyTimes } }, { new: true });
+    return data
+  }
 }
 
 const PostService = new PostServiceObject(PostModel);

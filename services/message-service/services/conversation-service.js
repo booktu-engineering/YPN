@@ -21,7 +21,9 @@ class ConversationService extends BaseService {
     if (body.constructor !== Array) {
       this.__unprocessableEntity();
     }
-    data = await Post.find({ $or: [{ 'origin.role': 5, 'type': 1, 'referenceID': null, 'destination': null }, { 'origin.id': { $in: body },'type': 1, 'referenceID': null, 'destination': null} ] }).sort({ createdAt: -1 });
+    data = await Post.find({ $or: [{ 'origin.role': 5, 'type': 1, 'referenceID': null, 'destination': null }, 
+                            { 'origin.id': { $in: body },'type': 1, 'referenceID': null, 'destination': null} ], 
+                            reportedTooManyTimes: false }).sort({ createdAt: -1 });
     return data;
   }
 
