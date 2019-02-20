@@ -1,11 +1,10 @@
 class User < ApplicationRecord
-  # attr_reader :posts, :role
-  # after_initialize :assign_role
-  validates_presence_of :username, :email, :password, on: :create
-  # uniqueness of username now available. 
+  validates_presence_of :username, :email, :password, on: :create 
   validates :username, uniqueness: { message: 'Sorry the username is already taken'}, on: :create
   validates :email, uniqueness: { message: 'Sorry the email is taken'}, :on => :create
   has_secure_password
+  has_many :blocking_relationships, foreign_key: :blocking_user_id
+  has_many :blocked_users, through: :blocking_relationships, class_name: 'User'
   after_initialize :append_token
   after_initialize :assign_role
 
@@ -19,12 +18,8 @@ class User < ApplicationRecord
 
 
   def friends
-  data = Relationship.where(follower_id: self.id)
-  arr = []
-  data.each do |relationship|
-    arr.push(User.find_by(id: relationship.followed_id))
-  end
-  arr
+   friends = Relationship.includes(:friend).where(follower_id: self.id).map(&:friend)
+   friends -= blocked_users
   end
 
 

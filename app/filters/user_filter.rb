@@ -1,7 +1,7 @@
 module UserFilter
 
   class LoggedInOnly
-    def self.before controller
+    def self.before(controller)
       if controller.request.headers['Authorization'].present?
         begin
         token = controller.request.headers["HTTP_AUTHORIZATION"]
@@ -9,7 +9,7 @@ module UserFilter
         user = data[0]
         if user && user['id'].present?
           controller.params[:current_user] = user
-          controller.current_user = user
+          controller.current_user = User.find(user['id'])
           return
         end
         return controller.unauthorized_user

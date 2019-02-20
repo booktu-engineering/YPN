@@ -8,7 +8,6 @@ class ApplicationController < ActionController::API
 
   # errors and all of that
   def unproccessable_entity e
-    puts e
     e.message ||= 'Something went wrong trying to process this request'
     render json: { errors: e.message }, status: 422
   end
@@ -33,7 +32,6 @@ class ApplicationController < ActionController::API
 
 
   def mail_content destination, body, key
-    puts body
     uri=URI.parse("http://localhost:3500/sendmail/?key=#{key}")
     http = Net::HTTP.new(uri.host, uri.port);
     header = {'Content-Type': 'application/json'}

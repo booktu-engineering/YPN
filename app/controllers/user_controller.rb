@@ -36,10 +36,10 @@ class UserController < ApplicationController
 
 
   def render_user
-    data = service.fetch user_params
-    if data
-      token = service.generate_token data
-      render json: { :data => data, :friends => data.friends, :token => token }, :status => 200
+    user = service.fetch(user_params)
+    if user
+      token = service.generate_token(user)
+      render json: { :data => user, :friends => user.friends, :blocked_users => user.blocked_users, :token => token }, :status => 200
       return
     end
     resource_not_found
@@ -194,6 +194,16 @@ class UserController < ApplicationController
   end
 
 
+  def block_user
+    unless params[:type] 
+      current_user.blocking_relationships.create(blocked_user_id: params[:id])
+    end
+     if params[:type] == 'unblock'
+      relationships = current_user.blocking_relationships.where(blocked_user_id: params[:id])
+      relationships.destroy
+    end
+    render json: { message: 'Done' }, status: 200
+  end 
 
 
   private

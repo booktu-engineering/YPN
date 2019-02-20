@@ -10,10 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180701174051) do
+ActiveRecord::Schema.define(version: 20190220124729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "blocking_relationships", force: :cascade do |t|
+    t.integer "blocked_user_id"
+    t.integer "blocking_user_id"
+  end
 
   create_table "careers", force: :cascade do |t|
     t.string "name"
@@ -22,6 +27,7 @@ ActiveRecord::Schema.define(version: 20180701174051) do
     t.datetime "updated_at", null: false
     t.text "origin"
     t.text "role"
+    t.jsonb "meta"
   end
 
   create_table "meta_information_tables", force: :cascade do |t|
@@ -92,6 +98,8 @@ ActiveRecord::Schema.define(version: 20180701174051) do
     t.string "ward"
     t.string "avatar"
     t.string "state"
+    t.string "vin"
+    t.text "bio"
   end
 
   add_foreign_key "posts", "users"
