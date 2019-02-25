@@ -110,7 +110,7 @@ class UserController < ApplicationController
     @user = service.fetch_one('id', params[:id].to_i)
     if @user
      token = service.generate_token @user
-    render json: {data: @user, friends: @user.friends, followers: @user.followers, token: token }, status: 200
+    render json: {data: @user, friends: @user.friends, blocked_users: @user.blocked_users, followers: @user.followers, token: token }, status: 200
     return
     end
     resource_not_found
@@ -193,9 +193,9 @@ class UserController < ApplicationController
   render json: { :data => data, :status => "ok" }, status: 200
   end
 
-
+ 
   def block_user
-    unless params[:type] 
+    if params[:type] == 'block'
       current_user.blocking_relationships.create(blocked_user_id: params[:id])
     end
      if params[:type] == 'unblock'

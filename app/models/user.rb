@@ -20,6 +20,7 @@ class User < ApplicationRecord
   def friends
    friends = Relationship.includes(:friend).where(follower_id: self.id).map(&:friend)
    friends -= blocked_users
+   friends
   end
 
 
