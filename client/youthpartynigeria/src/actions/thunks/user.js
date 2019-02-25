@@ -234,7 +234,7 @@ export const followUserThunk = (target) => (navigator) => async () => {
 export const blockUser = (user, type = 'block') => (navigator) => (dispatch, getState) => {
   StartProcess(navigator)
   axios.request({
-    method: 'get',
+    method: 'post',
     url: `${config.baseUrl}/block/${user.id}?type=${type}`,
     headers: {
       Authorization: getState().users.token

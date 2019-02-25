@@ -8,6 +8,7 @@ const { store } = configureStore();
 
 export default async (token, navigator) => {
   const id = await AsyncStorage.getItem('#!@#$%ID');
+  const flaggedContent = await AsyncStorage.getItem('flaggedStorage') || '';
   axios.request({
     method: 'get',
     url: `${config.baseUrl}/profile/${id}`,
@@ -18,11 +19,13 @@ export default async (token, navigator) => {
     .then((response) => {
       store.dispatch({ type: 'INSERT_TOKEN', payload: response.data.token });
       store.dispatch({ type: 'USER_LOGGED_IN', payload: response.data.data });
+      store.dispatch({ type: 'FLAGGED_CONTENT', payload: flaggedContent.split(', ') })
       store.dispatch({ type: 'FETCHED_ALL_RELATIONSHIPS', payload: { friends: response.data.friends, followers: response.data.followers } });
       navigator.registerOtherScreens(store);
       navigator.startLoggedIn();
     })
     .catch((err) => {
+      console.log(err)
       navigator.startLoggedOut();
     })
 }
@@ -43,6 +46,7 @@ export const LogOut = () => {
         onPress: () => {
           AsyncStorage.removeItem('LastSeenMap');
           AsyncStorage.removeItem('#!@#$%ID');
+          AsyncStorage.removeItem('flaggedStorage')
           navigatorObject.startLoggedOut();
         }
       },

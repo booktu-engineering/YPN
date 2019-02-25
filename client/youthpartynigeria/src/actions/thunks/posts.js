@@ -17,7 +17,7 @@ export const fetchTimeline = navigator => async (dispatch) => {
     })
       .then((response) => {
         dispatch({ type: 'TIMELINE_GOTTEN', payload: response.data.data });
-        if (!response.data.data.length) return dispatch(fetchFollowersForUser(navigator));
+        // if (!response.data.data.length) return dispatch(fetchFollowersForUser(navigator));
       })
       .catch((err) => {
         dispatchNotification(navigator)(err.response.data.error);
@@ -124,5 +124,28 @@ export const DeletePost = id => navigator => (dispatch, getState) => {
 
 
 export const flagPost = (post) => (navigator) => (dispatch, getState)  => {
-  
+    StartProcess(navigator)
+    return axios({ 
+      method: 'Post',
+      url: `${config.postUrl}/posts/report/${post._id}`,
+      headers: {
+        Authorization: getState().users.token
+      }
+    })
+    .then((res) => {
+      EndProcess(navigator);
+      dispatchNotification(navigator)(`Thank you for reporting this, we will review and take appropriate action`)
+      dispatch(persistToReportedStorage(post._id))
+    })
+    .catch((err) => {
+       EndProcess(navigator);
+       dispatchNotification(navigator)(`Something went wrong`)
+    })
 }
+
+const persistToReportedStorage = (id) =>  async (dispatch) => {
+   let flaggedPostsByUser = await AsyncStorage.getItem('flaggedStorage') || '';
+   flaggedPostsByUser = `${flaggedPostsByUser}, ${id}`;
+   AsyncStorage.setItem('flaggedStorage', flaggedPostsByUser)
+   dispatch({ type: 'FLAGGED_CONTENT', payload: flaggedPostsByUser.split(', ') })
+} 

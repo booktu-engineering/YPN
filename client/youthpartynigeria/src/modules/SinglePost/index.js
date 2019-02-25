@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, ActionSheetIOS } from 'react-native';
 import moment from 'moment';
+import { connect } from 'react-redux'
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicon from 'react-native-vector-icons/Ionicons';
@@ -8,8 +9,9 @@ import styles from './styles';
 import { width, height, defaultGreen } from '../../mixins';
 import MediaHandler from './media';
 import iterator from '../iterator';
-import { fetchUserThunk, followUser } from '../../actions/thunks/user';
-import { LikePost, DeletePost } from '../../actions/thunks/posts';
+
+import { fetchUserThunk, followUser, blockUser } from '../../actions/thunks/user';
+import { LikePost, DeletePost, flagPost } from '../../actions/thunks/posts';
 
 const imageUrl = 'https://res.cloudinary.com/dy8dbnmec/image/upload/v1535072474/logo.png';
 
@@ -36,6 +38,7 @@ class SinglePost extends React.PureComponent {
     if((data.origin.id === obj.user.id)) {
        data = { ...data, origin: obj.user }
     }
+    if(this.props.flagged.join(', ').includes(this.props.data._id)) return null;
     return (
       <TouchableOpacity style={{ width, ...generateHeight(obj) }} onPress={() => { if(obj.single) return; obj.navigator.push({ screen: 'View.Post', title: `Post by ${data.origin.firstname}`, passProps: { target: data, user, friends: obj.friends }}) }}>
     <View style={styles.mainContent}>
@@ -177,12 +180,17 @@ class ButtonStack extends Component {
     if((this.props.user.id === this.props.data.origin.id) || this.props.user.role === 5){
       options = [...options, 'Delete this post']
     }
+    if(this.props.user.id !== this.props.data.origin.id) {
+      options = [...options, 'Report this post', 'Block this user']
+    }
     if(!options.length) return;
     ActionSheetIOS.showActionSheetWithOptions({
       options: [...options, 'Cancel'],
       cancelButtonIndex: options.length,
     },
     (buttonIndex) => {
+      if(options[buttonIndex] === 'Report this post') return this.props.dispatch(flagPost(this.props.data)(this.props.navigator));
+      if(options[buttonIndex] === 'Block this user') return this.props.dispatch(blockUser(this.props.data.origin)(this.props.navigator))
       if(options[buttonIndex] === 'Delete this post') return this.props.dispatch(DeletePost(this.props.data._id)(this.props.navigator))
       if(options[buttonIndex] === `Unfollow @${this.props.data.origin.username}`) return this.props.dispatch(followUser(this.props.data.origin, 3)(this.props.navigator))
     });
@@ -226,6 +234,9 @@ class ButtonStack extends Component {
     </View>
   )
 }
+const __SinglePost = connect((state) => {
+  return { flagged: state.posts.flags}
+})(SinglePost)
 
-export const multiplePosts = iterator(SinglePost);
-export default SinglePost;
+export const multiplePosts = iterator(__SinglePost);
+export default __SinglePost;
