@@ -23,7 +23,7 @@ class ConversationService extends BaseService {
     }
     data = await Post.find({ $or: [{ 'origin.role': 5, 'type': 1, 'referenceID': null, 'destination': null }, 
                             { 'origin.id': { $in: body },'type': 1, 'referenceID': null, 'destination': null} ], 
-                            reportedTooManyTimes: false }).sort({ createdAt: -1 });
+                            }).sort({ createdAt: -1 });
     return data;
   }
 
