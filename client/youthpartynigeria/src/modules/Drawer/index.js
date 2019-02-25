@@ -58,6 +58,10 @@ const Drawer = ({ currentUser, navigator, current }) => (
         <Text style={{ fontSize: 15, fontWeight: '600' }}> Contact us </Text>
       </TouchableOpacity>
 
+      {/* <TouchableOpacity onPress={() => { navigator.showModal({ screen: 'Web.Page', source: 'https://youthpartyng.com/wp-content/uploads/2015/10/YP-App-Manual.pdf' })}} style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }}>
+        <Text style={{ fontSize: 15, fontWeight: '600' }}> App Manual </Text>
+      </TouchableOpacity> */}
+
       <TouchableOpacity style={{ flexDirection: 'row', flexWrap: 'nowrap', marginBottom: height * 0.03 }} 
         onPress={() => navigator.showModal({ screen: 'Settings', title: 'Settings'})}
       >

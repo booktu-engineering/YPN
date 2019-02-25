@@ -31,7 +31,7 @@ const RenderPhoneTing = () => (
         }}
     > 
         <Text style={{ 
-          fontWeight: '700', 
+          fontWeight: '700',
           fontSize: 14, 
           marginBottom: 5,
           color: '#424949' }}> Phone</Text>

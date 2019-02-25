@@ -53,7 +53,7 @@ const SingleCandidate = (props) => {
           <Text style={{
    fontSize: 14, fontWeight: '600', color: '#1F2020', marginBottom: 5
   }}
-          > { obj.indicator ? `${data.name} ${data.lastname ||''}` : props.data.meta.user.name }
+          > { obj.indicator ? `${data.name || data.firstname } ${data.lastname ||''}` : props.data.meta.user.name }
           </Text>
           <Text style={{ fontSize: 12, fontWeight: '500', color: defaultGreen }}> { obj.indicator ?  (data.position || '') : props.data.meta.user.position}</Text>
         </View>

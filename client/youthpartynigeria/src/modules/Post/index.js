@@ -45,7 +45,7 @@ class PostContainer extends Component {
 
    __handleSubmit = () => {
      // format the links
-     const links = this.state.links.split(', ');
+     const links = [this.state.links]
      if(!this.state.content) return dispatchNotification(this.props.navigator)('Please fill the text box with content');
      this.props.dispatch(sendPost({ ...this.state, links})(this.props.navigator));
      this.state.images = false;
@@ -120,7 +120,7 @@ const PostComponent = ({ navigator, handleMediaUpload, handleChange, user, handl
          multiline
          autoCapitalize="none"
          autoCorrect={false}
-         placeholder="Share some links, separate it each one with a comma"
+         placeholder="Please input a valid http or https link"
          onChangeText={(text) => { handleChange(text, 'links');}}
          value={linkValue}
          />

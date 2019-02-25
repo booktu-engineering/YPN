@@ -53,7 +53,7 @@ class OpenPosition extends Component {
   }
   componentWillUnmount = () => {
     const { navigator } = this.props; 
-    this.state.keys = []     
+    this.state.keys = []
     navigator.toggleTabs({ to: 'shown', animated: true });
     navigator.setDrawerEnabled({ side: 'left', enabled: true });
   }

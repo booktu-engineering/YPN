@@ -3,7 +3,6 @@ import { dispatchNotification, StartProcess, EndProcess } from '../../helpers/up
 import config from '../../config';
 
 const FetchAllCareers = navigator => (dispatch, getState) => {
-  StartProcess(navigator);
   return axios.request({
     method: 'get',
     url: `${config.baseUrl}/careers`,

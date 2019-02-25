@@ -41,7 +41,13 @@ render () {
 }
 }
 
+const generateLocationForExcos = (data) => {
+  if( data.level === 'Federal') return "Federal"
+  if (data.level === "state") return `${data.state} State.`
+  return `${data.local} LGA, ${data.state} State.`
+}
 const generateLocation = (data) => {
+  if (!data.location) return generateLocationForExcos(data)
   return data.location.join(', ')
 }
 
@@ -84,7 +90,7 @@ const RenderCandidate = ({ data , dispatch, navigator }) => (
       {  /* Candidate's bio */}
       <View style={{ minHeight: height * 0.35, width, paddingLeft: 25, paddingTop: 25 }}>
         <View style={{ maxHeight: height*0.3, width, marginBottom: 35 }}>
-          <Text style={{ fontSize: 15, fontWeight: '600', color: '#626567', marginBottom: 15,}}> {`${data.name}'s Bio:`} </Text>
+          <Text style={{ fontSize: 15, fontWeight: '600', color: '#626567', marginBottom: 15,}}> {`${data.name || data.firstname}'s Bio:`} </Text>
           <Text style={{ fontSize: 13, fontWeight: '500', color: '#979A9A', maxWidth: width * 0.9, marginBottom: 8 }}>
             { data.bio || 'None Specified'}
           </Text>

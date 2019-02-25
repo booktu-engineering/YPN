@@ -4,6 +4,7 @@ import config from '../../config';
 import { navigatorObject } from '../../navigation';
 import { dispatchNotification, StartProcess, EndProcess } from '../../helpers/uploader';
 import { fetchUsersPosts } from './posts';
+import AnimatedCircularProgress from 'react-native-circular-progress/src/AnimatedCircularProgress';
 
 /* eslint arrow-parens: 0 */
 const SignUpThunk = (body) => (navigator) => (dispatch) => {
@@ -229,6 +230,26 @@ export const followUserThunk = (target) => (navigator) => async () => {
       dispatchNotification(navigator)("Something went wrong and we couldn't complete that action.");
     });
 };
+
+export const blockUser = (user, type = 'block') => (navigator) => (dispatch, getState) => {
+  StartProcess(navigator)
+  axios.request({
+    method: 'get',
+    url: `${config.baseUrl}/block/${user.id}?type=${type}`,
+    headers: {
+      Authorization: getState().users.token
+    }
+  })
+  .then(() => {
+    EndProcess(navigator)
+    dispatchNotification(navigator)(`${user.username} is ${ type === 'block' ? 'blocked!' : 'unblocked!'}`)
+  })
+  .catch(() => {
+    EndProcess(navigator);
+    dispatchNotification(navigator)(`Something went wrong, please try again`)
+  })
+
+}
 
 export const newPartyMember = (navigator) => (dispatch, getState) => axios.request({
   method: 'get',

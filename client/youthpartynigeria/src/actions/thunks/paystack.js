@@ -7,7 +7,7 @@ const PayWithPayStack = (navigator) => (data) => (dispatch) => {
         method: 'post',
         data, 
         headers: {
-            Authorization: 'Bearer sk_test_fdb0d00f5ce8b7d0073912eab15e6d907938e24b', 
+            Authorization: 'Bearer pk_live_e6fd9ec3c639d4a77bc4d8aba5815b53afca27ff', 
         }
     })
     .then((response) => {

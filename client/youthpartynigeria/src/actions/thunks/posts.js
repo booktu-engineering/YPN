@@ -121,3 +121,8 @@ export const DeletePost = id => navigator => (dispatch, getState) => {
       dispatchNotification(navigator)('Something went wrong. Try again');
     });
 };
+
+
+export const flagPost = (post) => (navigator) => (dispatch, getState)  => {
+  
+}
