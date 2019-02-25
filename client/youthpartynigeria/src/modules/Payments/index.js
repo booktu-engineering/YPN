@@ -44,7 +44,7 @@ class MemberShipContainer extends Component {
         <View style={{ flex: 1, marginBottom: 15 }}> 
         <View style={{ height: height * 0.13, paddingTop: 10, width, backgroundColor: defaultGreen, marginBottom: 20 }}> 
             <Text style={{ fontSize: 14, color: 'white', fontWeight: '600', textAlign: 'center'}}> 
-                Becoming a member gives you access to the hightlighted features.
+                Members of the Youth Party can now pay their party dues via the application, For convenience and accessibility.
             </Text>
         </View>
             <RenderCreditCard />
@@ -60,10 +60,8 @@ class MemberShipContainer extends Component {
 
 const ListOfBenefits = () => (
     <View style={{ height: height * 0.15, width: width * 0.85, justifyContent: 'space-between', paddingLeft: 15 }}> 
-        <Text style={{ fontSize: 13, color: '#424949', fontWeight: '500' }}> - Contribute to posts and comments</Text>
-        <Text style={{ fontSize: 13, color: '#424949', fontWeight: '500' }}> - Participate in debates and townhall meetings</Text>
-        <Text style={{ fontSize: 13, color: '#424949', fontWeight: '500' }}> - Participate in polls and elections</Text>
-        <Text style={{ fontSize: 13, color: '#424949', fontWeight: '500' }}> - Real time active messaging with other members</Text>
+        <Text style={{ fontSize: 13, color: '#424949', fontWeight: '500' }}> - N600 will be charged to cover 3 months of party dues.</Text>
+        <Text style={{ fontSize: 13, color: '#424949', fontWeight: '500' }}> - Members are encouraged to pay their dues as it is very important to the success of the party. </Text>
     </View>
 )
 const RenderCreditCard = () => (

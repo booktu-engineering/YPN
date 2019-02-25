@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native';
 import config from '../../config';
 import { navigatorObject } from '../../navigation';
 import { dispatchNotification, StartProcess, EndProcess } from '../../helpers/uploader';
-import { fetchUsersPosts } from './posts';
+import { fetchUsersPosts, fetchTimeline } from './posts';
 import AnimatedCircularProgress from 'react-native-circular-progress/src/AnimatedCircularProgress';
 
 /* eslint arrow-parens: 0 */
@@ -243,6 +243,7 @@ export const blockUser = (user, type = 'block') => (navigator) => (dispatch, get
   .then(() => {
     EndProcess(navigator)
     dispatchNotification(navigator)(`${user.username} is ${ type === 'block' ? 'blocked!' : 'unblocked!'}`)
+    dispatch(fetchTimeline(navigator))
   })
   .catch(() => {
     EndProcess(navigator);
